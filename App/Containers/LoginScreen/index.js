@@ -4,11 +4,13 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { View, Image, ImageBackground, KeyboardAvoidingView, Linking,
   ScrollView } from 'react-native'
-import { Button, Text, Form, Item, Input } from 'native-base'
+// import { Button, Text, Form, Item, Input } from 'native-base'
+import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { get, isEmpty } from 'lodash'
 import Hr from 'react-native-hr-plus'
 import { Images, Colors } from '../../Themes/'
 import Actions from '../../Redux/Actions'
+import LoginForm from './LoginForm'
 import styles from './styles'
 
 
@@ -33,6 +35,10 @@ class LoginScreen extends Component {
       <ImageBackground
         style={styles.backgroundImage}
       >
+      <View style={styles.appTitleView}>
+        <Text style={styles.appTitleName}>Hoshyaar/ہوشیار</Text>
+      </View>
+      <LoginForm />
         <Button style={{
           alignSelf: 'center',
           width: '80%'

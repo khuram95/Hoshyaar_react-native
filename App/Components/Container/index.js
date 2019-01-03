@@ -15,7 +15,7 @@ export default class Container extends Component {
   // Include this before entering any view on all screen WITH HEADER. DONT ADD ON FILES WITHOUT HEADER
   render() {
     return (
-      <View style={styles.container}> 
+      <View style={styles.container}>
         {this.props.children}
       </View>
     );

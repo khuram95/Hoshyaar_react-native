@@ -36,7 +36,7 @@ class LoginForm extends React.Component {
     if(isEmpty(email)){
       this.setState({ emaiError: "Email can't be Blank"});
       return false;
-    }else if(!isValidatesEmail){
+    }else if(!this.isValidatesEmail()){
       this.setState({ emaiError: 'Email is not Valid' });
       return false;
     }
@@ -52,44 +52,67 @@ class LoginForm extends React.Component {
 
   login = () => {
     const { email, password } = this.state
-    if(validatesInput()){
+    if(this.validatesInput()){
       this.props.login(email, password)
       .then(() => {
-        this.props.registerDevice(this.props.deviceToken)
-        this.props.fetchAllNotifications()
-        this.props.navigation.navigate('Dashboard')
+        console.log(email,password,"hahhaahah");
+        // this.props.registerDevice(this.props.deviceToken)
+        // this.props.fetchAllNotifications()
+        // this.props.navigation.navigate('Dashboard')
       })
     }
   }
 
   render () {
     return (
-      <View style={styles.inputBlock}>
-          <Text style={styles.errorsMessages}></Text>
-        <FormItem style={styles.userName}>
-          <Input
-            value={this.state.email}
-            placeholder='Enter Email/Phone number'
-            placeholderTextColor='#0d6d93'
-            keyboardType="mail-address"
-            onChangeText={(email) => this.setState({ email: email, emaiError: '' })}
-          />
-        </FormItem>
-        <FormItem>
-          <Input
-            value={this.state.password}
-            placeholder='Enter password'
-            placeholderTextColor='#0d6d93'
-            secureTextEntry={true}
-            onChangeText={(password) => this.setState({ password: password, passwordError:'' })}
-          />
-        </FormItem>
-      </View>
+      <ImageBackground
+        style={styles.backgroundImage}
+      >
+        <View style={styles.appTitleView}>
+          <Text style={styles.appTitleName}>Hoshyaar/ہوشیار</Text>
+        </View>
+        <View style={styles.inputBlock}>
+            <Text style={styles.errorsMessages}></Text>
+          <FormItem style={styles.userName}>
+            <Input
+              value={this.state.email}
+              placeholder='Enter Email/Phone number'
+              placeholderTextColor='#0d6d93'
+              keyboardType="mail-address"
+              onChangeText={(email) => this.setState({ email: email, emaiError: '' })}
+            />
+          </FormItem>
+          <FormItem>
+            <Input
+              value={this.state.password}
+              placeholder='Enter password'
+              placeholderTextColor='#0d6d93'
+              secureTextEntry={true}
+              onChangeText={(password) => this.setState({ password: password, passwordError:'' })}
+            />
+          </FormItem>
+        </View>
+        <Button style={{
+          alignSelf: 'center',
+          width: '80%'
+        }}
+        onPress={this.login}
+        >
+          <Text style={{
+            width: '100%',
+            fontWeight: "800",
+            textAlign: "center"
+          }}>
+          Login
+          </Text>
+        </Button>
+      </ImageBackground>
     )
   }
 }
 
 const mapStateToProps = createStructuredSelector({
+  loginError: (state) => get(state, 'auth.loginError'),
 })
 
 const mapDispatchToProps = (dispatch) => ({

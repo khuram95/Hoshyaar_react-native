@@ -32,28 +32,7 @@ class LoginScreen extends Component {
 
   render () {
     return (
-      <ImageBackground
-        style={styles.backgroundImage}
-      >
-      <View style={styles.appTitleView}>
-        <Text style={styles.appTitleName}>Hoshyaar/ہوشیار</Text>
-      </View>
       <LoginForm />
-        <Button style={{
-          alignSelf: 'center',
-          width: '80%'
-        }}
-        onPress={this.login}
-        >
-          <Text style={{
-            width: '100%',
-            fontWeight: "800",
-            textAlign: "center"
-          }}>
-          Login
-          </Text>
-        </Button>
-      </ImageBackground>
     )
   }
 }

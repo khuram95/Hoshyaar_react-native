@@ -8,7 +8,7 @@ const { Types, Creators } = createActions({
   changeEmail: ['email'],
   changePassword: ['password'],
   saveUser: ['currentUser'],
-  loginRequest: ['payload', 'resolve', 'reject'],
+  loginRequest: ['email', 'password', 'resolve', 'reject'],
   loginSuccess: null,
   loginFailure: ['error'],
   signoutRequest: ['resolve', 'reject'],

@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect'
 import { Image } from 'react-native'
 import { Container } from 'native-base'
 import { get, isEmpty } from 'lodash'
+import { NavigationActions } from 'react-navigation';
 import { Images, Colors } from '../../Themes/'
 import Actions from '../../Redux/Actions'
 import styles from './styles'
@@ -31,7 +32,7 @@ class SplashScreen extends Component {
   render () {
     return (
       <Container style={styles.background}>
-        <Image source={Images.splashIcon} style={styles.backgroundImage} />
+        <Image source={Images.splashIcon} style={styles.backgroundImage}/>
       </Container>
     )
   }

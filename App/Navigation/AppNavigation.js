@@ -12,6 +12,9 @@ export default StackNavigator({
   Login: {
     screen: require('../Containers/LoginScreen/').default
   },
+  Report: {
+    screen: require('../Containers/Report/').default
+  },
 },
   {
     headerMode: 'float',

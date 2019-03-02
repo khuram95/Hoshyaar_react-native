@@ -29,10 +29,12 @@ class LoginScreen extends Component {
   login = () => {
 
   }
+  componentDidMount(){
+  }
 
   render () {
     return (
-      <LoginForm />
+      <LoginForm navigation={ this.props.navigation} />
     )
   }
 }

@@ -52,10 +52,11 @@ class LoginForm extends React.Component {
 
   login = () => {
     const { email, password } = this.state
-    if(this.validatesInput()){
+    const { navigation } = this.props
+    if(this.validatesInput()){     
+      navigation.navigate("Report")
       this.props.login(email, password)
       .then(() => {
-        console.log(email,password,"hahhaahah");
         // this.props.registerDevice(this.props.deviceToken)
         // this.props.fetchAllNotifications()
         // this.props.navigation.navigate('Dashboard')
@@ -111,8 +112,9 @@ class LoginForm extends React.Component {
   }
 }
 
-const mapStateToProps = createStructuredSelector({
+const mapStateToProps = (state) => ({
   loginError: (state) => get(state, 'auth.loginError'),
+  state,
 })
 
 const mapDispatchToProps = (dispatch) => ({

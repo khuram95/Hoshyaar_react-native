@@ -3,6 +3,7 @@ import { View, Image, ImageBackground, KeyboardAvoidingView, Linking,
   ScrollView } from 'react-native'
 // import { Button, Text, Form, Item, Input } from 'native-base'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
+import CreateReport from './ReportForm'
 
 
 class Report extends Component{
@@ -11,9 +12,7 @@ class Report extends Component{
     }
     render(){
         return(
-          <View>
-          <Text>Report</Text>
-          </View>
+            <CreateReport/>
         )
     }
 }

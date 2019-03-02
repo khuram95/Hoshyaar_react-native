@@ -11,11 +11,13 @@ import ActionTypes from '../Redux/ActionTypes'
 
 import StartupSagas from './StartupSagas'
 import AuthSagas from './AuthSagas'
+import ReportSagas from './ReportSagas'
 // IMPORT_SAGAS
 
 const Sagas = {
   ...StartupSagas,
   ...AuthSagas,
+  ...ReportSagas,
   // SPREAD_SAGAS
 }
 
@@ -33,6 +35,7 @@ export default function * root () {
     takeLatest(ActionTypes.STARTUP, Sagas.startup),
     takeLatest(ActionTypes.LOGIN_REQUEST, Sagas.makeLoginRequest, api),
     takeLatest(ActionTypes.SIGNOUT_REQUEST, Sagas.makeSignoutRequest, api),
+    takeLatest(ActionTypes.CREATE_REPORT_REQUEST, Sagas.makeCreateReportRequest, api)
     // REGISTRER_SAGA
   ])
 }

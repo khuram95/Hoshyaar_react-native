@@ -7,5 +7,6 @@ export default combineReducers({
   // nav: createNavigationReducer(AppNavigation),
   nav: require('./NavigationRedux').reducer,
   auth: require('./AuthRedux').reducer,
+  report: require('./ReportRedux').reducer,
   // ADD_REDUX_REDUCER
 })

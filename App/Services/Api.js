@@ -20,7 +20,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://d212ff19.ngrok.io/api/v1',
+    baseURL: 'http://localhost:3000/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -54,6 +54,12 @@ const create = () => {
   const signout = (headers) =>
     authApi.delete('auth/sign_out', {}, { headers })
 
+  const createReport = (payload, headers) =>{
+    const {reportContent} = payload
+    console.log('sdfhsfhsjjhs')
+    return api.post('/reports',{ report_content: reportContent }, { headers })
+  }
+    
   // ------
   // STEP 3
   // ------
@@ -73,6 +79,7 @@ const create = () => {
     getUser,
     login,
     signout,
+    createReport,
   }
 }
 

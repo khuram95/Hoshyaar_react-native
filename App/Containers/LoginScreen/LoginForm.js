@@ -25,7 +25,9 @@ class LoginForm extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {email: '', password:'',emaiError:'', passwordError:''}
+    this.state = {email: 'sajjad@gmail.com', password:'123456',emaiError:'', passwordError:''}
+
+
   }
   isValidatesEmail = () => {
     var regx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -88,6 +90,7 @@ class LoginForm extends React.Component {
               value={this.state.password}
               placeholder='Enter password'
               placeholderTextColor='#0d6d93'
+              
               secureTextEntry={true}
               onChangeText={(password) => this.setState({ password: password, passwordError:'' })}
             />

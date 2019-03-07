@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { View} from 'react-native'
 import { Item,Button,Text } from 'native-base'
+import Actions from '../../Redux/Actions'
+import { connect } from 'react-redux'
 
 
 class ManualGoogleMap extends Component{
@@ -44,5 +46,13 @@ class ManualGoogleMap extends Component{
         )
     }
 }
+const mapStateToProps = (state) => ({
+    state,
+  })
+  
+  const mapDispatchToProps = (dispatch) => ({
+  
+  })
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(ManualGoogleMap)
 
-export default ManualGoogleMap

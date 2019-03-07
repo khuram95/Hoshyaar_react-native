@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import { View, Image, ImageBackground, KeyboardAvoidingView, Linking,
   ScrollView,TextInput } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
-import style from './style'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 
 class CreateReport extends Component{
 	constructor(props) {
 		super(props);
-		this.state = {reportcontent: ''};
+		this.state = {reportcontent: ''//,imagedata:this.props.navigation.state.params.imagedata
+								 };
 	}
 
 		showcontent = () => { 
@@ -20,6 +20,16 @@ class CreateReport extends Component{
 			})
 		}
 
+	 OpenCamera = () => {
+    const { navigation } = this.props
+      navigation.navigate("Camera")
+  }
+
+	
+		VideoRecording = () => {
+			const { navigation } = this.props
+				navigation.navigate("VideoRecording")
+		}
 
 	render(){
 		return(
@@ -35,7 +45,35 @@ class CreateReport extends Component{
 				maxLength = {100}
 				onChangeText={(reportcontent) => this.setState({reportcontent})}
 				/>
-				
+
+				<Text>{'\n'}</Text>
+
+				<Button style={{alignSelf: 'center',width: '80%'}}
+												onPress={this.OpenCamera}>
+					<Text style={{width: '100%',fontWeight: "800",textAlign: "center"}}>
+						Take Photo
+					</Text>
+				</Button>
+				<Text>{'\n'}</Text>
+
+
+				<Text>{'\n'}</Text>
+
+				<Button style={{alignSelf: 'center',width: '80%'}}
+												onPress={this.VideoRecording}>
+					<Text style={{width: '100%',fontWeight: "800",textAlign: "center"}}>
+						Record Video
+					</Text>
+				</Button>
+				<Text>{'\n'}</Text>
+
+				<Image
+          style={{width: 200, height: 200}}
+          source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+        />
+
+				<Text>{'\n'}</Text>
+
 				<Button style={{alignSelf: 'center',width: '80%'}} 
 					onPress={this.showcontent}>
 					<Text style={{width: '100%',fontWeight: "800",textAlign: "center"}}>

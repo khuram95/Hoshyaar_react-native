@@ -15,6 +15,11 @@ class DashBoardForm extends Component{
       navigation.navigate("ManualGoogleMap")
   }
 
+  OpenCamera = () => {
+    const { navigation } = this.props
+      navigation.navigate("Camera")
+  }
+
 
   render(){
     return(
@@ -59,6 +64,14 @@ class DashBoardForm extends Component{
         <Button style={{alignSelf: 'center',width: '80%'}}> 
           <Text style={{width: '100%',fontWeight: "800",textAlign: "left"}}>
             Ad-Hoc Query
+          </Text>
+        </Button>
+        <Text>{'\n'}</Text>
+
+        <Button style={{alignSelf: 'center',width: '80%'}}
+                        onPress={this.OpenCamera}>
+          <Text style={{width: '100%',fontWeight: "800",textAlign: "left"}}>
+            Take Photo
           </Text>
         </Button>
         <Text>{'\n'}</Text>

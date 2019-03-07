@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { View,Picker,StyleSheet} from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
-import style from './style'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 
@@ -104,6 +103,10 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManualSchoolSelect)
+
+
+
+
 
 	
 	const styles = StyleSheet.create({

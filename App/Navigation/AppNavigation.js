@@ -15,14 +15,20 @@ export default StackNavigator({
   DashBoard: {
     screen: require('../Containers/DashBoard/').default
   },
+  Camera: {
+    screen: require('../Containers/CameraIntegration/').default
+  },
   Report: {
     screen: require('../Containers/Report/').default
   },
-  ManualGoogleMap:{
+  ManualGoogleMap: {
     screen: require('../Containers/ManualGoogleMap/').default
   },
-  ManualSchoolSelect:{
-    screen: require('../Containers/ManualGoogleMap/Manual').default
+  ManualSchoolSelect: { 
+    screen: require('../Containers/ManualSchoolSelect/').default
+  },
+  VideoRecording: { 
+    screen: require('../Containers/VideoRecording/').default
   },
 
   

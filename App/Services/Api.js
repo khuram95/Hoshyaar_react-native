@@ -11,7 +11,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://356e851b.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -20,7 +20,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://localhost:3000/api/v1',
+    baseURL: 'http://356e851b.ngrok.io/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -48,8 +48,8 @@ const create = () => {
   const getUser = (username) => api.get('search/users', {q: username})
 
   const login = (email, password) =>{
-    console.log("dsfds", email, password);
-    return api.get('homes', { email, password })}
+    console.log("khuram", email, password);
+    return authApi.get('auth/sign_up', { email, password })}
 
   const signout = (headers) =>
     authApi.delete('auth/sign_out', {}, { headers })

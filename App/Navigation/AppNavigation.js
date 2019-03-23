@@ -30,6 +30,10 @@ export default StackNavigator({
   VideoRecording: { 
     screen: require('../Containers/VideoRecording/').default
   },
+  SchoolDetail: { 
+    screen: require('../Containers/SchoolDetail/').default
+  },
+  
 
   
 },

@@ -25,9 +25,9 @@ class ManualSchoolSelect extends Component{
 	}
 
 
-	CreateReport = () => {
+	gotoSchoolDetail = () => {
     const { navigation } = this.props
-      navigation.navigate("Report")
+      navigation.navigate("SchoolDetail")
   }
 
 	// showcontent = () => { 
@@ -77,7 +77,7 @@ class ManualSchoolSelect extends Component{
 
 
 			<Button style={{alignSelf: 'center',width: '50%'}}    
-								onPress={this.CreateReport}> 
+								onPress={this.gotoSchoolDetail}> 
 					<Text style={{width: '100%',fontWeight: "800",textAlign: "center"}}>
 						Ok
 					</Text>

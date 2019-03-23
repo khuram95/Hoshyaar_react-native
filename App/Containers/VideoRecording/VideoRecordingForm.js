@@ -1,9 +1,40 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, TouchableOpacity, View,ActivityIndicator } from 'react-native';
+import { AppRegistry, StyleSheet, Dimensions, Text, TouchableOpacity, View,ActivityIndicator } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { cloneableGenerator } from 'redux-saga/utils';
 
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000',
+  },
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width
+  },
+  capture: {
+    width: 70,
+    height: 70,
+    // borderRadius: 35,
+  //   borderWidth: 5,
+  //   borderColor: '#FFF',
+    marginBottom: 15,
+  },
+  cancel: {
+    position: 'absolute',
+    right: 20,
+    top: 20,
+    backgroundColor: 'transparent',
+    color: '#FFF',
+    fontWeight: '600',
+    fontSize: 17,
+  }
+});
 
 class VideoRecordingForm extends Component {
 
@@ -44,9 +75,8 @@ class VideoRecordingForm extends Component {
         onPress={this.startRecording.bind(this)}
         style={styles.capture}
       >
-        <Text style={{ fontSize: 18 }}> RECORD </Text>
+        <Text style={{ fontSize: 14, color: 'white'  }}> RECORD </Text>
       </TouchableOpacity>
-      
     );
 
     if (recording) {
@@ -55,7 +85,7 @@ class VideoRecordingForm extends Component {
           onPress={this.stopRecording.bind(this)}
           style={styles.capture}
         >
-          <Text style={{ fontSize: 18 }}> STOP </Text>
+          <Text style={{ fontSize: 14, color: 'white' }}> STOP </Text>
         </TouchableOpacity>
       );
     }
@@ -77,7 +107,6 @@ class VideoRecordingForm extends Component {
           style={styles.preview}
           type={RNCamera.Constants.Type.back}
           flashMode={RNCamera.Constants.FlashMode.on}
-
           permissionDialogTitle={"Permission to use camera"}
           permissionDialogMessage={
             "We need your permission to use your camera phone"
@@ -93,5 +122,7 @@ class VideoRecordingForm extends Component {
   }
   
 }
+
+
+
 export default VideoRecordingForm;
-  

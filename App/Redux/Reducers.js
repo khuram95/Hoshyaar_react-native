@@ -8,5 +8,6 @@ export default combineReducers({
   nav: require('./NavigationRedux').reducer,
   auth: require('./AuthRedux').reducer,
   report: require('./ReportRedux').reducer,
+  school: require('./SchoolRedux').reducer,
   // ADD_REDUX_REDUCER
 })

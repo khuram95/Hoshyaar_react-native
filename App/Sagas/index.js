@@ -12,12 +12,14 @@ import ActionTypes from '../Redux/ActionTypes'
 import StartupSagas from './StartupSagas'
 import AuthSagas from './AuthSagas'
 import ReportSagas from './ReportSagas'
+import SchoolSagas from './SchoolSagas'
 // IMPORT_SAGAS
 
 const Sagas = {
   ...StartupSagas,
   ...AuthSagas,
   ...ReportSagas,
+  ...SchoolSagas,
   // SPREAD_SAGAS
 }
 
@@ -35,7 +37,8 @@ export default function * root () {
     takeLatest(ActionTypes.STARTUP, Sagas.startup),
     takeLatest(ActionTypes.LOGIN_REQUEST, Sagas.makeLoginRequest, api),
     takeLatest(ActionTypes.SIGNOUT_REQUEST, Sagas.makeSignoutRequest, api),
-    takeLatest(ActionTypes.CREATE_REPORT_REQUEST, Sagas.makeCreateReportRequest, api)
+    takeLatest(ActionTypes.CREATE_REPORT_REQUEST, Sagas.makeCreateReportRequest, api),
+    takeLatest(ActionTypes.ALL_SCHOOLS_DATA_REQUEST, Sagas.makeAllSchoolsDataRequest, api)
     // REGISTRER_SAGA
   ])
 }

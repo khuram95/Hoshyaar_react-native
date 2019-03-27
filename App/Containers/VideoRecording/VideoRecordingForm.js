@@ -111,7 +111,7 @@ class VideoRecordingForm extends Component {
           permissionDialogMessage={
             "We need your permission to use your camera phone"
           }
-        />
+        />c 
         <View
           style={{ flex: 0, flexDirection: "row", justifyContent: "center" }}
         >

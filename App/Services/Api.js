@@ -11,7 +11,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://f4877f12.ngrok.io',
+    baseURL: 'http://65f0f893.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -20,7 +20,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://f4877f12.ngrok.io/api/v1',
+    baseURL: 'http://65f0f893.ngrok.io/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -64,6 +64,11 @@ const create = () => {
     return api.get('/schools',{}, { headers })
   } 
     
+
+  const SchoolDetailData = (payload, headers) =>{
+    return api.get('/school_details',{school_id: 1}, { headers })
+  }
+
   // ------
   // STEP 3
   // ------
@@ -85,6 +90,7 @@ const create = () => {
     signout,
     createReport,
     allSchoolsData,
+    SchoolDetailData,
   }
 }
 

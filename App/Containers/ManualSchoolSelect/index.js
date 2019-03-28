@@ -12,7 +12,7 @@ class ManualSchoolSelect extends Component{
 		this.state = {district: '',tehsil:'',school:'',uniqueDistrict:[]
 																				,uniqueTehsil:[],uniqueschool:[]};
 
-																				this.props.allSchoolsData()
+		this.props.allSchoolsData()
 		.then(() => {
 			let uniqueDist = [...new Set(get(this.props, 'allSchools').map(school => school.district))];
 			this.setState({uniqueDistrict: uniqueDist})

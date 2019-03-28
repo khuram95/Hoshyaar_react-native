@@ -7,11 +7,21 @@ import DatePicker from 'react-native-datepicker'
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
 import DataRow from './DataRow'
+import { createStructuredSelector } from 'reselect'
+import { get } from 'lodash'
+
+
+
 
 class SchoolDetailForm extends Component {
   constructor(props) {
     super(props);
     this.state = { date: "2018-03-23" }
+    this.props.SchoolDetailData()
+		.then(() => {
+      console.log('SchoolDetail ',this.props.SchoolDetail)
+		})
+
   }
 
   CreateReport = () => {
@@ -62,12 +72,13 @@ class SchoolDetailForm extends Component {
 
             <CollapseBody>
               <ListItem >
+              {console.log('this.props.SchoolDetail.total_teacher ',this.props.SchoolDetail.total_teacher)}
                 <DataRow text={'Total Teacher'} 
-                        value={'total_teacher'} ischecked={true} />
+                        value={this.props.SchoolDetail.total_teacher} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Total non Teacher'} 
-                        value={'non_teacher'} ischecked={false} />
+                        value={this.props.SchoolDetail.non_teacher} ischecked={false} />
               </ListItem>
             </CollapseBody>
 
@@ -84,11 +95,11 @@ class SchoolDetailForm extends Component {
             <CollapseBody>
               <ListItem >
                 <DataRow text={'Class Rooms'} 
-                          value={'total_class_rooms'} ischecked={true} />
+                          value={this.props.SchoolDetail.total_class_rooms} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Class Room in Use'} 
-                        value={'use_class_rooms'} ischecked={false} />
+                        value={this.props.SchoolDetail.use_class_rooms} ischecked={false} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -103,15 +114,15 @@ class SchoolDetailForm extends Component {
             <CollapseBody>
               <ListItem >
                 <DataRow text={'Total Funds'} 
-                          value={'avaliable_fund'} ischecked={true} />
+                          value={this.props.SchoolDetail.avaliable_fund} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Expenditure'} 
-                        value={'expenditure'} ischecked={false} />
+                        value={this.props.SchoolDetail.expenditure} ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Balance'} 
-                          value={'balance'} ischecked={false} />
+                          value={this.props.SchoolDetail.balance} ischecked={false} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -126,11 +137,11 @@ class SchoolDetailForm extends Component {
             <CollapseBody>
               <ListItem >
                 <DataRow text={'Student Enrolled'} 
-                          value={'student_enrolled'} ischecked={true} />
+                          value={this.props.SchoolDetail.student_enrolled} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Student Present'} 
-                          value={'student_present'} ischecked={false} />
+                          value={this.props.SchoolDetail.student_present} ischecked={false} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -146,27 +157,27 @@ class SchoolDetailForm extends Component {
             <CollapseBody>
               <ListItem style={{ height: 20, backgroundColor: 'red' }} >
                 <DataRow text={'Toilet Avalible'} 
-                          value={'toilet_avaliable'} ischecked={true} />
+                          value={this.props.SchoolDetail.toilet_avaliable} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Toilet Functional'} 
-                          value={'toilet_functional'} ischecked={false} />
+                          value={this.props.SchoolDetail.toilet_functional} ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'All Toilet Functional'} 
-                          value={'is_toilet_functional'} ischecked={false} />
+                          value={this.props.SchoolDetail.is_toilet_functional} ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Electricity Functional'} 
-                          value={'is_electricity_avaliable'} ischecked={false} />
+                          value={this.props.SchoolDetail.is_electricity_avaliable} ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Drinking Functional'} 
-                        value={'is_drinking_water_avaliable'} ischecked={false} />
+                        value={this.props.SchoolDetail.is_drinking_water_avaliable} ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Boundary Functional'} 
-                        value={'is_boundary_wall'} ischecked={false} />
+                        value={this.props.SchoolDetail.is_boundary_wall} ischecked={false} />
               </ListItem>
 
             </CollapseBody>
@@ -224,11 +235,12 @@ class SchoolDetailForm extends Component {
 }
 
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = createStructuredSelector ({
+	SchoolDetail: (state) => get(state, 'schooldetail.SchoolDetailData')
 })
-
 const mapDispatchToProps = (dispatch) => ({
-
+	SchoolDetailData: (payload) => new Promise((resolve, reject) =>
+		dispatch(Actions.SchoolDetailDataRequest(payload, resolve, reject)))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SchoolDetailForm)

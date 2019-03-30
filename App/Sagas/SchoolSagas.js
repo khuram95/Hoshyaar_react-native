@@ -8,8 +8,6 @@ import Actions from '../Redux/Actions'
 function * makeAllSchoolsDataRequest (api, action) {
   const { payload, resolve, reject } = action
   const response = yield call(api.allSchoolsData, payload)
-  console.log('response of schools: ', response)
-  console.log('data: ', payload)
   if (response.ok) {
     yield put(Actions.saveSchoolsDataLocal(response.data))
     yield put(Actions.allSchoolsDataSuccess())
@@ -21,9 +19,25 @@ function * makeAllSchoolsDataRequest (api, action) {
   }
 }
 
+
+function * makeUniqueSchoolsDataRequest (api, action) {
+  const { payload, resolve, reject } = action
+  const response = yield call(api.uniqueSchoolsData, payload)
+  if (response.ok) {
+    yield put(Actions.saveUniqueSchoolsDataLocal(response.data))
+    yield put(Actions.uniqueSchoolsDataSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.uniqueSchoolsDataFailure(error))
+    return reject(error)
+  }
+}
+
 // ADD_SAGA_ACTION
 
 export default {
     makeAllSchoolsDataRequest,
+    makeUniqueSchoolsDataRequest,
   // EXPORT_SAGA_ACTION
 }

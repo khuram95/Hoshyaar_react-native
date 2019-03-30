@@ -16,10 +16,10 @@ import { get } from 'lodash'
 class SchoolDetailForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { date: "2018-03-23" }
+    this.state = { date: "2018-03-23", schooldetail: {} }
     this.props.SchoolDetailData()
 		.then(() => {
-      console.log('SchoolDetail ',this.props.SchoolDetail)
+      this.setState({ schooldetail: this.props.SchoolDetail })
 		})
 
   }
@@ -72,13 +72,12 @@ class SchoolDetailForm extends Component {
 
             <CollapseBody>
               <ListItem >
-              {console.log('this.props.SchoolDetail.total_teacher ',this.props.SchoolDetail.total_teacher)}
                 <DataRow text={'Total Teacher'} 
-                        value={this.props.SchoolDetail.total_teacher} ischecked={true} />
+                        value={this.state.schooldetail.total_teacher} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Total non Teacher'} 
-                        value={this.props.SchoolDetail.non_teacher} ischecked={false} />
+                        value={this.state.schooldetail.non_teacher} ischecked={false} />
               </ListItem>
             </CollapseBody>
 
@@ -95,11 +94,11 @@ class SchoolDetailForm extends Component {
             <CollapseBody>
               <ListItem >
                 <DataRow text={'Class Rooms'} 
-                          value={this.props.SchoolDetail.total_class_rooms} ischecked={true} />
+                          value={this.state.schooldetail.total_class_rooms} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Class Room in Use'} 
-                        value={this.props.SchoolDetail.use_class_rooms} ischecked={false} />
+                        value={this.state.schooldetail.use_class_rooms} ischecked={false} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -114,15 +113,15 @@ class SchoolDetailForm extends Component {
             <CollapseBody>
               <ListItem >
                 <DataRow text={'Total Funds'} 
-                          value={this.props.SchoolDetail.avaliable_fund} ischecked={true} />
+                          value={this.state.schooldetail.avaliable_fund} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Expenditure'} 
-                        value={this.props.SchoolDetail.expenditure} ischecked={false} />
+                        value={this.state.schooldetail.expenditure} ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Balance'} 
-                          value={this.props.SchoolDetail.balance} ischecked={false} />
+                          value={this.state.schooldetail.balance} ischecked={false} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -137,11 +136,11 @@ class SchoolDetailForm extends Component {
             <CollapseBody>
               <ListItem >
                 <DataRow text={'Student Enrolled'} 
-                          value={this.props.SchoolDetail.student_enrolled} ischecked={true} />
+                          value={this.state.schooldetail.student_enrolled} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Student Present'} 
-                          value={this.props.SchoolDetail.student_present} ischecked={false} />
+                          value={this.state.schooldetail.student_present} ischecked={false} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -157,27 +156,28 @@ class SchoolDetailForm extends Component {
             <CollapseBody>
               <ListItem style={{ height: 20, backgroundColor: 'red' }} >
                 <DataRow text={'Toilet Avalible'} 
-                          value={this.props.SchoolDetail.toilet_avaliable} ischecked={true} />
+                          value={this.state.schooldetail.toilet_avaliable} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Toilet Functional'} 
-                          value={this.props.SchoolDetail.toilet_functional} ischecked={false} />
+                          value={this.state.schooldetail.toilet_functional} ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'All Toilet Functional'} 
-                          value={this.props.SchoolDetail.is_toilet_functional} ischecked={false} />
+                          value={this.state.schooldetail.is_toilet_functional} ischecked={false} />
               </ListItem>
               <ListItem>
+                {console.log('in item: ', this.state.schooldetail[0])}
                 <DataRow text={'Electricity Functional'} 
-                          value={this.props.SchoolDetail.is_electricity_avaliable} ischecked={false} />
+                          value={this.state.schooldetail.is_electricity_avaliable} ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Drinking Functional'} 
-                        value={this.props.SchoolDetail.is_drinking_water_avaliable} ischecked={false} />
+                        value={this.state.schooldetail.is_drinking_water_avaliable} ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Boundary Functional'} 
-                        value={this.props.SchoolDetail.is_boundary_wall} ischecked={false} />
+                        value={this.state.schooldetail.is_boundary_wall} ischecked={false} />
               </ListItem>
 
             </CollapseBody>

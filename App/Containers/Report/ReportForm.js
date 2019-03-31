@@ -16,7 +16,6 @@ class CreateReport extends Component{
 			const reportContent = this.state.reportcontent
 			this.props.createReport(reportContent)
 			.then(() =>{
-				console.log('successfully done')
 			})
 		}
 

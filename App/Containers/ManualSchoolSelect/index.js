@@ -16,8 +16,11 @@ class ManualSchoolSelect extends Component{
 		.then(() => {
 			let uniqueDist = [...new Set(get(this.props, 'allSchools').map(school => school.district))];
 			this.setState({uniqueDistrict: uniqueDist})
+			
 			let uniqueTeh = [...new Set(get(this.props, 'allSchools').map(school => school.tehsil))];
-			this.setState({uniqueTehsil: uniqueTeh, after_district: true, uniqueschool: this.props.allSchools})
+			this.setState({uniqueTehsil: uniqueTeh})
+
+			this.setState({uniqueschool: this.props.allSchools})
 			
 		})
 	}
@@ -46,7 +49,7 @@ class ManualSchoolSelect extends Component{
 
 	gotoSchoolDetail = () => {
     const { navigation } = this.props
-      navigation.navigate("SchoolDetail")
+      navigation.navigate("SchoolDetail",{id: this.state.school})
   }
 
 	render(){
@@ -77,9 +80,10 @@ class ManualSchoolSelect extends Component{
 			</Picker>
 
 
-			<Picker selectedValue = {this.state.school} onValueChange = {this.updateSchool}>
+			<Picker selectedValue = {this.state.school} 
+														onValueChange = {(itemValue,itemIndex) => this.updateSchool(itemValue)}>
 				{this.state.uniqueschool && this.state.uniqueschool.map((school) =>
-				<Picker.Item label = {school.school_name} value = {school.schol_id} />)}
+				<Picker.Item label = {school.school_name} value = {school} />)}
 			</Picker>
 
 

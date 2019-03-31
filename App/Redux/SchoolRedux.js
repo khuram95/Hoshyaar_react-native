@@ -32,7 +32,6 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Reducers ------------- */
 
 export const allSchoolsDataRequest = (state, action) =>{
-  console.log("helo report redux");
   return state.merge({ requesting: true, error: null })
 }
 

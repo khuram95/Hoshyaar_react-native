@@ -8,8 +8,6 @@ import Actions from '../Redux/Actions'
 function * makeCreateReportRequest (api, action) {
   const { payload, resolve, reject } = action
   const response = yield call(api.createReport, payload)
-  console.log('response: ', response)
-  console.log('data: ', payload)
   if (response.ok) {
     return resolve()
   } else {

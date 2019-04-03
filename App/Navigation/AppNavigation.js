@@ -33,6 +33,9 @@ export default StackNavigator({
   SchoolDetail: { 
     screen: require('../Containers/SchoolDetail/').default
   },
+  MapScreen: {
+    screen: require('../Containers/MapScreen/').default
+  }
   
 
   

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, ScrollView, TextInput, TouchableOpacity } from 'react-native'
-import { Item as FormItem, moment, Text, Button, Input } from 'native-base'
+import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import DatePicker from 'react-native-datepicker'
@@ -47,7 +47,7 @@ class SchoolDetailForm extends Component {
          this.setState({singleschool : this.state.schooldetail[i]})
       }
       else
-      {
+      {schooldate
         console.log("Pappi chulooooo");
       }
     }
@@ -57,8 +57,9 @@ class SchoolDetailForm extends Component {
 
   CreateReport = () => {
     const { navigation } = this.props
-    navigation.navigate("Report")
+    navigation.navigate("Report",{schooldate:this.state.all_school})
   }
+
   render() {
     return (
       <ScrollView>

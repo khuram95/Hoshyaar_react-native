@@ -11,7 +11,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://9a0cbf32.ngrok.io',
+    baseURL: 'http://d32c4cd1.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -20,7 +20,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://9a0cbf32.ngrok.io/api/v1',
+    baseURL: 'http://d32c4cd1.ngrok.io/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -55,9 +55,9 @@ const create = () => {
     authApi.delete('auth/sign_out', {}, { headers })
 
   const createReport = (payload, headers) =>{
-    const {reportContent} = payload
+    const { reportContent } = payload
     console.log('Report Content is : ', reportContent)
-    return api.post('/reports',{ report_content: reportContent }, { headers })
+    return api.post('/reports',{ report_text: reportContent }, { headers })
   }
 
 

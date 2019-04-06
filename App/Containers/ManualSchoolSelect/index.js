@@ -110,8 +110,10 @@ const mapStateToProps = createStructuredSelector ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+
 	allSchoolsData: (payload) => new Promise((resolve, reject) =>
 		dispatch(Actions.allSchoolsDataRequest(payload, resolve, reject))),
+
 	uniqueSchoolData: (payload) => new Promise((resolve, reject) =>
 		dispatch(Actions.uniqueSchoolsDataRequest(payload, resolve, reject)))
 })

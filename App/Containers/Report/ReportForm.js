@@ -19,9 +19,11 @@ class CreateReport extends Component{
 				// console.log("I am in Report Form :" ,this.state.all_school)
 	}
 
+
+
 		showcontent = () => { 
 			console.log('Report Content is i am in Report form : ',this.state.reportcontent)
-			this.props.createReport(c)
+			this.props.createReport(reportContent=this.state.reportcontent)
 			.then(() =>{
 			})
 		}

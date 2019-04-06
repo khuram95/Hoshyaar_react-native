@@ -1,27 +1,69 @@
 import React, { Component } from 'react'
 import { View, ScrollView, TextInput, TouchableOpacity } from 'react-native'
-import { Item as FormItem, moment, Text, Button, Input } from 'native-base'
+import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import DatePicker from 'react-native-datepicker'
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
 import DataRow from './DataRow'
+import { createStructuredSelector } from 'reselect'
+import { get } from 'lodash'
+
+
+
 
 class SchoolDetailForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { date: "2018-03-23" }
+    this.state = { date: "2018-03-23",
+                  schooldetail: {},
+                  singleschool:[],
+                  all_school:[]
+                  }
+
+    
+    complete_school_data = this.props.navigation.getParam('id')
+  
+    this.props.SchoolDetailData({ school_id: complete_school_data.id })
+      .then(() => {
+        this.setState({ schooldetail: this.props.SchoolDetail })
+        size = this.state.schooldetail.length
+        this.setState({singleschool : this.state.schooldetail[size-1]})
+        this.setState({all_school : complete_school_data})
+      })
+
   }
+
+  dateChange = (date) => {
+    this.setState({ date:date })
+    console.log('Date :::::::::::::::::::::',this.state.date)
+   
+    console.log('this.state.schooldetail.visiting_date :',this.state.schooldetail[1].visiting_date)
+    
+    size = this.state.schooldetail.length
+    for (let i=0; i < size ; i++) {
+      if(this.state.schooldetail[i].visiting_date == this.state.date){
+         this.setState({singleschool : this.state.schooldetail[i]})
+      }
+      else
+      {schooldate
+        console.log("Pappi chulooooo");
+      }
+    }
+
+	}
+
 
   CreateReport = () => {
     const { navigation } = this.props
-    navigation.navigate("Report")
+    navigation.navigate("Report",{schooldate:this.state.all_school})
   }
+
   render() {
     return (
-      <View>
-        <Text>School Name</Text>
+      <ScrollView>
+      <Text>{ this.state.all_school.school_name }</Text>
         <Text>Government Data</Text>
         <Text>{'\n\n'}</Text>
         <Text>Select Month</Text>
@@ -31,8 +73,8 @@ class SchoolDetailForm extends Component {
           mode="date"
           placeholder="select date"
           format="YYYY-MM-DD"
-          minDate="2018-01-01"
-          maxDate="2018-03-01"
+          minDate="2019-01-01"
+          maxDate="2019-12-28"
           confirmBtnText="Confirm"
           cancelBtnText="Cancel"
           customStyles={{
@@ -46,7 +88,8 @@ class SchoolDetailForm extends Component {
               marginLeft: 36
             }
           }}
-          onDateChange={(date) => { this.setState({ date: date }) }}
+          onDateChange={(date) => { this.dateChange(date) }}
+
         />
 
 
@@ -62,12 +105,12 @@ class SchoolDetailForm extends Component {
 
             <CollapseBody>
               <ListItem >
-                <DataRow text={'Total Teacher'} 
-                        value={'total_teacher'} ischecked={true} />
+                <DataRow text={'Total Teacher'}
+                  value={this.state.singleschool.total_teacher} ischecked={true} />
               </ListItem>
               <ListItem>
-                <DataRow text={'Total non Teacher'} 
-                        value={'non_teacher'} ischecked={false} />
+                <DataRow text={'Total non Teacher'}
+                  value={this.state.singleschool.non_teacher} ischecked={false} />
               </ListItem>
             </CollapseBody>
 
@@ -83,16 +126,15 @@ class SchoolDetailForm extends Component {
 
             <CollapseBody>
               <ListItem >
-                <DataRow text={'Class Rooms'} 
-                          value={'total_class_rooms'} ischecked={true} />
+                <DataRow text={'Class Rooms'}
+                  value={this.state.singleschool.total_class_rooms} ischecked={true} />
               </ListItem>
               <ListItem>
-                <DataRow text={'Class Room in Use'} 
-                        value={'use_class_rooms'} ischecked={false} />
+                <DataRow text={'Class Room in Use'}
+                  value={this.state.singleschool.use_class_rooms} ischecked={false} />
               </ListItem>
             </CollapseBody>
           </Collapse>
-
 
           <Collapse>
             <CollapseHeader>
@@ -102,16 +144,16 @@ class SchoolDetailForm extends Component {
             </CollapseHeader>
             <CollapseBody>
               <ListItem >
-                <DataRow text={'Total Funds'} 
-                          value={'avaliable_fund'} ischecked={true} />
+                <DataRow text={'Total Funds'}
+                  value={this.state.singleschool.avaliable_fund} ischecked={true} />
               </ListItem>
               <ListItem>
-                <DataRow text={'Expenditure'} 
-                        value={'expenditure'} ischecked={false} />
+                <DataRow text={'Expenditure'}
+                  value={this.state.singleschool.expenditure} ischecked={false} />
               </ListItem>
               <ListItem>
-                <DataRow text={'Balance'} 
-                          value={'balance'} ischecked={false} />
+                <DataRow text={'Balance'}
+                  value={this.state.singleschool.balance} ischecked={false} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -125,12 +167,12 @@ class SchoolDetailForm extends Component {
             </CollapseHeader>
             <CollapseBody>
               <ListItem >
-                <DataRow text={'Student Enrolled'} 
-                          value={'student_enrolled'} ischecked={true} />
+                <DataRow text={'Student Enrolled'}
+                  value={this.state.singleschool.student_enrolled} ischecked={true} />
               </ListItem>
               <ListItem>
-                <DataRow text={'Student Present'} 
-                          value={'student_present'} ischecked={false} />
+                <DataRow text={'Student Present'}
+                  value={this.state.singleschool.student_present} ischecked={false} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -144,29 +186,35 @@ class SchoolDetailForm extends Component {
               </Separator>
             </CollapseHeader>
             <CollapseBody>
-              <ListItem style={{ height: 20, backgroundColor: 'red' }} >
-                <DataRow text={'Toilet Avalible'} 
-                          value={'toilet_avaliable'} ischecked={true} />
+              <ListItem style={{ height: 20}} >
+                <DataRow text={'Toilet Avalible'}
+                  value={this.state.singleschool.toilet_avaliable} 
+                                                      ischecked={true} />
               </ListItem>
               <ListItem>
-                <DataRow text={'Toilet Functional'} 
-                          value={'toilet_functional'} ischecked={false} />
+                <DataRow text={'Toilet Functional'}
+                  value={this.state.singleschool.toilet_functional} 
+                                                      ischecked={false} />
               </ListItem>
               <ListItem>
-                <DataRow text={'All Toilet Functional'} 
-                          value={'is_toilet_functional'} ischecked={false} />
+                <DataRow text={'All Toilet Functional'}
+                  value={this.state.singleschool.is_toilet_functional ? 'Yes' : 'No'} 
+                                                    ischecked={false} />
               </ListItem>
               <ListItem>
-                <DataRow text={'Electricity Functional'} 
-                          value={'is_electricity_avaliable'} ischecked={false} />
+                <DataRow text={'Electricity Functional'}
+                  value={this.state.singleschool.is_electricity_avaliable ? 'Yes' : 'No'}
+                                                     ischecked={false} />
               </ListItem>
               <ListItem>
-                <DataRow text={'Drinking Functional'} 
-                        value={'is_drinking_water_avaliable'} ischecked={false} />
+                <DataRow text={'Drinking Functional'}
+                  value={this.state.singleschool.is_drinking_water_avaliable ? 'Yes' : 'No'} 
+                                                      ischecked={false} />
               </ListItem>
               <ListItem>
-                <DataRow text={'Boundary Functional'} 
-                        value={'is_boundary_wall'} ischecked={false} />
+                <DataRow text={'Boundary Functional'}
+                  value={this.state.singleschool.is_boundary_wall ? 'Yes' : 'No' } 
+                                                      ischecked={false} />
               </ListItem>
 
             </CollapseBody>
@@ -176,59 +224,60 @@ class SchoolDetailForm extends Component {
 
         </View>
 
-        <View style={{
-          display: 'flex',
-          flex: 1, 
-          width: '100%',
-          flexDirection: 'column', 
-          justifyContent: 'space-between',
-           alignItems: 'center'
-        }}>
+                <View style={{
+                  display: 'flex',
+                  flex: 1,
+                  width: '100%',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
 
-          <Button style={{
-            alignSelf: 'center',
-            width: '40%'
-          }}>
-            <Text style={{
-              width: '100%',
-              fontWeight: "800",
-              textAlign: "center"
-            }}>
-              Verify Data
-          </Text>
-          </Button>
-          <Text>{'\n'}</Text>
-
-
-          <Button style={{
-            alignSelf: 'center',
-            width: '40%'
-          }}
-            onPress={this.CreateReport}
-          >
-            <Text style={{
-              width: '100%',
-              fontWeight: "800",
-              textAlign: "center"
-            }}>
-              Create Report
-          </Text>
-          </Button>
-        </View>
+                  <Button style={{
+                    alignSelf: 'center',
+                    width: '40%'
+                  }}>
+                    <Text style={{
+                      width: '100%',
+                      fontWeight: "800",
+                      textAlign: "center"
+                    }}>
+                      Verify Data
+                  </Text>
+                  </Button>
+                  <Text>{'\n'}</Text>
 
 
-      </View>
+                  <Button style={{
+                    alignSelf: 'center',
+                    width: '40%'
+                  }}
+                    onPress={this.CreateReport}
+                  >
+                    <Text style={{
+                      width: '100%',
+                      fontWeight: "800",
+                      textAlign: "center"
+                    }}>
+                      Create Report
+                  </Text>
+                  </Button>
+                </View>
+
+
+        </ScrollView>
 
     )
   }
 }
 
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = createStructuredSelector({
+  SchoolDetail: (state) => get(state, 'schooldetail.SchoolDetailData'),
 })
-
 const mapDispatchToProps = (dispatch) => ({
-
+  SchoolDetailData: (payload) => new Promise((resolve, reject) =>
+    dispatch(Actions.SchoolDetailDataRequest(payload, resolve, reject)))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SchoolDetailForm)

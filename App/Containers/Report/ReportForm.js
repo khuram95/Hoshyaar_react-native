@@ -8,15 +8,23 @@ import Actions from '../../Redux/Actions'
 class CreateReport extends Component{
 	constructor(props) {
 		super(props);
-		this.state = {reportcontent: ''//,imagedata:this.props.navigation.state.params.imagedata
+		this.state = {
+									reportcontent: '',
+									all_school:[],
 								 };
+
+    complete_school_data = this.props.navigation.getParam('schooldate')
+
+				// this.setState({all_school : complete_school_data})
+				// console.log("I am in Report Form :" ,this.state.all_school)
 	}
 
+
+
 		showcontent = () => { 
-			const reportContent = this.state.reportcontent
-			this.props.createReport(reportContent)
+			console.log('Report Content is i am in Report form : ',this.state.reportcontent)
+			this.props.createReport(reportContent=this.state.reportcontent)
 			.then(() =>{
-				console.log('successfully done')
 			})
 		}
 
@@ -86,8 +94,8 @@ class CreateReport extends Component{
 }
 
 const mapStateToProps = (state) => ({
-    // loginError: (state) => get(state, 'auth.loginError')
-  })
+
+	})
   
   const mapDispatchToProps = (dispatch) => ({
     createReport: (payload) => new Promise((resolve, reject) =>

@@ -5,15 +5,18 @@ import { parseError, getAuthHeaders, saveUserToLocalStorage,
   removeUserFromLocalStorage } from './Shared'
 import Actions from '../Redux/Actions'
 
-function * makeCreateReportRequest (api, action) {
-  console.log("Report Sagas")
+function * makeSchoolDetailDataRequest (api, action) {
   const { payload, resolve, reject } = action
-  const response = yield call(api.createReport, payload)
+  const response = yield call(api.SchoolDetailData, payload)
+  console.log('response of schools: ', response)
+  console.log('data: ', payload)
   if (response.ok) {
+    yield put(Actions.saveSchoolDetailDataLocal(response.data))
+    yield put(Actions.SchoolDetailDataSuccess())
     return resolve()
   } else {
     const error = parseError(response)
-    yield put(Actions.createReportFailure(error))
+    yield put(Actions.SchoolDetailDataFailure(error))
     return reject(error)
   }
 }
@@ -21,6 +24,6 @@ function * makeCreateReportRequest (api, action) {
 // ADD_SAGA_ACTION
 
 export default {
-    makeCreateReportRequest,
+    makeSchoolDetailDataRequest,
   // EXPORT_SAGA_ACTION
 }

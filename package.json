@@ -41,6 +41,7 @@
     "react-native-config": "^0.10.0",
     "react-native-datepicker": "^1.7.2",
     "react-native-hr-plus": "^1.0.6",
+    "react-native-maps": "^0.23.0",
     "react-native-modal": "^9.0.0",
     "react-native-simple-radio-button": "^2.7.1",
     "react-native-vector-icons": "^4.6.0",

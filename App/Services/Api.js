@@ -11,7 +11,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://f4877f12.ngrok.io',
+    baseURL: 'http://d32c4cd1.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -20,7 +20,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://f4877f12.ngrok.io/api/v1',
+    baseURL: 'http://d32c4cd1.ngrok.io/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -48,22 +48,39 @@ const create = () => {
   const getUser = (username) => api.get('search/users', {q: username})
 
   const login = (email, password) =>{
-    console.log("khuram", email, password);
+    
     return authApi.get('auth/sign_up', { email, password })}
 
   const signout = (headers) =>
     authApi.delete('auth/sign_out', {}, { headers })
 
   const createReport = (payload, headers) =>{
-    const {reportContent} = payload
-    console.log('sdfhsfhsjjhs')
-    return api.post('/reports',{ report_content: reportContent }, { headers })
+    const { reportContent } = payload
+    console.log('Report Content is : ', reportContent)
+    return api.post('/reports',{ report_text: reportContent }, { headers })
   }
+
 
   const allSchoolsData = (payload, headers) =>{
     return api.get('/schools',{}, { headers })
   } 
     
+
+  const SchoolDetailData = (payload, headers) =>{
+    const { school_id } = payload
+    const formData = new FormData();
+    formData.append('school_id', school_id);
+    return api.get('/school_details', {school_id: school_id} , { headers })
+  }
+
+  const uniqueSchoolsData = (payload, headers) =>{
+    const {district, tehsil } = payload
+    const formData = new FormData();
+    formData.append('district', district);
+    formData.append('tehsil', tehsil); 
+    return api.put('/schools/sorted_data',formData,{ headers })
+  }
+
   // ------
   // STEP 3
   // ------
@@ -85,6 +102,8 @@ const create = () => {
     signout,
     createReport,
     allSchoolsData,
+    SchoolDetailData,
+    uniqueSchoolsData,
   }
 }
 

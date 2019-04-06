@@ -9,5 +9,6 @@ export default combineReducers({
   auth: require('./AuthRedux').reducer,
   report: require('./ReportRedux').reducer,
   school: require('./SchoolRedux').reducer,
+  schooldetail:require('./SchoolDetailRedux').reducer,
   // ADD_REDUX_REDUCER
 })

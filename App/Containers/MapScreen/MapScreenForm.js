@@ -100,6 +100,7 @@ class MapScreenForm extends Component{
             // onRegionChange={this.onRegionChange.bind(this)}
             showsUserLocation={true}
             showsMyLocationButton={true}
+            showsBuildings={false}
         >
 
             {this.state.markers.map((marker, index) => {

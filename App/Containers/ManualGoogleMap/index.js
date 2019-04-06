@@ -19,6 +19,11 @@ class ManualGoogleMap extends Component{
           navigation.navigate("ManualSchoolSelect")
       }
 
+      mapsSelect = () => {
+        const { navigation } = this.props
+          navigation.navigate("MapScreen")
+      }
+
     render(){
         return(
             <View>
@@ -26,7 +31,7 @@ class ManualGoogleMap extends Component{
                    <Text>{'\n\n\n\n\n\n\n'}</Text>
 
 
-                <Button style={{alignSelf: 'center',width: '80%'}}> 
+                <Button style={{alignSelf: 'center',width: '80%'}} onPress={this.mapsSelect}> 
 					<Text style={{width: '100%',fontWeight: "800",textAlign: "left"}}>
 						Google Map
 					</Text>

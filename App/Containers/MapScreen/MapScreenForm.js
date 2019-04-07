@@ -102,13 +102,19 @@ class MapScreenForm extends Component {
           showsBuildings={false}
         >
 
-          {this.state.markers.map((marker, index) => {
+          {this.props.schoolsData.map((School, index) => {
+            console.log('yess --', School.school_name);
             return (
               <MapView.Marker
                 key={index}
-                coordinate={marker.coordinate}
-                title={marker.title}
-                description={marker.description}
+                // coordinate={marker.coordinate}
+                coordinate={{
+                  latitude: School.latitude,
+                  longitude: School.longitude
+                }}
+                
+                title={School.school_name}
+                description={School.district}
               >
                 <Callout onPress={() => this.gotoSchoolDetail()}>
                 </Callout>

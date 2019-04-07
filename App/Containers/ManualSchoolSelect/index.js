@@ -10,28 +10,36 @@ class ManualSchoolSelect extends Component{
 	constructor(props) {
 		super(props);
 		this.state = {district: '',tehsil:'',school:'',uniqueDistrict:[]
-																				,uniqueTehsil:[],uniqueschool:[]};
+										,uniqueTehsil:[],uniqueschool:[]};
 
 		this.props.allSchoolsData()
 		.then(() => {
 			let uniqueDist = [...new Set(get(this.props, 'allSchools').map(school => school.district))];
 			this.setState({uniqueDistrict: uniqueDist})
+			
 			let uniqueTeh = [...new Set(get(this.props, 'allSchools').map(school => school.tehsil))];
 			this.setState({uniqueTehsil: uniqueTeh})
-			let uniqueScl = [...new Set(get(this.props, 'allSchools').map(school => school.school_name))];
-			this.setState({uniqueschool: uniqueScl})
+
+			this.setState({uniqueschool: this.props.allSchools})
 			
 		})
 	}
 
 	updateDistrict = (district) => {
-		 this.setState({district:district})
-		 console.log("District Name is : ",district)
-
+		this.setState({district: district})
+		this.props.uniqueSchoolData({district, tehsil:''})
+		.then(() => {
+			let uniqueTeh = [...new Set(get(this.props, 'uniqueData').map(school => school.tehsil))];
+			 this.setState({ uniqueTehsil:  uniqueTeh})
+		})
 	}
 
-		updateTehsil = (tehsil) => {
-			this.setState({ tehsil:tehsil})
+	updateTehsil = (tehsil) => {
+		this.setState({ tehsil:tehsil})
+		this.props.uniqueSchoolData({district:'',tehsil})
+		.then(() => {
+			this.setState({ uniqueschool:  this.props.uniqueData})
+		})
 	}
 
 	updateSchool = (school) => {
@@ -41,7 +49,7 @@ class ManualSchoolSelect extends Component{
 
 	gotoSchoolDetail = () => {
     const { navigation } = this.props
-      navigation.navigate("SchoolDetail")
+      navigation.navigate("SchoolDetail",{id: this.state.school})
   }
 
 	render(){
@@ -58,28 +66,25 @@ class ManualSchoolSelect extends Component{
 			
 
 			<Picker selectedValue = {this.state.district} 
-														 onValueChange = {this.updateDistrict}>
-				<Picker.Item label = "Select Districts"  value = "" />
+														 onValueChange = {(itemValue, itemIndex)=>this.updateDistrict(itemValue)}>
 					{this.state.uniqueDistrict && this.state.uniqueDistrict.map((district) =>
 				<Picker.Item label = {district} value = {district} />)}
 			</Picker>
-			<Text style = {styles.text}>{this.state.district}</Text>
 
 		
-			<Picker selectedValue = {this.state.tehsil} onValueChange = {this.updateTehsil}>
-				<Picker.Item label = "Select Tehsils" value = "" />
+			<Picker selectedValue = {this.state.tehsil}
+													onValueChange = {(itemValue, itemIndex) => this.updateTehsil(itemValue)}>
 				{this.state.uniqueTehsil && this.state.uniqueTehsil.map((tehsil) =>
-				<Picker.Item label = {tehsil} value = {tehsil} />)}
+					<Picker.Item label = {tehsil} value = {tehsil} />)
+				}
 			</Picker>
-			<Text style = {styles.text}>{this.state.tehsil}</Text>
 
 
-			<Picker selectedValue = {this.state.school} onValueChange = {this.updateSchool}>
-				<Picker.Item label = "Select Schools" value = "" />
-				{this.state.uniqueschool && this.state.uniqueschool.map((school_name) =>
-				<Picker.Item label = {school_name} value = {school_name} />)}
+			<Picker selectedValue = {this.state.school} 
+														onValueChange = {(itemValue,itemIndex) => this.updateSchool(itemValue)}>
+				{this.state.uniqueschool && this.state.uniqueschool.map((school) =>
+				<Picker.Item label = {school.school_name} value = {school} />)}
 			</Picker>
-			<Text style = {styles.text}>{this.state.school}</Text>
 
 
 			<Button style={{alignSelf: 'center',width: '50%'}}    
@@ -100,12 +105,17 @@ class ManualSchoolSelect extends Component{
 
 
 const mapStateToProps = createStructuredSelector ({
-	allSchools: (state) => get(state, 'school.allSchoolsData')
+	allSchools: (state) => get(state, 'school.allSchoolsData'),
+	uniqueData: (state) => get(state, 'school.uniqueSchoolsData')
 })
 
 const mapDispatchToProps = (dispatch) => ({
+
 	allSchoolsData: (payload) => new Promise((resolve, reject) =>
-		dispatch(Actions.allSchoolsDataRequest(payload, resolve, reject)))
+		dispatch(Actions.allSchoolsDataRequest(payload, resolve, reject))),
+
+	uniqueSchoolData: (payload) => new Promise((resolve, reject) =>
+		dispatch(Actions.uniqueSchoolsDataRequest(payload, resolve, reject)))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManualSchoolSelect)

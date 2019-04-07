@@ -6,8 +6,7 @@ import rootSaga from '../Sagas/'
 import reducers from './Reducers'
 
 
-// console.log('-----------------------12221');
-// console.log(AppNavigation);
+
 
 // /* ------------- Assemble The Reducers ------------- */
 // export const reducers = combineReducers({

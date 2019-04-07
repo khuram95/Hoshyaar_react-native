@@ -1,10 +1,7 @@
-import React, { Component } from 'react'
-import { View, Image, ImageBackground, KeyboardAvoidingView, Linking,
-                ScrollView, CheckBox } from 'react-native'
+import React from 'react'
+import { View ,CheckBox} from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
-import SchoolDetailForm from './SchoolDetailForm'
-import { connect } from 'react-redux'
-import Actions from '../../Redux/Actions'
+
 
 export default DataRow = (text, value, ischecked) => {
     return (

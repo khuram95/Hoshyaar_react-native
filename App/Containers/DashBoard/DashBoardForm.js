@@ -20,6 +20,11 @@ class DashBoardForm extends Component{
       navigation.navigate("VideoRecording")
   }
 
+  AudioRecorder = () => {
+    const { navigation } = this.props
+      navigation.navigate("AudioRecorder")
+  }
+
 
   render(){
     return(
@@ -53,9 +58,11 @@ class DashBoardForm extends Component{
         <Text>{'\n'}</Text>
 
 
-        <Button style={{alignSelf: 'center',width: '80%'}}> 
+        <Button style={{alignSelf: 'center',width: '80%'}}
+        onPress={this.AudioRecorder}
+        > 
           <Text style={{width: '100%',fontWeight: "800",textAlign: "left"}}>
-            Verify School Data
+            Verify School Data / AR
           </Text>
         </Button>
 

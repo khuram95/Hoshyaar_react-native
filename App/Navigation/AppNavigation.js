@@ -33,6 +33,9 @@ export default StackNavigator({
   SchoolDetail: { 
     screen: require('../Containers/SchoolDetail/').default
   },
+  AudioRecorder: { 
+    screen: require('../Containers/AudioRecorder/').default
+  },
   
 
   

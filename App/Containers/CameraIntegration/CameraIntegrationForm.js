@@ -36,6 +36,7 @@ class CameraRoute extends Component {
   takePicture() {
     this.camera.capture()
       .then((data) => {
+        console.log("hello g i am in take picture" , data)
         this.setState({ uri: data.mediaUri })
       })
       .catch(err => console.error(err));
@@ -60,6 +61,9 @@ class CameraRoute extends Component {
         style={styles.preview}
         aspect={Camera.constants.Aspect.fill}
         captureTarget= {Camera.constants.CaptureTarget.cameraRoll}
+        type = { Camera.constants.Type.front }
+        playSoundOnCapture = { false }
+        metadata
       >
 
         <Text

@@ -40,7 +40,8 @@ export const saveReportText = (state, { text }) => state.setIn(['report','text']
 
 export const saveReportImageLocal = (state, { images }) => {
   console.log('save images', images)
-  return state.setIn(['report','images'],{ images })
+  return  state.setIn(['report','images'],{images})
+
 }
 // add new reducer here
 

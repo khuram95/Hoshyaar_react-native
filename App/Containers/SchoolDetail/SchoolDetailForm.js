@@ -57,7 +57,8 @@ class SchoolDetailForm extends Component {
 
   CreateReport = () => {
     const { navigation } = this.props
-    navigation.navigate("Report",{schooldate:this.state.all_school})
+    this.props.saveSchool(this.state.all_school)
+    navigation.navigate("Report")
   }
 
   render() {
@@ -276,6 +277,7 @@ const mapStateToProps = createStructuredSelector({
   SchoolDetail: (state) => get(state, 'schooldetail.SchoolDetailData'),
 })
 const mapDispatchToProps = (dispatch) => ({
+  saveSchool: (school) => dispatch(Actions.saveSchoolLocal(school)),
   SchoolDetailData: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.SchoolDetailDataRequest(payload, resolve, reject)))
 })

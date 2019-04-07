@@ -11,16 +11,20 @@ class CreateReport extends Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			school: this.props.navigation.getParam('schooldate'),
+			school: get(this.props,'selectedSchool.school'),
 			image: get(this.props,'reportImages.images'),
 			};
 			console.log('Props is : ' ,this.props)
+		
 	}
 
 
 
 		showcontent = () => { 
-			this.props.createReport({ reportContent: "get(this.props, 'reportText.text')", school_id: this.state.school.id, user_id: 1 })
+			this.props.createReport({ reportContent: get(this.props, 'reportText.text'), 
+																school_id: this.state.school.id,
+																user_id: 1,
+															  image:this.state.image })
 			.then(() =>{
 				this.props.saveReportTextRequest('')
 			})
@@ -93,9 +97,10 @@ class CreateReport extends Component{
 }
 
 const mapStateToProps = createStructuredSelector({
-		reportText: (state) => get(state, 'report.report.text'),
-		reportImages: (state) => get(state, 'report.report.images'),
-	})
+	selectedSchool: (state) => get(state, 'schooldetail.schooldetail.school'),
+	reportText: (state) => get(state, 'report.report.text'),
+	reportImages: (state) => get(state, 'report.report.images'),
+})
   
 const mapDispatchToProps = (dispatch) => ({
 	saveReportTextRequest: (text) => dispatch(Actions.saveReportText(text)),

@@ -84,9 +84,9 @@ class MapScreenForm extends Component {
     });
   }
 
-  gotoSchoolDetail = () => {
+  gotoSchoolDetail = (id) => {
     const { navigation } = this.props
-    navigation.navigate("SchoolDetail", { id: this.state.school })
+    navigation.navigate("SchoolDetail", { id: id })
   }
 
   render() {
@@ -116,7 +116,7 @@ class MapScreenForm extends Component {
                 title={School.school_name}
                 description={School.district}
               >
-                <Callout onPress={() => this.gotoSchoolDetail()}>
+                <Callout onPress={() => this.gotoSchoolDetail(School)}>
                 </Callout>
               </MapView.Marker>
             );

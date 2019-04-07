@@ -55,9 +55,9 @@ const create = () => {
     authApi.delete('auth/sign_out', {}, { headers })
 
   const createReport = (payload, headers) =>{
-    const { reportContent } = payload
-    console.log('Report Content is : ', reportContent)
-    return api.post('/reports',{ report_text: reportContent }, { headers })
+    const { reportContent , school_id ,user_id} = payload
+    console.log('Report Content is : ', payload)
+    return api.post('/reports',{ report_text: reportContent,school_id, user_id }, { headers })
   }
 
 

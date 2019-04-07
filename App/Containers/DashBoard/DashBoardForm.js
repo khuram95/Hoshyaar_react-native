@@ -58,11 +58,9 @@ class DashBoardForm extends Component{
         <Text>{'\n'}</Text>
 
 
-        <Button style={{alignSelf: 'center',width: '80%'}}
-        onPress={this.AudioRecorder}
-        > 
+        <Button style={{alignSelf: 'center',width: '80%'}}> 
           <Text style={{width: '100%',fontWeight: "800",textAlign: "left"}}>
-            Verify School Data / AR
+            Verify School Data
           </Text>
         </Button>
 

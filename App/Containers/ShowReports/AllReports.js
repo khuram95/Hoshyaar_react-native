@@ -6,6 +6,8 @@ import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import { createStructuredSelector } from 'reselect'
 import { get } from 'lodash'
+import ReportFormat from './ReportFormat'
+
 
 class AllReports extends Component{
 	constructor(props) {
@@ -27,38 +29,29 @@ class AllReports extends Component{
 		return(
             <ScrollView style={{ backgroundColor: '#e6ecf0', flex: 1, padding: 30}}>
             
-            <View style={{ flex: 2, backgroundColor: '#fff',
+            {/* <View style={{ flex: 2, backgroundColor: '#fff',
                flexDirection: 'column',
                justifyContent: 'space-between',
-               alignItems: 'stretch', }}>
+               alignItems: 'stretch', }}> */}
             
             {this.state.all_reports && this.state.all_reports.map((report) =>
 
-               <View style={{borderColor: 'black',
-                borderWidth: 1 , backgroundColor: 'white'}}>
-
-                
-                <Text > {report.created_at}</Text>
-                <Text > {report.report_text}</Text>
-                {/* <Text > {report.school[]}</Text> */}
+              <ReportFormat
+              report_text={report && report.report_text}
+              created_at = {report && report.created_at}
+              school_name={report.school && report.school.school_name }
+              district={report.school && report.school.district }
+              tehsil={report.school && report.school.tehsil }
+              latitude={report && report.latitude }
+              longitude={report && report.longitude }
+              user_name={report.user && report.user.user_name }
+              photos={report.photos && report.photos}
+              />
               
-                 {report.photos.map((pic) =>
-
-                 
-			  	      // <Image
-                //       style={{width: 200, height: 200}}
-                //       source={{uri: pic.image.url}}
-                //       />
-               
-                <Text > {pic.image.url}</Text>
-
-                 )}
-
-
-                </View>)
-            }
+                            
+              )}
             
-            </View>
+            {/* </View> */}
         
           </ScrollView>
 		)

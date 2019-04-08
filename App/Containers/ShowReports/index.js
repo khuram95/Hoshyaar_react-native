@@ -6,6 +6,8 @@ import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import ReportHeader from './ReportHeader'
+import AllReports from './AllReports'
+
 
 class ShowReports extends Component{
     constructor(props) {
@@ -21,9 +23,9 @@ class ShowReports extends Component{
 
     render(){
         return(
-            <View>
-                <ReportHeader />
+            <View style={{ flex:1, backgroundColor: 'red' }}>
                 <Text>All Reports</Text>
+                <AllReports />
             </View>
 
         )

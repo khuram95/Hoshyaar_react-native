@@ -2,6 +2,8 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 import { Images, Colors } from '../../Themes/'
 import React from 'react'
+import * as Progress from 'react-native-progress';
+
 import { 
     View ,
     CheckBox,
@@ -60,16 +62,12 @@ export default ReportFormat = (data) => {
                     </View>
                 </View>
 
-                <View style={{flexDirection: "row"}}>
-                <ProgressBarAndroid
-                styleAttr="Horizontal"
-                indeterminate={false}
-                progress={0.5}
-                color = 'green'
-              />
+               
+             
+                <View style={{}}>
+              <Progress.Bar progress={0.3} width={200} color="red" height={10}/>
               <Image source={Images.unlock} style={{ width: 25, height: 25,}} />
               </View>
-
              
 
 
@@ -150,7 +148,8 @@ const styles = StyleSheet.create({
     },
     badgeCount: {
       fontSize: 12,
-      paddingLeft: 5
+      paddingLeft: 5,
+      color:"black"
     },
     footerIcons: {
       flexDirection: "row",

@@ -6,7 +6,8 @@ import {
     StyleSheet,
     FlatList,
     TouchableHighlight,
-    Platform
+    Platform,
+    ProgressBarAndroid
 } from 'react-native'
 import { 
     Text,
@@ -30,33 +31,42 @@ import {
 } from 'native-base'
 
 
+
+
 export default ReportFormat = (data) => {
-    console.log("data : ",data)
-    return (
+  return (
 
-
-        <View style={{ justifyContent: "flex-start" }}>
+       
             <View style={styles.report}>   
-                <View style={{ flex: 1, flexDirection: "column" }}>  
-                    <View
-                    style={{
-                    flexDirection: "column",
-                    justifyContent: "flex-start"
-                    }}
-                    >
-                    <Text
-                    style={{
-                        paddingLeft: 15,
-                        fontWeight: "bold",
-                        fontSize: 20
-                    }}
-                    >{data['school_name']}</Text>
+                <View style={{ flex: 1, flexDirection: "column" ,backgroundColor:"green" }}>  
+                  
+                    <View style={{ flexDirection: "column",justifyContent: "flex-start"}}>
+
+
+
+                    <View style={{ flex: 1, flexDirection: "row" ,backgroundColor:"brown" ,justifyContent: 'space-between'}}>
+                    <Text style={{paddingLeft: 15,fontWeight: "bold",fontSize: 20 }}>
+                                      {data['school_name']}</Text>
+                   <Text style={styles.belowText}>{data['created_at']}</Text>
+                   </View>
+
+                    
                     <Text style={styles.belowText}>{data['district'] + '--' + data['tehsil']}</Text>
                     <Text style={styles.belowText}>{data['latitude'] + '--' + data['longitude']}</Text>
                     <Text style={styles.belowText}>{data['user_name']}</Text>
-                    <Text style={styles.belowText}>{data['created_at']}</Text>
                     </View>
                 </View>
+
+                <View>
+                <ProgressBarAndroid
+                styleAttr="Horizontal"
+                indeterminate={false}
+                progress={0.5}
+                color = 'white'
+              />
+              </View>
+
+
             <Text 
             style={styles.reportText}
             >{data['report_text']}</Text>
@@ -77,26 +87,21 @@ export default ReportFormat = (data) => {
                             transparent
                             dark
                             >
-                            <Icon name="ios-text-outline" />
-                            <Text style={styles.badgeCount}>Agree</Text>
+                            <Text style={styles.badgeCount}>128 Agree</Text>
                             </Button>
                         </View>
                         <View style={styles.footerIcons}>
                             <Button transparent dark>
-                            <Icon name="ios-repeat" />
-                            <Text style={styles.badgeCount}>Disagree</Text>
+                            <Text style={styles.badgeCount}>45 Disagree</Text>
                             </Button>
                         </View>
                         <View style={styles.footerIcons}>
                             <Button transparent dark>
-                            <Icon name="ios-repeat" />
-                            <Text style={styles.badgeCount}>Comments</Text>
+                            <Text style={styles.badgeCount}>109 Comments</Text>
                             </Button>
                         </View>
                         </View>       
             </View>
-        </View>
-       
     )
 }
 
@@ -121,7 +126,8 @@ const styles = StyleSheet.create({
       paddingRight: 10,
       borderBottomColor: "#bbb",
       borderBottomWidth: StyleSheet.hairlineWidth,
-      flexDirection: "column"
+      flexDirection: "column",
+      backgroundColor:"blue"
     },
     reportText: {
       marginTop: 10,

@@ -1,61 +1,24 @@
-import React, { Component } from 'react'
+import React  from 'react';
+import Moment from 'react-moment';
 import { View, Image, ImageBackground, KeyboardAvoidingView, Linking,
-  ScrollView,TextInput,AppRegistry, SectionList, StyleSheet } from 'react-native'
-import { Item as FormItem, Text, Button, Input } from 'native-base'
-import { connect } from 'react-redux'
-import Actions from '../../Redux/Actions'
+  ScrollView,TextInput,AppRegistry, SectionList, StyleSheet,Text } from 'react-native'
 
-class MyReports extends Component{
-	constructor(props) {
-		super(props);
-		this.state = {
-
-					};
-
-  	}
-
-
-	render(){
-		return(
-            <ScrollView style={{ backgroundColor: '#e6ecf0', flex: 1, padding: 30}}>
-            
-            <View style={{ flex: 2, backgroundColor: '#fff',
-               flexDirection: 'column',
-               justifyContent: 'space-between',
-               alignItems: 'stretch', }}>
-
-               <View style={{height: 170,borderColor: 'black',
-                borderWidth: 1 , backgroundColor: 'white'}} />
-
-                <View style={{height: 170,borderColor: 'black',
-                borderWidth: 1 , backgroundColor: 'steelblue'}} />
-
-<               View style={{height: 170,borderColor: 'black',
-                borderWidth: 1 , backgroundColor: 'steelblue'}} />
-
-                <View style={{height: 170,borderColor: 'black',
-                borderWidth: 1 , backgroundColor: 'steelblue'}} />
-                
-                 <View style={{height: 170,borderColor: 'black',
-                borderWidth: 1 , backgroundColor: 'steelblue'}} />
-
-                <View style={{height: 170,borderColor: 'black',
-                borderWidth: 1 , backgroundColor: 'steelblue'}} />
-              
-            </View>
-        
-          </ScrollView>
-		)
-	}
-}
-
-const mapStateToProps = (state) => ({
-
-	})
+ 
+export default class MyComponent extends React.Component {
   
-  const mapDispatchToProps = (dispatch) => ({
-   
-	})
-	
-  export default connect(mapStateToProps, mapDispatchToProps)(MyReports)
+    render() {
+      const dateToFormat = '2019-04-05T12:59-0500';
+      const newdate = '2018-04-19T12:59-0500';
 
+        return (
+          <View>
+            <Moment element={Text} format="YYYY/MM/DD">{dateToFormat}</Moment>
+            <Moment element={Text} parse="YYYY-MM-DD HH:mm">{dateToFormat}</Moment>
+            <Moment element={Text} subtract={{ dateToFormat,newdate }}>{dateToFormat}</Moment>
+            <Moment element={Text} fromNow>{dateToFormat}</Moment>
+            <Moment element={Text} format="YYYY/MM/DD">{dateToFormat}</Moment>
+            <Moment element={Text} format="YYYY/MM/DD">{dateToFormat}</Moment>
+            </View>
+        );
+    }
+}

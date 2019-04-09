@@ -1,3 +1,6 @@
+import Moment from 'react-moment';
+import 'moment-timezone';
+import { Images, Colors } from '../../Themes/'
 import React from 'react'
 import { 
     View ,
@@ -38,16 +41,16 @@ export default ReportFormat = (data) => {
 
        
             <View style={styles.report}>   
-                <View style={{ flex: 1, flexDirection: "column" ,backgroundColor:"green" }}>  
+                <View style={{ flex: 1, flexDirection: "column" }}>  
                   
                     <View style={{ flexDirection: "column",justifyContent: "flex-start"}}>
 
 
 
-                    <View style={{ flex: 1, flexDirection: "row" ,backgroundColor:"brown" ,justifyContent: 'space-between'}}>
+                    <View style={{ flex: 1, flexDirection: "row" ,justifyContent: 'space-between'}}>
                     <Text style={{paddingLeft: 15,fontWeight: "bold",fontSize: 20 }}>
                                       {data['school_name']}</Text>
-                   <Text style={styles.belowText}>{data['created_at']}</Text>
+                  <Moment element={Text} fromNow>{data['created_at']}</Moment>
                    </View>
 
                     
@@ -57,14 +60,17 @@ export default ReportFormat = (data) => {
                     </View>
                 </View>
 
-                <View>
+                <View style={{flexDirection: "row"}}>
                 <ProgressBarAndroid
                 styleAttr="Horizontal"
                 indeterminate={false}
                 progress={0.5}
-                color = 'white'
+                color = 'green'
               />
+              <Image source={Images.unlock} style={{ width: 25, height: 25,}} />
               </View>
+
+             
 
 
             <Text 
@@ -80,23 +86,22 @@ export default ReportFormat = (data) => {
             />
             )}
             </View>
-
                     <View style={styles.reportFooter}>
                         <View style={styles.footerIcons}>
-                            <Button
-                            transparent
-                            dark
-                            >
+                            <Button transparent dark>
+                            <Image source={Images.agree} style={{ width: 25, height: 25,}} />
                             <Text style={styles.badgeCount}>128 Agree</Text>
                             </Button>
                         </View>
                         <View style={styles.footerIcons}>
                             <Button transparent dark>
+                            <Image source={Images.disagree} style={{ width: 25, height: 25,}} />                          
                             <Text style={styles.badgeCount}>45 Disagree</Text>
                             </Button>
                         </View>
                         <View style={styles.footerIcons}>
                             <Button transparent dark>
+                            <Image source={Images.comment} style={{ width: 25, height: 25,}} />                            
                             <Text style={styles.badgeCount}>109 Comments</Text>
                             </Button>
                         </View>
@@ -121,13 +126,12 @@ const styles = StyleSheet.create({
     },
     report: {
       paddingTop: 20,
-      paddingBottom: 5,
+      paddingBottom: 10,
       paddingLeft: 10,
       paddingRight: 10,
-      borderBottomColor: "#bbb",
+      borderBottomColor: "black",
       borderBottomWidth: StyleSheet.hairlineWidth,
       flexDirection: "column",
-      backgroundColor:"blue"
     },
     reportText: {
       marginTop: 10,

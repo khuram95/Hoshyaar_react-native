@@ -9,6 +9,7 @@ const { Types, Creators } = createActions({
   SchoolDetailDataRequest: ['payload', 'resolve', 'reject'],
   SchoolDetailDataSuccess: null,
   SchoolDetailDataFailure: ['error'],
+  saveSchoolLocal: ['school'],
   // add action here
 })
 
@@ -18,7 +19,8 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-    SchoolDetailData: []
+    SchoolDetailData: [],
+    school: []
   // form: { error: {}},
 })
 
@@ -36,7 +38,12 @@ export const SchoolDetailDataFailure = (state, { error }) =>
 
 export const saveSchoolDetailDataLocal = (state, { SchoolDetailData }) =>
     state.merge({ SchoolDetailData })
-// add new reducer here
+
+export const saveSchoolLocal = (state, { school }) =>{
+  console.log("selected school : ",school)
+  return state.setIn(['schooldetail','school'],{ school })
+  }
+    // add new reducer here
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -45,5 +52,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SCHOOL_DETAIL_DATA_SUCCESS]: SchoolDetailDataSuccess,
   [Types.SCHOOL_DETAIL_DATA_FAILURE]: SchoolDetailDataFailure,
   [Types.SAVE_SCHOOL_DETAIL_DATA_LOCAL]: saveSchoolDetailDataLocal,
+  [Types.SAVE_SCHOOL_LOCAL]: saveSchoolLocal,
+  
   // add reducer hook up here
 })

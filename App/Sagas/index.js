@@ -46,7 +46,6 @@ export default function * root () {
     takeLatest(ActionTypes.UNIQUE_SCHOOLS_DATA_REQUEST, Sagas.makeUniqueSchoolsDataRequest, api),
     takeLatest(ActionTypes.ALL_REPORTS_REQUEST, Sagas.makeallReportsRequest, api),
 
-
     // REGISTRER_SAGA
   ])
 }

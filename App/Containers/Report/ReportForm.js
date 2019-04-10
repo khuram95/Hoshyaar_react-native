@@ -100,9 +100,6 @@ const mapStateToProps = createStructuredSelector({
 	reportText: (state) => get(state, 'report.report.text'),
 	reportImages: (state) => get(state, 'report.report.images'),
 })
-const mapStateToProps = (state) => ({
-
-	})
   
 const mapDispatchToProps = (dispatch) => ({
 	saveReportTextRequest: (text) => dispatch(Actions.saveReportText(text)),

@@ -35,6 +35,9 @@ export default StackNavigator({
   },
   MapScreen: {
     screen: require('../Containers/MapScreen/').default
+  },
+  ShowReports: {
+    screen: require('../Containers/ShowReports/').default
   }
   
 

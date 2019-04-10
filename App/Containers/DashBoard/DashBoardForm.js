@@ -15,6 +15,11 @@ class DashBoardForm extends Component{
       navigation.navigate("ManualGoogleMap")
   }
 
+  DisplayAllReport = () => {
+    const { navigation } = this.props
+      navigation.navigate("ShowReports")
+  }
+
   OpenCamera = () => {
     const { navigation } = this.props
       navigation.navigate("VideoRecording")
@@ -36,7 +41,8 @@ class DashBoardForm extends Component{
 
 
       
-        <Button style={{alignSelf: 'center',width: '80%'}}> 
+        <Button style={{alignSelf: 'center',width: '80%'}}
+            onPress={this.DisplayAllReport}>
           <Text style={{width: '100%',fontWeight: "800",textAlign: "left"}}>
             All Reports
           </Text>

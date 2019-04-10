@@ -15,7 +15,6 @@ class CreateReport extends Component{
 			image: get(this.props,'reportImages.images'),
 			};
 			console.log('Props is : ' ,this.props)
-		
 	}
 
 
@@ -101,6 +100,9 @@ const mapStateToProps = createStructuredSelector({
 	reportText: (state) => get(state, 'report.report.text'),
 	reportImages: (state) => get(state, 'report.report.images'),
 })
+const mapStateToProps = (state) => ({
+
+	})
   
 const mapDispatchToProps = (dispatch) => ({
 	saveReportTextRequest: (text) => dispatch(Actions.saveReportText(text)),

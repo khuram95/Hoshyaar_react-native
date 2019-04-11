@@ -5,7 +5,7 @@ import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 
-class CreateReport extends Component{
+class MyInterest extends Component{
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -57,5 +57,5 @@ const mapStateToProps = (state) => ({
    
 	})
 	
-  export default connect(mapStateToProps, mapDispatchToProps)(CreateReport)
+  export default connect(mapStateToProps, mapDispatchToProps)(MyInterest)
 

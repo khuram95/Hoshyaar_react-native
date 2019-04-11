@@ -10,6 +10,10 @@ const images = {
   editreports: require('../Images/editreports.png'),
   verifiedschool: require('../Images/verifiedschool.png'),
   reports: require('../Images/reports.png'),
+  Notification: require('../Images/notification.png'),
+  add: require('../Images/add.png'),
+
+
 
 
 }

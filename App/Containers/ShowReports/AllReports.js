@@ -28,7 +28,9 @@ class AllReports extends Component{
 		return(
             <ScrollView style={{ backgroundColor: '#e6ecf0', flex: 1, padding: 30}}>
           
-            
+          <View style={{ flex: 1, backgroundColor: '#fff'}}>
+
+
             {this.state.all_reports && this.state.all_reports.map((report) =>
 
               <ReportFormat
@@ -45,6 +47,7 @@ class AllReports extends Component{
               
                             
               )}
+              </View>
                   
           </ScrollView>
 		)

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { View,StyleSheet,Dimensions,Image} from 'react-native'
-import { Item as FormItem, Text, Button, Input } from 'native-base'
+import { View,StyleSheet,Dimensions,Image,Thumbnail,Icon} from 'react-native'
+import { Item as FormItem, Text, Button, Input,Header,Body,Title,Left,Right } from 'native-base'
 import style from './style'
 import { Images, Colors } from '../../Themes/'
 import TrendingReport from './TrendingReport'
+
 
 class DashBoardScreen extends Component{
   constructor(props) {
@@ -26,9 +27,28 @@ class DashBoardScreen extends Component{
     return(
       <View style={{flex:1}}>
 
-       <Text style={{textAlign: "center"}}>
-					Home
-				</Text>	
+
+          
+          <Header>
+          
+            {/* <Left>
+            <Button>
+                <Text>Notification</Text>
+              </Button>
+            </Left>
+             */}
+            <Body>
+              <Title>Home</Title>
+            </Body>
+
+            <Right>
+              <Button transparent dark>
+              <Image source={Images.Notification} style={{ width: 35,height:35,}} />                            
+              </Button>
+            </Right>
+
+          </Header>
+   	
 
         <View style={{flex:0.5,backgroundColor:'green'}}>
         <TrendingReport/>
@@ -93,11 +113,6 @@ class DashBoardScreen extends Component{
     )
   }
 }
-
-
-
-
-  
   export default DashBoardScreen
 
   const styles = StyleSheet.create({
@@ -115,7 +130,7 @@ class DashBoardScreen extends Component{
     footerIcons: {
       flexDirection: "row",
       alignItems: "center",
-      backgroundColor: 'white'
+      // backgroundColor: 'white'
     },
     image: {
       width: 100,

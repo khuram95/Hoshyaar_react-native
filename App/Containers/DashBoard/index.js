@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View} from 'react-native'
 import { Item } from 'native-base'
-import DashBoardForm from './DashBoardForm'
+import DashBoardScreen from './DashBoardScreen'
 
 
 class DashBoard extends Component{
@@ -15,7 +15,7 @@ class DashBoard extends Component{
 
     render(){
         return(
-            <DashBoardForm navigation={ this.props.navigation}/>
+            <DashBoardScreen navigation={ this.props.navigation}/>
         )
     }
 }

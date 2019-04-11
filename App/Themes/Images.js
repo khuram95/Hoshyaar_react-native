@@ -6,6 +6,10 @@ const images = {
   comment: require('../Images/comment.png'),
   lock: require('../Images/lock.png'),
   unlock: require('../Images/unlock.png'),
+  adhoc: require('../Images/adhoc.png'),
+  editreports: require('../Images/editreports.png'),
+  verifiedschool: require('../Images/verifiedschool.png'),
+  reports: require('../Images/reports.png'),
 
 
 }

@@ -51,7 +51,7 @@ class DashBoardScreen extends Component{
    	
 
         <View style={{flex:0.5,backgroundColor:'green'}}>
-        <TrendingReport/>
+        {/* <TrendingReport/> */}
 
           </View>
 

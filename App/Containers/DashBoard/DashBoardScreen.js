@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View,StyleSheet,Dimensions,Image,Thumbnail,Icon} from 'react-native'
+import { View,StyleSheet,Dimensions,Image,Thumbnail,Icon,ViewPagerAndroid,TouchableOpacity} from 'react-native'
 import { Item as FormItem, Text, Button, Input,Header,Body,Title,Left,Right } from 'native-base'
 import style from './style'
 import { Images, Colors } from '../../Themes/'
@@ -27,8 +27,6 @@ class DashBoardScreen extends Component{
     return(
       <View style={{flex:1}}>
 
-
-          
           <Header>
           
             {/* <Left>
@@ -50,7 +48,17 @@ class DashBoardScreen extends Component{
           </Header>
    	
 
-        <View style={{flex:0.5,backgroundColor:'green'}}>
+        <View style={{flex:0.5,backgroundColor:''}}>
+        <ViewPagerAndroid
+            style={styles.viewPager}
+            initialPage={0}>
+            <View style={styles.pageStyle} key="1">
+              <Text>Trending Report 1</Text>
+            </View>
+            <View style={styles.pageStyle} key="2">
+              <Text>Trending Report 2</Text>
+            </View>
+          </ViewPagerAndroid>
         {/* <TrendingReport/> */}
 
           </View>
@@ -58,7 +66,7 @@ class DashBoardScreen extends Component{
 
           <View style={{flex:0.5}}>
 
-                            
+           <TouchableOpacity></TouchableOpacity>                 
           <View style={styles.reportFooter}>
           <View style={styles.footerIcons}>
           <Button transparent dark style={{width: 200, height: 200}} 
@@ -69,6 +77,7 @@ class DashBoardScreen extends Component{
           </View>
           </Button>
         </View>
+        <TouchableOpacity></TouchableOpacity>                 
         <View style={styles.footerIcons}>
           <Button transparent dark style={{width: 200, height: 200}} 
                 onPress={this.CreateReport}> 
@@ -138,6 +147,15 @@ class DashBoardScreen extends Component{
     },
     textImage:{
       flexDirection: "column",
+    },
+    viewPager: {
+      flex: 1,
+    },
+    pageStyle: {
+      alignItems: 'center',
+      padding: 20,
+      backgroundColor: 'green'
+      
     }
 
   });

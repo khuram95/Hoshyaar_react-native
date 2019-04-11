@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View,Picker,StyleSheet} from 'react-native'
-import { Item as FormItem, Text, Button, Input } from 'native-base'
+import { Item as FormItem, Text, Button, Input ,Header,Body,Title,Left,Right} from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import { createStructuredSelector } from 'reselect'
@@ -61,8 +61,27 @@ class ManualSchoolSelect extends Component{
 					flexDirection:'column',
 					justifyContent:'space-between',
 					 }}>
-				<Text style={{textAlign: "center"}}>Manual Select</Text>	
 
+          <Header>
+          
+            {/* <Left>
+            <Button>
+                <Text>Notification</Text>
+              </Button>
+            </Left>
+             */}
+            <Body>
+              <Title>Manual Select</Title>
+            </Body>
+
+            {/* <Right>
+              <Button transparent dark>
+              <Image source={Images.Notification} style={{ width: 35,height:35,}} />                            
+              </Button>
+            </Right> */}
+
+          </Header>
+   	
 			
 
 			<Picker selectedValue = {this.state.district} 

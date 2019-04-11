@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, ScrollView, TextInput, TouchableOpacity } from 'react-native'
-import { Item as FormItem, Text, Button, Input } from 'native-base'
+import { Item as FormItem, Text, Button, Input,Header,Body,Title,Left,Right} from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import DatePicker from 'react-native-datepicker'
@@ -63,9 +63,30 @@ class SchoolDetailForm extends Component {
 
   render() {
     return (
+      <View>
+
+          <Header>
+          
+            {/* <Left>
+            <Button>
+                <Text>Notification</Text>
+              </Button>
+            </Left>
+             */}
+            <Body>
+              <Title>Government Data</Title>
+            </Body>
+
+            {/* <Right>
+              <Button transparent dark>
+              <Image source={Images.Notification} style={{ width: 35,height:35,}} />                            
+              </Button>
+            </Right> */}
+
+          </Header>
+
       <ScrollView>
       <Text>{ this.state.all_school.school_name }</Text>
-        <Text>Government Data</Text>
         <Text>{'\n\n'}</Text>
         <Text>Select Month</Text>
         <DatePicker
@@ -267,6 +288,7 @@ class SchoolDetailForm extends Component {
 
 
         </ScrollView>
+        </View>
 
     )
   }

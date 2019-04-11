@@ -10,6 +10,7 @@ import {
     Image,
     StyleSheet,
     FlatList,
+    TouchableOpacity,
     TouchableHighlight,
     Platform,
     ProgressBarAndroid
@@ -42,7 +43,8 @@ export default ReportFormat = (data) => {
   return (
 
        
-            <View style={styles.report}>   
+            <View style={styles.report}> 
+             <TouchableOpacity> 
                 <View style={{ flex: 1, flexDirection: "column" }}>  
                   
                     <View style={{ flexDirection: "column",justifyContent: "flex-start"}}>
@@ -103,7 +105,8 @@ export default ReportFormat = (data) => {
                             <Text style={styles.badgeCount}>109 Comments</Text>
                             </Button>
                         </View>
-                        </View>       
+                        </View>     
+                        </TouchableOpacity>   
             </View>
     )
 }

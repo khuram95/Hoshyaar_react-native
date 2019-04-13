@@ -6,7 +6,7 @@ import { parseError, getAuthHeaders, saveUserToLocalStorage,
 import Actions from '../Redux/Actions'
 
 function * makeLoginRequest (api, action) {
-  const { payload: { email, password }, resolve, reject } = action
+  const { email, password, resolve, reject } = action
   const response = yield call(api.login, email, password)
   if (response.ok) {
     const headers = get(response, 'headers')

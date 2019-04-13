@@ -2,16 +2,19 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { Image } from 'react-native'
-import { Container } from 'native-base'
+import { View, Image, ImageBackground, KeyboardAvoidingView, Linking,
+  ScrollView } from 'react-native'
+// import { Button, Text, Form, Item, Input } from 'native-base'
+import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { get, isEmpty } from 'lodash'
-import { NavigationActions } from 'react-navigation';
+import Hr from 'react-native-hr-plus'
 import { Images, Colors } from '../../Themes/'
 import Actions from '../../Redux/Actions'
+import MapScreenForm from './MapScreenForm'
 import styles from './styles'
 
 
-class SplashScreen extends Component {
+class MapScreen extends Component {
   static propTypes = {
   }
 
@@ -23,27 +26,17 @@ class SplashScreen extends Component {
     super(props)
   }
 
-  componentDidMount(){
-      setTimeout(() => {
-        this.props.navigation.navigate("Login")
-      }, 50)
-    }
-
   render () {
     return (
-      <Container style={styles.background}>
-        <Image source={Images.splashIcon} style={styles.backgroundImage}/>
-      </Container>
+      <MapScreenForm navigation={ this.props.navigation} />
     )
   }
 }
 
-const mapStateToProps = (state) => ({
-  state,
+const mapStateToProps = createStructuredSelector({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(MapScreen)

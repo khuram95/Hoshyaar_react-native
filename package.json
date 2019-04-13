@@ -24,6 +24,7 @@
     "git-hook": "npm run lint -s && npm run test -s"
   },
   "dependencies": {
+    "accordion-collapse-react-native": "^0.1.9",
     "apisauce": "^0.14.2",
     "format-json": "^1.0.3",
     "identity-obj-proxy": "^3.0.0",
@@ -36,9 +37,12 @@
     "react": "16.3.1",
     "react-native": "^0.55.4",
     "react-native-animatable": "^1.2.4",
+    "react-native-camera": "git+https://git@github.com/react-native-community/react-native-camera.git",
     "react-native-config": "^0.10.0",
     "react-native-datepicker": "^1.7.2",
     "react-native-hr-plus": "^1.0.6",
+    "react-native-maps": "^0.23.0",
+    "react-native-modal": "^9.0.0",
     "react-native-simple-radio-button": "^2.7.1",
     "react-native-vector-icons": "^4.6.0",
     "react-navigation": "1.1.2",

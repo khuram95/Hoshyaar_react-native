@@ -24,19 +24,26 @@ class MapScreen extends Component {
 
   constructor(props) {
     super(props)
+    this.props.allSchoolsData()
   }
 
   render () {
+    const allSchoolDetails = get(this.props, 'allSchools')
+    console.log('Mera Data: ', get(this.props, 'allSchools'))
     return (
-      <MapScreenForm navigation={ this.props.navigation} />
+      <MapScreenForm navigation={ this.props.navigation} schoolsData={get(this.props, 'allSchools')} />
     )
+
   }
 }
 
 const mapStateToProps = createStructuredSelector({
+  allSchools: (state) => get(state, 'school.allSchoolsData'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  allSchoolsData: (payload) => new Promise((resolve, reject) =>
+		dispatch(Actions.allSchoolsDataRequest(payload, resolve, reject))),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapScreen)

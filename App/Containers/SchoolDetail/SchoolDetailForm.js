@@ -84,7 +84,7 @@ class SchoolDetailForm extends Component {
 
           </Header>
 
-      <Text>{ this.state.all_school.school_name }</Text>
+      <Text style={{alignItems="center"}}>{ this.state.all_school.school_name }</Text>
       <View style={{flex:1,flexDirection:"row"}}>
         <Text>Select Month</Text>
         <DatePicker

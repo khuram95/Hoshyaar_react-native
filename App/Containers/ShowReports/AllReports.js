@@ -39,8 +39,7 @@ class AllReports extends Component {
             school_name={report.school && report.school.school_name}
             district={report.school && report.school.district}
             tehsil={report.school && report.school.tehsil}
-            latitude={report && report.latitude}
-            longitude={report && report.longitude}
+            report_address ={report && report.report_address}
             user_name={report.user && report.user.user_name}
             photos={report.photos && report.photos}
           />

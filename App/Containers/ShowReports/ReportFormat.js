@@ -1,8 +1,9 @@
 import Moment from 'react-moment';
 import 'moment-timezone';
 import { Images, Colors } from '../../Themes/'
-import React from 'react'
+import React, { Component } from 'react'
 import * as Progress from 'react-native-progress';
+import ReportImage from './ReportImage'
 
 import {
   View,
@@ -38,80 +39,93 @@ import {
 
 
 
-showSchoolLocation= (lable, text) => {
-  return(
-        <View>
-          <Text style={styles.belowText}>{lable}</Text>
-          <Text style={styles.belowText}>
-            {text}
-          </Text>
+export default class ReportFormat extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    };
+    this.scrollList = {}
+     this.scrollPosition = 0
+  }
+
+  scrollTo = (forward, count) => {
+    this.scrollPosition = forward ?
+    Math.min(this.scrollPosition + 175, (count-2) * 175)
+      : Math.max(this.scrollPosition - 175, 0)
+    this.scrollList.getScrollResponder()
+      .scrollTo({ x: this.scrollPosition, animated: true })
+  }
+
+  render() {
+    const { report_text, school_name, created_at, district, tehsil, report_address , user_name, photos } = this.props
+    return (
+
+      <TouchableOpacity style={styles.report}>
+
+        <View style={{ flex: 1, justifyContent: "flex-start" }}>
+          <View style={{ flex: 1, flexDirection: "row", justifyContent: 'space-between' }}>
+            <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+              {school_name}</Text>
+            <Moment element={Text} fromNow>{created_at}</Moment>
+          </View>
+          <Text style={styles.belowText}>{tehsil + ', ' + district}</Text>
+          {/* <Text style={styles.belowText}>{user_name}</Text> */}
         </View>
-        )
-}
-
-
-export default ReportFormat = (data) => {
-  return (
-
-    <TouchableOpacity style={styles.report}>
-
-      <View style={{ flex: 1, justifyContent: "flex-start" }}>
-        <View style={{ flex: 1, flexDirection: "row", justifyContent: 'space-between' }}>
-          <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-            {data['school_name']}</Text>
-          <Moment element={Text} fromNow>{data['created_at']}</Moment>
+        <View style={{ flexDirection: 'row', }}>
+          <Progress.Bar progress={0.3} width={200} color="red" height={15} />
+          <Image source={Images.unlock} style={{ width: 15, height: 15, marginLeft: '5%' }} />
         </View>
-        
-        <Text style={styles.belowText}>{data['latitude'] + '--' + data['longitude']}</Text>
-        <Text style={styles.belowText}>{data['user_name']}</Text>
-      </View>
+        <Text
+          style={styles.reportText}
+        >{report_text}</Text>
 
 
 
-      <View style={{}}>
-        <Progress.Bar progress={0.3} width={200} color="red" height={10} />
-        <Image source={Images.unlock} style={{ width: 25, height: 25, }} />
-      </View>
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <FlatList
+            data={photos}
+            renderItem={(image) => ReportImage(image)}
+            horizontal
+            pagingEnabled
+            ref={(sl) => this.scrollList = sl }
+          />
+
+          {/* {photos.map((pic) =>
 
 
-
-      <Text
-        style={styles.reportText}
-      >{data['report_text']}</Text>
-
-      <View style={{ flex: 1, flexDirection: "row" }}>
-        {data['photos'].map((pic) =>
           <Image
             style={{ width: 150, height: 150 }}
             source={{ uri: 'https://c.tribune.com.pk/2016/02/1055025-schoolchildren-1456494957-675-640x480.jpg' }}
           //pic.image.url
           />
-        )}
-      </View>
-      <View style={styles.reportFooter}>
-        <View style={styles.footerIcons}>
-          <Button transparent dark>
-            <Image source={Images.agree} style={{ width: 25, height: 25, }} />
-            <Text style={styles.badgeCount}>128 Agree</Text>
-          </Button>
+        )} */}
         </View>
-        <View style={styles.footerIcons}>
-          <Button transparent dark>
-            <Image source={Images.disagree} style={{ width: 25, height: 25, }} />
-            <Text style={styles.badgeCount}>45 Disagree</Text>
-          </Button>
+        <View style={styles.reportFooter}>
+          <View style={styles.footerIcons}>
+            <Button transparent dark>
+              <Image source={Images.agree} style={{ width: 25, height: 25, }} />
+              <Text style={styles.badgeCount}>128 Agree</Text>
+            </Button>
+          </View>
+          <View style={styles.footerIcons}>
+            <Button transparent dark>
+              <Image source={Images.disagree} style={{ width: 25, height: 25, }} />
+              <Text style={styles.badgeCount}>45 Disagree</Text>
+            </Button>
+          </View>
+          <View style={styles.footerIcons}>
+            <Button transparent dark>
+              <Image source={Images.comment} style={{ width: 25, height: 25, }} />
+              <Text style={styles.badgeCount}>109 Comments</Text>
+            </Button>
+          </View>
         </View>
-        <View style={styles.footerIcons}>
-          <Button transparent dark>
-            <Image source={Images.comment} style={{ width: 25, height: 25, }} />
-            <Text style={styles.badgeCount}>109 Comments</Text>
-          </Button>
-        </View>
-      </View>
-    </TouchableOpacity>
-  )
-}
+      </TouchableOpacity>
 
+    )
+  }
+}
 const styles = StyleSheet.create({
   topMargin: {
     backgroundColor: "white",
@@ -136,8 +150,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   reportText: {
-    marginTop: 10,
-    fontSize: 18,
+    minHeight: '5%',
+    marginTop: '2%',
+    marginBottom: '2%',
+    fontSize: 14,
     color: "#555"
   },
   belowText: {

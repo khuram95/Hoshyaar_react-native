@@ -28,12 +28,12 @@ class CameraRoute extends Component {
     const { navigation } = this.props
     this.props.saveReportImage(this.state.uri)
     navigation.navigate("Report", { imageUri: this.state.uri } )
-    console.log
   }
 
 
 
   takePicture() {
+    console.log("picture")
     this.camera.capture()
       .then((data) => {
         console.log("hello g i am in take picture" , data)

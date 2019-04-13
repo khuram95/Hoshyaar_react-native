@@ -9,6 +9,7 @@ function * makeAllSchoolsDataRequest (api, action) {
   const { payload, resolve, reject } = action
   const response = yield call(api.allSchoolsData, payload)
   if (response.ok) {
+    console.log("I am in School Sagas " , response.data)
     yield put(Actions.saveSchoolsDataLocal(response.data))
     yield put(Actions.allSchoolsDataSuccess())
     return resolve()

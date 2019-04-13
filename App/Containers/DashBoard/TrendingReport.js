@@ -6,10 +6,10 @@ import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import { createStructuredSelector } from 'reselect'
 import { get } from 'lodash'
-import ReportFormat from './ReportFormat'
+import ReportFormat from '../ShowReports/ReportFormat'
 
 
-class MyInterest extends Component{
+class TrendingReport extends Component{
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -19,6 +19,7 @@ class MyInterest extends Component{
     this.props.fetchAllReports()
         .then(() => {
       this.setState({ all_reports: this.props.allReports })
+      // console.log("all_reports : " ,this.state.all_reports)
     })
   }
 
@@ -27,9 +28,7 @@ class MyInterest extends Component{
 		return(
             <ScrollView style={{ backgroundColor: '#e6ecf0', flex: 1, padding: 30}}>
           
-          <View style={{ flex: 1, backgroundColor: '#fff'}}>
-
-
+            
             {this.state.all_reports && this.state.all_reports.map((report) =>
 
               <ReportFormat
@@ -43,9 +42,9 @@ class MyInterest extends Component{
               user_name={report.user && report.user.user_name }
               photos={report.photos && report.photos}
               />
+              
                             
               )}
-              </View>
                   
           </ScrollView>
 		)
@@ -62,5 +61,5 @@ const mapStateToProps = createStructuredSelector ({
 
 	})
 	
-  export default connect(mapStateToProps, mapDispatchToProps)(MyInterest)
+  export default connect(mapStateToProps, mapDispatchToProps)(TrendingReport)
 

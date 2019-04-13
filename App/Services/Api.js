@@ -11,7 +11,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://46f38029.ngrok.io',
+    baseURL: 'http://7bfbc360.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -20,7 +20,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://46f38029.ngrok.io/api/v1',
+    baseURL: 'http://7bfbc360.ngrok.io/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -69,7 +69,7 @@ const create = () => {
     data.append('user_id',user_id)
     data.append('report_text',reportContent)
     console.log("data : ", data)
-    return api.post('/food_posts', data, { headers })
+    return api.post('/reports', data, { headers })
   }
 
 

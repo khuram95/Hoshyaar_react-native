@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { View, ScrollView, TextInput, TouchableOpacity } from 'react-native'
-import { Item as FormItem, Text, Button, Input } from 'native-base'
+import { View, ScrollView, TextInput, TouchableOpacity,Image } from 'react-native'
+import { Item as FormItem, Text, Button, Input,Header,Body,Title,Left,Right} from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import DatePicker from 'react-native-datepicker'
@@ -8,6 +8,7 @@ import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
 import DataRow from './DataRow'
 import { createStructuredSelector } from 'reselect'
+import { Images, Colors } from '../../Themes/'
 import { get } from 'lodash'
 
 
@@ -25,12 +26,13 @@ class SchoolDetailForm extends Component {
     
     complete_school_data = this.props.navigation.getParam('id')
   
-    this.props.SchoolDetailData({ school_id: complete_school_data.id })
+    this.props.SchoolDetailData({ school_id: complete_school_data.emis })
       .then(() => {
         this.setState({ schooldetail: this.props.SchoolDetail })
         size = this.state.schooldetail.length
         this.setState({singleschool : this.state.schooldetail[size-1]})
         this.setState({all_school : complete_school_data})
+        console.log("School Data ",this.state.singleschool)
       })
 
   }
@@ -46,10 +48,6 @@ class SchoolDetailForm extends Component {
       if(this.state.schooldetail[i].visiting_date == this.state.date){
          this.setState({singleschool : this.state.schooldetail[i]})
       }
-      else
-      {schooldate
-        console.log("Pappi chulooooo");
-      }
     }
 
 	}
@@ -64,9 +62,30 @@ class SchoolDetailForm extends Component {
   render() {
     return (
       <ScrollView>
-      <Text>{ this.state.all_school.school_name }</Text>
-        <Text>Government Data</Text>
-        <Text>{'\n\n'}</Text>
+
+
+          <Header>
+          
+            {/* <Left>
+            <Button>
+                <Text>Notification</Text>
+              </Button>
+            </Left>
+             */}
+            <Body>
+              <Title>Government Data</Title>
+            </Body>
+
+            {/* <Right>
+              <Button transparent dark>
+              <Image source={Images.Notification} style={{ width: 35,height:35,}} />                            
+              </Button>
+            </Right> */}
+
+          </Header>
+
+      <Text style={{alignItems="center"}}>{ this.state.all_school.school_name }</Text>
+      <View style={{flex:1,flexDirection:"row"}}>
         <Text>Select Month</Text>
         <DatePicker
           style={{ width: 200 }}
@@ -74,24 +93,25 @@ class SchoolDetailForm extends Component {
           mode="date"
           placeholder="select date"
           format="YYYY-MM-DD"
-          minDate="2019-01-01"
-          maxDate="2019-12-28"
+          minDate="2019-04-01"
+          maxDate="2019-04-30"
           confirmBtnText="Confirm"
           cancelBtnText="Cancel"
-          customStyles={{
-            dateIcon: {
-              position: 'absolute',
-              left: 0,
-              top: 4,
-              marginLeft: 0
-            },
-            dateInput: {
-              marginLeft: 36
-            }
-          }}
+          // customStyles={{
+          //   dateIcon: {
+          //     position: 'absolute',
+          //     left: 0,
+          //     top: 4,
+          //     marginLeft: 0
+          //   },
+          //   dateInput: {
+          //     marginLeft: 36
+          //   }
+          // }}
           onDateChange={(date) => { this.dateChange(date) }}
 
         />
+        </View>
 
 
 
@@ -99,8 +119,11 @@ class SchoolDetailForm extends Component {
           <Collapse>
 
             <CollapseHeader>
-              <Separator bordered>
-                <Text>Presence Of Teaching Staff</Text>
+              <Separator>
+                <View style={{flexDirection:'row',justifyContent: 'space-between',paddingRight: 15,}}>
+                <Text style={{fontSize: 12}}>PRESENCE OF TEACHING STAFF</Text>
+                <Image source={Images.arrowdown} style={{ width: 20, height: 20}} />
+                </View>
               </Separator>
             </CollapseHeader>
 

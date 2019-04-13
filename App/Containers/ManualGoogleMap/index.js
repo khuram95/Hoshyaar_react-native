@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View} from 'react-native'
-import { Item,Button,Text } from 'native-base'
+import { Item,Button,Text,Header,Body,Title,Left,Right } from 'native-base'
 import Actions from '../../Redux/Actions'
 import { connect } from 'react-redux'
 
@@ -27,7 +27,31 @@ class ManualGoogleMap extends Component{
     render(){
         return(
             <View>
-               	<Text style={{textAlign: "center"}}>Select School</Text>	
+
+          <Header>
+          
+            {/* <Left>
+            <Button>
+                <Text>Notification</Text>
+              </Button>
+            </Left>
+             */}
+            <Body>
+              <Title>Select School</Title>
+            </Body>
+
+            {/* <Right>
+              <Button transparent dark>
+              <Image source={Images.Notification} style={{ width: 35,height:35,}} />                            
+              </Button>
+            </Right> */}
+
+          </Header>
+   	
+
+
+
+              
                    <Text>{'\n\n\n\n\n\n\n'}</Text>
 
 

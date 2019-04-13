@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { View} from 'react-native'
+import { View } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import MapView, { Marker, PROVIDER_GOOGLE, Callout } from 'react-native-maps'
 import styles from './styles'
 
 
-class MapScreenForm extends Component{
+class MapScreenForm extends Component {
   constructor(props) {
     super(props);
-  }	
+  }
 
 
   state = {
@@ -59,20 +59,20 @@ class MapScreenForm extends Component{
     mapRegion: null,
     lastLat: null,
     lastLong: null,
-    school:''
+    school: '',
   };
 
   componentDidMount() {
-    this.watchID = navigator.geolocation.watchPosition((position) => {
+    this.watchID = navigator.geolocation.getCurrentPosition((position) => {
       // Create the object to update this.state.mapRegion through the onRegionChange function
       let region = {
-        latitude:       position.coords.latitude,
-        longitude:      position.coords.longitude,
-        latitudeDelta:  0.00922*1.5,
-        longitudeDelta: 0.00421*1.5
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta: 0.00922 * 1.5,
+        longitudeDelta: 0.00421 * 1.5
       }
       this.onRegionChange(region, region.latitude, region.longitude);
-    }, (error)=>console.log(error));
+    }, (error) => console.log(error));
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -84,38 +84,43 @@ class MapScreenForm extends Component{
     });
   }
 
-  gotoSchoolDetail = () => {
+  gotoSchoolDetail = (id) => {
     const { navigation } = this.props
-      navigation.navigate("SchoolDetail",{id: this.state.school})
+    navigation.navigate("SchoolDetail", { id: id })
   }
 
-  
-  render(){
-    return(
+  render() {
+    return (
       <View style={styles.container}>
         <MapView
-            provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-            style={styles.map}
-            region={this.state.mapRegion}
-            // onRegionChange={this.onRegionChange.bind(this)}
-            showsUserLocation={true}
-            showsMyLocationButton={true}
-            showsBuildings={false}
+          provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+          style={styles.map}
+          region={this.state.mapRegion}
+          // onRegionChange={this.onRegionChange.bind(this)}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          showsBuildings={false}
         >
 
-            {this.state.markers.map((marker, index) => {
-              return (
-                <MapView.Marker
+          {this.props.schoolsData.map((School, index) => {
+            console.log('yess --', School.school_name);
+            return (
+              <MapView.Marker
                 key={index}
-                coordinate={marker.coordinate}
-                title={marker.title}
-                description={marker.description}
-                >
-                  <Callout onPress={()=>this.gotoSchoolDetail()}>
-                  </Callout>
-                </MapView.Marker>  
-              );
-            })}
+                // coordinate={marker.coordinate}
+                coordinate={{
+                  latitude: School.latitude,
+                  longitude: School.longitude
+                }}
+                
+                title={School.school_name}
+                description={School.district}
+              >
+                <Callout onPress={() => this.gotoSchoolDetail(School)}>
+                </Callout>
+              </MapView.Marker>
+            );
+          })}
 
         </MapView>
       </View>
@@ -124,6 +129,6 @@ class MapScreenForm extends Component{
 }
 
 
-  
-  export default MapScreenForm
+
+export default MapScreenForm
 

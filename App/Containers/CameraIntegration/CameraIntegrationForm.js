@@ -8,6 +8,127 @@ import {
   Text,
 } from 'react-native';
 import Camera from 'react-native-camera';
+import { connect } from 'react-redux'
+import Actions from '../../Redux/Actions'
+import { get } from 'lodash'
+import { createStructuredSelector } from 'reselect'
+
+
+class CameraRoute extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      path: null,
+      uri: null,
+    };
+  }
+
+  CreateReport = () => {
+    const { navigation } = this.props
+    this.props.saveReportImage(this.state.uri)
+    navigation.navigate("Report", { imageUri: this.state.uri } )
+    console.log
+  }
+
+
+
+  takePicture() {
+    this.camera.capture()
+      .then((data) => {
+        console.log("hello g i am in take picture" , data)
+        this.setState({ uri: data.mediaUri })
+      })
+      .catch(err => console.error(err));
+  }
+
+
+  saveButtonHandle(){
+    this.CreateReport()
+  }
+
+  cancelButtonHandle(){
+    this.setState({ uri: null })
+    this.CreateReport()
+  }
+
+  renderCamera() {
+    return (
+      <Camera
+        ref={(cam) => {
+          this.camera = cam;
+        }}
+        style={styles.preview}
+        aspect={Camera.constants.Aspect.fill}
+        captureTarget= {Camera.constants.CaptureTarget.cameraRoll}
+        type = { Camera.constants.Type.front }
+        playSoundOnCapture = { false }
+        metadata
+      >
+
+        <Text
+          style={styles.cancel}
+          onPress={() => this.cancelButtonHandle()}
+        >Cancel
+        </Text>
+
+        <TouchableHighlight
+          style={styles.capture}
+          onPress={this.takePicture.bind(this)}
+          underlayColor="rgba(255, 255, 255, 0.5)"
+        >
+
+
+          <View />
+        </TouchableHighlight>
+      </Camera>
+    );
+  }
+
+  renderImage() {
+    return (
+      <View>
+        
+        <Image
+          source={{ uri: this.state.uri }}
+          style={styles.preview}
+        />
+
+        <Text
+          style={styles.save}
+          onPress={() => this.saveButtonHandle()}
+          >save
+        </Text>
+
+
+        <Text
+          style={styles.cancel}
+          onPress={() => this.cancelButtonHandle()}
+        >Cancel
+        </Text>
+
+      </View>
+    );
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        {this.state.uri ? this.renderImage() : this.renderCamera()}
+      </View>
+    );
+  }
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  saveReportImage: (images) => dispatch(Actions.saveReportImageLocal(images))
+})
+	
+export default connect(null, mapDispatchToProps)(CameraRoute)
+
+
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -33,6 +154,15 @@ const styles = StyleSheet.create({
   },
   cancel: {
     position: 'absolute',
+    left: 20,
+    top: 20,
+    backgroundColor: 'transparent',
+    color: '#FFF',
+    fontWeight: '600',
+    fontSize: 17,
+  },
+  save: {
+    position: 'absolute',
     right: 20,
     top: 20,
     backgroundColor: 'transparent',
@@ -42,68 +172,4 @@ const styles = StyleSheet.create({
   }
 });
 
-class CameraRoute extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      path: null,
-    };
-  }
-
-  takePicture() {
-    this.camera.capture()
-      .then((data) => {
-        this.setState({ path: data.path })
-      })
-      .catch(err => console.error(err));
-  }
-
-  renderCamera() {
-    return (
-      <Camera
-        ref={(cam) => {
-          this.camera = cam;
-        }}
-        style={styles.preview}
-        aspect={Camera.constants.Aspect.fill}
-        captureTarget= {Camera.constants.CaptureTarget.cameraRoll}
-      >
-        <TouchableHighlight
-          style={styles.capture}
-          onPress={this.takePicture.bind(this)}
-          underlayColor="rgba(255, 255, 255, 0.5)"
-        >
-          <View />
-        </TouchableHighlight>
-      </Camera>
-    );
-  }
-
-  renderImage() {
-    return (
-      <View>
-        <Image
-          source={{ uri: this.state.path }}
-          style={styles.preview}
-        />
-        <Text
-          style={styles.cancel}
-          onPress={() => this.setState({ path: null })}
-        >Cancel
-        </Text>
-      </View>
-    );
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        {this.state.path ? this.renderImage() : this.renderCamera()}
-      </View>
-    );
-  }
-};
-
-export default CameraRoute;
   

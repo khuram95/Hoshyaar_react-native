@@ -10,6 +10,8 @@ function * makeCreateReportRequest (api, action) {
   const { payload, resolve, reject } = action
   const response = yield call(api.createReport, payload)
   if (response.ok) {
+    console.log("Responce  Sagas : " ,response)
+
     return resolve()
   } else {
     const error = parseError(response)
@@ -18,9 +20,26 @@ function * makeCreateReportRequest (api, action) {
   }
 }
 
+function * makeallReportsRequest (api, action) {
+  console.log("all Report Sagas")
+  const { payload, resolve, reject } = action
+  const response = yield call(api.allReports, payload)
+  console.log("Responce  Sagas : " ,response)
+  if (response.ok) {
+    yield put(Actions.saveAllReportsLocal(response.data))
+    yield put(Actions.allReportsSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.allReportsFailure(error))
+    return reject(error)
+  }
+}
+
 // ADD_SAGA_ACTION
 
 export default {
     makeCreateReportRequest,
+    makeallReportsRequest
   // EXPORT_SAGA_ACTION
 }

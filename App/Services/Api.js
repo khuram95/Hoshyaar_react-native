@@ -55,16 +55,33 @@ const create = () => {
     authApi.delete('auth/sign_out', {}, { headers })
 
   const createReport = (payload, headers) =>{
-    const { reportContent } = payload
-    console.log('Report Content is : ', reportContent)
-    return api.post('/reports',{ report_text: reportContent }, { headers })
+    const { reportContent , school_id ,user_id,image} = payload
+    console.log('Report Content is : ', payload)
+    const data = new FormData();
+    if (image) {
+      data.append('image', {
+        uri: image,
+        type: 'image/jpeg',
+        name: 'image.jpg'
+      });
+    }
+    data.append('school_id',school_id)
+    data.append('user_id',user_id)
+    data.append('report_text',reportContent)
+    console.log("data : ", data)
+    return api.post('/food_posts', data, { headers })
   }
 
 
   const allSchoolsData = (payload, headers) =>{
     return api.get('/schools',{}, { headers })
   } 
-    
+  
+  const allReports = (payload, headers) =>{
+    return api.get('/reports',{}, { headers })
+  } 
+  
+
 
   const SchoolDetailData = (payload, headers) =>{
     const { school_id } = payload
@@ -104,6 +121,7 @@ const create = () => {
     allSchoolsData,
     SchoolDetailData,
     uniqueSchoolsData,
+    allReports,
   }
 }
 

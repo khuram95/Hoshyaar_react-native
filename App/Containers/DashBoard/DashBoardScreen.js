@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { View,StyleSheet,Dimensions,Image,Thumbnail,Icon,ViewPagerAndroid,TouchableOpacity} from 'react-native'
+import { View,StyleSheet,FlatList,Image,Thumbnail,Icon,ViewPagerAndroid,TouchableOpacity} from 'react-native'
 import { Item as FormItem, Text, Button, Input,Header,Body,Title,Left,Right } from 'native-base'
 import style from './style'
 import { Images, Colors } from '../../Themes/'
 import TrendingReport from './TrendingReport'
-
+import DisplayImage from './DisplayImage'
 
 class DashBoardScreen extends Component{
   constructor(props) {
@@ -22,8 +22,12 @@ class DashBoardScreen extends Component{
       navigation.navigate("ShowReports")
   }
 
- 
   render(){
+    const DashboardImages = [ {key: { image: 'reports', text: 'All Reports', navigateTo:  'ShowReports'}},
+                              {key: { image: 'editreports', text: 'Create Report', navigateTo:  'ManualGoogleMap'}},
+                              {key: { image: 'verifiedschool', text: 'Verify School Data', navigateTo:  ''}},
+                              {key: { image: 'adhoc', text: 'Adhoc Query', navigateTo:  ''}}
+                            ] 
     return(
       <View style={{flex:1}}>
 
@@ -46,8 +50,6 @@ class DashBoardScreen extends Component{
             </Right>
 
           </Header>
-   	
-
         <View style={{flex:0.5,backgroundColor:''}}>
         <ViewPagerAndroid
             style={styles.viewPager}
@@ -62,60 +64,12 @@ class DashBoardScreen extends Component{
         {/* <TrendingReport/> */}
 
           </View>
-
-
           <View style={{flex:0.5}}>
-
-           <TouchableOpacity></TouchableOpacity>                 
-          <View style={styles.reportFooter}>
-          <View style={styles.footerIcons}>
-          <Button transparent dark style={{width: 200, height: 200}} 
-                  onPress={this.DisplayAllReport}>
-          <View style={styles.textImage}>
-          <Image source={Images.reports} style={styles.image} />                            
-          <Text style={styles.badgeCount}>All Reports</Text>
-          </View>
-          </Button>
-        </View>
-        <TouchableOpacity></TouchableOpacity>                 
-        <View style={styles.footerIcons}>
-          <Button transparent dark style={{width: 200, height: 200}} 
-                onPress={this.CreateReport}> 
-          <View style={styles.textImage}>
-          <Image source={Images.editreports} style={styles.image} />                            
-          <Text style={styles.badgeCount}>
-          Create Report
-          </Text>
-          </View>
-          </Button>
-        </View>
-
-        </View>
-
-        <View style={styles.reportFooter}>
-        <View style={styles.footerIcons}>
-          <Button transparent dark style={{width: 200, height: 200}}>
-          <View style={styles.textImage}>
-          <Image source={Images.verifiedschool} style={styles.image} />                            
-          <Text style={styles.badgeCount}>
-          Verify School Data
-          </Text>
-          </View>
-          </Button>
-        </View>
-
-
-        <View style={styles.footerIcons}>
-          <Button transparent dark style={{width: 200, height: 200}}>
-          <View style={styles.textImage}>
-          <Image source={Images.adhoc} style={styles.image} />                            
-          <Text style={styles.badgeCount}>
-          Ad-Hoc Query
-          </Text>
-          </View>
-          </Button>
-        </View>
-          </View>
+            <FlatList
+              data={DashboardImages}
+              renderItem={({item}) => DisplayImage(item.key,this.props.navigation)}
+              numColumns={2}
+            />
           </View>
           
       </View>
@@ -130,24 +84,6 @@ class DashBoardScreen extends Component{
       justifyContent: "space-around",
       padding: 0
     },
-    badgeCount: {
-      fontSize: 15,
-      paddingLeft: 5,
-      color:"black",
-      textAlign: "center"
-    },
-    footerIcons: {
-      flexDirection: "row",
-      alignItems: "center",
-      // backgroundColor: 'white'
-    },
-    image: {
-      width: 100,
-      height: 100,
-    },
-    textImage:{
-      flexDirection: "column",
-    },
     viewPager: {
       flex: 1,
     },
@@ -155,7 +91,5 @@ class DashBoardScreen extends Component{
       alignItems: 'center',
       padding: 20,
       backgroundColor: 'green'
-      
     }
-
   });

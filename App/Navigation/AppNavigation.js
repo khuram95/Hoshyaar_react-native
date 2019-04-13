@@ -45,5 +45,5 @@ export default StackNavigator({
 },
   {
     headerMode: 'float',
-    initialRouteName: 'DashBoard'
+    initialRouteName: 'Splash'
 })

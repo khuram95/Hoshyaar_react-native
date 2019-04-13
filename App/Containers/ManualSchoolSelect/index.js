@@ -21,6 +21,8 @@ class ManualSchoolSelect extends Component{
 			this.setState({uniqueTehsil: uniqueTeh})
 
 			this.setState({uniqueschool: this.props.allSchools})
+			console.log('this.state.uniqueschool',this.state.uniqueschool)
+
 			
 		})
 	}

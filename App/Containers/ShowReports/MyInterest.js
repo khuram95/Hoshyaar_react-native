@@ -43,7 +43,6 @@ class MyInterest extends Component{
               user_name={report.user && report.user.user_name }
               photos={report.photos && report.photos}
               />
-              
                             
               )}
               </View>

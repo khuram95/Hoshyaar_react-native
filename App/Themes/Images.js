@@ -12,6 +12,8 @@ const images = {
   reports: require('../Images/reports.png'),
   Notification: require('../Images/notification.png'),
   add: require('../Images/add.png'),
+  arrowdown: require('../Images/arrowdown.png'),
+
 
 
 

@@ -21,7 +21,7 @@ class CreateReport extends Component{
 
 		showcontent = () => { 
 			this.props.createReport({ reportContent: get(this.props, 'reportText.text'), 
-																school_id: this.state.school.id,
+																school_id: this.state.school.emis,
 																user_id: 1,
 															  image:this.state.image })
 			.then(() =>{

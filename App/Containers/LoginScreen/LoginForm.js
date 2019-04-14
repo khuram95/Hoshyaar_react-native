@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { View, Image, ImageBackground, KeyboardAvoidingView, Linking,
-  ScrollView } from 'react-native'
+  ScrollView ,TouchableOpacity} from 'react-native'
 // import { Button, Text, Form, Item, Input } from 'native-base'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { get, isEmpty } from 'lodash'
@@ -66,6 +66,14 @@ class LoginForm extends React.Component {
     }
   }
 
+  signUp = () => {
+    const { navigation } = this.props
+      navigation.navigate("SignupScreen")
+  }
+
+
+
+
   render () {
     return (
       <ImageBackground
@@ -110,6 +118,13 @@ class LoginForm extends React.Component {
           Login
           </Text>
         </Button>
+
+
+        <TouchableOpacity onPress={this.signUp}>
+          <View style={{alignItems: 'center'}}>
+             <Text style={{color: 'blue'}}>SIGNUP</Text>
+           </View>
+        </TouchableOpacity>
       </ImageBackground>
     )
   }

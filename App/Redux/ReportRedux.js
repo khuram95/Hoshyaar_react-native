@@ -8,11 +8,14 @@ const { Types, Creators } = createActions({
   createReportRequest: ['payload', 'resolve', 'reject'],
   createReportSuccess: null,
   createReportFailure: ['error'],
+ 
   allReportsRequest: ['payload', 'resolve', 'reject'],
   allReportsSuccess: null,
   allReportsFailure: ['error'],
+ 
   saveAllReportsLocal: ['allReports'],
   saveReportText: ['text'],
+  
   saveReportImageLocal: ['images'],
   // add action here
 })

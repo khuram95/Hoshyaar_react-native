@@ -11,7 +11,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://7bfbc360.ngrok.io',
+    baseURL: 'http://bd7c88d8.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -20,7 +20,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://7bfbc360.ngrok.io/api/v1',
+    baseURL: 'http://bd7c88d8.ngrok.io/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -73,6 +73,18 @@ const create = () => {
   }
 
 
+  const signup = (payload, headers) =>{
+    const { mobile_no , username ,password} = payload
+    console.log('sigup content is : ', payload)
+    const data = new FormData();
+    data.append('phone_number',mobile_no)
+    data.append('user_name',username)
+    data.append('password',password)
+    console.log("data : ", data)
+    return authApi.post('/auth', data, { headers })
+  }
+
+
   const allSchoolsData = (payload, headers) =>{
     return api.get('/schools',{}, { headers })
   } 
@@ -96,6 +108,15 @@ const create = () => {
     formData.append('district', district);
     formData.append('tehsil', tehsil); 
     return api.put('/schools/sorted_data',formData,{ headers })
+  }
+
+  const verifyOtp = (payload, headers) => {
+    console.log('jklfsjfsdkjdsfhkjdsfjnsdfnjcsnfjdsln jfdsnfslkjkjfsdskjkjsd', payload)
+    const {phone_number, otp } = payload
+    const formData = new FormData();
+    formData.append('phone_number', phone_number);
+    formData.append('otp_code', otp);
+    return api.put('/otp_codes/1', formData, { headers })
   }
 
   // ------
@@ -122,6 +143,8 @@ const create = () => {
     SchoolDetailData,
     uniqueSchoolsData,
     allReports,
+    signup,
+    verifyOtp,
   }
 }
 

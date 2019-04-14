@@ -4,6 +4,7 @@ import { Button, Header, Left, Body, Right } from 'native-base'
 import { StackNavigator } from 'react-navigation'
 import { Images, Colors } from '../Themes'
 import styles from './Styles/NavigationStyles'
+import SignupForm from '../Containers/SignupScreen/SignupForm';
 
 export default StackNavigator({
   Splash: {
@@ -38,6 +39,12 @@ export default StackNavigator({
   },
   ShowReports: {
     screen: require('../Containers/ShowReports/').default
+  },
+  SignupScreen: {
+    screen: require('../Containers/SignupScreen/').default
+  },
+  VerifyPhoneNumber: {
+    screen: require('../Containers/SignupScreen/VerifyPhoneNumber').default
   }
   
 
@@ -45,5 +52,5 @@ export default StackNavigator({
 },
   {
     headerMode: 'float',
-    initialRouteName: 'Splash'
+    initialRouteName: 'SignupScreen'
 })

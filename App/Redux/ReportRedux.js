@@ -25,7 +25,7 @@ export default Creators
 export const INITIAL_STATE = Immutable({
   allReports: [],
   text:'',
-  images: []
+  images: {}
   // form: { error: {}},
 })
 

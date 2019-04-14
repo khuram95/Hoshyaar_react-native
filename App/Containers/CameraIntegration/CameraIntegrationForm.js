@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Slider, CameraRoll } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Slider, CameraRoll, Dimensions, Image } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
@@ -85,36 +85,69 @@ class CameraScreen extends React.Component {
 
   takePicture = async function () {
     if (this.camera) {
-      const options = { pauseAfterCapture: true, metadata: true, exif: true, orientation: "portrait" };
-
+      const options = { pauseAfterCapture: false, metadata: true, exif: true, orientation: "portrait" };
       this.watchID = navigator.geolocation.watchPosition((position) => {
         // Create the object to update this.state.mapRegion through the onRegionChange function
         let region = {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         }
-
         options.location = region;
         this.setState({ position: region });
       }, (error) => console.log(error));
-
-      // console.log('My Data: ', options);
-
       const data = await this.camera.takePictureAsync(options);
-      console.warn('takePicture ', data);
+      // console.warn('takePicture ', data);
       this.setState({
         uri: data,
       });
+      // this.props.saveReportImage(this.state.uri.uri);
 
-      this.props.saveReportImage(this.state.uri.uri);
-
-      CameraRoll.saveToCameraRoll(data.uri, "photo");
-      this.camera.resumePreview();
+      // CameraRoll.saveToCameraRoll(data.uri, "photo");
+      // this.camera.resumePreview();
     }
+
+    this.renderImage();
   };
 
+  renderImage() {
+    // console.log('kya waqai: ', this.state.uri.uri)
+    return (
+      <View style={styles.preview}>
+
+        <Image
+          source={{ uri: this.state.uri.uri }}
+          style={styles.preview}
+        />
+
+        <Text
+          style={styles.save}
+          onPress={() => this.saveButtonHandler()}
+        >save
+        </Text>
+
+        <Text
+          style={styles.cancel}
+          onPress={() => this.cancelButtonHandler()}
+        >Cancel
+        </Text>
+
+      </View>
+    );
+  }
+
+  saveButtonHandler() {
+    CameraRoll.saveToCameraRoll(this.state.uri.uri, "photo");
+    this.props.saveReportImage(this.state.uri);
+    const { navigation } = this.props
+    navigation.navigate("Report");
+  }
+
+  cancelButtonHandler() {
+    this.setState({ uri: null })
+  }
+
   takeVideo = async function () {
-    console.log("started camera recodring");
+    // console.log("started camera recodring");
     if (this.camera) {
       try {
         const promise = this.camera.recordAsync(this.state.recordOptions);
@@ -123,7 +156,7 @@ class CameraScreen extends React.Component {
           this.setState({ isRecording: true });
           const data = await promise;
           this.setState({ isRecording: false });
-          console.warn('takeVideo', data.uri);
+          // console.warn('takeVideo', data.uri);
           CameraRoll.saveToCameraRoll(data.uri, "video");
         }
       } catch (e) {
@@ -141,7 +174,7 @@ class CameraScreen extends React.Component {
           this.setState({ isRecording: true });
           const data = await promise;
           this.setState({ isRecording: false });
-          console.warn('stopVideo', data.uri);
+          // console.warn('stopVideo', data.uri);
           CameraRoll.saveToCameraRoll(data.uri, "video")
         }
       } catch (e) {
@@ -269,7 +302,13 @@ class CameraScreen extends React.Component {
   }
 
   render() {
-    return <View style={styles.container}>{this.renderCamera()}</View>;
+    // return <View style={styles.container}>{this.renderCamera()}</View>;
+    return (
+      <View style={styles.container}>
+        {this.state.uri ? this.renderImage() : this.renderCamera()}
+      </View>
+    );
+
   }
 }
 
@@ -282,7 +321,7 @@ export default connect(null, mapDispatchToProps)(CameraScreen)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 10,
+    // paddingTop: 10,
     backgroundColor: '#000',
   },
   flipButton: {
@@ -311,4 +350,29 @@ const styles = StyleSheet.create({
   picButton: {
     backgroundColor: 'darkseagreen',
   },
+  preview: {
+    flex: 1,
+    // justifyContent: 'flex-end',
+    // alignItems: 'center',
+    // height: Dimensions.get('window').height,
+    // width: Dimensions.get('window').width
+  },
+  cancel: {
+    position: 'absolute',
+    left: 20,
+    top: 20,
+    backgroundColor: 'transparent',
+    color: '#FFF',
+    fontWeight: '600',
+    fontSize: 17,
+  },
+  save: {
+    position: 'absolute',
+    right: 20,
+    top: 20,
+    backgroundColor: 'transparent',
+    color: '#FFF',
+    fontWeight: '600',
+    fontSize: 17,
+  }
 });

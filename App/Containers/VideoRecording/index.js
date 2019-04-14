@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View} from 'react-native'
 import { Item } from 'native-base'
-import VideoRecordingForm from './VideoRecordingForm'
+import BadInstagramCloneApp from './VideoRecordingForm'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 
@@ -16,7 +16,8 @@ class VideoRecording extends Component{
 
     render(){
         return(
-            <VideoRecordingForm navigation={ this.props.navigation}/>
+            // <View></View>
+            <BadInstagramCloneApp navigation={ this.props.navigation}/>
         )
     }
 }

@@ -29,7 +29,7 @@ class MapScreen extends Component {
 
   render () {
     const allSchoolDetails = get(this.props, 'allSchools')
-    console.log('Mera Data: ', get(this.props, 'allSchools'))
+    // console.log('Mera Data: ', get(this.props, 'allSchools'))
     return (
       <MapScreenForm navigation={ this.props.navigation} schoolsData={get(this.props, 'allSchools')} />
     )

@@ -28,7 +28,7 @@ class AllReports extends Component {
 
   render() {
     return (
-      <ScrollView style={{ backgroundColor: '#e6ecf0', flex: 1, padding: 30 }}>
+      <ScrollView style={{ backgroundColor: '#e6ecf0', flex: 1, padding: '1%' }}>
 
 
 

@@ -7,11 +7,10 @@ export default StyleSheet.create({
     // justifyContent: 'space-around'
   },
   appTitleView: {
-    flex: 0.4,
+     flex: 0.3,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    // marginBottom: 20
   },
   appTitleName: {
     fontSize: 40,
@@ -19,12 +18,27 @@ export default StyleSheet.create({
     color: '#0d6d93',
   },
   inputBlock: {
-    flex: 0.3,
+     flex: 0.5,
     justifyContent: 'flex-end',
     paddingLeft: 40,
     paddingRight:40,
     paddingBottom: 20,
   },
-  
+  bottomView:{
+
+    height: 50, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 0,
+    alignSelf: 'center',
+    width: '80%'
+  },
+
+  textStyle:{
+    width: '100%',
+    fontWeight: "800",
+    textAlign: "center"
+  }
 })
 

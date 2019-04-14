@@ -82,36 +82,35 @@ class SchoolDetailForm extends Component {
               <Image source={Images.Notification} style={{ width: 35,height:35,}} />                            
               </Button>
             </Right> */}
+          </Header>
 
-        </Header>
+      <Text style={{alignItems:"center"}}>{ this.state.all_school.school_name }</Text>
+      <View style={{flex:1,flexDirection:"row"}}>
+        <Text>Select Month</Text>
+        <DatePicker
+          style={{ width: 200 }}
+          date={this.state.date}
+          mode="date"
+          placeholder="select date"
+          format="YYYY-MM-DD"
+          minDate="2019-04-01"
+          maxDate="2019-04-30"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          // customStyles={{
+          //   dateIcon: {
+          //     position: 'absolute',
+          //     left: 0,
+          //     top: 4,
+          //     marginLeft: 0
+          //   },
+          //   dateInput: {
+          //     marginLeft: 36
+          //   }
+          // }}
+          onDateChange={(date) => { this.dateChange(date) }}
 
-        <Text style={{ alignItems: "center" }}>{this.state.all_school.school_name}</Text>
-        <View style={{ flex: 1, flexDirection: "row" }}>
-          <Text>Select Month</Text>
-          <DatePicker
-            style={{ width: 200 }}
-            date={this.state.date}
-            mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            minDate="2019-04-01"
-            maxDate="2019-04-30"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            // customStyles={{
-            //   dateIcon: {
-            //     position: 'absolute',
-            //     left: 0,
-            //     top: 4,
-            //     marginLeft: 0
-            //   },
-            //   dateInput: {
-            //     marginLeft: 36
-            //   }
-            // }}
-            onDateChange={(date) => { this.dateChange(date) }}
-
-          />
+        />
         </View>
 
 

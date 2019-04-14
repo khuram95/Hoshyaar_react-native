@@ -34,17 +34,72 @@ export function * makeSignoutRequest (api, action) {
   const response = yield call(api.signout, headers)
   yield put(Actions.saveUser({}))
   if (response.ok) {
-    yield removeUserFromLocalStorage()
     return resolve()
   } else {
     return reject()
   }
 }
 
+function * makeSignupRequest (api, action) {
+  console.log("Signup Sagas")
+  const { payload, resolve, reject } = action
+  const response = yield call(api.signup, payload)
+  if (response.ok) {
+    const user = get(response, 'data')
+    console.log("Signup Responce  Sagas : " ,response)
+    const headers = get(response, 'headers')
+    const currentUser = {
+      accessToken: headers['access-token'],
+      uid: headers['uid'],
+      client: headers['client'],
+      ...user,
+    }
+    yield put(Actions.saveUser(currentUser))
+    // yield saveUserToLocalStorage(currentUser)
+     yield put(Actions.signupSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.signupFailure(error))
+    return reject(error)
+  }
+}
+
+function * makeVerifyPhoneNumberRequest (api, action) {
+  console.log("VerifyPhoneNumberRequest Sagas")
+  const { payload, resolve, reject } = action
+  const response = yield call(api.verifyOtp, payload)
+  if (response.ok) {
+    const user = get(response, 'data')
+    console.log("makeVerifyPhoneNumberRequest Responce  Sagas : " ,response)
+    const headers = get(response, 'headers')
+    const currentUser = {
+      accessToken: headers['access-token'],
+      uid: headers['uid'],
+      client: headers['client'],
+      ...user,
+    }
+    yield put(Actions.saveUser(currentUser))
+    // yield saveUserToLocalStorage(currentUser)
+     yield put(Actions.verifyPhoneNumberSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.verifyPhoneNumberFailure(error))
+    return reject(error)
+  }
+}
+
+
+
+
+
 // ADD_SAGA_ACTION
 
 export default {
   makeLoginRequest,
   makeSignoutRequest,
+  makeSignupRequest,
+  makeVerifyPhoneNumberRequest
   // EXPORT_SAGA_ACTION
 }

@@ -31,10 +31,9 @@ export const INITIAL_STATE = Immutable({
 
 /* ------------- Reducers ------------- */
 
-
-export const createReportRequest = (state, action) =>
-  state.merge({ requesting: true, error: null })
-
+export const createReportRequest = (state, action) => {
+  return state.merge({ requesting: true, error: null })
+}
 
 export const createReportSuccess = (state, action) =>
   state.merge({ requesting: false, error: null })

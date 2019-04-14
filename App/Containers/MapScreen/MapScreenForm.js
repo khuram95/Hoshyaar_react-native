@@ -103,7 +103,7 @@ class MapScreenForm extends Component {
         >
 
           {this.props.schoolsData.map((School, index) => {
-            console.log('yess --', School.school_name);
+            // console.log('yess --', School.school_name);
             return (
               <MapView.Marker
                 key={index}

@@ -8,6 +8,7 @@ import ReportImage from './ReportImage'
 import {
   View,
   CheckBox,
+  Dimensions,
   Image,
   StyleSheet,
   FlatList,
@@ -46,19 +47,19 @@ export default class ReportFormat extends Component {
 
     };
     this.scrollList = {}
-     this.scrollPosition = 0
+    this.scrollPosition = 0
   }
 
   scrollTo = (forward, count) => {
     this.scrollPosition = forward ?
-    Math.min(this.scrollPosition + 175, (count-2) * 175)
+      Math.min(this.scrollPosition + 175, (count - 2) * 175)
       : Math.max(this.scrollPosition - 175, 0)
     this.scrollList.getScrollResponder()
       .scrollTo({ x: this.scrollPosition, animated: true })
   }
 
   render() {
-    const { report_text, school_name, created_at, district, tehsil, report_address , user_name, photos } = this.props
+    const { report_text, school_name, created_at, district, tehsil, report_address, user_name, photos } = this.props
     return (
 
       <TouchableOpacity style={styles.report}>
@@ -72,23 +73,21 @@ export default class ReportFormat extends Component {
           <Text style={styles.belowText}>{tehsil + ', ' + district}</Text>
           {/* <Text style={styles.belowText}>{user_name}</Text> */}
         </View>
-        <View style={{ flexDirection: 'row', }}>
-          <Progress.Bar progress={0.3} width={200} color="red" height={15} />
-          <Image source={Images.unlock} style={{ width: 15, height: 15, marginLeft: '5%' }} />
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginBottom: '4.7%'}}>
+          <Progress.Bar progress={0.4} width={200} color="red" height={15} />
+          <Image source={Images.unlock} style={{ width: 15, height: 15, marginLeft: '1%' }} />
         </View>
-        <Text
-          style={styles.reportText}
-        >{report_text}</Text>
+        <Text style={styles.reportText}> {report_text} </Text>
 
 
 
-        <View style={{ flex: 1, flexDirection: "row" }}>
+        <View style={{ flex: 1, flexDirection: "row", marginBottom: '5%' }}>
           <FlatList
             data={photos}
             renderItem={(image) => ReportImage(image)}
             horizontal
             pagingEnabled
-            ref={(sl) => this.scrollList = sl }
+            ref={(sl) => this.scrollList = sl}
           />
 
           {/* {photos.map((pic) =>
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
     zIndex: -1
   },
   content: {
-    padding: 10,
+    padding: 1,
     backgroundColor: "white"
   },
   heading: {
@@ -141,17 +140,22 @@ const styles = StyleSheet.create({
     marginBottom: 30
   },
   report: {
-    paddingTop: 20,
-    paddingBottom: 10,
-    // paddingLeft: 10,
-    // paddingRight: 10,
+    paddingLeft: '2%',
+    paddingRight: '2%',
+    paddingTop: '0.2%',
+    paddingBottom: '0.02%',
     borderBottomColor: "black",
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: "column",
+    marginBottom: '10%'
   },
   reportText: {
-    minHeight: '5%',
-    marginTop: '2%',
+    // minHeight: Dimensions.get('window').height*0.01,
+    // marginTop: Dimensions.get('window').height*0.01,
+    // marginBottom: Dimensions.get('window').height*0.01,
+    // width: Dimensions.get('window').width
+    minHeight: '0.02%',
+    marginTop: '5%',
     marginBottom: '2%',
     fontSize: 14,
     color: "#555"
@@ -162,12 +166,13 @@ const styles = StyleSheet.create({
   },
   reportFooter: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+    // alignItems: 'flex-start'
     padding: 0
   },
   badgeCount: {
     fontSize: 12,
-    paddingLeft: 5,
+    paddingLeft: '5%',
     color: "black"
   },
   footerIcons: {

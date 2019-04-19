@@ -42,11 +42,13 @@ class CreateReport extends Component {
 		this.props.createReport({
 			reportContent: get(this.props, 'reportText.text.reportcontent'),
 			school_id: this.state.school.emis,
-			user_id: 17,
+			user_id: this.props.currentUser.id,
 			image: this.state.uri
 		})
 			.then(() => {
-				// this.props.saveReportTextRequest('')
+				this.props.saveReportTextRequest('')
+				const { navigation } = this.props
+				navigation.navigate("DashBoard")
 			})
 	}
 
@@ -140,6 +142,7 @@ const mapStateToProps = createStructuredSelector({
 	selectedSchool: (state) => get(state, 'schooldetail.schooldetail.school'),
 	reportText: (state) => get(state, 'report.report.text'),
 	reportImages: (state) => get(state, 'report.report.images'),
+	currentUser: (state) => get(state, 'auth.currentUser'),
 })
 
 const mapDispatchToProps = (dispatch) => ({

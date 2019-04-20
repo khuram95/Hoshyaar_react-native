@@ -29,6 +29,10 @@ class ManualSchoolSelect extends Component {
 			})
 	}
 
+	static navigationOptions = {
+    header: null,
+  }
+
 	updateDistrict = (district) => {
 		this.setState({ district: district })
 		this.props.uniqueSchoolData({ district, tehsil: '' })

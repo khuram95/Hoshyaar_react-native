@@ -25,7 +25,7 @@ class DashBoardScreen extends Component{
   render(){
     const DashboardImages = [ {key: { image: 'reports', text: 'All Reports', navigateTo:  'ShowReports'}},
                               {key: { image: 'editreports', text: 'Create Report', navigateTo:  'ManualGoogleMap'}},
-                              {key: { image: 'verifiedschool', text: 'Verify School Data', navigateTo:  ''}},
+                              {key: { image: 'verifiedschool', text: 'Verify School Data', navigateTo:  'vsd'}},
                               {key: { image: 'adhoc', text: 'Adhoc Query', navigateTo:  ''}}
                             ] 
     return(

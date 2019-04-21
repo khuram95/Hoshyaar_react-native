@@ -11,6 +11,7 @@ import AllReports from './AllReports'
 import MyInterest from './MyInterest'
 import MyReports from './MyInterest'
 import { Images, Colors } from '../../Themes/'
+import DrawLayout from '../DrawLayout'
 
 
 class ShowReports extends Component {
@@ -25,25 +26,8 @@ class ShowReports extends Component {
   render() {
     return (
       <Container>
-        <Header>
-          {/* <Left>
-            <Button>
-                <Text>Notification</Text>
-              </Button>
-            </Left> */}
-          <Body>
-            <Title>Reports</Title>
-          </Body>
-          <Right>
-            <View style={styles.footerIcons}>
-              <Button transparent dark>
-                <Text style={{ fontSize: 14, color: "white" }}>Interest</Text>
-                <Image source={Images.add} style={{ width: 15, height: 15, }} />
-              </Button>
-            </View>
+        <DrawLayout title="Reports" image='add'/>
 
-          </Right>
-        </Header>
         <Tabs>
           <Tab heading="All Reports">
             <View style={{ flex: 1 }}>

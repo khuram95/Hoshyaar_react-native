@@ -45,9 +45,6 @@ export default StackNavigator({
   },
   VerifyPhoneNumber: {
     screen: require('../Containers/SignupScreen/VerifyPhoneNumber').default
-  },
-  vsd: {
-    screen: require('../Containers/DashBoard/vsd').default
   }
   
 
@@ -55,5 +52,5 @@ export default StackNavigator({
 },
   {
     headerMode: 'float',
-    initialRouteName: 'vsd'
+    initialRouteName: 'Splash'
 })

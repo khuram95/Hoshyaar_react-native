@@ -3,6 +3,8 @@ import { View} from 'react-native'
 import { Item,Button,Text,Header,Body,Title,Left,Right } from 'native-base'
 import Actions from '../../Redux/Actions'
 import { connect } from 'react-redux'
+import DrawLayout from '../DrawLayout'
+
 
 
 class ManualGoogleMap extends Component{
@@ -28,29 +30,8 @@ class ManualGoogleMap extends Component{
         return(
             <View>
 
-          <Header>
-          
-            {/* <Left>
-            <Button>
-                <Text>Notification</Text>
-              </Button>
-            </Left>
-             */}
-            <Body>
-              <Title>Select School</Title>
-            </Body>
 
-            {/* <Right>
-              <Button transparent dark>
-              <Image source={Images.Notification} style={{ width: 35,height:35,}} />                            
-              </Button>
-            </Right> */}
-
-          </Header>
-   	
-
-
-
+        <DrawLayout title="Select School" image=''/>
               
                    <Text>{'\n\n\n\n\n\n\n'}</Text>
 

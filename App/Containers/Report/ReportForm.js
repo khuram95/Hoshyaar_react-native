@@ -11,6 +11,7 @@ import { createStructuredSelector } from 'reselect'
 import Images from '../../Themes/Images'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
+import DrawLayout from '../DrawLayout'
 
 class CreateReport extends Component {
 	constructor(props) {
@@ -91,10 +92,8 @@ class CreateReport extends Component {
 	render() {
 		return (
 			<View>
-				<Text style={{ textAlign: "center" }}>Create Report</Text>
-
+				<DrawLayout title="Create Report" image=''/>
 				{<Text>{this.state.school.school_name}</Text>}
-
 				<TextInput
 					multiline={true}
 					numberOfLines={6}

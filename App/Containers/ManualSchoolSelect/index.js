@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import { createStructuredSelector } from 'reselect'
 import { get } from 'lodash'
+import DrawLayout from '../DrawLayout'
+
 
 class ManualSchoolSelect extends Component {
 	constructor(props) {
@@ -30,8 +32,8 @@ class ManualSchoolSelect extends Component {
 	}
 
 	static navigationOptions = {
-    header: null,
-  }
+		header: null,
+	}
 
 	updateDistrict = (district) => {
 		this.setState({ district: district })
@@ -69,69 +71,39 @@ class ManualSchoolSelect extends Component {
 				flexDirection: 'column',
 				justifyContent: 'space-between',
 			}}>
-
-				<Header>
-
-					{/* <Left>
-            <Button>
-                <Text>Notification</Text>
-              </Button>
-            </Left>
-             */}
-					<Body>
-						<Title>Manual Select</Title>
-					</Body>
-
-					{/* <Right>
-              <Button transparent dark>
-              <Image source={Images.Notification} style={{ width: 35,height:35,}} />                            
-              </Button>
-            </Right> */}
-
-				</Header>
-
-
+				<DrawLayout title="Manual Select" image='' />
 				<Text>Select District</Text>
-				<View  style={styles.container}>
+				<View style={styles.container}>
 					<Picker selectedValue={this.state.district}
 						onValueChange={(itemValue, itemIndex) => this.updateDistrict(itemValue)}>
 						{this.state.uniqueDistrict && this.state.uniqueDistrict.map((district) =>
 							<Picker.Item label={district} value={district} />)}
 					</Picker>
 				</View>
-
 				<Text>Select Tehsil</Text>
-				<View  style={styles.container}>
-				<Picker selectedValue={this.state.tehsil}
-					onValueChange={(itemValue, itemIndex) => this.updateTehsil(itemValue)}>
-					{this.state.uniqueTehsil && this.state.uniqueTehsil.map((tehsil) =>
-						<Picker.Item label={tehsil} value={tehsil} />)
-					}
-				</Picker>
+				<View style={styles.container}>
+					<Picker selectedValue={this.state.tehsil}
+						onValueChange={(itemValue, itemIndex) => this.updateTehsil(itemValue)}>
+						{this.state.uniqueTehsil && this.state.uniqueTehsil.map((tehsil) =>
+							<Picker.Item label={tehsil} value={tehsil} />)
+						}
+					</Picker>
 				</View>
-
 				<Text>Select School</Text>
-				<View  style={styles.container}>
-				<Picker selectedValue={this.state.school}
-					onValueChange={(itemValue, itemIndex) => this.updateSchool(itemValue)}>
-					{this.state.uniqueschool && this.state.uniqueschool.map((school) =>
-						<Picker.Item label={school.school_name} value={school} />)}
-				</Picker>
+				<View style={styles.container}>
+					<Picker selectedValue={this.state.school}
+						onValueChange={(itemValue, itemIndex) => this.updateSchool(itemValue)}>
+						{this.state.uniqueschool && this.state.uniqueschool.map((school) =>
+							<Picker.Item label={school.school_name} value={school} />)}
+					</Picker>
 				</View>
-
-
 				<Button style={{ alignSelf: 'center', width: '50%' }}
 					onPress={this.gotoSchoolDetail}>
 					<Text style={{ width: '100%', fontWeight: "800", textAlign: "center" }}>
 						Ok
 					</Text>
 				</Button>
-
 			</View>
-
-
-
-
 		)
 	}
 }
@@ -160,7 +132,7 @@ const styles = StyleSheet.create({
 		color: 'red'
 	},
 	container: {
-    borderRadius: 10,
-    borderWidth: 1,
-  },
+		borderRadius: 10,
+		borderWidth: 1,
+	},
 })

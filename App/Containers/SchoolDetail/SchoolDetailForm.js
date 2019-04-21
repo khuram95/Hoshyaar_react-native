@@ -10,9 +10,7 @@ import DataRow from './DataRow'
 import { createStructuredSelector } from 'reselect'
 import { Images, Colors } from '../../Themes/'
 import { get } from 'lodash'
-
-
-
+import DrawLayout from '../DrawLayout'
 
 class SchoolDetailForm extends Component {
   constructor(props) {
@@ -23,10 +21,7 @@ class SchoolDetailForm extends Component {
       singleschool: [],
       all_school: []
     }
-
-
     complete_school_data = this.props.navigation.getParam('id')
-
     this.props.SchoolDetailData({ school_id: complete_school_data.emis })
       .then(() => {
         this.setState({ schooldetail: this.props.SchoolDetail })
@@ -35,89 +30,57 @@ class SchoolDetailForm extends Component {
         this.setState({ all_school: complete_school_data })
         console.log("School Data ", this.state.singleschool)
       })
-
   }
-
   dateChange = (date) => {
     this.setState({ date: date })
     console.log('Date :::::::::::::::::::::', this.state.date)
-
     console.log('this.state.schooldetail.visiting_date :', this.state.schooldetail[1].visiting_date)
-
     size = this.state.schooldetail.length
     for (let i = 0; i < size; i++) {
       if (this.state.schooldetail[i].visiting_date == this.state.date) {
         this.setState({ singleschool: this.state.schooldetail[i] })
       }
     }
-
   }
-
-
   CreateReport = () => {
     const { navigation } = this.props
     this.props.saveSchool(this.state.all_school)
     navigation.navigate("Report")
   }
-
   render() {
     return (
       <ScrollView>
+        <DrawLayout title="Government Data" image='' />
+        <Text style={{ alignItems: "center" }}>{this.state.all_school.school_name}</Text>
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <Text>Select Month</Text>
+          <DatePicker
+            style={{ width: 200 }}
+            date={this.state.date}
+            mode="date"
+            placeholder="select date"
+            format="YYYY-MM-DD"
+            minDate="2019-04-01"
+            maxDate="2019-04-30"
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            // customStyles={{
+            //   dateIcon: {
+            //     position: 'absolute',
+            //     left: 0,
+            //     top: 4,
+            //     marginLeft: 0
+            //   },
+            //   dateInput: {
+            //     marginLeft: 36
+            //   }
+            // }}
+            onDateChange={(date) => { this.dateChange(date) }}
 
-
-        <Header>
-
-          {/* <Left>
-            <Button>
-                <Text>Notification</Text>
-              </Button>
-            </Left>
-             */}
-          <Body>
-            <Title>Government Data</Title>
-          </Body>
-
-          {/* <Right>
-              <Button transparent dark>
-              <Image source={Images.Notification} style={{ width: 35,height:35,}} />                            
-              </Button>
-            </Right> */}
-          </Header>
-
-      <Text style={{alignItems:"center"}}>{ this.state.all_school.school_name }</Text>
-      <View style={{flex:1,flexDirection:"row"}}>
-        <Text>Select Month</Text>
-        <DatePicker
-          style={{ width: 200 }}
-          date={this.state.date}
-          mode="date"
-          placeholder="select date"
-          format="YYYY-MM-DD"
-          minDate="2019-04-01"
-          maxDate="2019-04-30"
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          // customStyles={{
-          //   dateIcon: {
-          //     position: 'absolute',
-          //     left: 0,
-          //     top: 4,
-          //     marginLeft: 0
-          //   },
-          //   dateInput: {
-          //     marginLeft: 36
-          //   }
-          // }}
-          onDateChange={(date) => { this.dateChange(date) }}
-
-        />
+          />
         </View>
-
-
-
         <View>
           <Collapse>
-
             <CollapseHeader>
               <Separator>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 15, }}>
@@ -126,7 +89,6 @@ class SchoolDetailForm extends Component {
                 </View>
               </Separator>
             </CollapseHeader>
-
             <CollapseBody>
               <ListItem >
                 <DataRow text={'Total Teacher'}
@@ -137,17 +99,13 @@ class SchoolDetailForm extends Component {
                   value={this.state.singleschool.non_teacher} ischecked={false} />
               </ListItem>
             </CollapseBody>
-
           </Collapse>
-
-
           <Collapse>
             <CollapseHeader>
               <Separator bordered>
                 <Text>Class Rooms</Text>
               </Separator>
             </CollapseHeader>
-
             <CollapseBody>
               <ListItem >
                 <DataRow text={'Class Rooms'}
@@ -159,7 +117,6 @@ class SchoolDetailForm extends Component {
               </ListItem>
             </CollapseBody>
           </Collapse>
-
           <Collapse>
             <CollapseHeader>
               <Separator bordered>
@@ -181,8 +138,6 @@ class SchoolDetailForm extends Component {
               </ListItem>
             </CollapseBody>
           </Collapse>
-
-
           <Collapse>
             <CollapseHeader>
               <Separator bordered>
@@ -200,9 +155,6 @@ class SchoolDetailForm extends Component {
               </ListItem>
             </CollapseBody>
           </Collapse>
-
-
-
           <Collapse>
             <CollapseHeader>
               <Separator bordered>
@@ -240,14 +192,10 @@ class SchoolDetailForm extends Component {
                   value={this.state.singleschool.is_boundary_wall ? 'Yes' : 'No'}
                   ischecked={false} />
               </ListItem>
-
             </CollapseBody>
           </Collapse>
-
           <Text>{'\n'}</Text>
-
         </View>
-
         <View style={{
           display: 'flex',
           flex: 1,

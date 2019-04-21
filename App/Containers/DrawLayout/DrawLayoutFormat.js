@@ -1,8 +1,8 @@
 import React from 'react'
 import { View,StyleSheet,Image,TouchableOpacity, Text } from 'react-native'
-import { Images } from '../../Themes/'
+import { Images } from '../../Themes'
 
-export default DisplayImage = (data, navigation) => {
+export default DrawLayoutFormat = (data, navigation) => {
     return (
         <TouchableOpacity style={styles.footerIcons} onPress={() => navigation.navigate(data.navigateTo)}>
             <View style={styles.textImage}>

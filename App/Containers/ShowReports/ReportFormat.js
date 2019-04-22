@@ -49,7 +49,6 @@ export default class ReportFormat extends Component {
     this.scrollList = {}
     this.scrollPosition = 0
   }
-
   scrollTo = (forward, count) => {
     this.scrollPosition = forward ?
       Math.min(this.scrollPosition + 175, (count - 2) * 175)
@@ -115,7 +114,6 @@ export default class ReportFormat extends Component {
           </View>
         </View>
       </TouchableOpacity>
-
     )
   }
 }

@@ -16,13 +16,13 @@ class DrawLayout extends Component {
     header: null,
   }
   openDrawer = () => {
-    console.log("Hello")
     this.refs['DRAWER'].openDrawer()
   }
+
   render() {
     const DashboardImages = [{ key: { image: 'reports', text: 'All Reports', navigateTo: 'ShowReports' } },
     { key: { image: 'editreports', text: 'Create Report', navigateTo: 'ManualGoogleMap' } },
-    { key: { image: 'verifiedschool', text: 'Verify School Data', navigateTo: 'vsd' } },
+    { key: { image: 'verifiedschool', text: 'Verify School Data', navigateTo: '' } },
     { key: { image: 'adhoc', text: 'Adhoc Query', navigateTo: '' } },
     { key: { image: 'key', text: 'Change Password', navigateTo: '' } },
     { key: { image: 'signout', text: 'Signout', navigateTo: '' } }
@@ -55,11 +55,12 @@ class DrawLayout extends Component {
           <Title>{this.props.title}</Title>
         </Body>
         <Right>
-          <Button transparent dark>
+          <TouchableHighlight >
             <Image source={Images[this.props.image]} style={{ width: 30, height: 30, }} />
-          </Button>
+          </TouchableHighlight>
         </Right>
       </Header>
+
       // </DrawerLayoutAndroid>
     );
   }

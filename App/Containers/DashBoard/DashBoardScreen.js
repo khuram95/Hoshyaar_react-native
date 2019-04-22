@@ -12,47 +12,44 @@ class DashBoardScreen extends Component {
     super(props);
 
   }
-
   CreateReport = () => {
     const { navigation } = this.props
     navigation.navigate("ManualGoogleMap")
   }
-
   DisplayAllReport = () => {
     const { navigation } = this.props
     navigation.navigate("ShowReports")
   }
-
   render() {
     const DashboardImages = [{ key: { image: 'reports', text: 'All Reports', navigateTo: 'ShowReports' } },
     { key: { image: 'editreports', text: 'Create Report', navigateTo: 'ManualGoogleMap' } },
-    { key: { image: 'verifiedschool', text: 'Verify School Data', navigateTo: 'vsd' } },
+    { key: { image: 'verifiedschool', text: 'Verify School Data', navigateTo: 'AddInterest' } },
     { key: { image: 'adhoc', text: 'Adhoc Query', navigateTo: '' } }
     ]
     return (
-        <View style={{ flex: 1 }}>
-      <DrawLayout title="Home" image='Notification'/>
-          <View style={{ flex: 0.5, backgroundColor: '' }}>
-            <ViewPagerAndroid
-              style={styles.viewPager} 
-              initialPage={0}>
-              <View style={styles.pageStyle} key="1">
-                <Text>Trending Report 1</Text>
-              </View>
-              <View style={styles.pageStyle} key="2">
-                <Text>Trending Report 2</Text>
-              </View>
-            </ViewPagerAndroid>
-            {/* <TrendingReport/> */}
-          </View>
-          <View style={{ flex: 0.5 }}>
-            <FlatList
-              data={DashboardImages}
-              renderItem={({ item }) => DisplayImage(item.key, this.props.navigation)}
-              numColumns={2}
-            />
-          </View>
+      <View style={{ flex: 1 }}>
+        <DrawLayout title="Home" image='Notification' />
+        <View style={{ flex: 0.5, backgroundColor: '' }}>
+          <ViewPagerAndroid
+            style={styles.viewPager}
+            initialPage={0}>
+            <View style={styles.pageStyle} key="1">
+              <Text>Trending Report 1</Text>
+            </View>
+            <View style={styles.pageStyle} key="2">
+              <Text>Trending Report 2</Text>
+            </View>
+          </ViewPagerAndroid>
+          {/* <TrendingReport/> */}
         </View>
+        <View style={{ flex: 0.5 }}>
+          <FlatList
+            data={DashboardImages}
+            renderItem={({ item }) => DisplayImage(item.key, this.props.navigation)}
+            numColumns={2}
+          />
+        </View>
+      </View>
     )
   }
 }

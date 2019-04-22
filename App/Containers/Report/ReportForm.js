@@ -53,7 +53,7 @@ class CreateReport extends Component {
 
 	OpenCamera = () => {
 		const { navigation } = this.props
-		navigation.navigate("Camera")
+		navigation.navigate(",k")
 	}
 
 

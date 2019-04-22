@@ -45,8 +45,10 @@ export default StackNavigator({
   },
   VerifyPhoneNumber: {
     screen: require('../Containers/SignupScreen/VerifyPhoneNumber').default
+  },
+  AddInterest:{
+    screen: require('../Containers/ShowReports/AddInterest').default
   }
-  
 
   
 },

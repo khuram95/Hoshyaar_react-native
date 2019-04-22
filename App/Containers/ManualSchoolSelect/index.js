@@ -20,21 +20,15 @@ class ManualSchoolSelect extends Component {
 			.then(() => {
 				let uniqueDist = [...new Set(get(this.props, 'allSchools').map(school => school.district))];
 				this.setState({ uniqueDistrict: uniqueDist })
-
 				let uniqueTeh = [...new Set(get(this.props, 'allSchools').map(school => school.tehsil))];
 				this.setState({ uniqueTehsil: uniqueTeh })
-
 				this.setState({ uniqueschool: this.props.allSchools })
 				console.log('this.state.uniqueschool', this.state.uniqueschool)
-
-
 			})
 	}
-
 	static navigationOptions = {
 		header: null,
 	}
-
 	updateDistrict = (district) => {
 		this.setState({ district: district })
 		this.props.uniqueSchoolData({ district, tehsil: '' })
@@ -43,7 +37,6 @@ class ManualSchoolSelect extends Component {
 				this.setState({ uniqueTehsil: uniqueTeh })
 			})
 	}
-
 	updateTehsil = (tehsil) => {
 		this.setState({ tehsil: tehsil })
 		this.props.uniqueSchoolData({ district: '', tehsil })
@@ -51,20 +44,14 @@ class ManualSchoolSelect extends Component {
 				this.setState({ uniqueschool: this.props.uniqueData })
 			})
 	}
-
 	updateSchool = (school) => {
 		this.setState({ school: school })
 	}
-
-
 	gotoSchoolDetail = () => {
 		const { navigation } = this.props
 		navigation.navigate("SchoolDetail", { id: this.state.school })
 	}
-
 	render() {
-
-
 		return (
 			<View style={{
 				flex: 1,
@@ -107,24 +94,17 @@ class ManualSchoolSelect extends Component {
 		)
 	}
 }
-
-
 const mapStateToProps = createStructuredSelector({
 	allSchools: (state) => get(state, 'school.allSchoolsData'),
 	uniqueData: (state) => get(state, 'school.uniqueSchoolsData')
 })
-
 const mapDispatchToProps = (dispatch) => ({
-
 	allSchoolsData: (payload) => new Promise((resolve, reject) =>
 		dispatch(Actions.allSchoolsDataRequest(payload, resolve, reject))),
-
 	uniqueSchoolData: (payload) => new Promise((resolve, reject) =>
 		dispatch(Actions.uniqueSchoolsDataRequest(payload, resolve, reject)))
 })
-
 export default connect(mapStateToProps, mapDispatchToProps)(ManualSchoolSelect)
-
 const styles = StyleSheet.create({
 	text: {
 		fontSize: 30,

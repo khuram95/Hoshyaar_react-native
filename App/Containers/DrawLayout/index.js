@@ -19,8 +19,6 @@ class DrawLayout extends Component {
     console.log("Hello")
     this.refs['DRAWER'].openDrawer()
   }
-
-
   render() {
     const DashboardImages = [{ key: { image: 'reports', text: 'All Reports', navigateTo: 'ShowReports' } },
     { key: { image: 'editreports', text: 'Create Report', navigateTo: 'ManualGoogleMap' } },
@@ -28,8 +26,6 @@ class DrawLayout extends Component {
     { key: { image: 'adhoc', text: 'Adhoc Query', navigateTo: '' } },
     { key: { image: 'key', text: 'Change Password', navigateTo: '' } },
     { key: { image: 'signout', text: 'Signout', navigateTo: '' } }
-
-
     ]
     var navigationView = (
       <View style={{ flex: 1, backgroundColor: 'red' }}>
@@ -63,7 +59,6 @@ class DrawLayout extends Component {
             <Image source={Images[this.props.image]} style={{ width: 30, height: 30, }} />
           </Button>
         </Right>
-
       </Header>
       // </DrawerLayoutAndroid>
     );

@@ -73,14 +73,11 @@ export default class ReportFormat extends Component {
           <Text style={styles.belowText}>{tehsil + ', ' + district}</Text>
           {/* <Text style={styles.belowText}>{user_name}</Text> */}
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginBottom: '4.7%'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginBottom: '4.7%' }}>
           <Progress.Bar progress={0.4} width={200} color="red" height={15} />
           <Image source={Images.unlock} style={{ width: 15, height: 15, marginLeft: '1%' }} />
         </View>
         <Text style={styles.reportText}> {report_text} </Text>
-
-
-
         <View style={{ flex: 1, flexDirection: "row", marginBottom: '5%' }}>
           <FlatList
             data={photos}
@@ -89,10 +86,7 @@ export default class ReportFormat extends Component {
             pagingEnabled
             ref={(sl) => this.scrollList = sl}
           />
-
           {/* {photos.map((pic) =>
-
-
           <Image
             style={{ width: 150, height: 150 }}
             source={{ uri: 'https://c.tribune.com.pk/2016/02/1055025-schoolchildren-1456494957-675-640x480.jpg' }}

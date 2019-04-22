@@ -4,6 +4,8 @@ import { Images, Colors } from '../../Themes/'
 import React, { Component } from 'react'
 import * as Progress from 'react-native-progress';
 import ReportImage from './ReportImage'
+import ViewMoreText from 'react-native-view-more-text';
+
 
 import {
   View,
@@ -49,6 +51,16 @@ export default class ReportFormat extends Component {
     this.scrollList = {}
     this.scrollPosition = 0
   }
+  renderViewMore(onPress) {
+    return (
+      <Text onPress={onPress}>View more</Text>
+    )
+  }
+  renderViewLess(onPress) {
+    return (
+      <Text onPress={onPress}>View less</Text>
+    )
+  }
   scrollTo = (forward, count) => {
     this.scrollPosition = forward ?
       Math.min(this.scrollPosition + 175, (count - 2) * 175)
@@ -72,11 +84,18 @@ export default class ReportFormat extends Component {
           <Text style={styles.belowText}>{tehsil + ', ' + district}</Text>
           {/* <Text style={styles.belowText}>{user_name}</Text> */}
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginBottom: '4.7%' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-start',}}>
           <Progress.Bar progress={0.4} width={200} color="red" height={15} />
           <Image source={Images.unlock} style={{ width: 15, height: 15, marginLeft: '1%' }} />
         </View>
-        <Text style={styles.reportText}> {report_text} </Text>
+        <ViewMoreText
+          numberOfLines={2}
+          renderViewMore={this.renderViewMore}
+          renderViewLess={this.renderViewLess}
+          // textStyle={{ textAlign: 'center' }}
+        >
+          <Text style={styles.reportText}> {report_text} </Text>
+        </ViewMoreText>
         <View style={{ flex: 1, flexDirection: "row", marginBottom: '5%' }}>
           <FlatList
             data={photos}

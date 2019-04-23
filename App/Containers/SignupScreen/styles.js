@@ -34,6 +34,14 @@ export default StyleSheet.create({
     alignSelf: 'center',
     width: '80%'
   },
+  signinbutton:{
+
+    height: 50, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: '80%'
+  },
 
   textStyle:{
     width: '100%',

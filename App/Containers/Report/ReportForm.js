@@ -11,7 +11,6 @@ import { createStructuredSelector } from 'reselect'
 import Images from '../../Themes/Images'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
-import DrawLayout from '../DrawLayout'
 
 class CreateReport extends Component {
 	constructor(props) {
@@ -43,17 +42,19 @@ class CreateReport extends Component {
 		this.props.createReport({
 			reportContent: get(this.props, 'reportText.text.reportcontent'),
 			school_id: this.state.school.emis,
-			user_id: 17,
+			user_id: this.props.currentUser.id,
 			image: this.state.uri
 		})
 			.then(() => {
-				// this.props.saveReportTextRequest('')
+				this.props.saveReportTextRequest('')
+				const { navigation } = this.props
+				navigation.navigate("DashBoard")
 			})
 	}
 
 	OpenCamera = () => {
 		const { navigation } = this.props
-		navigation.navigate(",k")
+		navigation.navigate("Camera")
 	}
 
 
@@ -92,8 +93,10 @@ class CreateReport extends Component {
 	render() {
 		return (
 			<View>
-				<DrawLayout title="Create Report" image=''/>
+				<Text style={{ textAlign: "center" }}>Create Report</Text>
+
 				{<Text>{this.state.school.school_name}</Text>}
+
 				<TextInput
 					multiline={true}
 					numberOfLines={6}
@@ -139,6 +142,7 @@ const mapStateToProps = createStructuredSelector({
 	selectedSchool: (state) => get(state, 'schooldetail.schooldetail.school'),
 	reportText: (state) => get(state, 'report.report.text'),
 	reportImages: (state) => get(state, 'report.report.images'),
+	currentUser: (state) => get(state, 'auth.currentUser'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -149,4 +153,3 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateReport)
-

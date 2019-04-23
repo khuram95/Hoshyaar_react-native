@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { View, Image, ImageBackground, KeyboardAvoidingView, Linking,
-  ScrollView ,TouchableOpacity} from 'react-native'
+import {
+  View, Image, ImageBackground, KeyboardAvoidingView, Linking,
+  ScrollView, TouchableOpacity
+} from 'react-native'
 // import { Button, Text, Form, Item, Input } from 'native-base'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { get, isEmpty } from 'lodash'
@@ -20,12 +22,12 @@ class LoginForm extends React.Component {
   }
 
   static navigationOptions = {
-      header: null,
-    }
+    header: null,
+  }
 
   constructor(props) {
     super(props)
-    this.state = {email: 'sajjad@gmail.com', password:'123456',emaiError:'', passwordError:''}
+    this.state = { email: 'sajjad@gmail.com', password: '123456', emaiError: '', passwordError: '' }
 
 
   }
@@ -35,17 +37,17 @@ class LoginForm extends React.Component {
   }
   validatesInput = () => {
     const { email, password } = this.state
-    if(isEmpty(email)){
-      this.setState({ emaiError: "Email can't be Blank"});
+    if (isEmpty(email)) {
+      this.setState({ emaiError: "Email can't be Blank" });
       return false;
-    }else if(!this.isValidatesEmail()){
+    } else if (!this.isValidatesEmail()) {
       this.setState({ emaiError: 'Email is not Valid' });
       return false;
     }
-    if(isEmpty(password)){
+    if (isEmpty(password)) {
       this.setState({ passwordError: "password can't be blank" });
       return false;
-    } else if(password.length<5){
+    } else if (password.length < 5) {
       this.setState({ passwordError: 'password must be 6 digits long' });
       return false;
     }
@@ -55,26 +57,26 @@ class LoginForm extends React.Component {
   login = () => {
     const { email, password } = this.state
     const { navigation } = this.props
-    if(this.validatesInput()){     
+    if (this.validatesInput()) {
       navigation.navigate("DashBoard")
       this.props.login(email, password)
-      .then(() => {
-        // this.props.registerDevice(this.props.deviceToken)
-        // this.props.fetchAllNotifications()
-        // this.props.navigation.navigate('Dashboard')
-      })
+        .then(() => {
+          // this.props.registerDevice(this.props.deviceToken)
+          // this.props.fetchAllNotifications()
+          // this.props.navigation.navigate('Dashboard')
+        })
     }
   }
 
   signUp = () => {
     const { navigation } = this.props
-      navigation.navigate("SignupScreen")
+    navigation.navigate("SignupScreen")
   }
 
+  SignupScreen
 
 
-
-  render () {
+  render() {
     return (
       <ImageBackground
         style={styles.backgroundImage}
@@ -83,7 +85,7 @@ class LoginForm extends React.Component {
           <Text style={styles.appTitleName}>Hoshyaar/ہوشیار</Text>
         </View>
         <View style={styles.inputBlock}>
-            <Text style={styles.errorsMessages}></Text>
+          <Text style={styles.errorsMessages}></Text>
           <FormItem style={styles.userName}>
             <Input
               value={this.state.email}
@@ -98,33 +100,22 @@ class LoginForm extends React.Component {
               value={this.state.password}
               placeholder='Enter password'
               placeholderTextColor='#0d6d93'
-              
+
               secureTextEntry={true}
-              onChangeText={(password) => this.setState({ password: password, passwordError:'' })}
+              onChangeText={(password) => this.setState({ password: password, passwordError: '' })}
             />
           </FormItem>
         </View>
-        <Button style={{
-          alignSelf: 'center',
-          width: '80%'
-        }}
-        onPress={this.login}
-        >
-          <Text style={{
-            width: '100%',
-            fontWeight: "800",
-            textAlign: "center"
-          }}>
-          Login
-          </Text>
-        </Button>
-
-
-        <TouchableOpacity onPress={this.signUp}>
-          <View style={{alignItems: 'center'}}>
-             <Text style={{color: 'blue'}}>SIGNUP</Text>
-           </View>
-        </TouchableOpacity>
+        <View style={styles.signinbutton} >
+          <Button onPress={this.login}>
+            <Text style={styles.textStyle}>SIGNIN</Text>
+          </Button>
+        </View>
+        <View style={styles.bottomView} >
+          <Button onPress={this.signUp}>
+            <Text style={styles.textStyle}>SIGNUP</Text>
+          </Button>
+        </View>
       </ImageBackground>
     )
   }

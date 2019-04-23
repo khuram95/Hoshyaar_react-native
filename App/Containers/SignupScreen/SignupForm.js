@@ -86,6 +86,12 @@ class SignupForm extends React.Component {
     return true;
   }
 
+  signin = () =>{
+    const { navigation } = this.props
+    navigation.navigate("Login")
+  }
+
+
   signup = () => {
     this.props.signup({
       mobile_no: this.state.mobile_no,
@@ -149,11 +155,18 @@ class SignupForm extends React.Component {
           </FormItem>
 
         </View>
-        <View style={styles.bottomView} >
+        <View style={styles.signinbutton} >
           <Button onPress={this.signup}>
             <Text style={styles.textStyle}>SIGNUP</Text>
           </Button>
         </View>
+
+        <View style={styles.bottomView} >
+          <Button onPress={this.signin}>
+            <Text style={styles.textStyle}>SIGNIN</Text>
+          </Button>
+        </View>
+
 
       </ImageBackground>
     )

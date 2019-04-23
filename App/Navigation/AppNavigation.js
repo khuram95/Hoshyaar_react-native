@@ -48,6 +48,9 @@ export default StackNavigator({
   },
   AddInterest:{
     screen: require('../Containers/ShowReports/AddInterest').default
+  },
+  ReportDetail:{
+    screen: require('../Containers/ShowReports/ReportDetail').default
   }
 
   

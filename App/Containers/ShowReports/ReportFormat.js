@@ -68,12 +68,17 @@ export default class ReportFormat extends Component {
     this.scrollList.getScrollResponder()
       .scrollTo({ x: this.scrollPosition, animated: true })
   }
-
+  
+  gotoReportDetail = () => {
+		const { navigation } = this.props
+		navigation.navigate("ReportDetail") //Report li id dalni hai
+  }
+  
   render() {
     const { report_text, school_name, created_at, district, tehsil, report_address, user_name, photos } = this.props
     return (
 
-      <TouchableOpacity style={styles.report}>
+      <TouchableOpacity style={styles.report} onPress={this.gotoReportDetail}>
 
         <View style={{ flex: 1, justifyContent: "flex-start" }}>
           <View style={{ flex: 1, flexDirection: "row", justifyContent: 'space-between' }}>
@@ -104,14 +109,8 @@ export default class ReportFormat extends Component {
             pagingEnabled
             ref={(sl) => this.scrollList = sl}
           />
-          {/* {photos.map((pic) =>
-          <Image
-            style={{ width: 150, height: 150 }}
-            source={{ uri: 'https://c.tribune.com.pk/2016/02/1055025-schoolchildren-1456494957-675-640x480.jpg' }}
-          //pic.image.url
-          />
-        )} */}
         </View>
+        
         <View style={styles.reportFooter}>
           <View style={styles.footerIcons}>
             <Button transparent dark>

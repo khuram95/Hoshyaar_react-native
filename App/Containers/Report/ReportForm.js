@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
 	View, Image, TouchableOpacity, ImageBackground, KeyboardAvoidingView, Linking,
-	ScrollView, TextInput
+	ScrollView, TextInput, ToastAndroid
 } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { connect } from 'react-redux'
@@ -19,6 +19,7 @@ class CreateReport extends Component {
 			school: get(this.props, 'selectedSchool.school'),
 			image: get(this.props, 'reportImages.images'),
 			uri: get(this.props, 'reportImages.images.uri'),
+			visible: false
 		};
 		// console.log('Image in report : ', get(this.props, 'reportImages.images.uri'))
 		// this.getReadyStates.bind(this);
@@ -59,6 +60,7 @@ class CreateReport extends Component {
 	AudioRecorder = () => {
 		// const { navigation } = this.props
 		// navigation.navigate("MediaPicker")
+		ToastAndroid.showWithGravity('Long Press To Record!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
 		console.log('image in Report is : ', this.state.image);
 		console.log('Props is : ', this.props);
 	}

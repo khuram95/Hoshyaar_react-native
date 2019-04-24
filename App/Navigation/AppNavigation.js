@@ -52,5 +52,5 @@ export default StackNavigator({
 },
   {
     headerMode: 'float',
-    initialRouteName: 'SignupScreen'
+    initialRouteName: 'ManualSchoolSelect'
 })

@@ -85,9 +85,19 @@ class CreateReport extends Component {
 				// let source = { uri: 'data:image/jpeg;base64,' + response.data };
 			}
 			this.setState({
-				image: response
+				image: response,
+				uri: response.uri
 			});
 		});
+	}
+
+	handlePressIn() {
+		ToastAndroid.showWithGravity('Press In', ToastAndroid.SHORT, ToastAndroid.CENTER);
+
+	}
+
+	handlePressOut() {
+		ToastAndroid.showWithGravity('Press Out', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
 	}
 
 	render() {
@@ -115,7 +125,11 @@ class CreateReport extends Component {
 						<Icon name="image" size={40} />
 					</TouchableOpacity>
 
-					<TouchableOpacity onPress={this.AudioRecorder.bind(this)}>
+					<TouchableOpacity
+						// onPress={this.AudioRecorder.bind(this)}
+						onPressIn={this.handlePressIn.bind(this)}
+						onPressOut={this.handlePressOut.bind(this)}
+					>
 						<Icon name="microphone" size={40} />
 					</TouchableOpacity>
 				</View>

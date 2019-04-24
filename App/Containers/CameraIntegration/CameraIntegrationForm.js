@@ -85,14 +85,14 @@ class CameraScreen extends React.Component {
 
   takePicture = async function () {
     if (this.camera) {
-      const options = { pauseAfterCapture: false, metadata: true, exif: true, orientation: "portrait" };
+      const options = { pauseAfterCapture: false, metadata: true, exif: true, orientation: "portrait", fixOrientation: true };
       this.watchID = navigator.geolocation.watchPosition((position) => {
         // Create the object to update this.state.mapRegion through the onRegionChange function
         let region = {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         }
-        options.location = region;
+        // options.location = region;
         this.setState({ position: region });
       }, (error) => console.log(error));
       const data = await this.camera.takePictureAsync(options);

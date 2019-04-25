@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
 import {
-	View, Image, TouchableOpacity, ImageBackground, KeyboardAvoidingView, Linking,
-	ScrollView, TextInput, ToastAndroid
+	View,
+	Image,
+	TouchableOpacity,
+	ImageBackground,
+	KeyboardAvoidingView,
+	Linking,
+	ScrollView,
+	TextInput,
+	ToastAndroid
 } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { connect } from 'react-redux'
@@ -11,6 +18,7 @@ import { createStructuredSelector } from 'reselect'
 import Images from '../../Themes/Images'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
+import AudioRecorder from '../AudioRecorder'
 
 class CreateReport extends Component {
 	constructor(props) {
@@ -94,13 +102,31 @@ class CreateReport extends Component {
 	handlePressIn() {
 		setTimeout(() => {
 			ToastAndroid.showWithGravity('Press In', ToastAndroid.SHORT, ToastAndroid.CENTER);
-		  }, 100)
+		}, 100)
+
+		this.setState({
+			isRecorderVisible: !this.state.isRecorderVisible
+		});
 	}
 
 	handlePressOut() {
 		setTimeout(() => {
 			ToastAndroid.showWithGravity('Press Out', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-		  }, 100)
+		}, 100)
+
+		// this.setState({
+		// 	isRecorderVisible: !this.state.isRecorderVisible
+		// });
+	}
+
+	renderRecorder() {
+		if (this.state.isRecorderVisible) {
+			return (
+				<AudioRecorder />
+			);
+		} else {
+			return null;
+		}
 	}
 
 	render() {
@@ -136,6 +162,7 @@ class CreateReport extends Component {
 						<Icon name="microphone" size={40} />
 					</TouchableOpacity>
 				</View>
+				{this.renderRecorder()}
 
 				<Image
 					style={{ width: 200, height: 200 }}
@@ -143,6 +170,7 @@ class CreateReport extends Component {
 				/>
 
 				<Text>{'\n'}</Text>
+
 
 				<Button style={{ alignSelf: 'center', width: '80%' }}
 					onPress={this.showcontent}>

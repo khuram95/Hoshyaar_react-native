@@ -92,12 +92,15 @@ class CreateReport extends Component {
 	}
 
 	handlePressIn() {
-		ToastAndroid.showWithGravity('Press In', ToastAndroid.SHORT, ToastAndroid.CENTER);
-
+		setTimeout(() => {
+			ToastAndroid.showWithGravity('Press In', ToastAndroid.SHORT, ToastAndroid.CENTER);
+		  }, 100)
 	}
 
 	handlePressOut() {
-		ToastAndroid.showWithGravity('Press Out', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+		setTimeout(() => {
+			ToastAndroid.showWithGravity('Press Out', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+		  }, 100)
 	}
 
 	render() {

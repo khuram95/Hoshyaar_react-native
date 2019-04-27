@@ -92,7 +92,8 @@ const create = () => {
 
 
   const allSchoolsData = (payload, headers) =>{
-    return api.get('/schools',{}, { headers })
+    const {tehsil } = payload
+    return api.get('/schools', {tehsil: tehsil}, { headers })
   } 
   
   const allReports = (payload, headers) =>{
@@ -114,6 +115,15 @@ const create = () => {
     formData.append('district', district);
     formData.append('tehsil', tehsil); 
     return api.put('/schools/sorted_data',formData,{ headers })
+  }
+
+  const getDistricts = (payload, headers) =>{
+    return api.get('/schools/district', {} , { headers })
+  }
+
+  const getTehsils = (payload, headers) =>{
+    const { district } = payload 
+    return api.get('/schools/tehsil', {district: district} , { headers })
   }
 
   const verifyOtp = (payload, headers) => {
@@ -151,6 +161,8 @@ const create = () => {
     allReports,
     signup,
     verifyOtp,
+    getDistricts,
+    getTehsils
   }
 }
 

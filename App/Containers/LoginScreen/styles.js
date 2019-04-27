@@ -70,6 +70,11 @@ export default StyleSheet.create({
     width: '100%',
     fontWeight: "800",
     textAlign: "center"
+  },
+  errorsMessages:{
+    fontSize:14,
+    color: 'red'
+
   }
 })
 

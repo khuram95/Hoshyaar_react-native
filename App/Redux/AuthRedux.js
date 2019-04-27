@@ -5,12 +5,14 @@ import { filter, find } from 'lodash'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  changeEmail: ['email'],
+  changePhoneNumber: ['phone_number'],
   changePassword: ['password'],
   saveUser: ['currentUser'],
-  loginRequest: ['email', 'password', 'resolve', 'reject'],
+
+  loginRequest: ['phone_number', 'password', 'resolve', 'reject'],
   loginSuccess: null,
   loginFailure: ['error'],
+
   signoutRequest: ['resolve', 'reject'],
   signoutSuccess: null,
 
@@ -35,14 +37,14 @@ export const INITIAL_STATE = Immutable({
   // form: { error: {}},
 
   // // for login
-  form: { error: {}, email: 'host@safe.com', password: 'password'},
+  form: { error: {}, phone_number: 'host@safe.com', password: 'password'},
   currentUser: {},
 })
 
 /* ------------- Reducers ------------- */
 
-export const changeEmail = (state, { email }) =>
-  state.setIn(['form', 'email'], email)
+export const changePhoneNumber = (state, { phone_number }) =>
+  state.setIn(['form', 'phone_number'], phone_number)
 
 export const changePassword = (state, { password }) =>
   state.setIn(['form', 'password'], password)
@@ -90,7 +92,7 @@ export const verifyPhoneNumberFailure = (state, { error }) =>
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.CHANGE_EMAIL]: changeEmail,
+  [Types.CHANGE_PHONE_NUMBER]: changePhoneNumber,
   [Types.CHANGE_PASSWORD]: changePassword,
   [Types.SAVE_USER]: saveUser,
   [Types.LOGIN_REQUEST]: loginRequest,

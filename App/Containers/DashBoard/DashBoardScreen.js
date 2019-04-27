@@ -6,6 +6,12 @@ import { Images, Colors } from '../../Themes/'
 import TrendingReport from './TrendingReport'
 import DisplayImage from './DisplayImage'
 import DrawLayout from '../DrawLayout'
+import { get } from 'lodash'
+import { createStructuredSelector } from 'reselect'
+import { connect } from 'react-redux'
+import Actions from '../../Redux/Actions'
+
+
 
 class DashBoardScreen extends Component {
   constructor(props) {
@@ -53,7 +59,15 @@ class DashBoardScreen extends Component {
     )
   }
 }
-export default DashBoardScreen
+const mapStateToProps = createStructuredSelector({
+	currentUser: (state) => get(state, 'auth.currentUser'),
+})
+
+const mapDispatchToProps = (dispatch) => ({
+
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashBoardScreen)
 
 const styles = StyleSheet.create({
   reportFooter: {

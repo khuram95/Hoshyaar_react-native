@@ -28,8 +28,8 @@ class DrawLayout extends Component {
     { key: { image: 'signout', text: 'Signout', navigateTo: '' } }
     ]
     var navigationView = (
-      <View style={{ flex: 1, backgroundColor: 'red' }}>
-        <Image source={Images.pakistan} style={{ width: 300, height: 200 }} />
+      <View >
+        <Image source={Images.pakistan} style={{ width: 24, height: 24 }} />
         <FlatList
           data={DashboardImages}
           renderItem={({ item }) => DrawLayoutFormat(item.key, this.props.navigation)}
@@ -39,11 +39,11 @@ class DrawLayout extends Component {
     );
     return (
       // <DrawerLayoutAndroid
-      //    drawerWidth={300}
-      //   ref={'DRAWER'}
-      //    drawerPosition={DrawerLayoutAndroid.positions.Left}
-      //   renderNavigationView={() => navigationView}
-      //    keyboardDismissMode="on-drag"
+      //     drawerWidth={200}
+      //     ref={'DRAWER'}
+      //     drawerPosition={DrawerLayoutAndroid.positions.Left}
+      //     renderNavigationView={() => navigationView}
+      //     keyboardDismissMode="on-drag"
       //   >
       <Header>
         <Left>
@@ -60,7 +60,6 @@ class DrawLayout extends Component {
           </TouchableHighlight>
         </Right>
       </Header>
-
       // </DrawerLayoutAndroid>
     );
   }

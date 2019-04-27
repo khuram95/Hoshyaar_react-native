@@ -11,7 +11,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://d96e84c6.ngrok.io',
+    baseURL: 'http://1658c6f9.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -20,7 +20,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://d96e84c6.ngrok.io/api/v1',
+    baseURL: 'http://1658c6f9.ngrok.io/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -47,9 +47,15 @@ const create = () => {
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', {q: username})
 
-  const login = (email, password) =>{
-    
-    return authApi.get('auth/sign_up', { email, password })}
+  const login = (payload, headers) =>{
+    const { phone_number,password} = payload
+    console.log("Mobile No and password during login ",phone_number,password)
+    const data = new FormData();
+    data.append('phone_number',phone_number)
+    data.append('password',password)
+    console.log("data is : ", data)
+    return authApi.post('auth/sign_in', data, { headers })
+  }
 
   const signout = (headers) =>
     authApi.delete('auth/sign_out', {}, { headers })

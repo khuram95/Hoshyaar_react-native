@@ -103,7 +103,10 @@ class SchoolDetailForm extends Component {
           <Collapse>
             <CollapseHeader>
               <Separator bordered>
-                <Text>Class Rooms</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 15, }}>
+                  <Text style={{ fontSize: 12 }}>CLASS ROOMS</Text>
+                  <Image source={Images.arrowdown} style={{ width: 20, height: 20 }} />
+                </View>
               </Separator>
             </CollapseHeader>
             <CollapseBody>
@@ -120,7 +123,11 @@ class SchoolDetailForm extends Component {
           <Collapse>
             <CollapseHeader>
               <Separator bordered>
-                <Text>Non-Salary Budget Detail</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 15, }}>
+
+                  <Text style={{ fontSize: 12 }}>NON-SALARY BUDGET DETAIL</Text>
+                  <Image source={Images.arrowdown} style={{ width: 20, height: 20 }} />
+                </View>
               </Separator>
             </CollapseHeader>
             <CollapseBody>
@@ -141,7 +148,11 @@ class SchoolDetailForm extends Component {
           <Collapse>
             <CollapseHeader>
               <Separator bordered>
-                <Text>Student Enrollment</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 15, }}>
+
+                  <Text style={{ fontSize: 12 }}>STUDENT ENROLLMENT</Text>
+                  <Image source={Images.arrowdown} style={{ width: 20, height: 20 }} />
+                </View>
               </Separator>
             </CollapseHeader>
             <CollapseBody>
@@ -158,7 +169,10 @@ class SchoolDetailForm extends Component {
           <Collapse>
             <CollapseHeader>
               <Separator bordered>
-                <Text>Functioning of School Facilities</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 15, }}>
+                  <Text style={{ fontSize: 12 }}>FUNCTIONING OF SCHOOL FACILITIES</Text>
+                  <Image source={Images.arrowdown} style={{ width: 20, height: 20 }} />
+                </View>
               </Separator>
             </CollapseHeader>
             <CollapseBody>

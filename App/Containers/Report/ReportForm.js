@@ -52,7 +52,8 @@ class CreateReport extends Component {
 			reportContent: get(this.props, 'reportText.text.reportcontent'),
 			school_id: this.state.school.emis,
 			user_id: 17,
-			image: this.state.uri
+			image: this.state.uri,
+			audio: get(this.props, 'reportAudio.audio'),
 		})
 			.then(() => {
 				// this.props.saveReportTextRequest('')

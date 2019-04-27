@@ -5,13 +5,19 @@ import {
     StyleSheet,
     Text,
     View,
+    Image,
     TouchableHighlight,
     Platform,
     PermissionsAndroid,
 } from 'react-native';
+import { connect } from 'react-redux'
+import Actions from '../../Redux/Actions'
+// import { get } from 'lodash'
+// import { createStructuredSelector } from 'reselect'
 import { Item as FormItem, Button, Input } from 'native-base'
 import Sound from 'react-native-sound';
 import { AudioRecorder, AudioUtils } from 'react-native-audio';
+import Images from '../../Themes/Images'
 
 class AudioExample extends Component {
 
@@ -171,7 +177,6 @@ class AudioExample extends Component {
 
     _poose = async () => {
         sound.pause();
-        // this.setState({ playing: false, audioPaused: true });
     }
 
     _record = async () => {
@@ -202,6 +207,7 @@ class AudioExample extends Component {
     _finishRecording(didSucceed, filePath, fileSize) {
         this.setState({ finished: didSucceed });
         console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
+        this.props.saveReportAudioRequest(filePath);
     }
 
     render() {
@@ -210,33 +216,22 @@ class AudioExample extends Component {
             <View style={styles.container}>
                 <Text style={styles.progressText}>{this.state.currentTime}s</Text>
 
-                <Button /* style={{ alignSelf: 'center', width: '80%' }} */ onPress={this._record}>
-                    <Text /* style={{ width: '100%', fontWeight: "800", textAlign: "left" }} */>
-                        {this.state.recording?'Stop Record':'Start Record'} {'    '}
+                <Button onPress={this._record}>
+                    <Text>
+                        {this.state.recording ? 'Stop Record' : 'Start Record'} {'    '}
                     </Text>
                 </Button>
-                
-                
-                <Button /* style={{ alignSelf: 'center', width: '80%' }} */ onPress={this._play}>
-                    <Text /* style={{ width: '100%', fontWeight: "800", textAlign: "left" }} */>
-                    {this.state.playing?'Stop Audio':'Play Audio'}
-                    </Text>
+
+
+                <Button onPress={this._play}>
+                    {this.state.playing
+                        ? <Image source={Images.stopIcon} style={{ width: 45, height: 45 }} />
+                        : <Image source={Images.playIcon} style={{ width: 45, height: 45 }} />
+                    }
                 </Button>
-                
+
 
             </View>
-
-
-            // <View style={styles.container}>
-            //     <View style={styles.controls}>
-            //         {this._renderButton("RECORD", () => { this._record() }, this.state.recording)}
-            //         {this._renderButton("PLAY", () => { this._play() })}
-            //         {this._renderButton("STOP", () => { this._stop() })}
-            //         {/* {this._renderButton("PAUSE", () => { this._pause() })} */}
-            //         {this._renderPauseButton(() => { this.state.paused ? this._resume() : this._pause() })}
-            //         <Text style={styles.progressText}>{this.state.currentTime}s</Text>
-            //     </View>
-            // </View>
         );
     }
 }
@@ -245,7 +240,8 @@ var styles = StyleSheet.create({
     container: {
         // flex: 1,
         flexDirection: 'row',
-        backgroundColor: "#2b608a",
+        justifyContent: 'center'
+        // backgroundColor: "#2b608a",
     },
     controls: {
         justifyContent: 'center',
@@ -253,12 +249,7 @@ var styles = StyleSheet.create({
         flex: 1,
     },
     progressText: {
-        // paddingTop: 50,
-        // fontSize: 50,
         color: "#fff"
-    },
-    button: {
-        // padding: 20
     },
     disabledButtonText: {
         color: '#eee'
@@ -274,4 +265,8 @@ var styles = StyleSheet.create({
 
 });
 
-export default AudioExample;
+const mapDispatchToProps = (dispatch) => ({
+    saveReportAudioRequest: (audio) => dispatch(Actions.saveReportAudio(audio)),
+})
+
+export default connect(null, mapDispatchToProps)(AudioExample)

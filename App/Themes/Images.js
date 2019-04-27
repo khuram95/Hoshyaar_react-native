@@ -13,7 +13,8 @@ const images = {
   Notification: require('../Images/notification.png'),
   add: require('../Images/add.png'),
   arrowdown: require('../Images/arrowdown.png'),
-
+  playIcon: require('../Images/play-icon.png'),
+  stopIcon: require('../Images/stop-icon.png'),
 
 
 

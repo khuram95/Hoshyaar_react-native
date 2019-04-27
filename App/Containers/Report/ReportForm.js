@@ -113,14 +113,11 @@ class CreateReport extends Component {
 		setTimeout(() => {
 			ToastAndroid.showWithGravity('Press Out', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
 		}, 100)
-
-		// this.setState({
-		// 	isRecorderVisible: !this.state.isRecorderVisible
-		// });
 	}
 
 	renderRecorder() {
 		if (this.state.isRecorderVisible) {
+			console.log('Lo g kya save hua wa tha? ', get(this.props, 'reportAudio.audio'));
 			return (
 				<AudioRecorder />
 			);
@@ -155,7 +152,6 @@ class CreateReport extends Component {
 					</TouchableOpacity>
 
 					<TouchableOpacity
-						// onPress={this.AudioRecorder.bind(this)}
 						onPressIn={this.handlePressIn.bind(this)}
 						onPressOut={this.handlePressOut.bind(this)}
 					>
@@ -187,6 +183,7 @@ const mapStateToProps = createStructuredSelector({
 	selectedSchool: (state) => get(state, 'schooldetail.schooldetail.school'),
 	reportText: (state) => get(state, 'report.report.text'),
 	reportImages: (state) => get(state, 'report.report.images'),
+	reportAudio: (state) => get(state, 'report.report.audio'),
 })
 
 const mapDispatchToProps = (dispatch) => ({

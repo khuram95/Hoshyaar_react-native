@@ -5,6 +5,8 @@ import React, { Component } from 'react'
 import * as Progress from 'react-native-progress';
 import ReportImage from './ReportImage'
 import ViewMoreText from 'react-native-view-more-text';
+import Modal from "react-native-modal";
+
 
 
 import {
@@ -68,28 +70,34 @@ export default class ReportFormat extends Component {
     this.scrollList.getScrollResponder()
       .scrollTo({ x: this.scrollPosition, animated: true })
   }
-  
-  gotoReportDetail = () => {
-		const { navigation } = this.props
-		navigation.navigate("ReportDetail") //Report li id dalni hai
+
+  static navigationOptions = {
+    header: null,
   }
-  
+
   render() {
-    const { report_text, school_name, created_at, district, tehsil, report_address, user_name, photos } = this.props
+    const { report } = this.props
     return (
-
-      <TouchableOpacity style={styles.report} onPress={this.gotoReportDetail}>
-
+      <TouchableOpacity style={styles.report}
+      //onPress={() => this.props.gotoReportDetail && this.props.gotoReportDetail(report)}
+      >
         <View style={{ flex: 1, justifyContent: "flex-start" }}>
+
           <View style={{ flex: 1, flexDirection: "row", justifyContent: 'space-between' }}>
-            <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-              {school_name}</Text>
-            <Moment element={Text} fromNow>{created_at}</Moment>
+            <View style={{ flex: 0.6 }}>
+              <Text style={{ fontWeight: "bold", fontSize: 16, }}>
+                {report.school && report.school.school_name}</Text>
+            </View>
+            <View style={{ flex: 0.4 }}>
+              <Moment element={Text} fromNow>{report && report.created_at}</Moment>
+            </View>
           </View>
-          <Text style={styles.belowText}>{tehsil + ', ' + district}</Text>
-          {/* <Text style={styles.belowText}>{user_name}</Text> */}
+
+          <Text style={styles.belowText}>
+            {report.school && report.school.tehsil + ' '} {report.school && report.school.district}</Text>
+          {/* <Text style={styles.belowText}>{report.user && report.user.user_name}</Text> */}
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-start',}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', }}>
           <Progress.Bar progress={0.4} width={200} color="red" height={15} />
           <Image source={Images.unlock} style={{ width: 15, height: 15, marginLeft: '1%' }} />
         </View>
@@ -97,40 +105,47 @@ export default class ReportFormat extends Component {
           numberOfLines={2}
           renderViewMore={this.renderViewMore}
           renderViewLess={this.renderViewLess}
-          // textStyle={{ textAlign: 'center' }}
         >
-          <Text style={styles.reportText}> {report_text} </Text>
+          <Text style={styles.reportText}> {report && report.report_text} </Text>
         </ViewMoreText>
         <View style={{ flex: 1, flexDirection: "row", marginBottom: '5%' }}>
           <FlatList
-            data={photos}
+            data={report.photos && report.photos}
             renderItem={(image) => ReportImage(image)}
             horizontal
             pagingEnabled
             ref={(sl) => this.scrollList = sl}
           />
         </View>
-        
+        <View
+          style={{
+            borderBottomColor: 'black',
+            borderBottomWidth: 2,
+          }}
+        />
+
         <View style={styles.reportFooter}>
           <View style={styles.footerIcons}>
             <Button transparent dark>
               <Image source={Images.agree} style={{ width: 25, height: 25, }} />
-              <Text style={styles.badgeCount}>128 Agree</Text>
+              <Text style={styles.badgeCount}>Agree</Text>
             </Button>
           </View>
           <View style={styles.footerIcons}>
             <Button transparent dark>
               <Image source={Images.disagree} style={{ width: 25, height: 25, }} />
-              <Text style={styles.badgeCount}>45 Disagree</Text>
+              <Text style={styles.badgeCount}>Disagree</Text>
             </Button>
           </View>
           <View style={styles.footerIcons}>
             <Button transparent dark>
               <Image source={Images.comment} style={{ width: 25, height: 25, }} />
-              <Text style={styles.badgeCount}>109 Comments</Text>
+              <Text style={styles.badgeCount}>Comments</Text>
             </Button>
           </View>
         </View>
+
+
       </TouchableOpacity>
     )
   }
@@ -169,6 +184,7 @@ const styles = StyleSheet.create({
     marginBottom: '2%',
     fontSize: 14,
     color: "#555"
+
   },
   belowText: {
     color: "#aaa",

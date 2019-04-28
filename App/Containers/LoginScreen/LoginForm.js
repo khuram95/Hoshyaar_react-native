@@ -68,7 +68,7 @@ class LoginForm extends React.Component {
       })
         .then(() => {
           const { navigation } = this.props
-          navigation.navigate("DashBoard")
+          // navigation.navigate("DashBoard")
         })
         .catch(error=>console.log(error))
     }

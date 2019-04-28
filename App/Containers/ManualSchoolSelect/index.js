@@ -12,8 +12,7 @@ class ManualSchoolSelect extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			district: '', tehsil: '', school: '', uniqueDistrict: []
-			, uniqueTehsil: [], uniqueschool: []
+			district: '', tehsil: '', school: '', 
 		};
 		this.props.getDistrict()
 		.then((response) =>
@@ -23,9 +22,6 @@ class ManualSchoolSelect extends Component {
 	static navigationOptions = {
 		header: null,
 	}
-	// getDistrict = () => {
-	// 	this.props.dist
-	// }
 	updateDistrict = (district) => {
 		this.setState({ district: district })
 		this.props.getTehsil({ district })
@@ -38,7 +34,6 @@ class ManualSchoolSelect extends Component {
 		this.props.allSchoolsData({ tehsil })
 			.then(() => {
 				console.log('tehsil was going')
-				//this.setState({ uniqueschool: this.props.uniqueData })
 			})
 	}
 
@@ -50,12 +45,11 @@ class ManualSchoolSelect extends Component {
 		navigation.navigate("SchoolDetail", { id: this.state.school })
 	}
 	render() {
-		console.log("hahhah", this.props)
 		return (
 			<View style={{
 				flex: 1,
 				flexDirection: 'column',
-				// justifyContent: 'space-between',
+				justifyContent: 'space-between',
 			}}>
 				<DrawLayout title="Manual Select" image='' />
 				<Text>Select District</Text>
@@ -111,8 +105,6 @@ const mapDispatchToProps = (dispatch) => ({
 			
 	allSchoolsData: (payload) => new Promise((resolve, reject) =>
 	 	dispatch(Actions.allSchoolsDataRequest(payload, resolve, reject))),
-	// uniqueSchoolData: (payload) => new Promise((resolve, reject) =>
-	// 	dispatch(Actions.uniqueSchoolsDataRequest(payload, resolve, reject)))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ManualSchoolSelect)
 const styles = StyleSheet.create({

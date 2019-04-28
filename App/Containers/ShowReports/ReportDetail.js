@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import {
-    View, Image, ImageBackground, KeyboardAvoidingView, Linking,
-    ScrollView, TextInput, AppRegistry, SectionList, StyleSheet
-} from 'react-native'
+import { ScrollView } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
@@ -17,24 +14,33 @@ class ReportDetail extends Component {
         super(props);
         this.state = {
         };
+
     }
     static navigationOptions = {
-		header: null,
-	}
+        header: null,
+    }
+
+
     render() {
+        const  report  = this.props.navigation.state.params.report
+        console.log('this.props.navigation.getParam() :',this.props.navigation.state.params.report)        
+        console.log('Report Detail :',report.report_text)
+
         return (
             <ScrollView style={{ backgroundColor: '#e6ecf0', flex: 1}}>
                 <DrawLayout title="Report Detail" image=''/>
                 <ReportFormat
-                report_text="Owing to the prevailing precarious security situation, all government and private educational institutes in the federal capital and across Punjab would remain closed today (Friday) to avoid any untoward situation.
-                Education Ministry official spokesman Muhammad Rafique Tahir said that all educational institutions under the administrative control of the federal government at Islamabad capital territory will remain closed."
-                created_at='1976-04-19T12:59-0500'
-                school_name='The Educators Sadar Campus'
-                district='Lahore'
-                tehsil='Lahore'
-                report_address='Walton Road Lahore Cantt'
-                user_name='Sajjad Mustafa'
-                photos=''
+                report={report && report}
+                report_text={report && report.report_text}
+                created_at={report && report.created_at}
+                school_name={report.school && report.school.school_name}
+                district={report.school && report.school.district}
+                tehsil={report.school && report.school.tehsil}
+                report_address={report && report.report_address}
+                user_name={report.user && report.user.user_name}
+                photos={report.photos && report.photos}
+                navigation={this.props.navigation}
+                gotoReportDetail={''}
             />
             </ScrollView>
         )

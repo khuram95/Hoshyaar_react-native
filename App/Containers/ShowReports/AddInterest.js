@@ -13,42 +13,35 @@ class AddInterest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      district: '', tehsil: '', school: '', uniqueDistrict: []
-      , uniqueTehsil: [], uniqueschool: [], isModalVisible: false,
-
+      district: '', tehsil: '', school: '',isModalVisible: false,
     };
-
-    this.props.allSchoolsData()
-      .then(() => {
-        let uniqueDist = [...new Set(get(this.props, 'allSchools').map(school => school.district))];
-        this.setState({ uniqueDistrict: uniqueDist })
-        let uniqueTeh = [...new Set(get(this.props, 'allSchools').map(school => school.tehsil))];
-        this.setState({ uniqueTehsil: uniqueTeh })
-        this.setState({ uniqueschool: this.props.allSchools })
-        console.log('this.state.uniqueschool', this.state.uniqueschool)
-      })
+    this.props.getDistrict()
+      .then((response) =>
+        console.log("hahhasdah", get(this.props))
+      )
   }
   static navigationOptions = {
     header: null,
   }
   updateDistrict = (district) => {
     this.setState({ district: district })
-    this.props.uniqueSchoolData({ district, tehsil: '' })
+    this.props.getTehsil({ district })
       .then(() => {
-        let uniqueTeh = [...new Set(get(this.props, 'uniqueData').map(school => school.tehsil))];
-        this.setState({ uniqueTehsil: uniqueTeh })
+        console.log('ok')
       })
   }
   updateTehsil = (tehsil) => {
     this.setState({ tehsil: tehsil })
-    this.props.uniqueSchoolData({ district: '', tehsil })
+    this.props.allSchoolsData({ tehsil })
       .then(() => {
-        this.setState({ uniqueschool: this.props.uniqueData })
+        console.log('tehsil was going')
       })
   }
+
   updateSchool = (school) => {
     this.setState({ school: school })
   }
+
   addMyInterest = () => {
     const { navigation } = this.props
     this.setState({ isModalVisible: !this.state.isModalVisible });
@@ -68,31 +61,35 @@ class AddInterest extends Component {
           <View style={styles.modalContent}>
 
             <Text>Select District</Text>
-            <View style={styles.pickercontainer}>
+            <View style={styles.container}>
               <Picker selectedValue={this.state.district}
                 onValueChange={(itemValue, itemIndex) => this.updateDistrict(itemValue)}>
-                {this.state.uniqueDistrict && this.state.uniqueDistrict.map((district) =>
+                {get(this.props, 'allDistricts').map((district) =>
                   <Picker.Item label={district} value={district} />)}
               </Picker>
             </View>
             <Text>Select Tehsil</Text>
-            <View style={styles.pickercontainer}>
-              <Picker selectedValue={this.state.tehsil}
-                onValueChange={(itemValue, itemIndex) => this.updateTehsil(itemValue)}>
-                {this.state.uniqueTehsil && this.state.uniqueTehsil.map((tehsil) =>
-                  <Picker.Item label={tehsil} value={tehsil} />)
-                }
-              </Picker>
-            </View>
+            {get(this.props, 'allTehsils') &&
+              <View style={styles.container}>
+                <Picker selectedValue={this.state.tehsil}
+                  onValueChange={(itemValue, itemIndex) => this.updateTehsil(itemValue)}>
+                  {get(this.props, 'allTehsils').map((tehsil) =>
+                    <Picker.Item label={tehsil} value={tehsil} />)
+                  }
+                </Picker>
+              </View>
+            }
             <Text>Select School</Text>
-            <View style={styles.pickercontainer}>
-              <Picker selectedValue={this.state.school}
-                onValueChange={(itemValue, itemIndex) => this.updateSchool(itemValue)}>
-                {this.state.uniqueschool && this.state.uniqueschool.map((school) =>
-                  <Picker.Item label={school.school_name} value={school} />)}
-              </Picker>
-            </View>
-            <View style={{ flexDirection:'row',justifyContent: 'center',}}>
+            {get(this.props, 'allSchools') &&
+              <View style={styles.container}>
+                <Picker selectedValue={this.state.school}
+                  onValueChange={(itemValue, itemIndex) => this.updateSchool(itemValue)}>
+                  {get(this.props, 'allSchools').map((school) =>
+                    <Picker.Item label={school.school_name} value={school} />)}
+                </Picker>
+              </View>
+            }
+            <View style={{ flexDirection: 'row', justifyContent: 'center', }}>
               <TouchableOpacity onPress={this.addMyInterest}>
                 <View style={styles.button}>
                   <Text>Add</Text>
@@ -111,14 +108,19 @@ class AddInterest extends Component {
   }
 }
 const mapStateToProps = createStructuredSelector({
-  allSchools: (state) => get(state, 'school.allSchoolsData'),
-  uniqueData: (state) => get(state, 'school.uniqueSchoolsData')
+	allSchools: (state) => get(state, 'school.allSchoolsData'),
+	uniqueData: (state) => get(state, 'school.uniqueSchoolsData'),
+	allDistricts: (state) =>  get(state, 'school.districts'),
+	allTehsils: (state) =>  get(state, 'school.tehsils'),
 })
 const mapDispatchToProps = (dispatch) => ({
-  allSchoolsData: (payload) => new Promise((resolve, reject) =>
-    dispatch(Actions.allSchoolsDataRequest(payload, resolve, reject))),
-  uniqueSchoolData: (payload) => new Promise((resolve, reject) =>
-    dispatch(Actions.uniqueSchoolsDataRequest(payload, resolve, reject)))
+	getDistrict: (payload) => new Promise((resolve, reject) =>
+		dispatch(Actions.getDistrictsRequest(payload, resolve, reject))),
+	getTehsil: (payload) => new Promise((resolve, reject) =>
+		dispatch(Actions.getTehsilsRequest(payload, resolve, reject))),
+			
+	allSchoolsData: (payload) => new Promise((resolve, reject) =>
+	 	dispatch(Actions.allSchoolsDataRequest(payload, resolve, reject))),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(AddInterest)
 

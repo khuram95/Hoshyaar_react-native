@@ -31,7 +31,7 @@ class ShowReports extends Component {
         <Tabs>
           <Tab heading="All Reports">
             <View style={{ flex: 1 }}>
-              <AllReports />
+              <AllReports navigation={this.props.navigation}/>
             </View>
           </Tab>
           <Tab heading="My Reports">

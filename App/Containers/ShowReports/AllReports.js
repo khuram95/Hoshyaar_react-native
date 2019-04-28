@@ -4,7 +4,6 @@ import {
   ScrollView, TextInput, AppRegistry, SectionList, StyleSheet
 } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
-import { Divider } from 'react-native-elements';
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import { createStructuredSelector } from 'reselect'

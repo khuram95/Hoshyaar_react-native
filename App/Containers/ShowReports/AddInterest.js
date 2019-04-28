@@ -89,6 +89,7 @@ class AddInterest extends Component {
                 </Picker>
               </View>
             }
+            
             <View style={{ flexDirection: 'row', justifyContent: 'center', }}>
               <TouchableOpacity onPress={this.addMyInterest}>
                 <View style={styles.button}>

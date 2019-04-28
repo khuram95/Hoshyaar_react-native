@@ -36,10 +36,45 @@ function * makeallReportsRequest (api, action) {
   }
 }
 
+function * makeCommentsRequest (api, action) {
+  console.log("Comments Sagas")
+  const { payload, resolve, reject } = action
+  const response = yield call(api.comments, payload)
+  console.log("Responce  Sagas : " ,response)
+  if (response.ok) {
+    yield put(Actions.commentsSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.commentsFailure(error))
+    return reject(error)
+  }
+}
+
+
+function * makeReportReactionsRequest (api, action) {
+  console.log("reportReactions Sagas")
+  const { payload, resolve, reject } = action
+  const response = yield call(api.reportReactions, payload)
+  console.log("Responce  Sagas : " ,response)
+  if (response.ok) {
+    yield put(Actions.reportReactionsSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.reportReactionsFailure(error))
+    return reject(error)
+  }
+}
+
+
+
 // ADD_SAGA_ACTION
 
 export default {
     makeCreateReportRequest,
-    makeallReportsRequest
+    makeallReportsRequest,
+    makeCommentsRequest,
+    makeReportReactionsRequest
   // EXPORT_SAGA_ACTION
 }

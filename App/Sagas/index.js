@@ -49,6 +49,10 @@ export default function * root () {
     takeLatest(ActionTypes.ALL_REPORTS_REQUEST, Sagas.makeallReportsRequest, api),
     takeLatest(ActionTypes.SIGNUP_REQUEST, Sagas.makeSignupRequest, api),
     takeLatest(ActionTypes.VERIFY_PHONE_NUMBER_REQUEST, Sagas.makeVerifyPhoneNumberRequest, api),
+    takeLatest(ActionTypes.COMMENTS_REQUEST, Sagas.makeCommentsRequest, api),
+    takeLatest(ActionTypes.REPORT_REACTIONS_REQUEST, Sagas.makeReportReactionsRequest, api),
+
+
 
 
     // REGISTRER_SAGA

@@ -45,14 +45,14 @@ const create = () => {
   //
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')
-  const getUser = (username) => api.get('search/users', {q: username})
+  const getUser = (username) => api.get('search/users', { q: username })
 
-  const login = (payload, headers) =>{
-    const { phone_number,password} = payload
-    console.log("Mobile No and password during login ",phone_number,password)
+  const login = (payload, headers) => {
+    const { phone_number, password } = payload
+    console.log("Mobile No and password during login ", phone_number, password)
     const data = new FormData();
-    data.append('phone_number',phone_number)
-    data.append('password',password)
+    data.append('phone_number', phone_number)
+    data.append('password', password)
     console.log("data is : ", data)
     return authApi.post('auth/sign_in', data, { headers })
   }
@@ -60,8 +60,8 @@ const create = () => {
   const signout = (headers) =>
     authApi.delete('auth/sign_out', {}, { headers })
 
-  const createReport = (payload, headers) =>{
-    const { reportContent , school_id ,user_id,image} = payload
+  const createReport = (payload, headers) => {
+    const { reportContent, school_id, user_id, image } = payload
     console.log('Report Content is : ', payload)
     const data = new FormData();
     if (image) {
@@ -71,64 +71,87 @@ const create = () => {
         name: 'image.jpg'
       });
     }
-    data.append('school_id',school_id)
-    data.append('user_id',user_id)
-    data.append('report_text',reportContent)
+    data.append('school_id', school_id)
+    data.append('user_id', user_id)
+    data.append('report_text', reportContent)
     console.log("data : ", data)
     return api.post('/reports', data, { headers })
   }
 
+  const comments = (payload, headers) => {
+    const { user_id, report_id, text } = payload
+    console.log('Comments : ', payload)
+    const data = new FormData();
+    data.append('user_id', user_id)
+    data.append('report_id', report_id)
+    data.append('text', text)
+    console.log("data : ", data)
+    return api.post('/comments', data, { headers })
+  }
 
-  const signup = (payload, headers) =>{
-    const { mobile_no , username ,password} = payload
+  const reportReactions = (payload, headers) => {
+    const { user_id, report_id, is_agree } = payload
+    console.log('reportReactions : ', payload)
+    const data = new FormData();
+    data.append('user_id', user_id)
+    data.append('report_id', report_id)
+    data.append('is_agree', is_agree)
+    console.log("data : ", data)
+    return api.post('/report_reactions', data, { headers })
+  }
+
+
+
+  const signup = (payload, headers) => {
+    const { mobile_no, username, password } = payload
     console.log('sigup content is : ', payload)
     const data = new FormData();
-    data.append('phone_number',mobile_no)
-    data.append('user_name',username)
-    data.append('password',password)
+    data.append('phone_number', mobile_no)
+    data.append('user_name', username)
+    data.append('password', password)
     console.log("data : ", data)
     return authApi.post('/auth', data, { headers })
   }
 
 
-  const allSchoolsData = (payload, headers) =>{
-    const {tehsil } = payload
-    return api.get('/schools', {tehsil: tehsil}, { headers })
-  } 
-  
-  const allReports = (payload, headers) =>{
-    return api.get('/reports',{}, { headers })
-  } 
-  
+  const allSchoolsData = (payload, headers) => {
+    const { tehsil } = payload
+    return api.get('/schools', { tehsil: tehsil }, { headers })
+  }
+
+  const allReports = (payload, headers) => {
+    return api.get('/reports', {}, { headers })
+  }
 
 
-  const SchoolDetailData = (payload, headers) =>{
+
+  const SchoolDetailData = (payload, headers) => {
     const { school_id } = payload
     const formData = new FormData();
     formData.append('school_id', school_id);
-    return api.get('/school_details', {school_id: school_id} , { headers })
+    return api.get('/school_details', { school_id: school_id }, { headers })
   }
 
-  const uniqueSchoolsData = (payload, headers) =>{
-    const {district, tehsil } = payload
+  const uniqueSchoolsData = (payload, headers) => {
+    const { district, tehsil } = payload
     const formData = new FormData();
     formData.append('district', district);
-    formData.append('tehsil', tehsil); 
-    return api.put('/schools/sorted_data',formData,{ headers })
+    formData.append('tehsil', tehsil);
+    return api.put('/schools/sorted_data', formData, { headers })
+  }
+  http://c1d0dca4.ngrok.io
+  const getDistricts = (payload, headers) => {
+    return api.get('/schools/district', {}, { headers })
   }
 
-  const getDistricts = (payload, headers) =>{
-    return api.get('/schools/district', {} , { headers })
-  }
-
-  const getTehsils = (payload, headers) =>{
-    const { district } = payload 
-    return api.get('/schools/tehsil', {district: district} , { headers })
+  const getTehsils = (payload, headers) => {
+    const { district } = payload
+    return api.get('/schools/tehsil', { district: district }, { headers })
   }
 
   const verifyOtp = (payload, headers) => {
     console.log('jklfsjfsdkjdsfhkjdsfjnsdfnjcsnfjdsln jfdsnfslkjkjfsdskjkjsd', payload)
-    const {phone_number, otp } = payload
+    const { phone_number, otp } = payload
     const formData = new FormData();
     formData.append('phone_number', phone_number);
     formData.append('otp_code', otp);
@@ -162,7 +185,9 @@ const create = () => {
     signup,
     verifyOtp,
     getDistricts,
-    getTehsils
+    getTehsils,
+    comments,
+    reportReactions
   }
 }
 

@@ -12,6 +12,15 @@ const { Types, Creators } = createActions({
   allReportsRequest: ['payload', 'resolve', 'reject'],
   allReportsSuccess: null,
   allReportsFailure: ['error'],
+
+  commentsRequest: ['payload', 'resolve', 'reject'],
+  commentsSuccess: null,
+  commentsFailure: ['error'],
+
+  reportReactionsRequest: ['payload', 'resolve', 'reject'],
+  reportReactionsSuccess: null,
+  reportReactionsFailure: ['error'],
+
  
   saveAllReportsLocal: ['allReports'],
   saveReportText: ['text'],
@@ -34,23 +43,31 @@ export const INITIAL_STATE = Immutable({
 
 /* ------------- Reducers ------------- */
 
-export const createReportRequest = (state, action) => {
-  return state.merge({ requesting: true, error: null })
-}
-
+export const createReportRequest = (state, action) =>
+  state.merge({ requesting: true, error: null })
 export const createReportSuccess = (state, action) =>
   state.merge({ requesting: false, error: null })
-
 export const createReportFailure = (state, { error }) =>
   state.merge({ requesting: false, error })
 
+export const commentsRequest = (state, action) =>
+  state.merge({ requesting: true, error: null })
+export const commentsSuccess = (state, action) =>
+  state.merge({ requesting: false, error: null })
+export const commentsFailure = (state, { error }) =>
+  state.merge({ requesting: false, error })
+
+  export const reportReactionsRequest = (state, action) =>
+  state.merge({ requesting: true, error: null })
+export const reportReactionsSuccess = (state, action) =>
+  state.merge({ requesting: false, error: null })
+export const reportReactionsFailure = (state, { error }) =>
+  state.merge({ requesting: false, error })  
+
 export const allReportsRequest = (state, action) =>
   state.merge({ requesting: true, error: null })
-
-
 export const allReportsSuccess = (state, action) =>
   state.merge({ requesting: false, error: null })
-
 export const allReportsFailure = (state, { error }) =>
   state.merge({ requesting: false, error })
 
@@ -72,6 +89,16 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CREATE_REPORT_REQUEST]: createReportRequest,
   [Types.CREATE_REPORT_SUCCESS]: createReportSuccess,
   [Types.CREATE_REPORT_FAILURE]: createReportFailure,
+
+  [Types.COMMENTS_REQUEST]: commentsRequest,
+  [Types.COMMENTS_SUCCESS]: commentsSuccess,
+  [Types.COMMENTS_FAILURE]: commentsFailure,
+
+  [Types.REPORT_REACTIONS_REQUEST]: reportReactionsRequest,
+  [Types.REPORT_REACTIONS_SUCCESS]: reportReactionsSuccess,
+  [Types.REPORT_REACTIONS_FAILURE]: reportReactionsFailure,
+
+
   [Types.ALL_REPORTS_REQUEST]: allReportsRequest,
   [Types.ALL_REPORTS_SUCCESS]: allReportsSuccess,
   [Types.ALL_REPORTS_FAILURE]: allReportsFailure,

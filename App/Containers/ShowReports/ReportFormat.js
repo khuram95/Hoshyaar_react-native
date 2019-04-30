@@ -8,27 +8,16 @@ import ViewMoreText from 'react-native-view-more-text';
 import Divider from 'react-native-divider';
 import Modal from "react-native-modal";
 import Actions from '../../Redux/Actions'
-import { createStructuredSelector } from 'reselect'
-import { get } from 'lodash'
 import { connect } from 'react-redux'
 import Icon from "react-native-vector-icons/AntDesign";
-
-
-
-
+import { createStructuredSelector } from 'reselect'
+import { get } from 'lodash'
 import {
 	View,
-	CheckBox,
-	Dimensions,
 	Image,
 	StyleSheet,
 	FlatList,
 	TouchableOpacity,
-	KeyboardAvoidingView,
-	TextInput,
-	TouchableHighlight,
-	Platform,
-	ProgressBarAndroid,
 	ScrollView
 } from 'react-native'
 import {
@@ -37,8 +26,6 @@ import {
 
 } from 'native-base'
 
-
-
 class ReportFormat extends Component {
 	constructor(props) {
 		super(props);
@@ -46,11 +33,8 @@ class ReportFormat extends Component {
 			isCommentModalVisible: false,
 			isAgreeModalVisible: false,
 			isDisagreeModalVisible: false,
-
-			text: undefined,
-			comment_count: get(this.props, 'report.comments.length'),
 			isAgree: false,
-			isDisagree: false,
+			isDisagree: true,
 			user_id: get(this.props, 'currentUser.id'),
 		};
 
@@ -81,11 +65,6 @@ class ReportFormat extends Component {
 
 	onChangeText = (text) => this.setState({ text });
 
-
-	toggleCommentModal = () =>
-		this.setState({ isCommentModalVisible: !this.state.isCommentModalVisible });
-
-
 	toggleAgreeModal = () =>
 		this.setState({ isAgreeModalVisible: !this.state.isAgreeModalVisible });
 
@@ -93,36 +72,25 @@ class ReportFormat extends Component {
 	toggleDisagreeModal = () =>
 		this.setState({ isDisagreeModalVisible: !this.state.isDisagreeModalVisible });
 
-	componentDidMount = () =>{
+	componentDidMount = () => {
 
-		{this.props.report.report_reactions && this.props.report.report_reactions.map((reaction) => {
-			if (reaction.user_id === this.state.user_id) {
-				console.log("reaction.user_id == this.state.user_id ", reaction.user_id, this.state.user_id, reaction)
-				if (reaction.is_agree === true) {
-					this.setState({ isAgree: reaction.is_agree })
-					console.log("this.setState({ isAgree: reaction.is_agree }) ", this.state.isAgree)
-				} else if (reaction.is_agree === false) {
-					this.setState({ isDisagree: reaction.is_agree })
-					console.log("this.setState({ isDisagree: reaction.is_agree }) ", this.state.isDisagree)
+		{
+			this.props.report.report_reactions && this.props.report.report_reactions.map((reaction) => {
+				if (reaction.user_id === this.state.user_id) {
+					// console.log("reaction.user_id == this.state.user_id ", reaction.user_id, this.state.user_id, reaction)
+					if (reaction.is_agree === true) {
+						this.setState({ isAgree: reaction.is_agree })
+						// console.log("this.setState({ isAgree: reaction.is_agree }) ", this.state.isAgree)
+					} else if (reaction.is_agree === false) {
+						this.setState({ isDisagree: reaction.is_agree })
+						// console.log("this.setState({ isDisagree: reaction.is_agree }) ", this.state.isDisagree)
+					}
 				}
 			}
+			)
 		}
-		)}
 
 	}
-
-	submitComment = () => {
-		this.props.comments({
-			user_id: this.props.currentUser.id,
-			report_id: this.props.report.id,
-			text: this.state.text
-		})
-			.then(() => {
-				alert('Comment Submit');
-				this.setState({ comment_count: comment_count + 1 })
-			})
-	}
-
 	reportReaction = (isagree) => {
 		this.props.reportReactions({
 			user_id: this.props.currentUser.id,
@@ -132,9 +100,11 @@ class ReportFormat extends Component {
 			.then(() => {
 				alert('Reaction Submit');
 			})
-
 	}
-
+	toggleComment = () => {
+		const { navigation } = this.props
+		navigation.navigate("Comment", { report: this.props.report, user: this.props.currentUser })
+	}
 	isAgreeHandler = () => {
 		if (!this.state.isAgree) {
 			this.setState({
@@ -213,7 +183,7 @@ class ReportFormat extends Component {
 							ref={(sl) => this.scrollList = sl}
 						/>
 					</View>
-					
+
 					<View style={styles.reportFooter}>
 						<View style={styles.footerIcons}>
 							<TouchableOpacity onPress={this.toggleAgreeModal}>
@@ -226,8 +196,8 @@ class ReportFormat extends Component {
 							</TouchableOpacity>
 						</View>
 						<View style={styles.footerIcons}>
-							<TouchableOpacity onPress={this.toggleCommentModal}>
-								<Text style={styles.badgeCount}>{this.state.comment_count} Comments</Text>
+							<TouchableOpacity onPress={this.toggleComment}>
+								<Text style={styles.badgeCount}>{report.comments.length} Comments</Text>
 							</TouchableOpacity>
 						</View>
 					</View>
@@ -258,7 +228,7 @@ class ReportFormat extends Component {
 							</Button>
 						</View>
 						<View style={styles.footerIcons}>
-							<Button transparent dark onPress={this.toggleCommentModal}>
+							<Button transparent dark onPress={this.toggleComment}>
 								<Image source={Images.comment} style={{ width: 25, height: 25, }} />
 								<Text style={styles.badgeCount}>Comment</Text>
 							</Button>
@@ -268,55 +238,6 @@ class ReportFormat extends Component {
 				</TouchableOpacity>
 
 
-
-
-
-				<Modal
-					isVisible={this.state.isCommentModalVisible
-					}>
-					<View style={styles.modalContent}>
-						<ScrollView style={styles.report}>
-							{report.comments && report.comments.map((comment) =>
-								<View >
-									<View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
-										<Text style={{ fontWeight: "bold", fontSize: 16, }}>
-											{comment && comment.user_name}</Text>
-										<Moment element={Text} fromNow>{comment && comment.created_at}</Moment>
-									</View>
-									<ViewMoreText
-										numberOfLines={2}
-										renderViewMore={this.renderViewMore}
-										renderViewLess={this.renderViewLess}
-									>
-										<Text style={styles.reportText}> {comment && comment.text} </Text>
-									</ViewMoreText>
-									<Divider orientation="center"></Divider>
-								</View>
-							)}
-						</ScrollView>
-						<TextInput
-							placeholder="Add a comment..."
-							keyboardType="twitter"
-							autoFocus={true}
-							style={styles.input}
-							value={this.state.text}
-							onChangeText={this.onChangeText}
-						/>
-
-						<View style={{ flexDirection: 'row', justifyContent: 'center', }}>
-							<TouchableOpacity onPress={this.submitComment}>
-								<View style={styles.button}>
-									<Text>Post</Text>
-								</View>
-							</TouchableOpacity>
-							<TouchableOpacity onPress={this.toggleCommentModal}>
-								<View style={styles.button}>
-									<Text>Close</Text>
-								</View>
-							</TouchableOpacity>
-						</View>
-					</View>
-				</Modal>
 
 
 				<Modal
@@ -331,7 +252,7 @@ class ReportFormat extends Component {
 											{reaction && reaction.user_name}</Text>
 										<Moment element={Text} fromNow>{reaction && reaction.created_at}</Moment>
 										<Divider orientation="center"></Divider>
-									</View>:null
+									</View> : null
 							)}
 						</ScrollView>
 
@@ -418,10 +339,7 @@ const styles = StyleSheet.create({
 		marginBottom: '10%'
 	},
 	reportText: {
-		// minHeight: Dimensions.get('window').height*0.01,
-		// marginTop: Dimensions.get('window').height*0.01,
-		// marginBottom: Dimensions.get('window').height*0.01,
-		// width: Dimensions.get('window').width
+
 		minHeight: '0.02%',
 		marginTop: '5%',
 		marginBottom: '2%',
@@ -480,6 +398,12 @@ const styles = StyleSheet.create({
 		flex: 1,
 		height: 20,
 		fontSize: 15,
+	},
+	bottomModal: {
+		flex: 1,
+		justifyContent: 'flex-end',
+		margin: 0,
+		backgroundColor: 'green',
 	},
 });
 

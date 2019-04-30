@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, } from 'react';
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -7,48 +7,44 @@ import {
   View, TouchableOpacity
 } from 'react-native';
 
-export default class Input extends Component {
-
-
-  state = {
-    text: undefined, // user's input
-  };
+export default class CommentInput extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: undefined,
+    };
+  }
 
   onChangeText = (text) => this.setState({ text });
 
-//   onSubmitEditing = ({ nativeEvent: { text } }) => this.setState({ text }, this.submit);
+  onSubmitEditing = ({ nativeEvent: { text } }) => this.setState({ text }, this.submit);
 
-//   submit = () => {
-//     const { text } = this.state;
-//     if (text) {
-//       this.setState({ text: undefined }, () => this.props.onSubmit(text));
-//     } else {
-//       alert('Please enter your comment first');
-//     }
-//   };
+  submit = () => {
+    console.log("I am press")
+    const { text } = this.state;
+    if (text) {
+      this.setState({ text: undefined }, () => this.props.onSubmit(text));
+    } else {
+      alert('Please enter your comment first');
+    }
+  };
 
   render() {
     return (
-      <KeyboardAvoidingView
-        behavior='position'
-      >
+      <KeyboardAvoidingView behavior="height" enabled>
         <View style={styles.container}>
-          {/* Comment input field */}
           <TextInput
             placeholder="Add a comment..."
-            keyboardType="twitter" // keyboard with no return button
-            autoFocus={true} // focus and show the keyboard
+            autoFocus={true}
             style={styles.input}
             value={this.state.text}
-            onChangeText={this.onChangeText} // handle input changes
-            onSubmitEditing={this.onSubmitEditing} // handle submit event
+            onChangeText={this.onChangeText}
+            onSubmitEditing={this.onSubmitEditing}
           />
-          {/* Post button */}
           <TouchableOpacity
             style={styles.button}
-            // onPress={this.submit}
+            onPress={this.submit}
           >
-            {/* Apply inactive style if no input */}
             <Text style={[styles.text, !this.state.text ? styles.inactive : []]}>Post</Text>
           </TouchableOpacity>
         </View>

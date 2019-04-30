@@ -47,6 +47,9 @@ export default class CommentInput extends Component {
           >
             <Text style={[styles.text, !this.state.text ? styles.inactive : []]}>Post</Text>
           </TouchableOpacity>
+
+        
+
         </View>
       </KeyboardAvoidingView>
     );

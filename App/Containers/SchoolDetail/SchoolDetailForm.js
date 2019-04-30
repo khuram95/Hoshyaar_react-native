@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { View, ScrollView, TextInput, TouchableOpacity, Image } from 'react-native'
-import { Item as FormItem, Text, Button, Input, Header, Body, Title, Left, Right } from 'native-base'
+import { View, ScrollView, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { Item as FormItem, Text, Button } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import DatePicker from 'react-native-datepicker'
@@ -11,6 +11,8 @@ import { createStructuredSelector } from 'reselect'
 import { Images, Colors } from '../../Themes/'
 import { get } from 'lodash'
 import DrawLayout from '../DrawLayout'
+import Icon from "react-native-vector-icons/AntDesign";
+
 
 class SchoolDetailForm extends Component {
   constructor(props) {
@@ -33,8 +35,6 @@ class SchoolDetailForm extends Component {
   }
   dateChange = (date) => {
     this.setState({ date: date })
-    console.log('Date :::::::::::::::::::::', this.state.date)
-    console.log('this.state.schooldetail.visiting_date :', this.state.schooldetail[1].visiting_date)
     size = this.state.schooldetail.length
     for (let i = 0; i < size; i++) {
       if (this.state.schooldetail[i].visiting_date == this.state.date) {
@@ -51,8 +51,12 @@ class SchoolDetailForm extends Component {
     return (
       <ScrollView>
         <DrawLayout title="Government Data" image='' />
-        <Text style={{ alignItems: "center" }}>{this.state.all_school.school_name}</Text>
-        <View style={{ flex: 1, flexDirection: "row" }}>
+        <Text>{'\n'}</Text>
+        <Text style={styles.titleText}>
+          {this.state.all_school.school_name}
+        </Text>
+        <Text>{'\n'}</Text>
+        {/* <View style={{ flex: 1, flexDirection: "row" }}>
           <Text>Select Month</Text>
           <DatePicker
             style={{ width: 200 }}
@@ -78,18 +82,18 @@ class SchoolDetailForm extends Component {
             onDateChange={(date) => { this.dateChange(date) }}
 
           />
-        </View>
+        </View>*/}
         <View>
           <Collapse>
             <CollapseHeader>
               <Separator>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 15, }}>
-                  <Text style={{ fontSize: 12 }}>PRESENCE OF TEACHING STAFF</Text>
-                  <Image source={Images.arrowdown} style={{ width: 20, height: 20 }} />
+                <View style={styles.dataHeading}>
+                  <Text style={styles.dataHeadingFont}>PRESENCE OF TEACHING STAFF</Text>
+                  <Icon name="caretdown" size={20} />
                 </View>
               </Separator>
             </CollapseHeader>
-            <CollapseBody>
+            <CollapseBody style={styles.body}>
               <ListItem >
                 <DataRow text={'Total Teacher'}
                   value={this.state.singleschool.total_teacher} ischecked={true} />
@@ -103,13 +107,13 @@ class SchoolDetailForm extends Component {
           <Collapse>
             <CollapseHeader>
               <Separator bordered>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 15, }}>
-                  <Text style={{ fontSize: 12 }}>CLASS ROOMS</Text>
-                  <Image source={Images.arrowdown} style={{ width: 20, height: 20 }} />
+                <View style={styles.dataHeading}>
+                  <Text style={styles.dataHeadingFont}>CLASS ROOMS</Text>
+                  <Icon name="caretdown" size={20} />
                 </View>
               </Separator>
             </CollapseHeader>
-            <CollapseBody>
+            <CollapseBody style={styles.body}>
               <ListItem >
                 <DataRow text={'Class Rooms'}
                   value={this.state.singleschool.total_class_rooms} ischecked={true} />
@@ -123,14 +127,13 @@ class SchoolDetailForm extends Component {
           <Collapse>
             <CollapseHeader>
               <Separator bordered>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 15, }}>
-
-                  <Text style={{ fontSize: 12 }}>NON-SALARY BUDGET DETAIL</Text>
-                  <Image source={Images.arrowdown} style={{ width: 20, height: 20 }} />
+                <View style={styles.dataHeading}>
+                  <Text style={styles.dataHeadingFont}>NON-SALARY BUDGET DETAIL</Text>
+                  <Icon name="caretdown" size={20} />
                 </View>
               </Separator>
             </CollapseHeader>
-            <CollapseBody>
+            <CollapseBody style={styles.body}>
               <ListItem >
                 <DataRow text={'Total Funds'}
                   value={this.state.singleschool.avaliable_fund} ischecked={true} />
@@ -148,14 +151,13 @@ class SchoolDetailForm extends Component {
           <Collapse>
             <CollapseHeader>
               <Separator bordered>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 15, }}>
-
-                  <Text style={{ fontSize: 12 }}>STUDENT ENROLLMENT</Text>
-                  <Image source={Images.arrowdown} style={{ width: 20, height: 20 }} />
+                <View style={styles.dataHeading}>
+                  <Text style={styles.dataHeadingFont}>STUDENT ENROLLMENT</Text>
+                  <Icon name="caretdown" size={20} />
                 </View>
               </Separator>
             </CollapseHeader>
-            <CollapseBody>
+            <CollapseBody style={styles.body}>
               <ListItem >
                 <DataRow text={'Student Enrolled'}
                   value={this.state.singleschool.student_enrolled} ischecked={true} />
@@ -169,13 +171,13 @@ class SchoolDetailForm extends Component {
           <Collapse>
             <CollapseHeader>
               <Separator bordered>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 15, }}>
-                  <Text style={{ fontSize: 12 }}>FUNCTIONING OF SCHOOL FACILITIES</Text>
-                  <Image source={Images.arrowdown} style={{ width: 20, height: 20 }} />
+                <View style={styles.dataHeading}>
+                  <Text style={styles.dataHeadingFont}>FUNCTIONING OF SCHOOL FACILITIES</Text>
+                  <Icon name="caretdown" size={20} />
                 </View>
               </Separator>
             </CollapseHeader>
-            <CollapseBody>
+            <CollapseBody style={styles.body}>
               <ListItem style={{ height: 20 }} >
                 <DataRow text={'Toilet Avalible'}
                   value={this.state.singleschool.toilet_avaliable}
@@ -270,3 +272,22 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(SchoolDetailForm)
 
 
+const styles = StyleSheet.create({
+  titleText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: "center",
+  },
+  dataHeading: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingRight: 15,
+  },
+  dataHeadingFont:{
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  body:{
+    backgroundColor: "white",
+  }
+});

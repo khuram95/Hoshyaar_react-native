@@ -30,7 +30,6 @@ class ReportFormat extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isCommentModalVisible: false,
 			isAgreeModalVisible: false,
 			isDisagreeModalVisible: false,
 			isAgree: false,

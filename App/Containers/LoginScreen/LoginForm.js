@@ -62,19 +62,16 @@ class LoginForm extends React.Component {
 
   login = () => {
     if (this.validatesInput()) {
-      this.props.login({
-        phone_number:this.state.phone_number,
-        password :this.state.password
-      })
+      const { phone_number, password } = this.state
+      this.props.login({ phone_number, password })
         .then(() => {
+          console.log("I am going to logging")
           const { navigation } = this.props
-          // navigation.navigate("DashBoard")
-        })
-        .catch(error=>console.log(error))
-    }
-    const { navigation } = this.props
           navigation.navigate("DashBoard")
-          console.log('hjsdfhshd')
+        })
+        .catch(error => console.log(error))
+    }
+    console.log("I am after going to logging")
   }
 
   signUp = () => {
@@ -133,9 +130,7 @@ class LoginForm extends React.Component {
 const mapStateToProps = (state) => ({
   loginError: (state) => get(state, 'auth.loginError'),
   loginSuccess: (state) => get(state, 'auth.loginSuccess'),
-
   currentUser: (state) => get(state, 'auth.currentUser'),
-  state,
 })
 
 const mapDispatchToProps = (dispatch) => ({

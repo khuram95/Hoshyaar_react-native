@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import AllReports from './AllReports'
 import MyInterest from './MyInterest'
-import MyReports from './MyInterest'
+import MyReports from './MyReports'
 import { Images, Colors } from '../../Themes/'
 import DrawLayout from '../DrawLayout'
 
@@ -36,7 +36,7 @@ class ShowReports extends Component {
           </Tab>
           <Tab heading="My Reports">
             <View style={{ flex: 1 }}>
-              <AllReports navigation={this.props.navigation}/>
+              <MyReports navigation={this.props.navigation}/>
             </View>
           </Tab>
           <Tab heading="My Interest">

@@ -11,7 +11,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://b150f51e.ngrok.io',
+    baseURL: 'http://01af71b3.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -20,7 +20,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://b150f51e.ngrok.io/api/v1',
+    baseURL: 'http://01af71b3.ngrok.io/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -126,7 +126,7 @@ const create = () => {
   const myReports = (payload, headers) => {
     const { user_id } = payload
     console.log("my reports User_id is : ", user_id)
-    return api.get('/reports', { user_id: user_id }, { headers })
+    return api.get('/reports/user_reports', { user_id: user_id }, { headers })
   }
 
 

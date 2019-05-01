@@ -63,5 +63,5 @@ export default StackNavigator({
 },
   {
     headerMode: 'float',
-    initialRouteName: 'ManualSchoolSelect'
+    initialRouteName: 'Splash'
 })

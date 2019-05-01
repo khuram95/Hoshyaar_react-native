@@ -3,7 +3,9 @@ import {
   RefreshControl,
   ScrollView,
   StyleSheet,
-  View
+  View,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
@@ -21,10 +23,25 @@ class CommentList extends Component {
     };
   }
 
-  static navigationOptions = {
-    header: null,
-  }
 
+  static navigationOptions = ({
+    navigation
+}) => ({
+    headerLeft: <TouchableOpacity
+    onPress = {
+        () => {
+          navigation.state.params.onSubmitComment()
+          navigation.goBack(null)
+        }
+    }
+    ><Text>BACK</Text></TouchableOpacity>,
+})
+
+static rightHeaderAction() {
+    console.log('hello abc')
+}
+
+  
   // onRefresh = () => this.fetchComments();
 
   // fetchComments =  () => {
@@ -33,10 +50,10 @@ class CommentList extends Component {
 
   submitComment = (comment) => {
     // this._scrollView.scrollTo({ y: 0 });
-    console.log("comment going  :", this.props.navigation.state.params.user.id,this.props.navigation.state.params.report.id,comment)
+    // console.log("comment going  :", this.props.navigation.state.params.user.id,this.props.navigation.state.params.report.id,comment)
     this.props.comments({
-      user_id: this.props.navigation.state.params.user.id,
-      report_id: this.props.navigation.state.params.report.id,
+      user_id: this.props.currentUser.id,
+      report_id: this.props.singleReport.id,
       text: comment,
     })
       .then(() => {
@@ -46,9 +63,9 @@ class CommentList extends Component {
   };
 
   render() {
-    const report = this.props.navigation.state.params.report
-    const user = this.props.navigation.state.params.user
-    console.log("this.props comment: ", report, user)
+    const { singleReport } = this.props
+    console.log('hello update: ', singleReport)
+    console.log("this.props comment: ", singleReport)
     return (
       <View style={styles.container}>
         <ScrollView
@@ -60,7 +77,7 @@ class CommentList extends Component {
         //   />
         // }
         >
-          {report.comments && report.comments.map((comment) =>
+          {singleReport.comments && singleReport.comments.map((comment) =>
             <CommentFormat comment={comment} />
           )}
         </ScrollView>
@@ -71,7 +88,8 @@ class CommentList extends Component {
 
 }
 const mapStateToProps = createStructuredSelector({
-
+  singleReport: (state) => get(state, 'report.singleReport'),
+  currentUser: (state) => get(state, 'auth.currentUser'),
 })
 const mapDispatchToProps = (dispatch) => ({
 	comments: (payload) => new Promise((resolve, reject) =>

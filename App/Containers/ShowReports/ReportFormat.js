@@ -33,7 +33,7 @@ class ReportFormat extends Component {
       isAgreeModalVisible: false,
       isDisagreeModalVisible: false,
       isAgree: false,
-      isDisagree: true,
+      isDisagree: false,
       user_id: get(this.props, 'currentUser.id'),
     };
     console.log("current user : ", get(this.props, 'currentUser'))
@@ -74,21 +74,21 @@ class ReportFormat extends Component {
 
   componentDidMount = () => {
 
-    {
-      this.props.report.report_reactions && this.props.report.report_reactions.map((reaction) => {
-        if (reaction.user_id === this.state.user_id) {
-          // console.log("reaction.user_id == this.state.user_id ", reaction.user_id, this.state.user_id, reaction)
-          if (reaction.is_agree === true) {
-            this.setState({ isAgree: reaction.is_agree })
-            // console.log("this.setState({ isAgree: reaction.is_agree }) ", this.state.isAgree)
-          } else if (reaction.is_agree === false) {
-            this.setState({ isDisagree: reaction.is_agree })
-            // console.log("this.setState({ isDisagree: reaction.is_agree }) ", this.state.isDisagree)
-          }
-        }
-      }
-      )
-    }
+    // {
+    //   this.props.report.report_reactions && this.props.report.report_reactions.map((reaction) => {
+    //     if (reaction.user_id === this.state.user_id) {
+    //       // console.log("reaction.user_id == this.state.user_id ", reaction.user_id, this.state.user_id, reaction)
+    //       if (reaction.is_agree === true) {
+    //         this.setState({ isAgree: reaction.is_agree })
+    //         // console.log("this.setState({ isAgree: reaction.is_agree }) ", this.state.isAgree)
+    //       } else if (reaction.is_agree === false) {
+    //         this.setState({ isDisagree: reaction.is_agree })
+    //         // console.log("this.setState({ isDisagree: reaction.is_agree }) ", this.state.isDisagree)
+    //       }
+    //     }
+    //   }
+    //   )
+    // }
 
   }
   reportReaction = (isagree) => {
@@ -102,8 +102,9 @@ class ReportFormat extends Component {
       })
   }
   toggleComment = () => {
-    const { navigation } = this.props
-    navigation.navigate("Comment", { report: this.props.report, user: this.props.currentUser })
+    const { navigation, report, onSubmitComment } = this.props
+    this.props.singleReport(report)
+    navigation.navigate("Comment", { onSubmitComment })
   }
   isAgreeHandler = () => {
     if (!this.state.isAgree) {
@@ -201,7 +202,7 @@ class ReportFormat extends Component {
               </TouchableOpacity>
             </View>
             <View style={styles.footerIcons}>
-              <TouchableOpacity onPress={this.toggleComment}>
+              <TouchableOpacity style={{ backgroundColor: 'red'}} onPress={this.toggleComment}>
                 <Text style={styles.badgeCount}>{report.comments.length} Comments</Text>
               </TouchableOpacity>
             </View>
@@ -307,10 +308,9 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
   comments: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.commentsRequest(payload, resolve, reject))),
-
   reportReactions: (payload) => new Promise((resolve, reject) =>
-    dispatch(Actions.reportReactionsRequest(payload, resolve, reject)))
-
+    dispatch(Actions.reportReactionsRequest(payload, resolve, reject))),
+  singleReport: (report) => dispatch(Actions.saveSingleReport(report)),  
 
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ReportFormat)

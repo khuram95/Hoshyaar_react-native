@@ -9,9 +9,8 @@ function * makeCreateReportRequest (api, action) {
   console.log("Report Sagas")
   const { payload, resolve, reject } = action
   const response = yield call(api.createReport, payload)
+  console.log("Responce  Sagas : " ,response)
   if (response.ok) {
-    console.log("Responce  Sagas : " ,response)
-
     return resolve()
   } else {
     const error = parseError(response)
@@ -59,6 +58,7 @@ function * makeCommentsRequest (api, action) {
   console.log("Responce  Sagas : " ,response)
   if (response.ok) {
     yield put(Actions.commentsSuccess())
+    yield put(Actions.saveSingleReport(response.data))
     return resolve()
   } else {
     const error = parseError(response)

@@ -16,7 +16,6 @@ class AllReports extends Component {
     super(props);
     this.state = {
       all_reports: [],
-
     };
     this.props.fetchAllReports()
       .then(() => {
@@ -26,20 +25,30 @@ class AllReports extends Component {
   }
 
   gotoReportDetail = (report) => {
-    console.log("reports : ",report)
+    console.log("reports : ", report)
     const { navigation } = this.props
-		navigation.navigate("ReportDetail", report={report})
+    navigation.navigate("ReportDetail", report = { report })
+  }
+  componentDidMount = () => {
+    console.log("componentDidMount All Report")
   }
 
+  onSubmitComment = () => {
+    this.props.fetchAllReports()
+      .then(() => {
+        this.setState({ all_reports: this.props.allReports })
+      })
+  }
 
   render() {
     return (
       <ScrollView style={{ backgroundColor: 'white', flex: 1, padding: '1%' }}>
         {this.state.all_reports && this.state.all_reports.map((report) =>
           <ReportFormat
-            report= {report && report}
+            report={report && report}
             navigation={this.props.navigation}
             gotoReportDetail={this.gotoReportDetail}
+            onSubmitComment = {this.onSubmitComment}
           />
         )}
       </ScrollView>

@@ -21,7 +21,9 @@ class SchoolDetailForm extends Component {
       date: "2018-03-23",
       schooldetail: {},
       singleschool: [],
-      all_school: []
+      all_school: [],
+      Total_Teacher:true,
+
     }
     complete_school_data = this.props.navigation.getParam('id')
     this.props.SchoolDetailData({ school_id: complete_school_data.emis })
@@ -96,7 +98,9 @@ class SchoolDetailForm extends Component {
             <CollapseBody style={styles.body}>
               <ListItem >
                 <DataRow text={'Total Teacher'}
-                  value={this.state.singleschool.total_teacher} ischecked={true} />
+                          value={this.state.singleschool.total_teacher} 
+                          ischecked={this.state.Total_Teacher}
+                          />
               </ListItem>
               <ListItem>
                 <DataRow text={'Total non Teacher'}

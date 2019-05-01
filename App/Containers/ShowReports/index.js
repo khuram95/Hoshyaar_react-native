@@ -26,7 +26,7 @@ class ShowReports extends Component {
   render() {
     return (
       <Container>
-        <DrawLayout title="Reports" image='add'/>
+        <DrawLayout title="Reports" image='add' navigateTo='AddInterest'/>
 
         <Tabs>
           <Tab heading="All Reports">

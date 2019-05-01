@@ -1,4 +1,4 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import {
   RefreshControl,
   ScrollView,
@@ -13,6 +13,8 @@ import { get } from 'lodash'
 import CommentFormat from './CommentFormat';
 import CommentInput from './CommentInput';
 import Actions from '../../Redux/Actions'
+import Icon from "react-native-vector-icons/AntDesign";
+
 
 
 class CommentList extends Component {
@@ -26,22 +28,23 @@ class CommentList extends Component {
 
   static navigationOptions = ({
     navigation
-}) => ({
+  }) => ({
     headerLeft: <TouchableOpacity
-    onPress = {
+      onPress={
         () => {
           navigation.state.params.onSubmitComment()
           navigation.goBack(null)
         }
-    }
-    ><Text>BACK</Text></TouchableOpacity>,
-})
+      }
+    ><Icon name="arrowleft" size={30} />
+    </TouchableOpacity>,
+  })
 
-static rightHeaderAction() {
+  static rightHeaderAction() {
     console.log('hello abc')
-}
+  }
 
-  
+
   // onRefresh = () => this.fetchComments();
 
   // fetchComments =  () => {
@@ -59,7 +62,7 @@ static rightHeaderAction() {
       .then(() => {
         alert('Comment Submit');
       })
-      .catch(error=>console.log(error))
+      .catch(error => console.log(error))
   };
 
   render() {
@@ -92,8 +95,8 @@ const mapStateToProps = createStructuredSelector({
   currentUser: (state) => get(state, 'auth.currentUser'),
 })
 const mapDispatchToProps = (dispatch) => ({
-	comments: (payload) => new Promise((resolve, reject) =>
-		dispatch(Actions.commentsRequest(payload, resolve, reject))),
+  comments: (payload) => new Promise((resolve, reject) =>
+    dispatch(Actions.commentsRequest(payload, resolve, reject))),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(CommentList)
 

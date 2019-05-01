@@ -10,6 +10,7 @@ import Modal from "react-native-modal";
 import Actions from '../../Redux/Actions'
 import { connect } from 'react-redux'
 import Icon from "react-native-vector-icons/AntDesign";
+import Icons from "react-native-vector-icons/EvilIcons";
 import { createStructuredSelector } from 'reselect'
 import { get } from 'lodash'
 import {
@@ -73,23 +74,15 @@ class ReportFormat extends Component {
     this.setState({ isDisagreeModalVisible: !this.state.isDisagreeModalVisible });
 
   componentDidMount = () => {
-
-    // {
-    //   this.props.report.report_reactions && this.props.report.report_reactions.map((reaction) => {
-    //     if (reaction.user_id === this.state.user_id) {
-    //       // console.log("reaction.user_id == this.state.user_id ", reaction.user_id, this.state.user_id, reaction)
-    //       if (reaction.is_agree === true) {
-    //         this.setState({ isAgree: reaction.is_agree })
-    //         // console.log("this.setState({ isAgree: reaction.is_agree }) ", this.state.isAgree)
-    //       } else if (reaction.is_agree === false) {
-    //         this.setState({ isDisagree: reaction.is_agree })
-    //         // console.log("this.setState({ isDisagree: reaction.is_agree }) ", this.state.isDisagree)
-    //       }
-    //     }
-    //   }
-    //   )
-    // }
-
+    this.props.report.report_reactions && this.props.report.report_reactions.map((reaction) => {
+      if (reaction.user_id === this.state.user_id) {
+        if (reaction.is_agree === true) {
+          this.setState({ isAgree: reaction.is_agree })
+        } else if (reaction.is_agree === false) {
+          this.setState({ isDisagree: !reaction.is_agree })
+        }
+      }
+    })
   }
   reportReaction = (isagree) => {
     this.props.reportReactions({
@@ -98,7 +91,8 @@ class ReportFormat extends Component {
       is_agree: isagree
     })
       .then(() => {
-        alert('Reaction Submit');
+        this.props.onSubmitComment()
+        // alert('Reaction Submit');
       })
   }
   toggleComment = () => {
@@ -107,11 +101,13 @@ class ReportFormat extends Component {
     navigation.navigate("Comment", { onSubmitComment })
   }
   isAgreeHandler = () => {
+    var backend = ''
     if (!this.state.isAgree) {
+      backend = true;
       this.setState({
         isAgree: true,
-        isDisagree: false,
-      });
+        isDisagree: false
+      })
     }
     else {
       this.setState({
@@ -120,11 +116,13 @@ class ReportFormat extends Component {
       });
 
     }
-    this.reportReaction(this.state.isAgree)
+    this.reportReaction(backend)
 
   }
   isDisagreeHandler = () => {
+    var backend = ''
     if (!this.state.isDisagree) {
+      backend = false;
       this.setState({
         isDisagree: true,
         isAgree: false
@@ -136,7 +134,7 @@ class ReportFormat extends Component {
         isAgree: false
       });
     }
-    this.reportReaction(this.state.isAgree)
+    this.reportReaction(backend)
 
   }
 
@@ -202,7 +200,7 @@ class ReportFormat extends Component {
               </TouchableOpacity>
             </View>
             <View style={styles.footerIcons}>
-              <TouchableOpacity style={{ backgroundColor: 'red'}} onPress={this.toggleComment}>
+              <TouchableOpacity onPress={this.toggleComment}>
                 <Text style={styles.badgeCount}>{report.comments.length} Comments</Text>
               </TouchableOpacity>
             </View>
@@ -235,7 +233,7 @@ class ReportFormat extends Component {
             </View>
             <View style={styles.footerIcons}>
               <Button transparent dark onPress={this.toggleComment}>
-                <Image source={Images.comment} style={{ width: 25, height: 25, }} />
+                <Icons name="comment" size={30} />
                 <Text style={styles.badgeCount}>Comment</Text>
               </Button>
             </View>
@@ -310,7 +308,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(Actions.commentsRequest(payload, resolve, reject))),
   reportReactions: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.reportReactionsRequest(payload, resolve, reject))),
-  singleReport: (report) => dispatch(Actions.saveSingleReport(report)),  
+  singleReport: (report) => dispatch(Actions.saveSingleReport(report)),
 
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ReportFormat)

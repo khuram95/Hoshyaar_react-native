@@ -3,13 +3,13 @@ import { View, ScrollView, TouchableOpacity, Image, StyleSheet } from 'react-nat
 import { Item as FormItem, Text, Button } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
+import { createStructuredSelector } from 'reselect'
+import { get } from 'lodash'
 import DatePicker from 'react-native-datepicker'
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
 import DataRow from './DataRow'
-import { createStructuredSelector } from 'reselect'
 import { Images, Colors } from '../../Themes/'
-import { get } from 'lodash'
 import DrawLayout from '../DrawLayout'
 import Icon from "react-native-vector-icons/AntDesign";
 
@@ -22,8 +22,8 @@ class SchoolDetailForm extends Component {
       schooldetail: {},
       singleschool: [],
       all_school: [],
-      Total_Teacher:true,
-
+      Total_Teacher: true,
+      
     }
     complete_school_data = this.props.navigation.getParam('id')
     this.props.SchoolDetailData({ school_id: complete_school_data.emis })
@@ -49,6 +49,7 @@ class SchoolDetailForm extends Component {
     this.props.saveSchool(this.state.all_school)
     navigation.navigate("Report")
   }
+ 
   render() {
     return (
       <ScrollView>
@@ -98,13 +99,13 @@ class SchoolDetailForm extends Component {
             <CollapseBody style={styles.body}>
               <ListItem >
                 <DataRow text={'Total Teacher'}
-                          value={this.state.singleschool.total_teacher} 
-                          ischecked={this.state.Total_Teacher}
-                          />
+                  value={this.state.singleschool.total_teacher}
+                  itemName={'total_teacher'}
+                />
               </ListItem>
               <ListItem>
                 <DataRow text={'Total non Teacher'}
-                  value={this.state.singleschool.non_teacher} ischecked={false} />
+                  value={this.state.singleschool.non_teacher} itemName={'non_teacher'} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -120,11 +121,11 @@ class SchoolDetailForm extends Component {
             <CollapseBody style={styles.body}>
               <ListItem >
                 <DataRow text={'Class Rooms'}
-                  value={this.state.singleschool.total_class_rooms} ischecked={true} />
+                  value={this.state.singleschool.total_class_rooms} itemName={'total_class_rooms'} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Class Room in Use'}
-                  value={this.state.singleschool.use_class_rooms} ischecked={false} />
+                  value={this.state.singleschool.use_class_rooms} itemName={'use_class_rooms'} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -140,15 +141,15 @@ class SchoolDetailForm extends Component {
             <CollapseBody style={styles.body}>
               <ListItem >
                 <DataRow text={'Total Funds'}
-                  value={this.state.singleschool.avaliable_fund} ischecked={true} />
+                  value={this.state.singleschool.avaliable_fund} itemName={'avaliable_fund'} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Expenditure'}
-                  value={this.state.singleschool.expenditure} ischecked={false} />
+                  value={this.state.singleschool.expenditure} itemName={'expenditure'} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Balance'}
-                  value={this.state.singleschool.balance} ischecked={false} />
+                  value={this.state.singleschool.balance} itemName={'balance'} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -164,11 +165,11 @@ class SchoolDetailForm extends Component {
             <CollapseBody style={styles.body}>
               <ListItem >
                 <DataRow text={'Student Enrolled'}
-                  value={this.state.singleschool.student_enrolled} ischecked={true} />
+                  value={this.state.singleschool.student_enrolled} itemName={'student_enrolled'} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Student Present'}
-                  value={this.state.singleschool.student_present} ischecked={false} />
+                  value={this.state.singleschool.student_present} itemName={'student_present'} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -185,32 +186,32 @@ class SchoolDetailForm extends Component {
               <ListItem style={{ height: 20 }} >
                 <DataRow text={'Toilet Avalible'}
                   value={this.state.singleschool.toilet_avaliable}
-                  ischecked={true} />
+                 itemName={'toilet_avaliable'} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Toilet Functional'}
                   value={this.state.singleschool.toilet_functional}
-                  ischecked={false} />
+                  itemName={'toilet_functional'} />
               </ListItem>
               <ListItem>
                 <DataRow text={'All Toilet Functional'}
                   value={this.state.singleschool.is_toilet_functional ? 'Yes' : 'No'}
-                  ischecked={false} />
+                  itemName={'is_toilet_functional'} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Electricity Functional'}
                   value={this.state.singleschool.is_electricity_avaliable ? 'Yes' : 'No'}
-                  ischecked={false} />
+                  itemName={'is_electricity_avaliable'} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Drinking Functional'}
                   value={this.state.singleschool.is_drinking_water_avaliable ? 'Yes' : 'No'}
-                  ischecked={false} />
+                  itemName={'is_drinking_water_avaliable'} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Boundary Functional'}
                   value={this.state.singleschool.is_boundary_wall ? 'Yes' : 'No'}
-                  ischecked={false} />
+                  itemName={'is_boundary_wall'} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -287,11 +288,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingRight: 15,
   },
-  dataHeadingFont:{
+  dataHeadingFont: {
     fontSize: 14,
     fontWeight: 'bold',
   },
-  body:{
+  body: {
     backgroundColor: "white",
   }
 });

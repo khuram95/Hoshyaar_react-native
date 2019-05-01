@@ -75,6 +75,12 @@ export default StyleSheet.create({
     fontSize:14,
     color: 'red'
 
-  }
+  },
+  loaderModal : {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000000ae'
+  },
 })
 

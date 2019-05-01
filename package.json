@@ -40,6 +40,7 @@
     "react-moment": "^0.8.4",
     "react-native": "^0.55.4",
     "react-native-animatable": "^1.2.4",
+    "react-native-animated-loader": "^0.0.7",
     "react-native-camera": "git+https://git@github.com/react-native-community/react-native-camera.git",
     "react-native-config": "^0.10.0",
     "react-native-datepicker": "^1.7.2",

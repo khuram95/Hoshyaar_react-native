@@ -9,6 +9,8 @@ import Actions from '../../Redux/Actions'
 import { createStructuredSelector } from 'reselect'
 import { get } from 'lodash'
 import ReportFormat from './ReportFormat'
+import Loader from '../Loader'
+
 
 
 class AllReports extends Component {
@@ -43,12 +45,13 @@ class AllReports extends Component {
   render() {
     return (
       <ScrollView style={{ backgroundColor: 'white', flex: 1, padding: '1%' }}>
+        <Loader isShow={this.props.requesting == undefined ? false : this.props.requesting} />
         {this.state.all_reports && this.state.all_reports.map((report) =>
           <ReportFormat
             report={report && report}
             navigation={this.props.navigation}
             gotoReportDetail={this.gotoReportDetail}
-            onSubmitComment = {this.onSubmitComment}
+            onSubmitComment={this.onSubmitComment}
           />
         )}
       </ScrollView>
@@ -58,6 +61,8 @@ class AllReports extends Component {
 
 const mapStateToProps = createStructuredSelector({
   allReports: (state) => get(state, 'report.allReports'),
+  requesting: (state) => get(state, 'report.requesting'),
+
 })
 
 const mapDispatchToProps = (dispatch) => ({

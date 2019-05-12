@@ -65,7 +65,7 @@ const create = () => {
     const data = new FormData();
     if (image) {
       data.append('image', {
-        uri: image,
+        uri: image.uri,
         type: 'image/jpeg',
         name: 'image.jpg'
       });

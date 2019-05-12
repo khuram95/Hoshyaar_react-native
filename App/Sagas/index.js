@@ -44,9 +44,16 @@ export default function * root () {
     takeLatest(ActionTypes.ALL_SCHOOLS_DATA_REQUEST, Sagas.makeAllSchoolsDataRequest, api),
     takeLatest(ActionTypes.SCHOOL_DETAIL_DATA_REQUEST, Sagas.makeSchoolDetailDataRequest, api),
     takeLatest(ActionTypes.UNIQUE_SCHOOLS_DATA_REQUEST, Sagas.makeUniqueSchoolsDataRequest, api),
+    takeLatest(ActionTypes.GET_DISTRICTS_REQUEST, Sagas.makeGetDistrictsRequest, api),
+    takeLatest(ActionTypes.GET_TEHSILS_REQUEST, Sagas.makeGetTehsilsRequest, api),
     takeLatest(ActionTypes.ALL_REPORTS_REQUEST, Sagas.makeallReportsRequest, api),
+    takeLatest(ActionTypes.MY_REPORTS_REQUEST, Sagas.makeMyReportsRequest, api),
     takeLatest(ActionTypes.SIGNUP_REQUEST, Sagas.makeSignupRequest, api),
     takeLatest(ActionTypes.VERIFY_PHONE_NUMBER_REQUEST, Sagas.makeVerifyPhoneNumberRequest, api),
+    takeLatest(ActionTypes.COMMENTS_REQUEST, Sagas.makeCommentsRequest, api),
+    takeLatest(ActionTypes.REPORT_REACTIONS_REQUEST, Sagas.makeReportReactionsRequest, api),
+
+
 
 
     // REGISTRER_SAGA

@@ -49,14 +49,20 @@ export const changePhoneNumber = (state, { phone_number }) =>
 export const changePassword = (state, { password }) =>
   state.setIn(['form', 'password'], password)
 
-export const loginRequest = (state, action) =>
+export const loginRequest = (state, action) =>{
   state.merge({ loggingIn: true, error: null })
+  console.log('reqtiong: ', state);
+  return state.merge({ loggingIn: true, error: null }) 
+}
 
 export const saveUser = (state, { currentUser })=>
   state.merge({ currentUser })
 
-export const loginSuccess = (state, action) =>
+export const loginSuccess = (state, action) =>{
   state.merge({ loggingIn: false, error: null })
+  console.log('reqtiong end: ', state);
+  return state.merge({ loggingIn: false, error: null })
+}
 
 export const loginFailure = (state, { error }) =>
   state.merge({ loggingIn: false, error })

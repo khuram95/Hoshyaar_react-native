@@ -40,6 +40,9 @@ export default StackNavigator({
   ShowReports: {
     screen: require('../Containers/ShowReports/').default
   },
+  MyReports: {
+    screen: require('../Containers/ShowReports/MyReports').default
+  },
   SignupScreen: {
     screen: require('../Containers/SignupScreen/').default
   },
@@ -51,6 +54,9 @@ export default StackNavigator({
   },
   ReportDetail:{
     screen: require('../Containers/ShowReports/ReportDetail').default
+  },
+  Comment:{
+    screen: require('../Containers/Comment/CommentList').default
   }
 
   

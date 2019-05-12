@@ -55,7 +55,7 @@ class DrawLayout extends Component {
           <Title>{this.props.title}</Title>
         </Body>
         <Right>
-          <TouchableHighlight >
+          <TouchableHighlight onPress={this.props.navigateTo}>
             <Image source={Images[this.props.image]} style={{ width: 30, height: 30, }} />
           </TouchableHighlight>
         </Right>

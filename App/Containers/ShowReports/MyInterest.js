@@ -31,7 +31,7 @@ class MyInterest extends Component {
 
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
 
-
+{/* 
           {this.state.all_reports && this.state.all_reports.map((report) =>
 
             <ReportFormat
@@ -46,7 +46,7 @@ class MyInterest extends Component {
               photos={report.photos && report.photos}
             />
 
-          )}
+          )} */}
         </View>
 
       </ScrollView>

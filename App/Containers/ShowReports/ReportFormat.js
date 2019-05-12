@@ -5,49 +5,40 @@ import React, { Component } from 'react'
 import * as Progress from 'react-native-progress';
 import ReportImage from './ReportImage'
 import ViewMoreText from 'react-native-view-more-text';
-
-
+import Divider from 'react-native-divider';
+import Modal from "react-native-modal";
+import Actions from '../../Redux/Actions'
+import { connect } from 'react-redux'
+import Icon from "react-native-vector-icons/AntDesign";
+import Icons from "react-native-vector-icons/EvilIcons";
+import { createStructuredSelector } from 'reselect'
+import { get } from 'lodash'
 import {
   View,
-  CheckBox,
-  Dimensions,
   Image,
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  TouchableHighlight,
-  Platform,
-  ProgressBarAndroid
+  ScrollView
 } from 'react-native'
 import {
   Text,
-  Container,
-  Header,
-  Body,
-  Content,
-  Left,
-  Title,
-  Thumbnail,
-  Col,
-  Row,
-  Grid,
-  Icon,
-  Spinner,
-  Fab,
   Button,
-  Footer,
-  Input,
-  Right
+
 } from 'native-base'
 
-
-
-export default class ReportFormat extends Component {
+class ReportFormat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      isAgreeModalVisible: false,
+      isDisagreeModalVisible: false,
+      isAgree: false,
+      isDisagree: false,
+      user_id: get(this.props, 'currentUser.id'),
     };
+    console.log("current user : ", get(this.props, 'currentUser'))
+
     this.scrollList = {}
     this.scrollPosition = 0
   }
@@ -68,73 +59,260 @@ export default class ReportFormat extends Component {
     this.scrollList.getScrollResponder()
       .scrollTo({ x: this.scrollPosition, animated: true })
   }
-  
-  gotoReportDetail = () => {
-		const { navigation } = this.props
-		navigation.navigate("ReportDetail") //Report li id dalni hai
+
+  static navigationOptions = {
+    header: null,
   }
-  
+
+  onChangeText = (text) => this.setState({ text });
+
+  toggleAgreeModal = () =>
+    this.setState({ isAgreeModalVisible: !this.state.isAgreeModalVisible });
+
+
+  toggleDisagreeModal = () =>
+    this.setState({ isDisagreeModalVisible: !this.state.isDisagreeModalVisible });
+
+  componentDidMount = () => {
+    this.props.report.report_reactions && this.props.report.report_reactions.map((reaction) => {
+      if (reaction.user_id === this.state.user_id) {
+        if (reaction.is_agree === true) {
+          this.setState({ isAgree: reaction.is_agree })
+        } else if (reaction.is_agree === false) {
+          this.setState({ isDisagree: !reaction.is_agree })
+        }
+      }
+    })
+  }
+  reportReaction = (isagree) => {
+    this.props.reportReactions({
+      user_id: this.props.currentUser.id,
+      report_id: this.props.report.id,
+      is_agree: isagree
+    })
+      .then(() => {
+        this.props.onSubmitComment()
+        // alert('Reaction Submit');
+      })
+  }
+  toggleComment = () => {
+    const { navigation, report, onSubmitComment } = this.props
+    this.props.singleReport(report)
+    navigation.navigate("Comment", { onSubmitComment })
+  }
+  isAgreeHandler = () => {
+    var backend = ''
+    if (!this.state.isAgree) {
+      backend = true;
+      this.setState({
+        isAgree: true,
+        isDisagree: false
+      })
+    }
+    else {
+      this.setState({
+        isAgree: false,
+        isDisagree: false,
+      });
+
+    }
+    this.reportReaction(backend)
+
+  }
+  isDisagreeHandler = () => {
+    var backend = ''
+    if (!this.state.isDisagree) {
+      backend = false;
+      this.setState({
+        isDisagree: true,
+        isAgree: false
+      });
+    }
+    else {
+      this.setState({
+        isDisagree: false,
+        isAgree: false
+      });
+    }
+    this.reportReaction(backend)
+
+  }
+
   render() {
-    const { report_text, school_name, created_at, district, tehsil, report_address, user_name, photos } = this.props
+    const { report } = this.props;
     return (
-
-      <TouchableOpacity style={styles.report} onPress={this.gotoReportDetail}>
-
-        <View style={{ flex: 1, justifyContent: "flex-start" }}>
-          <View style={{ flex: 1, flexDirection: "row", justifyContent: 'space-between' }}>
-            <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-              {school_name}</Text>
-            <Moment element={Text} fromNow>{created_at}</Moment>
-          </View>
-          <Text style={styles.belowText}>{tehsil + ', ' + district}</Text>
-          {/* <Text style={styles.belowText}>{user_name}</Text> */}
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-start',}}>
-          <Progress.Bar progress={0.4} width={200} color="red" height={15} />
-          <Image source={Images.unlock} style={{ width: 15, height: 15, marginLeft: '1%' }} />
-        </View>
-        <ViewMoreText
-          numberOfLines={2}
-          renderViewMore={this.renderViewMore}
-          renderViewLess={this.renderViewLess}
-          // textStyle={{ textAlign: 'center' }}
+      <View>
+        <View style={styles.report}
+        //onPress={() => this.props.gotoReportDetail && this.props.gotoReportDetail(report)}
         >
-          <Text style={styles.reportText}> {report_text} </Text>
-        </ViewMoreText>
-        <View style={{ flex: 1, flexDirection: "row", marginBottom: '5%' }}>
-          <FlatList
-            data={photos}
-            renderItem={(image) => ReportImage(image)}
-            horizontal
-            pagingEnabled
-            ref={(sl) => this.scrollList = sl}
-          />
+          <View style={{ flex: 1, justifyContent: "flex-start" }}>
+
+            <View style={{ flex: 1, flexDirection: "row", justifyContent: 'space-between' }}>
+              <View style={{ flex: 0.6 }}>
+                <Text style={{ fontWeight: "bold", fontSize: 16, }}>
+                  {report.school && report.school.school_name}</Text>
+              </View>
+              <View style={{
+                right: 5,
+                position: 'absolute',
+                width: '40%',
+                alignItems: 'flex-end',
+                display: 'flex'
+              }}>
+                <Moment element={Text} fromNow>{report && report.created_at}</Moment>
+              </View>
+            </View>
+
+            <Text style={styles.belowText}>
+              {report.school && report.school.tehsil + ' '} {report.school && report.school.district}</Text>
+            {/* <Text style={styles.belowText}>{report.user && report.user.user_name}</Text> */}
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-start', }}>
+            <Progress.Bar progress={0.4} width={200} color="red" height={15} />
+            <Image source={Images.unlock} style={{ width: 15, height: 15, marginLeft: '1%' }} />
+          </View>
+          <ViewMoreText
+            numberOfLines={2}
+            renderViewMore={this.renderViewMore}
+            renderViewLess={this.renderViewLess}
+          >
+            <Text style={styles.reportText}> {report && report.report_text} </Text>
+          </ViewMoreText>
+          <View style={{ flex: 1, flexDirection: "row", marginBottom: '5%' }}>
+            <FlatList
+              data={report.photos && report.photos}
+              renderItem={(image) => ReportImage(image)}
+              horizontal
+              pagingEnabled
+              ref={(sl) => this.scrollList = sl}
+            />
+          </View>
+
+          <View style={styles.reportFooter}>
+            <View style={styles.footerIcons}>
+              <TouchableOpacity onPress={this.toggleAgreeModal}>
+                <Text style={styles.badgeCount}>{report.agree} Agree</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.footerIcons}>
+              <TouchableOpacity onPress={this.toggleDisagreeModal}>
+                <Text style={styles.badgeCount}>{report.dis_agree} Disagree</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.footerIcons}>
+              <TouchableOpacity onPress={this.toggleComment}>
+                <Text style={styles.badgeCount}>{report.comments.length} Comments</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <Divider orientation="center"></Divider>
+          <View style={styles.reportFooter}>
+            <View style={styles.footerIcons}>
+              <Button transparent dark onPress={this.isAgreeHandler}>
+                {this.state.isAgree ?
+                  <View style={styles.footerIcons}>
+                    <Icon name="like1" color="blue" size={30} />
+                    <Text style={styles.afterbadgeCount}>AGREE</Text></View> :
+                  <View style={styles.footerIcons}>
+                    <Icon name="like2" size={30} />
+                    <Text style={styles.beforebadgeCount}>AGREE</Text></View>
+                }
+              </Button>
+            </View>
+            <View style={styles.footerIcons}>
+              <Button transparent dark onPress={this.isDisagreeHandler}>
+                {this.state.isDisagree ?
+                  <View style={styles.footerIcons}>
+                    <Icon name="dislike1" color="blue" size={30} />
+                    <Text style={styles.afterbadgeCount}>DISAGREE</Text></View> :
+                  <View style={styles.footerIcons}>
+                    <Icon name="dislike2" size={30} />
+                    <Text style={styles.beforebadgeCount}>DISAGREE</Text></View>
+                }
+              </Button>
+            </View>
+            <View style={styles.footerIcons}>
+              <Button transparent dark onPress={this.toggleComment}>
+                <Icons name="comment" size={30} />
+                <Text style={styles.badgeCount}>Comment</Text>
+              </Button>
+            </View>
+          </View>
+
         </View>
-        
-        <View style={styles.reportFooter}>
-          <View style={styles.footerIcons}>
-            <Button transparent dark>
-              <Image source={Images.agree} style={{ width: 25, height: 25, }} />
-              <Text style={styles.badgeCount}>128 Agree</Text>
-            </Button>
+        <Modal
+          isVisible={this.state.isAgreeModalVisible
+          }>
+          <View style={styles.modalContent}>
+            <ScrollView style={styles.report}>
+              {report.report_reactions && report.report_reactions.map((reaction) =>
+                reaction.is_agree === true ?
+                  <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
+                    <Text style={{ fontWeight: "bold", fontSize: 16, }}>
+                      {reaction && reaction.user_name}</Text>
+                    <Moment element={Text} fromNow>{reaction && reaction.created_at}</Moment>
+                    <Divider orientation="center"></Divider>
+                  </View> : null
+              )}
+            </ScrollView>
+
+
+            <View style={{ flexDirection: 'row', justifyContent: 'center', }}>
+              <TouchableOpacity onPress={this.toggleAgreeModal}>
+                <View style={styles.button}>
+                  <Text>Close</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.footerIcons}>
-            <Button transparent dark>
-              <Image source={Images.disagree} style={{ width: 25, height: 25, }} />
-              <Text style={styles.badgeCount}>45 Disagree</Text>
-            </Button>
+        </Modal>
+
+        <Modal
+          isVisible={this.state.isDisagreeModalVisible
+          }>
+          <View style={styles.modalContent}>
+            <ScrollView style={styles.report}>
+              {report.report_reactions && report.report_reactions.map((reaction) =>
+                reaction.is_agree === false ?
+                  <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
+                    <Text style={{ fontWeight: "bold", fontSize: 16, }}>
+                      {reaction && reaction.user_name}</Text>
+                    <Moment element={Text} fromNow>{reaction && reaction.created_at}</Moment>
+                    <Divider orientation="center"></Divider>
+                  </View> : null
+              )}
+            </ScrollView>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', }}>
+              <TouchableOpacity onPress={this.toggleDisagreeModal}>
+                <View style={styles.button}>
+                  <Text>Close</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.footerIcons}>
-            <Button transparent dark>
-              <Image source={Images.comment} style={{ width: 25, height: 25, }} />
-              <Text style={styles.badgeCount}>109 Comments</Text>
-            </Button>
-          </View>
-        </View>
-      </TouchableOpacity>
+        </Modal>
+
+
+
+
+      </View>
     )
   }
 }
+const mapStateToProps = createStructuredSelector({
+  currentUser: (state) => get(state, 'auth.currentUser'),
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  comments: (payload) => new Promise((resolve, reject) =>
+    dispatch(Actions.commentsRequest(payload, resolve, reject))),
+  reportReactions: (payload) => new Promise((resolve, reject) =>
+    dispatch(Actions.reportReactionsRequest(payload, resolve, reject))),
+  singleReport: (report) => dispatch(Actions.saveSingleReport(report)),
+
+})
+export default connect(mapStateToProps, mapDispatchToProps)(ReportFormat)
+
 const styles = StyleSheet.create({
   topMargin: {
     backgroundColor: "white",
@@ -160,15 +338,13 @@ const styles = StyleSheet.create({
     marginBottom: '10%'
   },
   reportText: {
-    // minHeight: Dimensions.get('window').height*0.01,
-    // marginTop: Dimensions.get('window').height*0.01,
-    // marginBottom: Dimensions.get('window').height*0.01,
-    // width: Dimensions.get('window').width
+
     minHeight: '0.02%',
     marginTop: '5%',
     marginBottom: '2%',
     fontSize: 14,
     color: "#555"
+
   },
   belowText: {
     color: "#aaa",
@@ -185,9 +361,48 @@ const styles = StyleSheet.create({
     paddingLeft: '5%',
     color: "black"
   },
+  beforebadgeCount: {
+    fontSize: 12,
+    paddingLeft: '5%',
+    color: "black"
+  },
+  afterbadgeCount: {
+    fontSize: 12,
+    paddingLeft: '5%',
+    color: "blue"
+  },
   footerIcons: {
     flexDirection: "row",
     alignItems: "center"
+  },
+  modalContent: {
+    flex: 1,
+    backgroundColor: 'white',
+    // padding: 22,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  button: {
+    backgroundColor: 'lightblue',
+    padding: 12,
+    margin: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  input: {
+    flex: 1,
+    height: 20,
+    fontSize: 15,
+  },
+  bottomModal: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    margin: 0,
+    backgroundColor: 'green',
   },
 });
 

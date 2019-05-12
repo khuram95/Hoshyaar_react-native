@@ -9367,6 +9367,13 @@ react-native-animatable@^1.2.4:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-animated-loader@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/react-native-animated-loader/-/react-native-animated-loader-0.0.7.tgz#a5b8a4fc38ecae418693dc1bd9ffaac9528b82c6"
+  integrity sha512-s0CK5wKvQzZDYFKrKx2fz3bYmcr0PSdAzfrvSSPTyrvzYfmSW1bfN5cRkR8ouBXDRDnqRSfZYKQElCKhiBLbaQ==
+  dependencies:
+    prop-types "^15.6.2"
+
 "react-native-camera@git+https://git@github.com/react-native-community/react-native-camera.git":
   version "1.12.0"
   resolved "git+https://git@github.com/react-native-community/react-native-camera.git#53b8e6206beb982e3554c1b4bdf8946738a795cb"
@@ -9396,6 +9403,13 @@ react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
   integrity sha1-MohiQrPyMX4SHzrrmwpYXiuHm0k=
+
+react-native-divider@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-divider/-/react-native-divider-1.0.3.tgz#fcc1cf6d6e3d40a09509991dc42cb49482bb0241"
+  integrity sha512-JK7nqiV6CYergVSKpfSEBLWFRu11vzZjSv76SHPlwNTR404fdR4WkjqgIXoUDz4mfDeadAcWnyUNuopxfFHseA==
+  dependencies:
+    prop-types "^15.6.1"
 
 react-native-drawer-layout-polyfill@^1.3.2:
   version "1.3.2"
@@ -9461,6 +9475,13 @@ react-native-modal@^9.0.0:
   dependencies:
     prop-types "^15.6.2"
     react-native-animatable "^1.2.4"
+
+react-native-onesignal@^3.2.12:
+  version "3.2.12"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-3.2.12.tgz#309dc4f65decae28119f46c0f1eef4310742bfb8"
+  integrity sha512-E1x5vNvOrgRRcr3FMdPVSXKtg8pk/XK1dU3aDSs4mwBOzlpFi8AlZd/bfd2bJUJ4BrWw09AsqdSDs+QygKP8sw==
+  dependencies:
+    invariant "^2.2.2"
 
 react-native-progress@^3.6.0:
   version "3.6.0"

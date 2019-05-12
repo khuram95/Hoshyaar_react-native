@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import {
-  View, Image, ImageBackground, KeyboardAvoidingView, Linking,
-  ScrollView, TouchableOpacity
+  View, ImageBackground, Modal, TouchableOpacity,ActivityIndicator
 } from 'react-native'
 // import { Button, Text, Form, Item, Input } from 'native-base'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
@@ -13,9 +12,7 @@ import Hr from 'react-native-hr-plus'
 import { Images, Colors } from '../../Themes'
 import Actions from '../../Redux/Actions'
 import styles from './styles'
-import { resolve } from 'url';
-import { rejects } from 'assert';
-
+import Loader from '../Loader'
 
 class LoginForm extends React.Component {
   static propTypes = {
@@ -62,19 +59,17 @@ class LoginForm extends React.Component {
 
   login = () => {
     if (this.validatesInput()) {
-      this.props.login({
-        phone_number:this.state.phone_number,
-        password :this.state.password
-      })
+      const { phone_number, password } = this.state
+      this.props.login({ phone_number, password })
         .then(() => {
+          console.log("I am going to logging")
+          console.log('hello log: ',this.props.loging)
           const { navigation } = this.props
           navigation.navigate("DashBoard")
         })
-        .catch(error=>console.log(error))
+        .catch(error => console.log(error))
     }
-    const { navigation } = this.props
-          navigation.navigate("DashBoard")
-          console.log('hjsdfhshd')
+    console.log("I am after going to logging")
   }
 
   signUp = () => {
@@ -90,6 +85,7 @@ class LoginForm extends React.Component {
       <ImageBackground
         style={styles.backgroundImage}
       >
+        <Loader isShow={this.props.loging == undefined ? false : this.props.loging}/>
         <View style={styles.appTitleView}>
           <Text style={styles.appTitleName}>Hoshyaar/ہوشیار</Text>
         </View>
@@ -130,12 +126,11 @@ class LoginForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = createStructuredSelector({
   loginError: (state) => get(state, 'auth.loginError'),
   loginSuccess: (state) => get(state, 'auth.loginSuccess'),
-
   currentUser: (state) => get(state, 'auth.currentUser'),
-  state,
+  loging: (state) => get(state, 'auth.loggingIn'),
 })
 
 const mapDispatchToProps = (dispatch) => ({

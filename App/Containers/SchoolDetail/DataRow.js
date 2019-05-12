@@ -28,9 +28,15 @@ class DataRow extends Component {
 				'is_drinking_water_avaliable': true,
 				'is_boundary_wall': true,
 			}
+			, checked: true
 		};
 	}
 
+	toggleCheckbox = () => {
+		const { itemName } = this.props
+		// this.setState({ uncheckItem.is_boundary_wall: !this.state.uncheckItem[`${itemName}`] })
+	}
+	
 	render() {
 		const { text, value, itemName } = this.props
 		return (
@@ -53,14 +59,13 @@ class DataRow extends Component {
 					<Text >{value}</Text>
 				</View>
 				{
-					console.log('this.state.uncheckItem[`${itemName}`]', this.state.uncheckItem[`${itemName}`],)
+					console.log('this.state.uncheckItem[`${itemName}`]', this.state.uncheckItem[`${itemName}`], itemName)
 				}
 				<CheckBox
 					value={this.state.uncheckItem[`${itemName}`]}
-					// onValueChange={() => {
-					// 	this.setState({ ...uncheckItem[`${itemName}`]: !this.state.uncheckItem[`${itemName}`] })
-					// }
-					// }
+
+					onValueChange={() => this.toggleCheckbox()}
+
 				/>
 			</View>
 		)
@@ -76,3 +81,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataRow)
 // ,() => this.props.onSubmit(this.state.ischecked)
+// () => {
+// }
+// // this.setState({ ...uncheckItem[`${itemName}`]: !this.state.uncheckItem[`${itemName}`] })

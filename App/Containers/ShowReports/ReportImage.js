@@ -5,7 +5,7 @@ export default ReportImage = (data) => {
     return (
         <TouchableOpacity>
                 <Image 
-                source={{uri: `http://edbf6c5b.ngrok.io${data.item.image.url}`}} style={{ height: 75, width:75 }} />                            
+                source={{uri: `http://1a81ac8e.ngrok.io${data.item.image.url}`}} style={{ height: 75, width:75 }} />                            
         </TouchableOpacity>
     )
 }

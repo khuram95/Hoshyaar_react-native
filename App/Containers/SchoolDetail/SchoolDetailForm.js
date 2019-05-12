@@ -130,11 +130,11 @@ class SchoolDetailForm extends Component {
             <CollapseBody>
               <ListItem >
                 <DataRow text={'Total Teacher'}
-                  value={this.state.singleschool.total_teacher} ischecked={true} />
+                  value={this.state.singleschool && this.state.singleschool.total_teacher} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Total non Teacher'}
-                  value={this.state.singleschool.non_teacher} ischecked={false} />
+                  value={this.state.singleschool && this.state.singleschool.non_teacher} ischecked={false} />
               </ListItem>
             </CollapseBody>
 
@@ -151,11 +151,11 @@ class SchoolDetailForm extends Component {
             <CollapseBody>
               <ListItem >
                 <DataRow text={'Class Rooms'}
-                  value={this.state.singleschool.total_class_rooms} ischecked={true} />
+                  value={this.state.singleschool && this.state.singleschool.total_class_rooms} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Class Room in Use'}
-                  value={this.state.singleschool.use_class_rooms} ischecked={false} />
+                  value={this.state.singleschool && this.state.singleschool.use_class_rooms} ischecked={false} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -169,15 +169,15 @@ class SchoolDetailForm extends Component {
             <CollapseBody>
               <ListItem >
                 <DataRow text={'Total Funds'}
-                  value={this.state.singleschool.avaliable_fund} ischecked={true} />
+                  value={this.state.singleschool && this.state.singleschool.avaliable_fund} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Expenditure'}
-                  value={this.state.singleschool.expenditure} ischecked={false} />
+                  value={this.state.singleschool && this.state.singleschool.expenditure} ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Balance'}
-                  value={this.state.singleschool.balance} ischecked={false} />
+                  value={this.state.singleschool && this.state.singleschool.balance} ischecked={false} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -192,11 +192,11 @@ class SchoolDetailForm extends Component {
             <CollapseBody>
               <ListItem >
                 <DataRow text={'Student Enrolled'}
-                  value={this.state.singleschool.student_enrolled} ischecked={true} />
+                  value={this.state.singleschool && this.state.singleschool.student_enrolled} ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Student Present'}
-                  value={this.state.singleschool.student_present} ischecked={false} />
+                  value={this.state.singleschool && this.state.singleschool.student_present} ischecked={false} />
               </ListItem>
             </CollapseBody>
           </Collapse>
@@ -212,33 +212,33 @@ class SchoolDetailForm extends Component {
             <CollapseBody>
               <ListItem style={{ height: 20 }} >
                 <DataRow text={'Toilet Avalible'}
-                  value={this.state.singleschool.toilet_avaliable}
-                  ischecked={true} />
+                  value={this.state.singleschool && this.state.singleschool.toilet_avaliable} 
+                                                      ischecked={true} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Toilet Functional'}
-                  value={this.state.singleschool.toilet_functional}
-                  ischecked={false} />
+                  value={this.state.singleschool && this.state.singleschool.toilet_functional} 
+                                                      ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'All Toilet Functional'}
-                  value={this.state.singleschool.is_toilet_functional ? 'Yes' : 'No'}
-                  ischecked={false} />
+                  value={this.state.singleschool && this.state.singleschool.is_toilet_functional ? 'Yes' : 'No'} 
+                                                    ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Electricity Functional'}
-                  value={this.state.singleschool.is_electricity_avaliable ? 'Yes' : 'No'}
-                  ischecked={false} />
+                  value={this.state.singleschool && this.state.singleschool.is_electricity_avaliable ? 'Yes' : 'No'}
+                                                     ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Drinking Functional'}
-                  value={this.state.singleschool.is_drinking_water_avaliable ? 'Yes' : 'No'}
-                  ischecked={false} />
+                  value={this.state.singleschool && this.state.singleschool.is_drinking_water_avaliable ? 'Yes' : 'No'} 
+                                                      ischecked={false} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Boundary Functional'}
-                  value={this.state.singleschool.is_boundary_wall ? 'Yes' : 'No'}
-                  ischecked={false} />
+                  value={this.state.singleschool && this.state.singleschool.is_boundary_wall ? 'Yes' : 'No' } 
+                                                      ischecked={false} />
               </ListItem>
 
             </CollapseBody>

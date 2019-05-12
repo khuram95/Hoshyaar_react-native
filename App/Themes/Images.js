@@ -17,9 +17,8 @@ const images = {
   pakistan: require('../Images/pakistan.png'),
   key: require('../Images/key.png'),
   signout: require('../Images/signout.png'),
-
-
-
+  playIcon: require('../Images/play-icon.png'),
+  stopIcon: require('../Images/stop-icon.png'),
 
 
 

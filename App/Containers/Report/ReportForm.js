@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
 import {
-	View, Image, TouchableOpacity, ImageBackground, KeyboardAvoidingView, Linking,
-	ScrollView, TextInput
+	View,
+	Image,
+	TouchableOpacity,
+	ImageBackground,
+	KeyboardAvoidingView,
+	Linking,
+	ScrollView,
+	TextInput,
+	ToastAndroid
 } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { connect } from 'react-redux'
@@ -11,6 +18,7 @@ import { createStructuredSelector } from 'reselect'
 import Images from '../../Themes/Images'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
+import AudioRecorder from '../AudioRecorder'
 
 class CreateReport extends Component {
 	constructor(props) {
@@ -19,6 +27,7 @@ class CreateReport extends Component {
 			school: get(this.props, 'selectedSchool.school'),
 			image: get(this.props, 'reportImages.images'),
 			uri: get(this.props, 'reportImages.images.uri'),
+			visible: false
 		};
 		// console.log('Image in report : ', get(this.props, 'reportImages.images.uri'))
 		// this.getReadyStates.bind(this);
@@ -44,6 +53,7 @@ class CreateReport extends Component {
 			school_id: this.state.school.emis,
 			user_id: this.props.currentUser.id,
 			image: this.state.uri
+      audio: get(this.props, 'reportAudio.audio'),
 		})
 			.then(() => {
 				alert("Report Shared")
@@ -62,6 +72,7 @@ class CreateReport extends Component {
 	AudioRecorder = () => {
 		// const { navigation } = this.props
 		// navigation.navigate("MediaPicker")
+		ToastAndroid.showWithGravity('Long Press To Record!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
 		console.log('image in Report is : ', this.state.image);
 		console.log('Props is : ', this.props);
 	}
@@ -86,9 +97,37 @@ class CreateReport extends Component {
 				// let source = { uri: 'data:image/jpeg;base64,' + response.data };
 			}
 			this.setState({
-				image: response
+				image: response,
+				uri: response.uri
 			});
 		});
+	}
+
+	handlePressIn() {
+		setTimeout(() => {
+			ToastAndroid.showWithGravity('Press In', ToastAndroid.SHORT, ToastAndroid.CENTER);
+		}, 100)
+
+		this.setState({
+			isRecorderVisible: !this.state.isRecorderVisible
+		});
+	}
+
+	handlePressOut() {
+		setTimeout(() => {
+			ToastAndroid.showWithGravity('Press Out', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+		}, 100)
+	}
+
+	renderRecorder() {
+		if (this.state.isRecorderVisible) {
+			console.log('Lo g kya save hua wa tha? ', get(this.props, 'reportAudio.audio'));
+			return (
+				<AudioRecorder />
+			);
+		} else {
+			return null;
+		}
 	}
 
 	render() {
@@ -116,10 +155,14 @@ class CreateReport extends Component {
 						<Icon name="image" size={40} />
 					</TouchableOpacity>
 
-					<TouchableOpacity onPress={this.AudioRecorder.bind(this)}>
+					<TouchableOpacity
+						onPressIn={this.handlePressIn.bind(this)}
+						onPressOut={this.handlePressOut.bind(this)}
+					>
 						<Icon name="microphone" size={40} />
 					</TouchableOpacity>
 				</View>
+				{this.renderRecorder()}
 
 				<Image
 					style={{ width: 200, height: 200 }}
@@ -127,6 +170,7 @@ class CreateReport extends Component {
 				/>
 
 				<Text>{'\n'}</Text>
+
 
 				<Button style={{ alignSelf: 'center', width: '80%' }}
 					onPress={this.showcontent}>
@@ -144,6 +188,7 @@ const mapStateToProps = createStructuredSelector({
 	reportText: (state) => get(state, 'report.report.text'),
 	reportImages: (state) => get(state, 'report.report.images'),
 	currentUser: (state) => get(state, 'auth.currentUser'),
+	reportAudio: (state) => get(state, 'report.report.audio'),
 })
 
 const mapDispatchToProps = (dispatch) => ({

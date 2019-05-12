@@ -46,7 +46,6 @@ const create = () => {
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', { q: username })
-
   const login = (payload, headers) => {
     const { phone_number, password } = payload
     console.log("Mobile No and password during login ", phone_number, password)
@@ -61,7 +60,7 @@ const create = () => {
     authApi.delete('auth/sign_out', {}, { headers })
 
   const createReport = (payload, headers) => {
-    const { reportContent, school_id, user_id, image } = payload
+    const { reportContent, school_id, user_id, image, audio } = payload
     console.log('Report Content is : ', payload)
     const data = new FormData();
     if (image) {
@@ -70,6 +69,13 @@ const create = () => {
         type: 'image/jpeg',
         name: 'image.jpg'
       });
+    }
+    if(audio){
+      data.append('audio', {
+        uri: audio,
+        type: 'audio/aac',
+        name: 'audio.aac'
+      })
     }
     data.append('school_id', school_id)
     data.append('user_id', user_id)
@@ -128,8 +134,6 @@ const create = () => {
     console.log("my reports User_id is : ", user_id)
     return api.get('/reports/user_reports', { user_id: user_id }, { headers })
   }
-
-
 
   const SchoolDetailData = (payload, headers) => {
     const { school_id } = payload

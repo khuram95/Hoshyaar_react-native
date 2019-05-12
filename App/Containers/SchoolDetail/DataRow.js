@@ -36,7 +36,7 @@ class DataRow extends Component {
 		const { itemName } = this.props
 		// this.setState({ uncheckItem.is_boundary_wall: !this.state.uncheckItem[`${itemName}`] })
 	}
-	
+
 	render() {
 		const { text, value, itemName } = this.props
 		return (
@@ -63,7 +63,6 @@ class DataRow extends Component {
 				}
 				<CheckBox
 					value={this.state.uncheckItem[`${itemName}`]}
-
 					onValueChange={() => this.toggleCheckbox()}
 
 				/>

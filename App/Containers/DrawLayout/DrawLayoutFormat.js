@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native'
-import { Images } from '../../Themes/'
+import { Images } from '../../Themes'
 
-export default DisplayImage = (data, navigation) => {
+export default DrawLayoutFormat = (data, navigation) => {
   return (
     <TouchableOpacity style={styles.footerIcons} onPress={() => navigation.navigate(data.navigateTo)}>
       <View style={styles.textImage}>
@@ -14,6 +14,7 @@ export default DisplayImage = (data, navigation) => {
     </TouchableOpacity>
   )
 }
+
 const styles = StyleSheet.create({
   badgeCount: {
     fontSize: 15,
@@ -23,17 +24,15 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 35,
+    height: 35,
   },
   textImage: {
-    justifyContent: 'center',
-    flexDirection: "column",
+    justifyContent: 'space-evenly',
+    flexDirection: "row",
     alignItems: 'center',
-    padding: '10%'
-
   },
 });

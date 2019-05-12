@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import {
   View, Image, ImageBackground, KeyboardAvoidingView, Linking,
-  ScrollView
+  ScrollView, TouchableOpacity
 } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { get, isEmpty } from 'lodash'
@@ -28,10 +28,10 @@ class SignupForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      mobile_no: '923218896477',
+      mobile_no: '+923218896477',
       username: 'sajjad.mustafa',
-      password: 'NIMDA@astp346',
-      confirm_password: 'NIMDA@astp346',
+      password: 'abc123',
+      confirm_password: 'abc123',
       mobile_noError: '',
       usernameError: '',
       passwordError: '',
@@ -40,7 +40,7 @@ class SignupForm extends React.Component {
   }
 
   isValidatesMobileNo = () => {
-    var regx = /^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$/;
+    var regx = /^((\+92)|( ))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$/;
     return regx.test(this.state.mobile_no)
   }
 
@@ -80,23 +80,30 @@ class SignupForm extends React.Component {
       this.setState({ passwordError: 'Password must contain at least one letter, at least one number, and be longer than six charaters' });
       return false;
     } else if (password != confirm_password) {
-      this.setState({ confirm_password: 'Password do not match' });
+      this.setState({ confirm_passwordError: 'Password do not match' });
 
     }
     return true;
   }
 
+  signin = () => {
+    const { navigation } = this.props
+    navigation.navigate("Login")
+  }
+
+
   signup = () => {
-    this.props.signup({
-      mobile_no: this.state.mobile_no,
-      username: this.state.username,
-      password: this.state.password,
-    })
-      .then(() => {
-        console.log("i am signup .then")
-        const { navigation } = this.props
-        navigation.navigate("VerifyPhoneNumber")
+    if (this.validatesInput()) {
+      this.props.signup({
+        mobile_no: this.state.mobile_no,
+        username: this.state.username,
+        password: this.state.password,
       })
+        .then(() => {
+          const { navigation } = this.props
+          navigation.navigate("VerifyPhoneNumber")
+        })
+    }
   }
 
   render() {
@@ -119,6 +126,7 @@ class SignupForm extends React.Component {
               onChangeText={(mobile_no) => this.setState({ mobile_no: mobile_no, mobile_noError: '' })}
             />
           </FormItem>
+          <Text style={styles.errorsMessages}>{this.state.mobile_noError}</Text>
           <FormItem style={styles.userName}>
             <Input
               value={this.state.username}
@@ -127,6 +135,7 @@ class SignupForm extends React.Component {
               onChangeText={(username) => this.setState({ username: username, usernameError: '' })}
             />
           </FormItem>
+          <Text style={styles.errorsMessages}>{this.state.usernameError}</Text>
           <FormItem>
             <Input
               value={this.state.password}
@@ -137,6 +146,7 @@ class SignupForm extends React.Component {
               onChangeText={(password) => this.setState({ password: password, passwordError: '' })}
             />
           </FormItem>
+          <Text style={styles.errorsMessages}>{this.state.passwordError}</Text>
           <FormItem>
             <Input
               value={this.state.confirm_password}
@@ -147,13 +157,20 @@ class SignupForm extends React.Component {
               onChangeText={(confirm_password) => this.setState({ confirm_password: confirm_password, confirm_passwordError: '' })}
             />
           </FormItem>
-
+          <Text style={styles.errorsMessages}>{this.state.confirm_passwordError}</Text>
         </View>
-        <View style={styles.bottomView} >
+        <View style={styles.signinbutton} >
           <Button onPress={this.signup}>
             <Text style={styles.textStyle}>SIGNUP</Text>
           </Button>
         </View>
+
+        <View style={styles.bottomView} >
+          <TouchableOpacity onPress={this.signin}>
+            <Text>SIGNIN</Text>
+          </TouchableOpacity>
+        </View>
+
 
       </ImageBackground>
     )

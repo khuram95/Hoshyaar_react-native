@@ -13,6 +13,10 @@ const images = {
   Notification: require('../Images/notification.png'),
   add: require('../Images/add.png'),
   arrowdown: require('../Images/arrowdown.png'),
+  menu: require('../Images/menu.png'),
+  pakistan: require('../Images/pakistan.png'),
+  key: require('../Images/key.png'),
+  signout: require('../Images/signout.png'),
   playIcon: require('../Images/play-icon.png'),
   stopIcon: require('../Images/stop-icon.png'),
 

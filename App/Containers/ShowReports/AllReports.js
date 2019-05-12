@@ -9,6 +9,8 @@ import Actions from '../../Redux/Actions'
 import { createStructuredSelector } from 'reselect'
 import { get } from 'lodash'
 import ReportFormat from './ReportFormat'
+import Loader from '../Loader'
+
 
 
 class AllReports extends Component {
@@ -16,7 +18,6 @@ class AllReports extends Component {
     super(props);
     this.state = {
       all_reports: [],
-
     };
     this.props.fetchAllReports()
       .then(() => {
@@ -25,23 +26,32 @@ class AllReports extends Component {
       })
   }
 
+  gotoReportDetail = (report) => {
+    console.log("reports : ", report)
+    const { navigation } = this.props
+    navigation.navigate("ReportDetail", report = { report })
+  }
+  componentDidMount = () => {
+    console.log("componentDidMount All Report")
+  }
+
+  onSubmitComment = () => {
+    this.props.fetchAllReports()
+      .then(() => {
+        this.setState({ all_reports: this.props.allReports })
+      })
+  }
 
   render() {
     return (
-      <ScrollView style={{ backgroundColor: '#e6ecf0', flex: 1, padding: '1%' }}>
-
-
-
+      <ScrollView style={{ backgroundColor: 'white', flex: 1, padding: '1%' }}>
+        <Loader isShow={this.props.requesting == undefined ? false : this.props.requesting} />
         {this.state.all_reports && this.state.all_reports.map((report) =>
           <ReportFormat
-            report_text={report && report.report_text}
-            created_at={report && report.created_at}
-            school_name={report.school && report.school.school_name}
-            district={report.school && report.school.district}
-            tehsil={report.school && report.school.tehsil}
-            report_address ={report && report.report_address}
-            user_name={report.user && report.user.user_name}
-            photos={report.photos && report.photos}
+            report={report && report}
+            navigation={this.props.navigation}
+            gotoReportDetail={this.gotoReportDetail}
+            onSubmitComment={this.onSubmitComment}
           />
         )}
       </ScrollView>
@@ -51,6 +61,8 @@ class AllReports extends Component {
 
 const mapStateToProps = createStructuredSelector({
   allReports: (state) => get(state, 'report.allReports'),
+  requesting: (state) => get(state, 'report.requesting'),
+
 })
 
 const mapDispatchToProps = (dispatch) => ({

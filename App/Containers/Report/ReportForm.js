@@ -51,12 +51,15 @@ class CreateReport extends Component {
 		this.props.createReport({
 			reportContent: get(this.props, 'reportText.text.reportcontent'),
 			school_id: this.state.school.emis,
-			user_id: 17,
-			image: this.state.uri,
-			audio: get(this.props, 'reportAudio.audio'),
+			user_id: this.props.currentUser.id,
+			image: this.state.uri
+      audio: get(this.props, 'reportAudio.audio'),
 		})
 			.then(() => {
-				// this.props.saveReportTextRequest('')
+				alert("Report Shared")
+				this.props.saveReportTextRequest('')
+				const { navigation } = this.props
+				navigation.navigate("DashBoard")
 			})
 	}
 
@@ -172,7 +175,7 @@ class CreateReport extends Component {
 				<Button style={{ alignSelf: 'center', width: '80%' }}
 					onPress={this.showcontent}>
 					<Text style={{ width: '100%', fontWeight: "800", textAlign: "center" }}>
-						Share Report
+						SHARE REPORT
 					</Text>
 				</Button>
 			</View>
@@ -184,6 +187,7 @@ const mapStateToProps = createStructuredSelector({
 	selectedSchool: (state) => get(state, 'schooldetail.schooldetail.school'),
 	reportText: (state) => get(state, 'report.report.text'),
 	reportImages: (state) => get(state, 'report.report.images'),
+	currentUser: (state) => get(state, 'auth.currentUser'),
 	reportAudio: (state) => get(state, 'report.report.audio'),
 })
 
@@ -195,4 +199,3 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateReport)
-

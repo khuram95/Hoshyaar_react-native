@@ -12,8 +12,15 @@ const { Types, Creators } = createActions({
   uniqueSchoolsDataRequest: ['payload', 'resolve', 'reject'],
   uniqueSchoolsDataSuccess: null,
   uniqueSchoolsDataFailure: ['error'],
-  saveUniqueSchoolsDataLocal: ['uniqueSchoolsData']
-
+  saveUniqueSchoolsDataLocal: ['uniqueSchoolsData'],
+  getDistrictsRequest: ['payload', 'resolve', 'reject'],
+  getDistrictsSuccess: null,
+  getDistrictsFailure: ['error'],
+  saveDistrictsLocal: ['districts'],
+  getTehsilsRequest: ['payload', 'resolve', 'reject'],
+  getTehsilsSuccess: null,
+  getTehsilsFailure: ['error'],
+  saveTehsilsLocal: ['tehsils'],
 
   // add action here
 })
@@ -25,6 +32,8 @@ export default Creators
 
 export const INITIAL_STATE = Immutable({
     allSchoolsData: [],
+    districts: [],
+    tehsils: [],
     uniqueSchoolsData: [],
   // form: { error: {}},
 })
@@ -54,7 +63,33 @@ export const uniqueSchoolsDataFailure = (state, { error }) =>
   state.merge({ requesting: false, error })
 
 export const saveUniqueSchoolsDataLocal = (state, { uniqueSchoolsData }) =>
-    state.merge({ uniqueSchoolsData })
+  state.merge({ uniqueSchoolsData })
+
+export const saveDistrictsLocal = (state, { districts }) =>
+  state.merge({ districts })
+
+export const saveTehsilsLocal = (state, { tehsils }) =>{
+  console.log('save local: ', tehsils)
+  return state.merge({ tehsils })}
+
+export const getDistrictsRequest = (state, action) =>
+  state.merge({ requesting: true, error: null })
+
+export const getDistrictsSuccess = (state, action) =>
+  state.merge({ requesting: false, error: null })
+
+export const getDistrictsFailure = (state, { error }) =>
+  state.merge({ requesting: false, error })
+
+export const getTehsilsRequest = (state, action) =>
+  state.merge({ requesting: true, error: null })
+
+export const getTehsilsSuccess = (state, action) =>
+  state.merge({ requesting: false, error: null })
+  
+export const getTehsilsFailure = (state, { error }) =>
+  state.merge({ requesting: false, error })
+
     // add new reducer here
 
 /* ------------- Hookup Reducers To Types ------------- */
@@ -68,5 +103,13 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.UNIQUE_SCHOOLS_DATA_SUCCESS]: uniqueSchoolsDataSuccess,
   [Types.UNIQUE_SCHOOLS_DATA_FAILURE]: uniqueSchoolsDataFailure,
   [Types.SAVE_UNIQUE_SCHOOLS_DATA_LOCAL]: saveUniqueSchoolsDataLocal,
+  [Types.SAVE_DISTRICTS_LOCAL]: saveDistrictsLocal,
+  [Types.SAVE_TEHSILS_LOCAL]: saveTehsilsLocal,
+  [Types.GET_DISTRICTS_REQUEST]: getDistrictsRequest,
+  [Types.GET_DISTRICTS_SUCCESS]: getDistrictsSuccess,
+  [Types.GET_DISTRICTS_FAILURE]: getDistrictsFailure,
+  [Types.GET_TEHSILS_REQUEST]: getTehsilsRequest,
+  [Types.GET_TEHSILS_SUCCESS]: getTehsilsSuccess,
+  [Types.GET_TEHSILS_FAILURE]: getTehsilsFailure,
   // add reducer hook up here
 })

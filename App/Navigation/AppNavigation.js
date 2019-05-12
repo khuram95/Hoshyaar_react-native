@@ -40,17 +40,28 @@ export default StackNavigator({
   ShowReports: {
     screen: require('../Containers/ShowReports/').default
   },
+  MyReports: {
+    screen: require('../Containers/ShowReports/MyReports').default
+  },
   SignupScreen: {
     screen: require('../Containers/SignupScreen/').default
   },
   VerifyPhoneNumber: {
     screen: require('../Containers/SignupScreen/VerifyPhoneNumber').default
+  },
+  AddInterest:{
+    screen: require('../Containers/ShowReports/AddInterest').default
+  },
+  ReportDetail:{
+    screen: require('../Containers/ShowReports/ReportDetail').default
+  },
+  Comment:{
+    screen: require('../Containers/Comment/CommentList').default
   }
-  
 
   
 },
   {
     headerMode: 'float',
-    initialRouteName: 'ManualSchoolSelect'
+    initialRouteName: 'Splash'
 })

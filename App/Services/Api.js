@@ -11,7 +11,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://6564269c.ngrok.io',
+    baseURL: 'http://1a81ac8e.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -20,7 +20,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://6564269c.ngrok.io/api/v1',
+    baseURL: 'http://1a81ac8e.ngrok.io/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -46,10 +46,14 @@ const create = () => {
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', { q: username })
-
-  const login = (email, password) => {
-
-    return authApi.get('auth/sign_up', { email, password })
+  const login = (payload, headers) => {
+    const { phone_number, password } = payload
+    console.log("Mobile No and password during login ", phone_number, password)
+    const data = new FormData();
+    data.append('phone_number', phone_number)
+    data.append('password', password)
+    console.log("data is : ", data)
+    return authApi.post('auth/sign_in', data, { headers })
   }
 
   const signout = (headers) =>
@@ -80,6 +84,29 @@ const create = () => {
     return api.post('/reports', data, { headers })
   }
 
+  const comments = (payload, headers) => {
+    const { user_id, report_id, text } = payload
+    console.log('Comments : ', payload)
+    const data = new FormData();
+    data.append('user_id', user_id)
+    data.append('report_id', report_id)
+    data.append('text', text)
+    console.log("data : ", data)
+    return api.post('/comments', data, { headers })
+  }
+
+  const reportReactions = (payload, headers) => {
+    const { user_id, report_id, is_agree } = payload
+    console.log('reportReactions : ', payload)
+    const data = new FormData();
+    data.append('user_id', user_id)
+    data.append('report_id', report_id)
+    data.append('is_agree', is_agree)
+    console.log("data : ", data)
+    return api.post('/report_reactions', data, { headers })
+  }
+
+
 
   const signup = (payload, headers) => {
     const { mobile_no, username, password } = payload
@@ -94,14 +121,19 @@ const create = () => {
 
 
   const allSchoolsData = (payload, headers) => {
-    return api.get('/schools', {}, { headers })
+    const { tehsil } = payload
+    return api.get('/schools', { tehsil: tehsil }, { headers })
   }
 
   const allReports = (payload, headers) => {
     return api.get('/reports', {}, { headers })
   }
 
-
+  const myReports = (payload, headers) => {
+    const { user_id } = payload
+    console.log("my reports User_id is : ", user_id)
+    return api.get('/reports/user_reports', { user_id: user_id }, { headers })
+  }
 
   const SchoolDetailData = (payload, headers) => {
     const { school_id } = payload
@@ -116,6 +148,15 @@ const create = () => {
     formData.append('district', district);
     formData.append('tehsil', tehsil);
     return api.put('/schools/sorted_data', formData, { headers })
+  }
+
+  const getDistricts = (payload, headers) => {
+    return api.get('/schools/district', {}, { headers })
+  }
+
+  const getTehsils = (payload, headers) => {
+    const { district } = payload
+    return api.get('/schools/tehsil', { district: district }, { headers })
   }
 
   const verifyOtp = (payload, headers) => {
@@ -153,6 +194,11 @@ const create = () => {
     allReports,
     signup,
     verifyOtp,
+    getDistricts,
+    getTehsils,
+    comments,
+    reportReactions,
+    myReports
   }
 }
 

@@ -35,10 +35,41 @@ function * makeUniqueSchoolsDataRequest (api, action) {
   }
 }
 
+function * makeGetDistrictsRequest (api, action) {
+  const { payload, resolve, reject } = action
+  const response = yield call(api.getDistricts, payload)
+  console.log('response: ', response)
+  if (response.ok) {
+    yield put(Actions.saveDistrictsLocal(response.data))    
+    yield put(Actions.getDistrictsSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.getDistrictsFailure(error))
+    return reject(error)
+  }
+}
+function * makeGetTehsilsRequest (api, action) {
+  const { payload, resolve, reject } = action
+  const response = yield call(api.getTehsils, payload)
+  console.log('response in tehsil: ', response)
+  if (response.ok) {
+    yield put(Actions.saveTehsilsLocal(response.data))
+    yield put(Actions.getTehsilsSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.getTehsilsFailure(error))
+    return reject(error)
+  }
+}
+
 // ADD_SAGA_ACTION
 
 export default {
     makeAllSchoolsDataRequest,
     makeUniqueSchoolsDataRequest,
+    makeGetDistrictsRequest,
+    makeGetTehsilsRequest
   // EXPORT_SAGA_ACTION
 }

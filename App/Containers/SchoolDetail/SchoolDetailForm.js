@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { View, ScrollView, TextInput, TouchableOpacity,Image } from 'react-native'
-import { Item as FormItem, Text, Button, Input,Header,Body,Title,Left,Right} from 'native-base'
+import { View, ScrollView, TextInput, TouchableOpacity, Image } from 'react-native'
+import { Item as FormItem, Text, Button, Input, Header, Body, Title, Left, Right } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import DatePicker from 'react-native-datepicker'
@@ -17,40 +17,41 @@ import { get } from 'lodash'
 class SchoolDetailForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { date: "2018-03-23",
-                  schooldetail: {},
-                  singleschool:[],
-                  all_school:[]
-                  }
+    this.state = {
+      date: "2018-03-23",
+      schooldetail: {},
+      singleschool: [],
+      all_school: []
+    }
 
-    
+
     complete_school_data = this.props.navigation.getParam('id')
-  
+
     this.props.SchoolDetailData({ school_id: complete_school_data.emis })
       .then(() => {
         this.setState({ schooldetail: this.props.SchoolDetail })
         size = this.state.schooldetail.length
-        this.setState({singleschool : this.state.schooldetail[size-1]})
-        this.setState({all_school : complete_school_data})
-        console.log("School Data ",this.state.singleschool)
+        this.setState({ singleschool: this.state.schooldetail[size - 1] })
+        this.setState({ all_school: complete_school_data })
+        console.log("School Data ", this.state.singleschool)
       })
 
   }
 
   dateChange = (date) => {
-    this.setState({ date:date })
-    console.log('Date :::::::::::::::::::::',this.state.date)
-   
-    console.log('this.state.schooldetail.visiting_date :',this.state.schooldetail[1].visiting_date)
-    
+    this.setState({ date: date })
+    console.log('Date :::::::::::::::::::::', this.state.date)
+
+    console.log('this.state.schooldetail.visiting_date :', this.state.schooldetail[1].visiting_date)
+
     size = this.state.schooldetail.length
-    for (let i=0; i < size ; i++) {
-      if(this.state.schooldetail[i].visiting_date == this.state.date){
-         this.setState({singleschool : this.state.schooldetail[i]})
+    for (let i = 0; i < size; i++) {
+      if (this.state.schooldetail[i].visiting_date == this.state.date) {
+        this.setState({ singleschool: this.state.schooldetail[i] })
       }
     }
 
-	}
+  }
 
 
   CreateReport = () => {
@@ -64,24 +65,23 @@ class SchoolDetailForm extends Component {
       <ScrollView>
 
 
-          <Header>
-          
-            {/* <Left>
+        <Header>
+
+          {/* <Left>
             <Button>
                 <Text>Notification</Text>
               </Button>
             </Left>
              */}
-            <Body>
-              <Title>Government Data</Title>
-            </Body>
+          <Body>
+            <Title>Government Data</Title>
+          </Body>
 
-            {/* <Right>
+          {/* <Right>
               <Button transparent dark>
               <Image source={Images.Notification} style={{ width: 35,height:35,}} />                            
               </Button>
             </Right> */}
-
           </Header>
 
       <Text style={{alignItems:"center"}}>{ this.state.all_school.school_name }</Text>
@@ -120,9 +120,9 @@ class SchoolDetailForm extends Component {
 
             <CollapseHeader>
               <Separator>
-                <View style={{flexDirection:'row',justifyContent: 'space-between',paddingRight: 15,}}>
-                <Text style={{fontSize: 12}}>PRESENCE OF TEACHING STAFF</Text>
-                <Image source={Images.arrowdown} style={{ width: 20, height: 20}} />
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 15, }}>
+                  <Text style={{ fontSize: 12 }}>PRESENCE OF TEACHING STAFF</Text>
+                  <Image source={Images.arrowdown} style={{ width: 20, height: 20 }} />
                 </View>
               </Separator>
             </CollapseHeader>
@@ -210,7 +210,7 @@ class SchoolDetailForm extends Component {
               </Separator>
             </CollapseHeader>
             <CollapseBody>
-              <ListItem style={{ height: 20}} >
+              <ListItem style={{ height: 20 }} >
                 <DataRow text={'Toilet Avalible'}
                   value={this.state.singleschool && this.state.singleschool.toilet_avaliable} 
                                                       ischecked={true} />
@@ -248,48 +248,48 @@ class SchoolDetailForm extends Component {
 
         </View>
 
-                <View style={{
-                  display: 'flex',
-                  flex: 1,
-                  width: '100%',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  alignItems: 'center'
-                }}>
+        <View style={{
+          display: 'flex',
+          flex: 1,
+          width: '100%',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
 
-                  <Button style={{
-                    alignSelf: 'center',
-                    width: '40%'
-                  }}>
-                    <Text style={{
-                      width: '100%',
-                      fontWeight: "800",
-                      textAlign: "center"
-                    }}>
-                      Verify Data
+          <Button style={{
+            alignSelf: 'center',
+            width: '40%'
+          }}>
+            <Text style={{
+              width: '100%',
+              fontWeight: "800",
+              textAlign: "center"
+            }}>
+              Verify Data
                   </Text>
-                  </Button>
-                  <Text>{'\n'}</Text>
+          </Button>
+          <Text>{'\n'}</Text>
 
 
-                  <Button style={{
-                    alignSelf: 'center',
-                    width: '40%'
-                  }}
-                    onPress={this.CreateReport}
-                  >
-                    <Text style={{
-                      width: '100%',
-                      fontWeight: "800",
-                      textAlign: "center"
-                    }}>
-                      Create Report
+          <Button style={{
+            alignSelf: 'center',
+            width: '40%'
+          }}
+            onPress={this.CreateReport}
+          >
+            <Text style={{
+              width: '100%',
+              fontWeight: "800",
+              textAlign: "center"
+            }}>
+              Create Report
                   </Text>
-                  </Button>
-                </View>
+          </Button>
+        </View>
 
 
-        </ScrollView>
+      </ScrollView>
 
     )
   }

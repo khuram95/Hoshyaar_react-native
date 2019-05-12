@@ -8,13 +8,17 @@ const { Types, Creators } = createActions({
   createReportRequest: ['payload', 'resolve', 'reject'],
   createReportSuccess: null,
   createReportFailure: ['error'],
+ 
   allReportsRequest: ['payload', 'resolve', 'reject'],
   allReportsSuccess: null,
   allReportsFailure: ['error'],
+ 
   saveAllReportsLocal: ['allReports'],
   saveReportText: ['text'],
+  
   saveReportImageLocal: ['images'],
   // add action here
+  saveReportAudio: ['audio'],
 })
 
 export const ReportTypes = Types
@@ -25,16 +29,16 @@ export default Creators
 export const INITIAL_STATE = Immutable({
   allReports: [],
   text:'',
-  images: []
+  images: {},
   // form: { error: {}},
+  audio: {}
 })
 
 /* ------------- Reducers ------------- */
 
-
-export const createReportRequest = (state, action) =>
-  state.merge({ requesting: true, error: null })
-
+export const createReportRequest = (state, action) => {
+  return state.merge({ requesting: true, error: null })
+}
 
 export const createReportSuccess = (state, action) =>
   state.merge({ requesting: false, error: null })
@@ -60,9 +64,12 @@ export const saveReportText = (state, { text }) => state.setIn(['report','text']
 export const saveReportImageLocal = (state, { images }) => {
   console.log('save images', images)
   return  state.setIn(['report','images'],{images})
-
 }
 // add new reducer here
+export const saveReportAudio = (state, { audio }) => {
+  console.log('save audio', audio)
+  return  state.setIn(['report','audio'],{audio})
+}
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -77,4 +84,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SAVE_REPORT_TEXT]: saveReportText,
   [Types.SAVE_REPORT_IMAGE_LOCAL]: saveReportImageLocal,
   // add reducer hook up here
+  [Types.SAVE_REPORT_AUDIO]: saveReportAudio,
 })

@@ -10,11 +10,11 @@ import { get, isEmpty } from 'lodash'
 import Hr from 'react-native-hr-plus'
 import { Images, Colors } from '../../Themes/'
 import Actions from '../../Redux/Actions'
-import MapScreenForm from './MapScreenForm'
+import SignupForm from './SignupForm'
 import styles from './styles'
 
 
-class MapScreen extends Component {
+class SignupScreen extends Component {
   static propTypes = {
   }
 
@@ -24,26 +24,21 @@ class MapScreen extends Component {
 
   constructor(props) {
     super(props)
-    this.props.allSchoolsData()
+  }
+  componentDidMount(){
   }
 
   render () {
-    const allSchoolDetails = get(this.props, 'allSchools')
-    // console.log('Mera Data: ', get(this.props, 'allSchools'))
     return (
-      <MapScreenForm navigation={ this.props.navigation} schoolsData={get(this.props, 'allSchools')} />
+      <SignupForm navigation={ this.props.navigation} />
     )
-
   }
 }
 
 const mapStateToProps = createStructuredSelector({
-  allSchools: (state) => get(state, 'school.allSchoolsData'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  allSchoolsData: (payload) => new Promise((resolve, reject) =>
-		dispatch(Actions.allSchoolsDataRequest(payload, resolve, reject))),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(SignupScreen)

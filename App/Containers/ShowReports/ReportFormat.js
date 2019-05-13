@@ -181,7 +181,11 @@ class ReportFormat extends Component {
           <View style={{ flex: 1, flexDirection: "row", marginBottom: '5%' }}>
             <FlatList
               data={report.photos && report.photos}
-              renderItem={(image) => ReportImage(image)}
+              renderItem={(image) => 
+                <ReportImage
+                data = {image}
+              />
+              }
               horizontal
               pagingEnabled
               ref={(sl) => this.scrollList = sl}

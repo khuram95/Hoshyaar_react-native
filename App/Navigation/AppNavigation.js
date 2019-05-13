@@ -57,7 +57,8 @@ export default StackNavigator({
   },
   Comment:{
     screen: require('../Containers/Comment/CommentList').default
-  }
+  },
+ 
 
   
 },

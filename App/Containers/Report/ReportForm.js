@@ -48,6 +48,7 @@ class CreateReport extends Component {
   // }
 
   showcontent = () => {
+    alert("Report Shared")
     this.props.createReport({
       reportContent: get(this.props, 'reportText.text.reportcontent'),
       school_id: this.state.school.emis,
@@ -56,7 +57,6 @@ class CreateReport extends Component {
       audio: get(this.props, 'reportAudio.audio'),
     })
       .then(() => {
-        alert("Report Shared")
         this.props.saveReportTextRequest('')
         const { navigation } = this.props
         navigation.navigate("DashBoard")

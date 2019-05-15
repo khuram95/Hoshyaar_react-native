@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, ScrollView, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { View, ScrollView, TouchableOpacity, Image, StyleSheet,CheckBox } from 'react-native'
 import { Item as FormItem, Text, Button } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
@@ -23,7 +23,8 @@ class SchoolDetailForm extends Component {
       singleschool: [],
       all_school: [],
       Total_Teacher: true,
-      
+      checked: false,
+
     }
     complete_school_data = this.props.navigation.getParam('id')
     this.props.SchoolDetailData({ school_id: complete_school_data.emis })
@@ -49,7 +50,7 @@ class SchoolDetailForm extends Component {
     this.props.saveSchool(this.state.all_school)
     navigation.navigate("Report")
   }
- 
+
   render() {
     return (
       <ScrollView>
@@ -59,6 +60,14 @@ class SchoolDetailForm extends Component {
           {this.state.all_school.school_name}
         </Text>
         <Text>{'\n'}</Text>
+        <CheckBox
+          value={this.state.checked}
+          onValueChange={() => this.setState({ checked: !this.state.checked })}
+        />
+        <Text>Add This School to my Interest</Text>
+        <Text>{'\n'}</Text>
+
+
         {/* <View style={{ flex: 1, flexDirection: "row" }}>
           <Text>Select Month</Text>
           <DatePicker
@@ -186,7 +195,7 @@ class SchoolDetailForm extends Component {
               <ListItem style={{ height: 20 }} >
                 <DataRow text={'Toilet Avalible'}
                   value={this.state.singleschool.toilet_avaliable}
-                 itemName={'toilet_avaliable'} />
+                  itemName={'toilet_avaliable'} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Toilet Functional'}
@@ -221,8 +230,8 @@ class SchoolDetailForm extends Component {
           display: 'flex',
           flex: 1,
           width: '100%',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
+          flexDirection: 'row',
+          justifyContent: 'space-around',
           alignItems: 'center'
         }}>
 

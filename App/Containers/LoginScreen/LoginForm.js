@@ -28,7 +28,8 @@ class LoginForm extends React.Component {
       phone_number: '+923218896477',
       password: 'abc123',
       phone_numberError: '',
-      passwordError: ''
+      passwordError: '',
+      error:'',
     }
 
 
@@ -67,7 +68,7 @@ class LoginForm extends React.Component {
           const { navigation } = this.props
           navigation.navigate("DashBoard")
         })
-        .catch(error => console.log(error))
+        .catch(error => this.setState({ error }))
     }
     console.log("I am after going to logging")
   }
@@ -89,6 +90,9 @@ class LoginForm extends React.Component {
         <View style={styles.appTitleView}>
           <Text style={styles.appTitleName}>Hoshyaar/ہوشیار</Text>
         </View>
+       { this.state.error ? <View>
+          <Text>{this.state.error}</Text>
+        </View>: console.log("sdfsf")}
         <View style={styles.inputBlock}>
           <FormItem style={styles.userName}>
             <Input

@@ -35,9 +35,10 @@ class ReportFormat extends Component {
       isDisagreeModalVisible: false,
       isAgree: false,
       isDisagree: false,
+      report: this.props.report,
       user_id: get(this.props, 'currentUser.id'),
     };
-    console.log("current user : ", get(this.props, 'currentUser'))
+    // console.log("current user : ", get(this.props, 'currentUser'))
 
     this.scrollList = {}
     this.scrollPosition = 0
@@ -83,6 +84,7 @@ class ReportFormat extends Component {
         }
       }
     })
+    // console.log('report cdm', this.state.report)
   }
   reportReaction = (isagree) => {
     this.props.reportReactions({
@@ -91,12 +93,17 @@ class ReportFormat extends Component {
       is_agree: isagree
     })
       .then(() => {
-        this.props.onSubmitComment()
+        this.setState({ report: this.props.getSingleReport })
+        // this.props.onSubmitComment()
         // alert('Reaction Submit');
       })
   }
+  onSubmitComment = () => {
+    this.setState({ report: this.props.getSingleReport })
+  }
   toggleComment = () => {
-    const { navigation, report, onSubmitComment } = this.props
+    const { navigation, report } = this.props
+    const { onSubmitComment } = this
     this.props.singleReport(report)
     navigation.navigate("Comment", { onSubmitComment })
   }
@@ -117,7 +124,6 @@ class ReportFormat extends Component {
 
     }
     this.reportReaction(backend)
-
   }
   isDisagreeHandler = () => {
     var backend = ''
@@ -140,6 +146,7 @@ class ReportFormat extends Component {
 
   render() {
     const { report } = this.props;
+    {console.log('state ++', report)}
     return (
       <View>
         <View style={styles.report}
@@ -305,6 +312,7 @@ class ReportFormat extends Component {
 }
 const mapStateToProps = createStructuredSelector({
   currentUser: (state) => get(state, 'auth.currentUser'),
+  getSingleReport: (state) => get(state, 'report.singleReport'),
 })
 
 const mapDispatchToProps = (dispatch) => ({

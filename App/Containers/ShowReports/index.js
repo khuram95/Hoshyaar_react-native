@@ -1,16 +1,11 @@
 import React, { Component } from 'react'
-import {
-  View, Image, ImageBackground, KeyboardAvoidingView, Linking,
-  ScrollView, StyleSheet
-} from 'react-native'
-import { Item as FormItem, Text, Button, Input, Header, Container, Body, Title, Left, Right, Tabs, Tab } from 'native-base'
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import { View, StyleSheet } from 'react-native'
+import { Item as FormItem, Container, Tabs, Tab } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import AllReports from './AllReports'
 import MyInterest from './MyInterest'
 import MyReports from './MyReports'
-import { Images, Colors } from '../../Themes/'
 import DrawLayout from '../DrawLayout'
 
 
@@ -26,17 +21,21 @@ class ShowReports extends Component {
   render() {
     return (
       <Container>
-        <DrawLayout title="Reports" image='add' navigateTo='AddInterest'/>
+        <DrawLayout title="Reports" 
+          // image='add'
+          // navigateTo='AddInterest'
+          // componentNavigation={this.props.navigation}
+           />
 
         <Tabs>
           <Tab heading="All Reports">
             <View style={{ flex: 1 }}>
-              <AllReports navigation={this.props.navigation}/>
+              <AllReports navigation={this.props.navigation} />
             </View>
           </Tab>
           <Tab heading="My Reports">
             <View style={{ flex: 1 }}>
-              <MyReports navigation={this.props.navigation}/>
+              <MyReports navigation={this.props.navigation} />
             </View>
           </Tab>
           <Tab heading="My Interest">

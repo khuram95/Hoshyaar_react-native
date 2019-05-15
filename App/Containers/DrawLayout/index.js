@@ -10,13 +10,22 @@ import DrawLayoutFormat from './DrawLayoutFormat'
 class DrawLayout extends Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      isModalVisible: false,
+    }
   }
   static navigationOptions = {
     header: null,
   }
   openDrawer = () => {
     this.refs['DRAWER'].openDrawer()
+  }
+
+  navigationHandler = () => {
+    console.log("this.props : ", this.props)
+    const { componentNavigation } = this.props
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+    componentNavigation.navigate(this.props.navigateTo)
   }
 
   render() {
@@ -55,7 +64,7 @@ class DrawLayout extends Component {
           <Title>{this.props.title}</Title>
         </Body>
         <Right>
-          <TouchableHighlight onPress={this.props.navigateTo}>
+          <TouchableHighlight onPress={this.navigationHandler}>
             <Image source={Images[this.props.image]} style={{ width: 30, height: 30, }} />
           </TouchableHighlight>
         </Right>

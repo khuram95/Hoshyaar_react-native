@@ -74,7 +74,9 @@ function * makeReportReactionsRequest (api, action) {
   const response = yield call(api.reportReactions, payload)
   console.log("Responce  Sagas : " ,response)
   if (response.ok) {
+    console.log('response.data', response.data)
     yield put(Actions.reportReactionsSuccess())
+    yield put(Actions.saveSingleReport(response.data))
     return resolve()
   } else {
     const error = parseError(response)

@@ -60,7 +60,7 @@ class CommentList extends Component {
       text: comment,
     })
       .then(() => {
-        alert('Comment Submit');
+        this.props.onSubmitComment
       })
       .catch(error => console.log(error))
   };

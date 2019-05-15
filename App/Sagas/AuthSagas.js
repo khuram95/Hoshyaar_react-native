@@ -49,6 +49,7 @@ function* makeSignupRequest(api, action) {
   console.log("Signup Sagas")
   const { payload, resolve, reject } = action
   const response = yield call(api.signup, payload)
+  console.log("response dup :",response)
   if (response.ok) {
     const user = get(response, 'data')
     console.log("Signup Responce  Sagas : ", response)

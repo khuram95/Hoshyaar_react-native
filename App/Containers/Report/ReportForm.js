@@ -17,7 +17,8 @@ import { get } from 'lodash'
 import { createStructuredSelector } from 'reselect'
 import Images from '../../Themes/Images'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ImagePicker from 'react-native-image-picker';
+// import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import AudioRecorder from '../AudioRecorder'
 
 class CreateReport extends Component {
@@ -27,7 +28,9 @@ class CreateReport extends Component {
 			school: get(this.props, 'selectedSchool.school'),
 			image: get(this.props, 'reportImages.images'),
 			uri: get(this.props, 'reportImages.images.uri'),
-			visible: false
+			visible: false,
+
+
 		};
 		// console.log('Image in report : ', get(this.props, 'reportImages.images.uri'))
 		// this.getReadyStates.bind(this);
@@ -52,8 +55,8 @@ class CreateReport extends Component {
 			reportContent: get(this.props, 'reportText.text.reportcontent'),
 			school_id: this.state.school.emis,
 			user_id: this.props.currentUser.id,
-			image: this.state.uri
-      audio: get(this.props, 'reportAudio.audio'),
+			image: this.state.uri,
+			audio: get(this.props, 'reportAudio.audio'),
 		})
 			.then(() => {
 				alert("Report Shared")
@@ -73,8 +76,8 @@ class CreateReport extends Component {
 		// const { navigation } = this.props
 		// navigation.navigate("MediaPicker")
 		ToastAndroid.showWithGravity('Long Press To Record!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
-		console.log('image in Report is : ', this.state.image);
-		console.log('Props is : ', this.props);
+		// console.log('image in Report is : ', this.state.image);
+		// console.log('Props is : ', this.props);
 	}
 
 
@@ -83,24 +86,34 @@ class CreateReport extends Component {
 			mediaType: 'photo'
 		};
 
-		ImagePicker.launchImageLibrary(options, (response) => {
-			if (response.didCancel) {
-				console.log('User cancelled photo picker');
-			} else if (response.error) {
-				console.log('ImagePicker Error: ', response.error);
-			} else if (response.customButton) {
-				console.log('User tapped custom button: ', response.customButton);
-			} else {
-				// let source = { uri: response.uri };
-
-				// You can also display the image using data:
-				// let source = { uri: 'data:image/jpeg;base64,' + response.data };
-			}
-			this.setState({
-				image: response,
-				uri: response.uri
-			});
+		ImagePicker.openPicker({
+			multiple: true,
+			mediaType: "photo",
+			includeExif: true,
+		}).then(images => {
+			console.log(images);
+			this.props.saveReportImage(images);
 		});
+
+		// console.log("IMAGES SAVED: ", get(this.props, 'reportImages.images'))
+		// ImagePicker.launchImageLibrary(options, (response) => {
+		// 	if (response.didCancel) {
+		// 		console.log('User cancelled photo picker');
+		// 	} else if (response.error) {
+		// 		console.log('ImagePicker Error: ', response.error);
+		// 	} else if (response.customButton) {
+		// 		console.log('User tapped custom button: ', response.customButton);
+		// 	} else {
+		// 		// let source = { uri: response.uri };
+
+		// 		// You can also display the image using data:
+		// 		// let source = { uri: 'data:image/jpeg;base64,' + response.data };
+		// 	}
+		// 	this.setState({
+		// 		image: response,
+		// 		uri: response.uri
+		// 	});
+		// });
 	}
 
 	handlePressIn() {
@@ -121,7 +134,7 @@ class CreateReport extends Component {
 
 	renderRecorder() {
 		if (this.state.isRecorderVisible) {
-			console.log('Lo g kya save hua wa tha? ', get(this.props, 'reportAudio.audio'));
+			// console.log('Lo g kya save hua wa tha? ', get(this.props, 'reportAudio.audio'));
 			return (
 				<AudioRecorder />
 			);
@@ -193,7 +206,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
 	saveReportTextRequest: (text) => dispatch(Actions.saveReportText(text)),
-
+	saveReportImage: (images) => dispatch(Actions.saveReportImageLocal(images)),
 	createReport: (payload) => new Promise((resolve, reject) =>
 		dispatch(Actions.createReportRequest(payload, resolve, reject)))
 })

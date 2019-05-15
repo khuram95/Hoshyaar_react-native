@@ -33,7 +33,7 @@ const { Types, Creators } = createActions({
 
   saveReportText: ['text'],
   saveReportImageLocal: ['images'],
-  saveSingleReport: ['singleReport']
+  saveSingleReport: ['singleReport'],
   // add action here
   saveReportAudio: ['audio'],
 })

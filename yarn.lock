@@ -9373,6 +9373,7 @@ react-native-animated-loader@^0.0.7:
   integrity sha512-s0CK5wKvQzZDYFKrKx2fz3bYmcr0PSdAzfrvSSPTyrvzYfmSW1bfN5cRkR8ouBXDRDnqRSfZYKQElCKhiBLbaQ==
   dependencies:
     prop-types "^15.6.2"
+
 react-native-audio@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/react-native-audio/-/react-native-audio-4.3.0.tgz#fae22b81f6a4dda706fd4837d0c6a89c66cf2e7e"
@@ -9448,6 +9449,11 @@ react-native-hr-plus@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/react-native-hr-plus/-/react-native-hr-plus-1.0.6.tgz#355b94ad4ff4ba7eb84621ec62bdbe73c3179e9e"
   integrity sha512-JUR4i4GMIbaAJLPpP2PkEqK+/CAXm4NLhkAPduYoBncjNTtNTY1PE338xkBRZTKS/r+TmLqexXhDu8ckzQ7KHA==
+
+react-native-image-crop-picker@^0.24.0:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.24.0.tgz#df101548f72951bf66e560887af73b11f328bdd0"
+  integrity sha512-AES/iOkcF72IMVSR8BP3mLvjh9OjhxyjL7YGgxJGRbc79/ThawcJAuNUb32IYddKjtfK6LbtY/ZNzI4TN9Cu7g==
 
 react-native-image-picker@^0.28.1:
   version "0.28.1"

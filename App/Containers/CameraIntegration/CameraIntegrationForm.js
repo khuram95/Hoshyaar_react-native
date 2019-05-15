@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import { get } from 'lodash'
 import { createStructuredSelector } from 'reselect'
+import ImagePicker from 'react-native-image-crop-picker';
+
 
 const flashModeOrder = {
   off: 'on',
@@ -122,7 +124,13 @@ class CameraScreen extends React.Component {
         <Text
           style={styles.save}
           onPress={() => this.saveButtonHandler()}
-        >save
+        >Continue
+        </Text>
+
+        <Text
+          style={styles.more}
+          onPress={() => this.cancelButtonHandler()}
+        >Take More 
         </Text>
 
         <Text
@@ -138,6 +146,16 @@ class CameraScreen extends React.Component {
   saveButtonHandler() {
     CameraRoll.saveToCameraRoll(this.state.uri.uri, "photo");
     this.props.saveReportImage(this.state.uri);
+
+    ImagePicker.openPicker({
+      multiple: true,
+      mediaType: "photo",
+      includeExif: true,
+    }).then(images => {
+      console.log(images);
+      this.props.saveReportImage(images);
+    });
+
     const { navigation } = this.props
     navigation.navigate("Report");
   }
@@ -360,6 +378,16 @@ const styles = StyleSheet.create({
   cancel: {
     position: 'absolute',
     left: 20,
+    top: 20,
+    backgroundColor: 'transparent',
+    color: '#FFF',
+    fontWeight: '600',
+    fontSize: 17,
+  },
+  more: {
+    position: 'absolute',
+    left: 10,
+    right: 10,
     top: 20,
     backgroundColor: 'transparent',
     color: '#FFF',

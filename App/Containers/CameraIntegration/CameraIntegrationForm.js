@@ -26,6 +26,8 @@ const wbOrder = {
 
 class CameraScreen extends React.Component {
   state = {
+    image: [],
+    storedImages: get(this.props, 'reportImages.images'),
     uri: null,
     flash: 'off',
     zoom: 0,
@@ -88,15 +90,15 @@ class CameraScreen extends React.Component {
   takePicture = async function () {
     if (this.camera) {
       const options = { pauseAfterCapture: false, metadata: true, exif: true, orientation: "portrait", fixOrientation: true };
-      this.watchID = navigator.geolocation.watchPosition((position) => {
-        // Create the object to update this.state.mapRegion through the onRegionChange function
-        let region = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        }
-        // options.location = region;
-        this.setState({ position: region });
-      }, (error) => console.log(error));
+      // this.watchID = navigator.geolocation.watchPosition((position) => {
+      //   // Create the object to update this.state.mapRegion through the onRegionChange function
+      //   let region = {
+      //     latitude: position.coords.latitude,
+      //     longitude: position.coords.longitude,
+      //   }
+      //   // options.location = region;
+      //   this.setState({ position: region });
+      // }, (error) => console.log(error));
       const data = await this.camera.takePictureAsync(options);
       // console.warn('takePicture ', data);
       this.setState({
@@ -127,11 +129,11 @@ class CameraScreen extends React.Component {
         >Continue
         </Text>
 
-        <Text
+        {/* <Text
           style={styles.more}
           onPress={() => this.cancelButtonHandler()}
         >Take More 
-        </Text>
+        </Text> */}
 
         <Text
           style={styles.cancel}
@@ -145,16 +147,20 @@ class CameraScreen extends React.Component {
 
   saveButtonHandler() {
     CameraRoll.saveToCameraRoll(this.state.uri.uri, "photo");
-    this.props.saveReportImage(this.state.uri);
 
-    ImagePicker.openPicker({
-      multiple: true,
-      mediaType: "photo",
-      includeExif: true,
-    }).then(images => {
-      console.log(images);
-      this.props.saveReportImage(images);
-    });
+    one = []
+    one = get(this.props, 'reportImages.images')
+    arr = []
+    if (one) {
+      for(let i=0; one[i]; i++){
+        // console.log('Ahan- '+i+': ', one[i])
+        arr.push(one[i])
+      }
+    }
+    arr.push(this.state.uri.uri)
+
+    this.props.saveReportImage(arr);
+    console.log('Kuch aya?: ', arr)
 
     const { navigation } = this.props
     navigation.navigate("Report");
@@ -329,12 +335,14 @@ class CameraScreen extends React.Component {
 
   }
 }
-
+const mapStateToProps = createStructuredSelector({
+  reportImages: (state) => get(state, 'report.report.images'),
+})
 const mapDispatchToProps = (dispatch) => ({
   saveReportImage: (images) => dispatch(Actions.saveReportImageLocal(images))
 })
 
-export default connect(null, mapDispatchToProps)(CameraScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(CameraScreen)
 
 const styles = StyleSheet.create({
   container: {

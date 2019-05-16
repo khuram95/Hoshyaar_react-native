@@ -47,7 +47,7 @@ export const INITIAL_STATE = Immutable({
   allReports: [],
   myReports: [],
   text: '',
-  images: {},
+  images: [],
   singleReport: {},
   // form: { error: {}},
   audio: {}
@@ -97,7 +97,7 @@ export const saveMyReportsLocal = (state, { myReports }) =>
 export const saveReportText = (state, { text }) => state.setIn(['report', 'text'], { text })
 
 export const saveReportImageLocal = (state, { images }) => {
-  console.log('save images', images)
+  // console.log('This is STORE, saved images are: ', images)
   return state.setIn(['report', 'images'], { images })
 }
 

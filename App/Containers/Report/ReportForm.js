@@ -81,11 +81,16 @@ class CreateReport extends Component {
 	}
 
 
-	selectPhotoTapped() {
-		const options = {
-			mediaType: 'photo'
-		};
+	selectVideoHandler() {
+		ImagePicker.openPicker({
+			mediaType: "video",
+			includeExif: true,
+		}).then((video) => {
+			console.log(video);
+		});
+	}
 
+	selectPhotoHandler() {
 		ImagePicker.openPicker({
 			multiple: true,
 			mediaType: "photo",
@@ -94,26 +99,6 @@ class CreateReport extends Component {
 			console.log(images);
 			this.props.saveReportImage(images);
 		});
-
-		// console.log("IMAGES SAVED: ", get(this.props, 'reportImages.images'))
-		// ImagePicker.launchImageLibrary(options, (response) => {
-		// 	if (response.didCancel) {
-		// 		console.log('User cancelled photo picker');
-		// 	} else if (response.error) {
-		// 		console.log('ImagePicker Error: ', response.error);
-		// 	} else if (response.customButton) {
-		// 		console.log('User tapped custom button: ', response.customButton);
-		// 	} else {
-		// 		// let source = { uri: response.uri };
-
-		// 		// You can also display the image using data:
-		// 		// let source = { uri: 'data:image/jpeg;base64,' + response.data };
-		// 	}
-		// 	this.setState({
-		// 		image: response,
-		// 		uri: response.uri
-		// 	});
-		// });
 	}
 
 	handlePressIn() {
@@ -148,7 +133,8 @@ class CreateReport extends Component {
 			<View>
 				<Text style={{ textAlign: "center" }}>Create Report</Text>
 
-				{<Text>{this.state.school.school_name}</Text>}
+				{/* {<Text>{this.state.school.school_name}</Text>} */}
+				{<Text>{'this.state.school.school_name'}</Text>}
 
 				<TextInput
 					multiline={true}
@@ -164,8 +150,12 @@ class CreateReport extends Component {
 						<Icon name="camera" size={40} />
 					</TouchableOpacity>
 
-					<TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+					<TouchableOpacity onPress={this.selectPhotoHandler.bind(this)}>
 						<Icon name="image" size={40} />
+					</TouchableOpacity>
+
+					<TouchableOpacity onPress={this.selectVideoHandler.bind(this)}>
+						<Icon name="file-video-o" size={40} />
 					</TouchableOpacity>
 
 					<TouchableOpacity

@@ -96,8 +96,28 @@ class CreateReport extends Component {
 			mediaType: "photo",
 			includeExif: true,
 		}).then(images => {
-			console.log(images);
-			this.props.saveReportImage(images);
+			// console.log(images);
+			// this.props.saveReportImage(images);
+
+			one = []
+			one = get(this.props, 'reportImages.images')
+			arr = []
+			if (one) {
+				for (let i = 0; one[i]; i++) {
+					// console.log('Ahan- '+i+': ', one[i])
+					arr.push(one[i])
+				}
+			}
+			if (images) {
+				for (let i = 0; images[i]; i++) {
+					// console.log('Ahan- '+i+': ', one[i])
+					arr.push(images[i].path)
+				}
+			}
+			// arr.push(this.state.uri.uri)
+
+			this.props.saveReportImage(arr);
+			console.log('Kuch aya?: ', arr)
 		});
 	}
 

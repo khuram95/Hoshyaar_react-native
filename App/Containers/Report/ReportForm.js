@@ -8,7 +8,8 @@ import {
 	Linking,
 	ScrollView,
 	TextInput,
-	ToastAndroid
+	ToastAndroid,
+	StyleSheet
 } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { connect } from 'react-redux'
@@ -19,6 +20,7 @@ import Images from '../../Themes/Images'
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import ImagePicker from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
+import PhotoGrid from 'react-native-thumbnail-grid'
 import AudioRecorder from '../AudioRecorder'
 
 class CreateReport extends Component {
@@ -29,33 +31,16 @@ class CreateReport extends Component {
 			image: get(this.props, 'reportImages.images'),
 			uri: get(this.props, 'reportImages.images.uri'),
 			visible: false,
-
-
 		};
-		// console.log('Image in report : ', get(this.props, 'reportImages.images.uri'))
-		// this.getReadyStates.bind(this);
-		// this.getReadyStates();
 	}
-
-	// getReadyStates = () => {
-	// 	this.state = {
-	// 		school: get(this.props, 'selectedSchool.school'),
-	// 		image: get(this.props, 'reportImages.images'),
-	// 	};
-	// 	console.log('getReadyStates: ', this.state.image);
-	// }
-
-	// componentDidMount(){
-	// 	console.log('componentDidMount: ', this.state.image);
-	// 	this.getReadyStates();
-	// }
 
 	showcontent = () => {
 		this.props.createReport({
 			reportContent: get(this.props, 'reportText.text.reportcontent'),
 			school_id: this.state.school.emis,
 			user_id: this.props.currentUser.id,
-			image: this.state.uri,
+			// image: this.state.uri,
+			image: get(this.props, 'reportImages.images'),
 			audio: get(this.props, 'reportAudio.audio'),
 		})
 			.then(() => {
@@ -96,25 +81,19 @@ class CreateReport extends Component {
 			mediaType: "photo",
 			includeExif: true,
 		}).then(images => {
-			// console.log(images);
-			// this.props.saveReportImage(images);
-
 			one = []
 			one = get(this.props, 'reportImages.images')
 			arr = []
 			if (one) {
 				for (let i = 0; one[i]; i++) {
-					// console.log('Ahan- '+i+': ', one[i])
 					arr.push(one[i])
 				}
 			}
 			if (images) {
 				for (let i = 0; images[i]; i++) {
-					// console.log('Ahan- '+i+': ', one[i])
 					arr.push(images[i].path)
 				}
 			}
-			// arr.push(this.state.uri.uri)
 
 			this.props.saveReportImage(arr);
 			console.log('Kuch aya?: ', arr)
@@ -150,54 +129,62 @@ class CreateReport extends Component {
 
 	render() {
 		return (
-			<View>
+			<View style={styles.container}>
+
 				<Text style={{ textAlign: "center" }}>Create Report</Text>
 
 				{/* {<Text>{this.state.school.school_name}</Text>} */}
 				{<Text>{'this.state.school.school_name'}</Text>}
 
-				<TextInput
-					multiline={true}
-					numberOfLines={6}
-					editable={true}
-					maxLength={255}
-					value={get(this.props, 'reportText.text.reportcontent')}
-					onChangeText={(reportcontent) => this.props.saveReportTextRequest({ reportcontent })}
-				/>
+				<View style={styles.reportBase}>
+					<TextInput
+						placeholder="Type some description here..."
+						multiline={true}
+						numberOfLines={6}
+						editable={true}
+						maxLength={255}
+						value={get(this.props, 'reportText.text.reportcontent')}
+						onChangeText={(reportcontent) => this.props.saveReportTextRequest({ reportcontent })}
+					/>
 
-				<View style={{ flexDirection: 'row', justifyContent: "space-around" }}>
-					<TouchableOpacity onPress={this.OpenCamera.bind(this)}>
-						<Icon name="camera" size={40} />
-					</TouchableOpacity>
+					<View style={{ flexDirection: 'row', justifyContent: "space-around" }}>
+						<TouchableOpacity onPress={this.OpenCamera.bind(this)}>
+							<Icon name="camera" size={40} color="#841584" />
+						</TouchableOpacity>
 
-					<TouchableOpacity onPress={this.selectPhotoHandler.bind(this)}>
-						<Icon name="image" size={40} />
-					</TouchableOpacity>
+						<TouchableOpacity onPress={this.selectPhotoHandler.bind(this)}>
+							<Icon name="file-picture-o" size={40} color="#841584" />
+						</TouchableOpacity>
 
-					<TouchableOpacity onPress={this.selectVideoHandler.bind(this)}>
-						<Icon name="file-video-o" size={40} />
-					</TouchableOpacity>
+						<TouchableOpacity onPress={this.selectVideoHandler.bind(this)}>
+							<Icon name="file-video-o" size={40} color="#841584" />
+						</TouchableOpacity>
 
-					<TouchableOpacity
-						onPressIn={this.handlePressIn.bind(this)}
-						onPressOut={this.handlePressOut.bind(this)}
-					>
-						<Icon name="microphone" size={40} />
-					</TouchableOpacity>
+						<TouchableOpacity
+							onPressIn={this.handlePressIn.bind(this)}
+							onPressOut={this.handlePressOut.bind(this)}
+						>
+							<Icon name="microphone" size={40} color="#841584" />
+						</TouchableOpacity>
+					</View>
+					{this.renderRecorder()}
+
 				</View>
-				{this.renderRecorder()}
 
-				<Image
+				{/* <Image
 					style={{ width: 200, height: 200 }}
 					source={{ uri: this.state.uri ? this.state.uri : 'https://facebook.github.io/react-native/docs/assets/favicon.png' }}
-				/>
+				/> */}
+
+				<View style={styles.photoGrid}>
+					<PhotoGrid source={get(this.props, 'reportImages.images')} onPressImage={uri => this.showImage(uri)} />
+				</View>
 
 				<Text>{'\n'}</Text>
 
-
-				<Button style={{ alignSelf: 'center', width: '80%' }}
+				<Button style={styles.shareButton}
 					onPress={this.showcontent}>
-					<Text style={{ width: '100%', fontWeight: "800", textAlign: "center" }}>
+					<Text style={styles.shareButtonText}>
 						SHARE REPORT
 					</Text>
 				</Button>
@@ -222,3 +209,35 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateReport)
+
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'space-between',
+		alignItems: 'stretch',
+		// justifyContent: 'center',
+		// alignItems: 'center',
+		// backgroundColor: 'grey'
+	},
+	reportBase: {
+		flex: 1
+	},
+	photoGrid: {
+		flex: 2,
+		// paddingTop: 10,
+		// backgroundColor: '#000',
+	},
+	shareButton: {
+		// flex: 1,
+		alignSelf: 'center',
+		width: '80%'
+	},
+	shareButtonText: {
+		width: '100%',
+		fontWeight: "800",
+		textAlign: "center"
+	},
+
+});

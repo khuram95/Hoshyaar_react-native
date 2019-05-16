@@ -9460,6 +9460,13 @@ react-native-image-picker@^0.28.1:
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.28.1.tgz#1127460522e0c9741fc62f3d040271d298fb6a6e"
   integrity sha512-CW2dm+cjsdW2fjBW2WD/cSufNG0x0UpljwGHrjSzyB0TckoW+tjYv44UWtckCWxr1JtCg+QrYDO/MzlRyFcjwQ==
 
+react-native-image-placeholder@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/react-native-image-placeholder/-/react-native-image-placeholder-1.0.14.tgz#74f8a74f0d9f2732cc55bc65eb9d6adb668c7c1d"
+  integrity sha512-t7A/qb9hW7PoaeY+S65S92l4W4p+pnWI3zPCtOVKgLm6r3fDENNY2UOdI9wl7Mngb32Ql/NXzGdmZ/DBXK2DGg==
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-iphone-x-helper@^1.0.2, react-native-iphone-x-helper@^1.0.3:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.0.tgz#9f8a376eb00bc712115abff4420318a0063fa796"
@@ -9523,6 +9530,13 @@ react-native-tab-view@^0.0.74:
   integrity sha512-aCrLugxt5LqdSk0pHqu/nDGZMIM3NvxVcXb464coY7ecWgem6IxQ8riO3QXPJhXZ7HaayfofBJF9w4uIWt/AoQ==
   dependencies:
     prop-types "^15.6.0"
+
+react-native-thumbnail-grid@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-thumbnail-grid/-/react-native-thumbnail-grid-0.3.0.tgz#ac06013b615baba528b51ba7c116533f752b3a4a"
+  integrity sha512-kWZTRwUZrl6xHaLr00KGEl/UQsipjGlrxOezYiC8dbb3FYMU8u1B/jJY9c5S59PDOTVIP46RaVwdbFav7SFeXA==
+  dependencies:
+    react-native-image-placeholder "^1.0.14"
 
 react-native-vector-icons@6.1.0:
   version "6.1.0"

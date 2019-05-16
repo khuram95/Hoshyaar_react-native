@@ -18,7 +18,7 @@ class ReportImage extends Component {
       <View>
         <TouchableOpacity onPress={this.toggleImageModal}>
           <Image
-            source={{ uri: `http://ade51d2e.ngrok.io${this.props.data.item.image.url}` }}
+            source={{ uri: `http://240db0db.ngrok.io${this.props.data.item.image.url}` }}
             style={{ height: 75, width: 75 }}
           />
         </TouchableOpacity>
@@ -31,7 +31,7 @@ class ReportImage extends Component {
           </View>
           <View style={styles.ModalContent}>
             <Image
-              source={{ uri: `http://ade51d2e.ngrok.io${this.props.data.item.image.url}` }}
+              source={{ uri: `http://240db0db.ngrok.io${this.props.data.item.image.url}` }}
               style={{ height: 300, width: 300 }}
             />
           </View>

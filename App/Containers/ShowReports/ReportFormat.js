@@ -94,18 +94,19 @@ class ReportFormat extends Component {
     })
       .then(() => {
         this.setState({ report: this.props.getSingleReport })
+        console.log("report reaction then : ",this.state.report)
         // this.props.onSubmitComment()
         // alert('Reaction Submit');
       })
   }
   onSubmitComment = () => {
-    this.setState({ report: this.props.getSingleReport })
+    this.setState({ report: this.props.getCommentedReport })
   }
   toggleComment = () => {
     const { navigation, report } = this.props
     const { onSubmitComment } = this
-    this.props.singleReport(report)
-    navigation.navigate("Comment", { onSubmitComment })
+    this.props.commentedReport(report)
+    navigation.navigate("Comment", { onSubmitComment,report })
   }
   isAgreeHandler = () => {
     var backend = ''
@@ -145,7 +146,7 @@ class ReportFormat extends Component {
   }
 
   render() {
-    const { report } = this.props;
+    const { report } = this.state;
     {console.log('state ++', report)}
     return (
       <View>
@@ -313,15 +314,15 @@ class ReportFormat extends Component {
 const mapStateToProps = createStructuredSelector({
   currentUser: (state) => get(state, 'auth.currentUser'),
   getSingleReport: (state) => get(state, 'report.singleReport'),
+  getCommentedReport: (state) => get(state, 'report.commentedReport'),
 })
-
 const mapDispatchToProps = (dispatch) => ({
   comments: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.commentsRequest(payload, resolve, reject))),
   reportReactions: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.reportReactionsRequest(payload, resolve, reject))),
   singleReport: (report) => dispatch(Actions.saveSingleReport(report)),
-
+  commentedReport: (report) => dispatch(Actions.saveCommentedReport(report)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ReportFormat)
 

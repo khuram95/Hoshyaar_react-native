@@ -34,6 +34,8 @@ const { Types, Creators } = createActions({
   saveReportText: ['text'],
   saveReportImageLocal: ['images'],
   saveSingleReport: ['singleReport'],
+  saveCommentedReport: ['commentedReport'],
+
   // add action here
   saveReportAudio: ['audio'],
 })
@@ -49,6 +51,7 @@ export const INITIAL_STATE = Immutable({
   text: '',
   images: {},
   singleReport: {},
+  commentedReport: {},
   // form: { error: {}},
   audio: {}
 })
@@ -103,10 +106,14 @@ export const saveReportImageLocal = (state, { images }) => {
 
 export const saveSingleReport = (state, { singleReport }) =>
   state.merge({ singleReport })
+
+export const saveCommentedReport = (state, { commentedReport }) =>
+  state.merge({ commentedReport })
+
 // add new reducer here
 export const saveReportAudio = (state, { audio }) => {
   console.log('save audio', audio)
-  return  state.setIn(['report','audio'],{audio})
+  return state.setIn(['report', 'audio'], { audio })
 }
 
 /* ------------- Hookup Reducers To Types ------------- */
@@ -138,6 +145,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SAVE_REPORT_IMAGE_LOCAL]: saveReportImageLocal,
 
   [Types.SAVE_SINGLE_REPORT]: saveSingleReport,
+  [Types.SAVE_COMMENTED_REPORT]: saveCommentedReport,
+
   // add reducer hook up here
   [Types.SAVE_REPORT_AUDIO]: saveReportAudio,
 })

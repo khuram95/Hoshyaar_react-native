@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import {
-  View, ImageBackground, Modal, TouchableOpacity,ActivityIndicator
+  View, ImageBackground, Modal, TouchableOpacity, ActivityIndicator,ToastAndroid
 } from 'react-native'
 // import { Button, Text, Form, Item, Input } from 'native-base'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
@@ -29,7 +29,7 @@ class LoginForm extends React.Component {
       password: 'abc123',
       phone_numberError: '',
       passwordError: '',
-      error:'',
+      error: '',
     }
 
 
@@ -64,11 +64,12 @@ class LoginForm extends React.Component {
       this.props.login({ phone_number, password })
         .then(() => {
           console.log("I am going to logging")
-          console.log('hello log: ',this.props.loging)
+          console.log('hello log: ', this.props.loging)
           const { navigation } = this.props
           navigation.navigate("DashBoard")
         })
-        .catch(error => this.setState({ error }))
+        .catch(error => ToastAndroid.showWithGravity('Long Press To Record!', ToastAndroid.LONG, ToastAndroid.CENTER)
+        )
     }
     console.log("I am after going to logging")
   }
@@ -86,13 +87,13 @@ class LoginForm extends React.Component {
       <ImageBackground
         style={styles.backgroundImage}
       >
-        <Loader isShow={this.props.loging == undefined ? false : this.props.loging}/>
+        <Loader isShow={this.props.loging == undefined ? false : this.props.loging} />
         <View style={styles.appTitleView}>
           <Text style={styles.appTitleName}>Hoshyaar/ہوشیار</Text>
         </View>
-       { this.state.error ? <View>
+        {this.state.error ? <View>
           <Text>{this.state.error}</Text>
-        </View>: console.log("sdfsf")}
+        </View> : console.log("sdfsf")}
         <View style={styles.inputBlock}>
           <FormItem style={styles.userName}>
             <Input

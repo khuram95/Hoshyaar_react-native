@@ -58,7 +58,7 @@ function * makeCommentsRequest (api, action) {
   console.log("Responce  Sagas : " ,response)
   if (response.ok) {
     yield put(Actions.commentsSuccess())
-    yield put(Actions.saveSingleReport(response.data))
+    yield put(Actions.saveCommentedReport(response.data))
     return resolve()
   } else {
     const error = parseError(response)

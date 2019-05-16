@@ -68,7 +68,7 @@ class LoginForm extends React.Component {
           const { navigation } = this.props
           navigation.navigate("DashBoard")
         })
-        .catch(error => ToastAndroid.showWithGravity('Long Press To Record!', ToastAndroid.LONG, ToastAndroid.CENTER)
+        .catch(error => ToastAndroid.showWithGravity('Backend server is down', ToastAndroid.LONG, ToastAndroid.CENTER)
         )
     }
     console.log("I am after going to logging")

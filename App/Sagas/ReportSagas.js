@@ -11,6 +11,7 @@ function * makeCreateReportRequest (api, action) {
   const response = yield call(api.createReport, payload)
   console.log("Responce  Sagas : " ,response)
   if (response.ok) {
+    yield put(Actions.createReportSuccess())
     return resolve()
   } else {
     const error = parseError(response)

@@ -10,28 +10,29 @@ class ReportImage extends Component {
       ModalVisible: false,
     }
   }
-  toggleImageModal = () =>
-    this.setState({ ModalVisible: !this.state.ModalVisible });
+  toggleImageModal = () =>{
+    {console.log(this.props.data.item.image.url)}
+    this.setState({ ModalVisible: !this.state.ModalVisible });}
 
   render() {
     return (
       <View>
         <TouchableOpacity onPress={this.toggleImageModal}>
           <Image
-            source={{ uri: `http://240db0db.ngrok.io${this.props.data.item.image.url}` }}
+            source={{ uri: `http://f9255147.ngrok.io${this.props.data.item.image.url}` }}
             style={{ height: 75, width: 75 }}
           />
         </TouchableOpacity>
         <Modal
           isVisible={this.state.ModalVisible}>
-          <View style={styles.container}>
+          {/* <View style={styles.container}> */}
             <TouchableOpacity onPress={this.toggleImageModal}>
               <Icon name="closecircle" color="white" size={40} />
             </TouchableOpacity>
-          </View>
+          {/* </View> */}
           <View style={styles.ModalContent}>
             <Image
-              source={{ uri: `http://240db0db.ngrok.io${this.props.data.item.image.url}` }}
+              source={{ uri: `http://f9255147.ngrok.io${this.props.data.item.image.url}` }}
               style={{ height: 300, width: 300 }}
             />
           </View>

@@ -19,6 +19,7 @@ import Images from '../../Themes/Images'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
 import AudioRecorder from '../AudioRecorder'
+import Loader from '../Loader'
 
 class CreateReport extends Component {
   constructor(props) {
@@ -48,7 +49,6 @@ class CreateReport extends Component {
   // }
 
   showcontent = () => {
-    alert("Report Shared")
     this.props.createReport({
       reportContent: get(this.props, 'reportText.text.reportcontent'),
       school_id: this.state.school.emis,
@@ -57,7 +57,9 @@ class CreateReport extends Component {
       audio: get(this.props, 'reportAudio.audio'),
     })
       .then(() => {
+        alert("Report Shared")
         this.props.saveReportTextRequest('')
+        this.props.saveReportImage('')
         const { navigation } = this.props
         navigation.navigate("DashBoard")
       })
@@ -133,6 +135,7 @@ class CreateReport extends Component {
   render() {
     return (
       <View>
+        <Loader isShow={this.props.requesting == undefined ? false : this.props.requesting} />
         <Text style={{ textAlign: "center" }}>Create Report</Text>
 
         {<Text>{this.state.school.school_name}</Text>}
@@ -189,13 +192,14 @@ const mapStateToProps = createStructuredSelector({
   reportImages: (state) => get(state, 'report.report.images'),
   currentUser: (state) => get(state, 'auth.currentUser'),
   reportAudio: (state) => get(state, 'report.report.audio'),
+  requesting: (state) => get(state, 'report.requesting'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   saveReportTextRequest: (text) => dispatch(Actions.saveReportText(text)),
-
   createReport: (payload) => new Promise((resolve, reject) =>
-    dispatch(Actions.createReportRequest(payload, resolve, reject)))
+    dispatch(Actions.createReportRequest(payload, resolve, reject))),
+  saveReportImage: (images) => dispatch(Actions.saveReportImageLocal(images))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateReport)

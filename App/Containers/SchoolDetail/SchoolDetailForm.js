@@ -60,12 +60,12 @@ class SchoolDetailForm extends Component {
           {this.state.all_school.school_name}
         </Text>
         <Text>{'\n'}</Text>
-        <CheckBox
+        {/* <CheckBox
           value={this.state.checked}
           onValueChange={() => this.setState({ checked: !this.state.checked })}
         />
         <Text>Add This School to my Interest</Text>
-        <Text>{'\n'}</Text>
+        <Text>{'\n'}</Text> */}
 
 
         {/* <View style={{ flex: 1, flexDirection: "row" }}>

@@ -18,6 +18,7 @@ import { get } from 'lodash'
 import { createStructuredSelector } from 'reselect'
 import Images from '../../Themes/Images'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon2 from 'react-native-vector-icons/MaterialIcons';
 // import ImagePicker from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 import PhotoGrid from 'react-native-thumbnail-grid'
@@ -77,6 +78,7 @@ class CreateReport extends Component {
 			includeExif: true,
 		}).then((video) => {
 			console.log(video);
+			this.props.saveReportVideo(video.uri);
 		});
 	}
 
@@ -144,6 +146,7 @@ class CreateReport extends Component {
 
 				<View style={styles.reportBase}>
 					<TextInput
+						keyboardType="email-address"
 						placeholder="Type some description here..."
 						multiline={true}
 						numberOfLines={6}
@@ -154,26 +157,30 @@ class CreateReport extends Component {
 					/>
 
 					<View style={styles.icons}>
-						<TouchableOpacity onPress={this.OpenCamera.bind(this)}>
-							<Icon name="camera" size={40} color="#841584" />
-						</TouchableOpacity>
+						{
+							this.state.isRecorderVisible ? this.renderRecorder() :
+								<React.Fragment>
+									<TouchableOpacity onPress={this.OpenCamera.bind(this)}>
+										<Icon name="camera" size={40} color="#841584" />
+									</TouchableOpacity>
 
-						<TouchableOpacity onPress={this.selectPhotoHandler.bind(this)}>
-							<Icon name="file-picture-o" size={40} color="#841584" />
-						</TouchableOpacity>
+									<TouchableOpacity onPress={this.selectPhotoHandler.bind(this)}>
+										<Icon name="file-picture-o" size={40} color="#841584" />
+									</TouchableOpacity>
 
-						<TouchableOpacity onPress={this.selectVideoHandler.bind(this)}>
-							<Icon name="file-video-o" size={40} color="#841584" />
-						</TouchableOpacity>
-
+									<TouchableOpacity onPress={this.selectVideoHandler.bind(this)}>
+										<Icon name="file-video-o" size={40} color="#841584" />
+									</TouchableOpacity>
+								</React.Fragment>
+						}
 						<TouchableOpacity
-						// onPressIn={this.handlePressIn.bind(this)}
-						// onPressOut={this.handlePressOut.bind(this)}
+							onPressIn={this.handlePressIn.bind(this)}
+							onPressOut={this.handlePressOut.bind(this)}
 						>
-							<Icon name="microphone" size={40} color="#841584" />
+							{this.state.isRecorderVisible ? <Icon2 name="cancel" size={40} color="#841584" /> : <Icon name="microphone" size={40} color="#841584" />}
 						</TouchableOpacity>
 					</View>
-					{this.renderRecorder()}
+
 
 				</View>
 
@@ -224,7 +231,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 	},
 	container: {
-		flex: 1, justifyContent: "center", backgroundColor: "#fff", alignItems: "stretch", flexDirection:'column'
+		flex: 1, justifyContent: "center", backgroundColor: "#fff", alignItems: "stretch", flexDirection: 'column'
 	},
 	reportBase: {
 		flex: 1,
@@ -233,7 +240,7 @@ const styles = StyleSheet.create({
 	icons: {
 		// flex:1,
 		flexDirection: 'row',
-		justifyContent: 'space-around'
+		justifyContent: 'space-evenly'
 	},
 	photoGrid: {
 		flex: 2,

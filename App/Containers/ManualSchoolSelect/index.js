@@ -155,7 +155,6 @@ const styles = StyleSheet.create({
     padding: 10
   },
   shareButton: {
-    // flex:1,
     alignSelf: 'center',
     width: '99%',
     position: 'relative'

@@ -71,6 +71,21 @@ function* makeSignupRequest(api, action) {
   }
 }
 
+function* makeOneSignalRequest(api, action) {
+  console.log("One Signal Sagas")
+  const { payload, resolve, reject } = action
+  const response = yield call(api.oneSignal, payload)
+  if (response.ok) {
+    console.log("One Signal Responce  Sagas : ", response)
+    yield put(Actions.oneSignalSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.oneSignalFailure(error))
+    return reject(error)
+  }
+}
+
 function* makeVerifyPhoneNumberRequest(api, action) {
   console.log("VerifyPhoneNumberRequest Sagas")
   const { payload, resolve, reject } = action
@@ -106,6 +121,7 @@ export default {
   makeLoginRequest,
   makeSignoutRequest,
   makeSignupRequest,
-  makeVerifyPhoneNumberRequest
+  makeVerifyPhoneNumberRequest,
+  makeOneSignalRequest
   // EXPORT_SAGA_ACTION
 }

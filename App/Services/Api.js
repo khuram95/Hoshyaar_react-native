@@ -47,11 +47,12 @@ const create = () => {
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', { q: username })
   const login = (payload, headers) => {
-    const { phone_number, password } = payload
+    const { phone_number, password,deviceId } = payload
     console.log("Mobile No and password during login ", phone_number, password)
     const data = new FormData();
     data.append('phone_number', phone_number)
     data.append('password', password)
+    data.append('device_id', deviceId)
     console.log("data is : ", data)
     return authApi.post('auth/sign_in', data, { headers })
   }
@@ -134,6 +135,11 @@ const create = () => {
   const allSchoolsData = (payload, headers) => {
     const { tehsil } = payload
     return api.get('/schools', { tehsil: tehsil }, { headers })
+  }
+  const oneSignal = (payload, headers) => {
+    const { userId } = payload
+    console.log("one signal payload api ", payload)
+    return api.put('/', { userId: userId }, { headers })
   }
 
   const allReports = (payload, headers) => {
@@ -218,6 +224,7 @@ const create = () => {
     myReports,
     addMyInterest,
     interestedReports,
+    oneSignal,
   }
 }
 

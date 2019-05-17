@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import {
-  View, ImageBackground, Modal, TouchableOpacity, ActivityIndicator,ToastAndroid
+  View, ImageBackground, Modal, TouchableOpacity, ActivityIndicator, ToastAndroid
 } from 'react-native'
 // import { Button, Text, Form, Item, Input } from 'native-base'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
@@ -13,6 +13,8 @@ import { Images, Colors } from '../../Themes'
 import Actions from '../../Redux/Actions'
 import styles from './styles'
 import Loader from '../Loader'
+import OneSignal from 'react-native-onesignal'; // Import package from node modules
+
 
 class LoginForm extends React.Component {
   static propTypes = {
@@ -27,6 +29,7 @@ class LoginForm extends React.Component {
     this.state = {
       phone_number: '+923218896477',
       password: 'abc123',
+      deviceId: '',
       phone_numberError: '',
       passwordError: '',
       error: '',
@@ -34,6 +37,38 @@ class LoginForm extends React.Component {
 
 
   }
+
+  componentDidMount = () => {
+    OneSignal.init("289a3983-3872-4647-aa6f-1740c1d57c82");
+    console.log("OneSignal Working")
+    console.log("this.props.currentuser", this.props.currentUser)
+    // OneSignal.addEventListener('ids', (payload) => this.props.onesignal({ payload }));
+    OneSignal.addEventListener('received', this.onReceived);
+    OneSignal.addEventListener('opened', this.onOpened);
+    OneSignal.addEventListener('ids', (payload) => this.setState({ deviceId: payload.userId }));
+    OneSignal.configure()
+    console.log("this.props cdm :", this.props)
+
+  }
+  onReceived(notification) {
+    console.log("Notification received: ", notification);
+  }
+
+  onOpened(openResult) {
+    console.log('Message: ', openResult.notification.payload.body);
+    console.log('Data: ', openResult.notification.payload.additionalData);
+    console.log('isActive: ', openResult.notification.isAppInFocus);
+    console.log('openResult: ', openResult);
+  }
+
+  onIds(device) {
+    console.log('Device info: ', device);
+    console.log("this.props.deviceInformation :", device)
+    console.log("this.props :", this.props)
+
+    // this.props.onesignal({ payload: device })
+  }
+
   isValidatesMobileNo = () => {
     var regx = /^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$/;
     return regx.test(this.state.phone_number)
@@ -60,8 +95,8 @@ class LoginForm extends React.Component {
 
   login = () => {
     if (this.validatesInput()) {
-      const { phone_number, password } = this.state
-      this.props.login({ phone_number, password })
+      const { phone_number, password, deviceId } = this.state
+      this.props.login({ phone_number, password, deviceId })
         .then(() => {
           console.log("I am going to logging")
           console.log('hello log: ', this.props.loging)

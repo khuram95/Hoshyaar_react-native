@@ -106,21 +106,21 @@ class CreateReport extends Component {
 		});
 	}
 
-	// handlePressIn() {
-	// 	setTimeout(() => {
-	// 		ToastAndroid.showWithGravity('Press In', ToastAndroid.SHORT, ToastAndroid.CENTER);
-	// 	}, 100)
+	handlePressIn() {
+		// setTimeout(() => {
+		// 	ToastAndroid.showWithGravity('Press In', ToastAndroid.SHORT, ToastAndroid.CENTER);
+		// }, 100)
 
-	// 	this.setState({
-	// 		isRecorderVisible: !this.state.isRecorderVisible
-	// 	});
-	// }
+		this.setState({
+			isRecorderVisible: !this.state.isRecorderVisible
+		});
+	}
 
-	// handlePressOut() {
-	// 	setTimeout(() => {
-	// 		ToastAndroid.showWithGravity('Press Out', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-	// 	}, 100)
-	// }
+	handlePressOut() {
+		// setTimeout(() => {
+		// 	ToastAndroid.showWithGravity('Press Out', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+		// }, 100)
+	}
 
 	renderRecorder() {
 		if (this.state.isRecorderVisible) {
@@ -153,7 +153,7 @@ class CreateReport extends Component {
 						onChangeText={(reportcontent) => this.props.saveReportTextRequest({ reportcontent })}
 					/>
 
-					<View style={{ flexDirection: 'row', justifyContent: "space-around" }}>
+					<View style={styles.icons}>
 						<TouchableOpacity onPress={this.OpenCamera.bind(this)}>
 							<Icon name="camera" size={40} color="#841584" />
 						</TouchableOpacity>
@@ -167,8 +167,8 @@ class CreateReport extends Component {
 						</TouchableOpacity>
 
 						<TouchableOpacity
-							// onPressIn={this.handlePressIn.bind(this)}
-							// onPressOut={this.handlePressOut.bind(this)}
+						// onPressIn={this.handlePressIn.bind(this)}
+						// onPressOut={this.handlePressOut.bind(this)}
 						>
 							<Icon name="microphone" size={40} color="#841584" />
 						</TouchableOpacity>
@@ -183,10 +183,10 @@ class CreateReport extends Component {
 				/> */}
 
 				<View style={styles.photoGrid}>
-					<PhotoGrid source={get(this.props, 'reportImages.images')} onPressImage={uri => this.showImage(uri)} />
+					<PhotoGrid height={'100%'} source={get(this.props, 'reportImages.images')} onPressImage={uri => this.showImage(uri)} />
 				</View>
 
-				<Text>{'\n'}</Text>
+				{/* <Text>{'\n'}</Text> */}
 
 				<Button style={styles.shareButton}
 					onPress={this.showcontent}>
@@ -221,31 +221,31 @@ export default connect(mapStateToProps, mapDispatchToProps)(CreateReport)
 
 const styles = StyleSheet.create({
 	title: {
-		justifyContent: 'center',
-		alignItems: 'center',
 		alignSelf: 'center',
 	},
 	container: {
-		flex: 1,
-		flexDirection: 'column',
-		justifyContent: 'space-between',
-		alignItems: 'stretch',
-		// justifyContent: 'center',
-		// alignItems: 'center',
-		// backgroundColor: 'grey'
+		flex: 1, justifyContent: "center", backgroundColor: "#fff", alignItems: "stretch", flexDirection:'column'
 	},
 	reportBase: {
-		flex: 1
+		flex: 1,
+		flexDirection: 'column',
+	},
+	icons: {
+		// flex:1,
+		flexDirection: 'row',
+		justifyContent: 'space-around'
 	},
 	photoGrid: {
 		flex: 2,
-		// paddingTop: 10,
-		// backgroundColor: '#000',
+		width: '100%',
+		justifyContent: 'flex-start',
+		alignSelf: 'auto'
 	},
 	shareButton: {
-		// flex: 1,
+		// flex:1,
 		alignSelf: 'center',
-		width: '80%'
+		width: '99%',
+		position: 'relative'
 	},
 	shareButtonText: {
 		width: '100%',

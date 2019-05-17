@@ -1,5 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Slider, CameraRoll, Dimensions, Image } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Slider,
+  CameraRoll,
+  Dimensions,
+  Image,
+  Keyboard,
+} from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
@@ -45,6 +55,10 @@ class CameraScreen extends React.Component {
     position: null,
   };
 
+  componentDidMount = () => {
+    Keyboard.dismiss();
+  }
+
   toggleFacing() {
     this.setState({
       type: this.state.type === 'back' ? 'front' : 'back',
@@ -89,7 +103,7 @@ class CameraScreen extends React.Component {
 
   takePicture = async function () {
     if (this.camera) {
-      const options = { pauseAfterCapture: false, metadata: true, exif: true, orientation: "portrait", fixOrientation: true };
+      const options = { quality:0.3, pauseAfterCapture: false, metadata: true, exif: true, orientation: "portrait", fixOrientation: true };
       // this.watchID = navigator.geolocation.watchPosition((position) => {
       //   // Create the object to update this.state.mapRegion through the onRegionChange function
       //   let region = {
@@ -152,7 +166,7 @@ class CameraScreen extends React.Component {
     one = get(this.props, 'reportImages.images')
     arr = []
     if (one) {
-      for(let i=0; one[i]; i++){
+      for (let i = 0; one[i]; i++) {
         // console.log('Ahan- '+i+': ', one[i])
         arr.push(one[i])
       }
@@ -180,8 +194,10 @@ class CameraScreen extends React.Component {
           this.setState({ isRecording: true });
           const data = await promise;
           this.setState({ isRecording: false });
-          // console.warn('takeVideo', data.uri);
+          // console.warn('DATA URI: ', data.uri);
           CameraRoll.saveToCameraRoll(data.uri, "video");
+          this.props.saveReportVideo(data.uri);
+          // console.warn('SAVED VIDEO: ', data.uri);
         }
       } catch (e) {
         console.error(e);
@@ -339,7 +355,8 @@ const mapStateToProps = createStructuredSelector({
   reportImages: (state) => get(state, 'report.report.images'),
 })
 const mapDispatchToProps = (dispatch) => ({
-  saveReportImage: (images) => dispatch(Actions.saveReportImageLocal(images))
+  saveReportImage: (images) => dispatch(Actions.saveReportImageLocal(images)),
+  saveReportVideo: (video) => dispatch(Actions.saveReportVideoLocal(video))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CameraScreen)

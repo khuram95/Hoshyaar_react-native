@@ -11,7 +11,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://240db0db.ngrok.io',
+    baseURL: 'http://3a2ed5ce.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -20,7 +20,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://240db0db.ngrok.io/api/v1',
+    baseURL: 'http://3a2ed5ce.ngrok.io/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -60,28 +60,41 @@ const create = () => {
     authApi.delete('auth/sign_out', {}, { headers })
 
   const createReport = (payload, headers) => {
-    const { reportContent, school_id, user_id, image, audio } = payload
+    const { reportContent, school_id, user_id, image, video, audio } = payload
     console.log('Report Content is : ', payload)
     const data = new FormData();
+    // const images = image.uri.split(',')
+    console.log('Images separeted comma: ', image[0])
     if (image) {
-      data.append('image', {
-        uri: image,
-        type: 'image/jpeg',
-        name: 'image.jpg'
+      let images = image.map((img) => {
+        return {
+          uri: img,
+          type: 'image/jpeg',
+          name: 'image.jpg'
+        }
       });
+      console.log('IMAGES: ', images);
+      data.append('image', images)
     }
-    if(audio){
+    if (audio) {
       data.append('audio', {
         uri: audio,
         type: 'audio/aac',
         name: 'audio.aac'
       })
     }
+    if (video) {
+      data.append('video', {
+        uri: video,
+        type: 'video/mp4',
+        name: 'video.mp4'
+      })
+    }
     data.append('school_id', school_id)
     data.append('user_id', user_id)
     data.append('report_text', reportContent)
     console.log("data : ", data)
-    return api.post('/reports', data, { headers })
+    return api.post('/reports', {images}, { headers })
   }
 
   const comments = (payload, headers) => {

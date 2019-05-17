@@ -9,7 +9,7 @@ import {
 	ScrollView,
 	TextInput,
 	ToastAndroid,
-	StyleSheet
+	StyleSheet,
 } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { connect } from 'react-redux'
@@ -21,6 +21,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 // import ImagePicker from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 import PhotoGrid from 'react-native-thumbnail-grid'
+import DrawLayout from '../DrawLayout'
 import AudioRecorder from '../AudioRecorder'
 
 class CreateReport extends Component {
@@ -37,17 +38,21 @@ class CreateReport extends Component {
 	showcontent = () => {
 		this.props.createReport({
 			reportContent: get(this.props, 'reportText.text.reportcontent'),
-			school_id: this.state.school.emis,
-			user_id: this.props.currentUser.id,
+			// school_id: this.state.school.emis,
+			// user_id: this.props.currentUser.id,
+
 			// image: this.state.uri,
+			school_id: 123456,
+			user_id: 70,
 			image: get(this.props, 'reportImages.images'),
+			video: get(this.props, 'reportVideo.video'),
 			audio: get(this.props, 'reportAudio.audio'),
 		})
 			.then(() => {
 				alert("Report Shared")
 				this.props.saveReportTextRequest('')
-				const { navigation } = this.props
-				navigation.navigate("DashBoard")
+				// const { navigation } = this.props
+				// navigation.navigate("DashBoard")
 			})
 	}
 
@@ -80,6 +85,7 @@ class CreateReport extends Component {
 			multiple: true,
 			mediaType: "photo",
 			includeExif: true,
+			compressImageQuality: 0.3,
 		}).then(images => {
 			one = []
 			one = get(this.props, 'reportImages.images')
@@ -100,21 +106,21 @@ class CreateReport extends Component {
 		});
 	}
 
-	handlePressIn() {
-		setTimeout(() => {
-			ToastAndroid.showWithGravity('Press In', ToastAndroid.SHORT, ToastAndroid.CENTER);
-		}, 100)
+	// handlePressIn() {
+	// 	setTimeout(() => {
+	// 		ToastAndroid.showWithGravity('Press In', ToastAndroid.SHORT, ToastAndroid.CENTER);
+	// 	}, 100)
 
-		this.setState({
-			isRecorderVisible: !this.state.isRecorderVisible
-		});
-	}
+	// 	this.setState({
+	// 		isRecorderVisible: !this.state.isRecorderVisible
+	// 	});
+	// }
 
-	handlePressOut() {
-		setTimeout(() => {
-			ToastAndroid.showWithGravity('Press Out', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-		}, 100)
-	}
+	// handlePressOut() {
+	// 	setTimeout(() => {
+	// 		ToastAndroid.showWithGravity('Press Out', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+	// 	}, 100)
+	// }
 
 	renderRecorder() {
 		if (this.state.isRecorderVisible) {
@@ -130,11 +136,11 @@ class CreateReport extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-
-				<Text style={{ textAlign: "center" }}>Create Report</Text>
+				<DrawLayout title="Create Report" />
+				{/* <Text style={{ textAlign: "center" }}>Create Report</Text> */}
 
 				{/* {<Text>{this.state.school.school_name}</Text>} */}
-				{<Text>{'this.state.school.school_name'}</Text>}
+				{<Text style={styles.title}> {'this.state.school.school_name'} </Text>}
 
 				<View style={styles.reportBase}>
 					<TextInput
@@ -161,8 +167,8 @@ class CreateReport extends Component {
 						</TouchableOpacity>
 
 						<TouchableOpacity
-							onPressIn={this.handlePressIn.bind(this)}
-							onPressOut={this.handlePressOut.bind(this)}
+							// onPressIn={this.handlePressIn.bind(this)}
+							// onPressOut={this.handlePressOut.bind(this)}
 						>
 							<Icon name="microphone" size={40} color="#841584" />
 						</TouchableOpacity>
@@ -197,6 +203,7 @@ const mapStateToProps = createStructuredSelector({
 	selectedSchool: (state) => get(state, 'schooldetail.schooldetail.school'),
 	reportText: (state) => get(state, 'report.report.text'),
 	reportImages: (state) => get(state, 'report.report.images'),
+	reportVideo: (state) => get(state, 'report.report.video'),
 	currentUser: (state) => get(state, 'auth.currentUser'),
 	reportAudio: (state) => get(state, 'report.report.audio'),
 })
@@ -204,6 +211,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
 	saveReportTextRequest: (text) => dispatch(Actions.saveReportText(text)),
 	saveReportImage: (images) => dispatch(Actions.saveReportImageLocal(images)),
+	saveReportVideo: (video) => dispatch(Actions.saveReportVideoLocal(video)),
 	createReport: (payload) => new Promise((resolve, reject) =>
 		dispatch(Actions.createReportRequest(payload, resolve, reject)))
 })
@@ -212,6 +220,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(CreateReport)
 
 
 const styles = StyleSheet.create({
+	title: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		alignSelf: 'center',
+	},
 	container: {
 		flex: 1,
 		flexDirection: 'column',

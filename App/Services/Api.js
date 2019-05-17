@@ -11,7 +11,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://f9255147.ngrok.io',
+    baseURL: 'http://68aa5bf8.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -20,7 +20,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://f9255147.ngrok.io/api/v1',
+    baseURL: 'http://68aa5bf8.ngrok.io/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -59,6 +59,17 @@ const create = () => {
   const signout = (headers) =>
     authApi.delete('auth/sign_out', {}, { headers })
 
+  const addMyInterest = (payload, headers) => {
+    const {school_id, user_id} = payload
+    console.log('addMyInterest : ', payload)
+    const data = new FormData();
+    data.append('school_id', school_id)
+    data.append('user_id', user_id)
+    console.log("data : ", data)
+    return api.post('/my_interests', data, { headers })
+  }
+
+
   const createReport = (payload, headers) => {
     const { reportContent, school_id, user_id, image, audio } = payload
     console.log('Report Content is : ', payload)
@@ -70,7 +81,7 @@ const create = () => {
         name: 'image.jpg'
       });
     }
-    if(audio){
+    if (audio) {
       data.append('audio', {
         uri: audio,
         type: 'audio/aac',
@@ -133,6 +144,12 @@ const create = () => {
     const { user_id } = payload
     console.log("my reports User_id is : ", user_id)
     return api.get('/reports/user_reports', { user_id: user_id }, { headers })
+  }
+
+  const interestedReports = (payload, headers) => {
+    const { user_id } = payload
+    console.log("Interested reports User_id is : ", user_id)
+    return api.get('/my_interests', { user_id: user_id }, { headers })
   }
 
   const SchoolDetailData = (payload, headers) => {
@@ -198,7 +215,9 @@ const create = () => {
     getTehsils,
     comments,
     reportReactions,
-    myReports
+    myReports,
+    addMyInterest,
+    interestedReports,
   }
 }
 

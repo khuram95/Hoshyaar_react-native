@@ -103,6 +103,10 @@ class SignupForm extends React.Component {
           const { navigation } = this.props
           navigation.navigate("VerifyPhoneNumber")
         })
+        .catch(() => {
+          
+        }
+        )
     }
   }
 

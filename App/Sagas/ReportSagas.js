@@ -52,6 +52,22 @@ function * makeMyReportsRequest (api, action) {
   }
 }
 
+function * makeInterestedReportsRequest (api, action) {
+  console.log("Interested Report Sagas")
+  const { payload, resolve, reject } = action
+  const response = yield call(api.interestedReports, payload)
+  console.log("Interested Reports Responce  Sagas : " ,response)
+  if (response.ok) {
+    yield put(Actions.saveInterestedReportsLocal(response.data))
+    yield put(Actions.interestedReportsSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.interestedReportsFailure(error))
+    return reject(error)
+  }
+}
+
 function * makeCommentsRequest (api, action) {
   console.log("Comments Sagas")
   const { payload, resolve, reject } = action
@@ -95,6 +111,7 @@ export default {
     makeallReportsRequest,
     makeCommentsRequest,
     makeReportReactionsRequest,
-    makeMyReportsRequest
+    makeMyReportsRequest,
+    makeInterestedReportsRequest,
   // EXPORT_SAGA_ACTION
 }

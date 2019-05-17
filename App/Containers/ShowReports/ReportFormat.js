@@ -11,6 +11,7 @@ import Actions from '../../Redux/Actions'
 import { connect } from 'react-redux'
 import Icon from "react-native-vector-icons/AntDesign";
 import Icons from "react-native-vector-icons/EvilIcons";
+import lockIcons from "react-native-vector-icons/FontAwesome";
 import { createStructuredSelector } from 'reselect'
 import { get } from 'lodash'
 import {
@@ -177,6 +178,8 @@ class ReportFormat extends Component {
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-start', }}>
             <Progress.Bar progress={0.4} width={200} color="red" height={15} />
+            {/* <lockIcons name="unlock" color="blue" size={15} /> */}
+
             <Image source={Images.unlock} style={{ width: 15, height: 15, marginLeft: '1%' }} />
           </View>
           <ViewMoreText

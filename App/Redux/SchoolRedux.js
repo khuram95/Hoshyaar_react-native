@@ -21,6 +21,9 @@ const { Types, Creators } = createActions({
   getTehsilsSuccess: null,
   getTehsilsFailure: ['error'],
   saveTehsilsLocal: ['tehsils'],
+  addMyInterestRequest: ['payload', 'resolve', 'reject'],
+  addMyInterestSuccess: null,
+  addMyInterestFailure: ['error'],
 
   // add action here
 })
@@ -90,6 +93,14 @@ export const getTehsilsSuccess = (state, action) =>
 export const getTehsilsFailure = (state, { error }) =>
   state.merge({ requesting: false, error })
 
+  export const addMyInterestRequest = (state, action) =>
+    state.merge({ requesting: true, error: null })
+  export const addMyInterestSuccess = (state, action) =>
+    state.merge({ requesting: false, error: null })
+  export const addMyInterestFailure = (state, { error }) =>
+    state.merge({ requesting: false, error })
+
+
     // add new reducer here
 
 /* ------------- Hookup Reducers To Types ------------- */
@@ -111,5 +122,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_TEHSILS_REQUEST]: getTehsilsRequest,
   [Types.GET_TEHSILS_SUCCESS]: getTehsilsSuccess,
   [Types.GET_TEHSILS_FAILURE]: getTehsilsFailure,
+
+  [Types.ADD_MY_INTEREST_REQUEST]: addMyInterestRequest,
+  [Types.ADD_MY_INTEREST_SUCCESS]: addMyInterestSuccess,
+  [Types.ADD_MY_INTEREST_FAILURE]: addMyInterestFailure,
   // add reducer hook up here
 })

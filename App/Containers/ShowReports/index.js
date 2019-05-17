@@ -40,7 +40,7 @@ class ShowReports extends Component {
           </Tab>
           <Tab heading="My Interest">
             <View style={{ flex: 1 }}>
-              <MyInterest />
+              <MyInterest navigation={this.props.navigation}/>
             </View>
           </Tab>
         </Tabs>

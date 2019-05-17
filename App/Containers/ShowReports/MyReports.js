@@ -29,7 +29,14 @@ class MyReports extends Component {
     const { navigation } = this.props
     navigation.navigate("ReportDetail", report = { report })
   }
-
+ 
+  onSubmitComment = () => {
+    this.props.fetchMyReports()
+      .then(() => {
+        this.setState({ my_reports: this.props.my_reports })
+      })
+  }
+  
   render() {
     return (
       <ScrollView style={{ backgroundColor: 'white', flex: 1, padding: '1%' }}>
@@ -38,6 +45,7 @@ class MyReports extends Component {
             report={report && report}
             navigation={this.props.navigation}
             gotoReportDetail={this.gotoReportDetail}
+            onSubmitComment={this.onSubmitComment}
           />
         )}
       </ScrollView>

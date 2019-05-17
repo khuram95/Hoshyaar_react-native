@@ -64,12 +64,29 @@ function * makeGetTehsilsRequest (api, action) {
   }
 }
 
+function * makeAddMyInterestRequest (api, action) {
+  const { payload, resolve, reject } = action
+  const response = yield call(api.addMyInterest, payload)
+  if (response.ok) {
+    console.log("Add My Interest " , response.data)
+    yield put(Actions.addMyInterestSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.addMyInterestFailure(error))
+    return reject(error)
+  }
+}
+
+
+
 // ADD_SAGA_ACTION
 
 export default {
     makeAllSchoolsDataRequest,
     makeUniqueSchoolsDataRequest,
     makeGetDistrictsRequest,
-    makeGetTehsilsRequest
+    makeGetTehsilsRequest,
+    makeAddMyInterestRequest,
   // EXPORT_SAGA_ACTION
 }

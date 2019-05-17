@@ -19,6 +19,11 @@ const { Types, Creators } = createActions({
   myReportsFailure: ['error'],
   saveMyReportsLocal: ['myReports'],
 
+  interestedReportsRequest: ['payload', 'resolve', 'reject'],
+  interestedReportsSuccess: null,
+  interestedReportsFailure: ['error'],
+  saveInterestedReportsLocal: ['interestedReports'],
+
   commentsRequest: ['payload', 'resolve', 'reject'],
   commentsSuccess: null,
   commentsFailure: ['error'],
@@ -52,6 +57,7 @@ export const INITIAL_STATE = Immutable({
   images: {},
   singleReport: {},
   commentedReport: {},
+  interestedReports:{},
   // form: { error: {}},
   audio: {}
 })
@@ -97,6 +103,15 @@ export const myReportsFailure = (state, { error }) =>
 export const saveMyReportsLocal = (state, { myReports }) =>
   state.merge({ myReports })
 
+  export const interestedReportsRequest = (state, action) =>
+  state.merge({ requesting: true, error: null })
+export const interestedReportsSuccess = (state, action) =>
+  state.merge({ requesting: false, error: null })
+export const interestedReportsFailure = (state, { error }) =>
+  state.merge({ requesting: false, error })
+export const saveInterestedReportsLocal = (state, { interestedReports }) =>
+  state.merge({ interestedReports })
+
 export const saveReportText = (state, { text }) => state.setIn(['report', 'text'], { text })
 
 export const saveReportImageLocal = (state, { images }) => {
@@ -140,6 +155,11 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.MY_REPORTS_SUCCESS]: myReportsSuccess,
   [Types.MY_REPORTS_FAILURE]: myReportsFailure,
   [Types.SAVE_MY_REPORTS_LOCAL]: saveMyReportsLocal,
+
+  [Types.INTERESTED_REPORTS_REQUEST]: interestedReportsRequest,
+  [Types.INTERESTED_REPORTS_SUCCESS]: interestedReportsSuccess,
+  [Types.INTERESTED_REPORTS_FAILURE]: interestedReportsFailure,
+  [Types.SAVE_INTERESTED_REPORTS_LOCAL]: saveInterestedReportsLocal,
 
   [Types.SAVE_REPORT_TEXT]: saveReportText,
   [Types.SAVE_REPORT_IMAGE_LOCAL]: saveReportImageLocal,

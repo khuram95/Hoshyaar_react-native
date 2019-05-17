@@ -52,6 +52,9 @@ export default function * root () {
     takeLatest(ActionTypes.VERIFY_PHONE_NUMBER_REQUEST, Sagas.makeVerifyPhoneNumberRequest, api),
     takeLatest(ActionTypes.COMMENTS_REQUEST, Sagas.makeCommentsRequest, api),
     takeLatest(ActionTypes.REPORT_REACTIONS_REQUEST, Sagas.makeReportReactionsRequest, api),
+    takeLatest(ActionTypes.ADD_MY_INTEREST_REQUEST, Sagas.makeAddMyInterestRequest, api),
+    takeLatest(ActionTypes.INTERESTED_REPORTS_REQUEST, Sagas.makeInterestedReportsRequest, api),
+
 
 
 

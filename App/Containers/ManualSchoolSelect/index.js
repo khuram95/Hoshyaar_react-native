@@ -93,7 +93,7 @@ class ManualSchoolSelect extends Component {
             </Picker>
           </View>
         }
-        <View style={styles.containerOk}>
+        {/* <View style={styles.containerOk}>
           <TouchableOpacity
             style={styles.button}
             onPress={this.gotoSchoolDetail}
@@ -101,7 +101,18 @@ class ManualSchoolSelect extends Component {
           >
             <Text> Ok </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
+        
+        <Button 
+            style={styles.shareButton} 
+            onPress={this.gotoSchoolDetail}
+            disabled={this.state.button_enable}>
+
+         <Text style={styles.shareButtonText}>
+            Done
+        </Text>
+        </Button>
+
       </View>
     )
   }
@@ -143,4 +154,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#841584',
     padding: 10
   },
+  shareButton: {
+    // flex:1,
+    alignSelf: 'center',
+    width: '99%',
+    position: 'relative'
+},
+shareButtonText: {
+    width: '100%',
+    fontWeight: "800",
+    textAlign: "center"
+},
 })

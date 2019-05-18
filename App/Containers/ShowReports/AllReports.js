@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
-import {
-  View, Image, ImageBackground, KeyboardAvoidingView, Linking,
-  ScrollView, TextInput, AppRegistry, SectionList, StyleSheet
-} from 'react-native'
-import { Item as FormItem, Text, Button, Input } from 'native-base'
+import { ScrollView, StyleSheet, RefreshControl, Keyboard } from 'react-native'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import { createStructuredSelector } from 'reselect'
@@ -18,6 +14,8 @@ class AllReports extends Component {
     super(props);
     this.state = {
       all_reports: [],
+      // refreshing: true,
+
     };
     this.props.fetchAllReports()
       .then(() => {
@@ -27,15 +25,32 @@ class AllReports extends Component {
   }
 
   gotoReportDetail = (report) => {
-    console.log("reports : ", report)
     const { navigation } = this.props
     navigation.navigate("ReportDetail", report = { report })
   }
+
+  // onRefresh = () => this.fetchReports();
+
+  // fetchReports = () => {
+  //   this.setState({ refreshing: true });
+  // };
+
+  // getFiveReports = () => {
+  //   this._scrollView.scrollTo({ y: 0 });
+  //   this.props.fetchAllReports()
+  //     .then(() => {
+  //       this.setState({ refreshing: false });
+
+
+  //     })
+  //     .catch(error => console.log(error))
+  // };
+
   componentDidMount = () => {
-    console.log("componentDidMount All Report")
+    Keyboard.dismiss()
   }
 
-  onSubmitComment = () => {
+  onSubmitComment = (report) => {
     this.props.fetchAllReports()
       .then(() => {
         this.setState({ all_reports: this.props.allReports })
@@ -44,7 +59,14 @@ class AllReports extends Component {
 
   render() {
     return (
-      <ScrollView style={{ backgroundColor: 'white', flex: 1, padding: '1%' }}>
+      <ScrollView
+        decelerationRate={0.5}
+        // ref={(scrollView) => { this._scrollView = scrollView; }}
+        // refreshControl={
+        //   <RefreshControl
+        //     refreshing={this.state.refreshing}
+        //     onRefresh={this.onRefresh} />}
+        style={{ backgroundColor: 'white', flex: 1, padding: '1%' }}>
         <Loader isShow={this.props.requesting == undefined ? false : this.props.requesting} />
         {this.state.all_reports && this.state.all_reports.map((report) =>
           <ReportFormat

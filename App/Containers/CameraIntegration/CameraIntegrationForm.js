@@ -85,7 +85,7 @@ class CameraScreen extends React.Component {
 
   takePicture = async function () {
     if (this.camera) {
-      const options = { pauseAfterCapture: false, metadata: true, exif: true, orientation: "portrait", fixOrientation: true };
+      const options = { quality: 0.3, pauseAfterCapture: false, metadata: true, exif: true, orientation: "portrait", fixOrientation: true };
       this.watchID = navigator.geolocation.watchPosition((position) => {
         // Create the object to update this.state.mapRegion through the onRegionChange function
         let region = {

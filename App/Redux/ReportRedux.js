@@ -19,6 +19,11 @@ const { Types, Creators } = createActions({
   myReportsFailure: ['error'],
   saveMyReportsLocal: ['myReports'],
 
+  interestedReportsRequest: ['payload', 'resolve', 'reject'],
+  interestedReportsSuccess: null,
+  interestedReportsFailure: ['error'],
+  saveInterestedReportsLocal: ['interestedReports'],
+
   commentsRequest: ['payload', 'resolve', 'reject'],
   commentsSuccess: null,
   commentsFailure: ['error'],
@@ -33,7 +38,9 @@ const { Types, Creators } = createActions({
 
   saveReportText: ['text'],
   saveReportImageLocal: ['images'],
-  saveSingleReport: ['singleReport']
+  saveSingleReport: ['singleReport'],
+  saveCommentedReport: ['commentedReport'],
+
   // add action here
   saveReportAudio: ['audio'],
 })
@@ -49,6 +56,8 @@ export const INITIAL_STATE = Immutable({
   text: '',
   images: {},
   singleReport: {},
+  commentedReport: {},
+  interestedReports:{},
   // form: { error: {}},
   audio: {}
 })
@@ -94,6 +103,15 @@ export const myReportsFailure = (state, { error }) =>
 export const saveMyReportsLocal = (state, { myReports }) =>
   state.merge({ myReports })
 
+  export const interestedReportsRequest = (state, action) =>
+  state.merge({ requesting: true, error: null })
+export const interestedReportsSuccess = (state, action) =>
+  state.merge({ requesting: false, error: null })
+export const interestedReportsFailure = (state, { error }) =>
+  state.merge({ requesting: false, error })
+export const saveInterestedReportsLocal = (state, { interestedReports }) =>
+  state.merge({ interestedReports })
+
 export const saveReportText = (state, { text }) => state.setIn(['report', 'text'], { text })
 
 export const saveReportImageLocal = (state, { images }) => {
@@ -103,10 +121,14 @@ export const saveReportImageLocal = (state, { images }) => {
 
 export const saveSingleReport = (state, { singleReport }) =>
   state.merge({ singleReport })
+
+export const saveCommentedReport = (state, { commentedReport }) =>
+  state.merge({ commentedReport })
+
 // add new reducer here
 export const saveReportAudio = (state, { audio }) => {
   console.log('save audio', audio)
-  return  state.setIn(['report','audio'],{audio})
+  return state.setIn(['report', 'audio'], { audio })
 }
 
 /* ------------- Hookup Reducers To Types ------------- */
@@ -134,10 +156,17 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.MY_REPORTS_FAILURE]: myReportsFailure,
   [Types.SAVE_MY_REPORTS_LOCAL]: saveMyReportsLocal,
 
+  [Types.INTERESTED_REPORTS_REQUEST]: interestedReportsRequest,
+  [Types.INTERESTED_REPORTS_SUCCESS]: interestedReportsSuccess,
+  [Types.INTERESTED_REPORTS_FAILURE]: interestedReportsFailure,
+  [Types.SAVE_INTERESTED_REPORTS_LOCAL]: saveInterestedReportsLocal,
+
   [Types.SAVE_REPORT_TEXT]: saveReportText,
   [Types.SAVE_REPORT_IMAGE_LOCAL]: saveReportImageLocal,
 
   [Types.SAVE_SINGLE_REPORT]: saveSingleReport,
+  [Types.SAVE_COMMENTED_REPORT]: saveCommentedReport,
+
   // add reducer hook up here
   [Types.SAVE_REPORT_AUDIO]: saveReportAudio,
 })

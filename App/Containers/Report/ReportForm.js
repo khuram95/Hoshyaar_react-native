@@ -24,7 +24,6 @@ import ImagePicker from 'react-native-image-crop-picker';
 import PhotoGrid from 'react-native-thumbnail-grid'
 import DrawLayout from '../DrawLayout'
 import AudioRecorder from '../AudioRecorder'
-import Loader from '../Loader'
 
 class CreateReport extends Component {
 	constructor(props) {
@@ -40,12 +39,12 @@ class CreateReport extends Component {
 	showcontent = () => {
 		this.props.createReport({
 			reportContent: get(this.props, 'reportText.text.reportcontent'),
-			// school_id: this.state.school.emis,
-			// user_id: this.props.currentUser.id,
+			school_id: this.state.school.emis,
+			user_id: this.props.currentUser.id,
 
 			// image: this.state.uri,
-			school_id: 123456,
-			user_id: 70,
+			// school_id: 123456,
+			// user_id: 70,
 			image: get(this.props, 'reportImages.images'),
 			video: get(this.props, 'reportVideo.video'),
 			audio: get(this.props, 'reportAudio.audio'),
@@ -53,8 +52,8 @@ class CreateReport extends Component {
 			.then(() => {
 				alert("Report Shared")
 				this.props.saveReportTextRequest('')
-				// const { navigation } = this.props
-				// navigation.navigate("DashBoard")
+				const { navigation } = this.props
+				navigation.navigate("DashBoard")
 			})
 	}
 
@@ -222,7 +221,6 @@ const mapDispatchToProps = (dispatch) => ({
 	saveReportVideo: (video) => dispatch(Actions.saveReportVideoLocal(video)),
 	createReport: (payload) => new Promise((resolve, reject) =>
 		dispatch(Actions.createReportRequest(payload, resolve, reject)))
-
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateReport)

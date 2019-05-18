@@ -22,6 +22,7 @@ class CommentList extends Component {
     super(props);
     this.state = {
       refreshing: true,
+      singleReport: this.props.getCommentedReport
     };
   }
 
@@ -44,42 +45,24 @@ class CommentList extends Component {
     console.log('hello abc')
   }
 
-
-  // onRefresh = () => this.fetchComments();
-
-  // fetchComments =  () => {
-  //   this.setState({ refreshing: true });
-  // };
-
   submitComment = (comment) => {
-    // this._scrollView.scrollTo({ y: 0 });
-    // console.log("comment going  :", this.props.navigation.state.params.user.id,this.props.navigation.state.params.report.id,comment)
     this.props.comments({
       user_id: this.props.currentUser.id,
-      report_id: this.props.singleReport.id,
+      report_id: this.state.singleReport.id,
       text: comment,
     })
       .then(() => {
-        alert('Comment Submit');
+        this.setState({ singleReport: this.props.getCommentedReport})
       })
       .catch(error => console.log(error))
   };
 
   render() {
-    const { singleReport } = this.props
-    console.log('hello update: ', singleReport)
-    console.log("this.props comment: ", singleReport)
+    const { singleReport } = this.state
+    console.log("this.props newwwwwwwwwwwww: ", this.props.getCommentedReport)
     return (
       <View style={styles.container}>
-        <ScrollView
-        // ref={(scrollView) => { this._scrollView = scrollView; }}
-        // refreshControl={
-        //   <RefreshControl
-        //     refreshing={this.state.refreshing}
-        //     onRefresh={this.onRefresh}
-        //   />
-        // }
-        >
+        <ScrollView>
           {singleReport.comments && singleReport.comments.map((comment) =>
             <CommentFormat comment={comment} />
           )}
@@ -91,12 +74,15 @@ class CommentList extends Component {
 
 }
 const mapStateToProps = createStructuredSelector({
-  singleReport: (state) => get(state, 'report.singleReport'),
+  // singleReport: (state) => get(state, 'report.singleReport'),
   currentUser: (state) => get(state, 'auth.currentUser'),
+  getCommentedReport: (state) => get(state, 'report.commentedReport'),
+
 })
 const mapDispatchToProps = (dispatch) => ({
   comments: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.commentsRequest(payload, resolve, reject))),
+
 })
 export default connect(mapStateToProps, mapDispatchToProps)(CommentList)
 

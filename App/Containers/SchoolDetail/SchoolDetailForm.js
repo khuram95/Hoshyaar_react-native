@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, ScrollView, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { View, ScrollView, TouchableOpacity, Image, StyleSheet, CheckBox } from 'react-native'
 import { Item as FormItem, Text, Button } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
@@ -23,9 +23,10 @@ class SchoolDetailForm extends Component {
       singleschool: [],
       all_school: [],
       Total_Teacher: true,
-      
+      interestChecked: false,
     }
     complete_school_data = this.props.navigation.getParam('id')
+    console.log("complete_school_data.emis : ", complete_school_data.emis)
     this.props.SchoolDetailData({ school_id: complete_school_data.emis })
       .then(() => {
         this.setState({ schooldetail: this.props.SchoolDetail })
@@ -47,18 +48,48 @@ class SchoolDetailForm extends Component {
   CreateReport = () => {
     const { navigation } = this.props
     this.props.saveSchool(this.state.all_school)
+    if (this.state.interestChecked) {
+      console.log("school_id :", this.state.all_school.emis)
+      this.props.AddMyInterest({
+        school_id: this.state.all_school.emis,
+        user_id: this.props.currentUser.id,
+      })
+        .then(() => {
+          alert("Interest Add")
+        })
+    }
     navigation.navigate("Report")
   }
- 
+
   render() {
     return (
-      <ScrollView>
+      <View style={{
+        display: 'flex',
+        flex: 1,
+      }}
+      >
         <DrawLayout title="Government Data" image='' />
         <Text>{'\n'}</Text>
         <Text style={styles.titleText}>
           {this.state.all_school.school_name}
         </Text>
         <Text>{'\n'}</Text>
+        <View
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+          }} >
+          <Text>Add School to my Interest</Text>
+          <CheckBox
+            value={this.state.interestChecked}
+            onValueChange={() => this.setState({ interestChecked: !this.state.interestChecked })}
+          />
+        </View>
+        <Text>{'\n'}</Text>
+
+
         {/* <View style={{ flex: 1, flexDirection: "row" }}>
           <Text>Select Month</Text>
           <DatePicker
@@ -86,7 +117,7 @@ class SchoolDetailForm extends Component {
 
           />
         </View>*/}
-        <View>
+        <ScrollView>
           <Collapse>
             <CollapseHeader>
               <Separator>
@@ -186,7 +217,7 @@ class SchoolDetailForm extends Component {
               <ListItem style={{ height: 20 }} >
                 <DataRow text={'Toilet Avalible'}
                   value={this.state.singleschool.toilet_avaliable}
-                 itemName={'toilet_avaliable'} />
+                  itemName={'toilet_avaliable'} />
               </ListItem>
               <ListItem>
                 <DataRow text={'Toilet Functional'}
@@ -216,14 +247,13 @@ class SchoolDetailForm extends Component {
             </CollapseBody>
           </Collapse>
           <Text>{'\n'}</Text>
-        </View>
+        </ScrollView>
+
         <View style={{
-          display: 'flex',
-          flex: 1,
+          flexDirection:"row",
           width: '100%',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          alignItems: 'center'
+          justifyContent: 'space-around',
+          bottom: 1,
         }}>
 
           <Button style={{
@@ -258,7 +288,7 @@ class SchoolDetailForm extends Component {
         </View>
 
 
-      </ScrollView>
+      </View>
 
     )
   }
@@ -267,11 +297,16 @@ class SchoolDetailForm extends Component {
 
 const mapStateToProps = createStructuredSelector({
   SchoolDetail: (state) => get(state, 'schooldetail.SchoolDetailData'),
+  currentUser: (state) => get(state, 'auth.currentUser'),
+
 })
 const mapDispatchToProps = (dispatch) => ({
   saveSchool: (school) => dispatch(Actions.saveSchoolLocal(school)),
   SchoolDetailData: (payload) => new Promise((resolve, reject) =>
-    dispatch(Actions.SchoolDetailDataRequest(payload, resolve, reject)))
+    dispatch(Actions.SchoolDetailDataRequest(payload, resolve, reject))),
+  AddMyInterest: (payload) => new Promise((resolve, reject) =>
+    dispatch(Actions.addMyInterestRequest(payload, resolve, reject)))
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SchoolDetailForm)

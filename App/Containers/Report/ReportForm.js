@@ -24,6 +24,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import PhotoGrid from 'react-native-thumbnail-grid'
 import DrawLayout from '../DrawLayout'
 import AudioRecorder from '../AudioRecorder'
+import Loader from '../Loader'
 
 class CreateReport extends Component {
 	constructor(props) {
@@ -221,6 +222,7 @@ const mapDispatchToProps = (dispatch) => ({
 	saveReportVideo: (video) => dispatch(Actions.saveReportVideoLocal(video)),
 	createReport: (payload) => new Promise((resolve, reject) =>
 		dispatch(Actions.createReportRequest(payload, resolve, reject)))
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateReport)

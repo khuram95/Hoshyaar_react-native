@@ -11,6 +11,7 @@ function * makeCreateReportRequest (api, action) {
   const response = yield call(api.createReport, payload)
   console.log("Responce  Sagas : " ,response)
   if (response.ok) {
+    yield put(Actions.createReportSuccess())
     return resolve()
   } else {
     const error = parseError(response)
@@ -51,6 +52,22 @@ function * makeMyReportsRequest (api, action) {
   }
 }
 
+function * makeInterestedReportsRequest (api, action) {
+  console.log("Interested Report Sagas")
+  const { payload, resolve, reject } = action
+  const response = yield call(api.interestedReports, payload)
+  console.log("Interested Reports Responce  Sagas : " ,response)
+  if (response.ok) {
+    yield put(Actions.saveInterestedReportsLocal(response.data))
+    yield put(Actions.interestedReportsSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.interestedReportsFailure(error))
+    return reject(error)
+  }
+}
+
 function * makeCommentsRequest (api, action) {
   console.log("Comments Sagas")
   const { payload, resolve, reject } = action
@@ -58,7 +75,7 @@ function * makeCommentsRequest (api, action) {
   console.log("Responce  Sagas : " ,response)
   if (response.ok) {
     yield put(Actions.commentsSuccess())
-    yield put(Actions.saveSingleReport(response.data))
+    yield put(Actions.saveCommentedReport(response.data))
     return resolve()
   } else {
     const error = parseError(response)
@@ -74,7 +91,9 @@ function * makeReportReactionsRequest (api, action) {
   const response = yield call(api.reportReactions, payload)
   console.log("Responce  Sagas : " ,response)
   if (response.ok) {
+    console.log('response.data', response.data)
     yield put(Actions.reportReactionsSuccess())
+    yield put(Actions.saveSingleReport(response.data))
     return resolve()
   } else {
     const error = parseError(response)
@@ -92,6 +111,7 @@ export default {
     makeallReportsRequest,
     makeCommentsRequest,
     makeReportReactionsRequest,
-    makeMyReportsRequest
+    makeMyReportsRequest,
+    makeInterestedReportsRequest,
   // EXPORT_SAGA_ACTION
 }

@@ -12,29 +12,33 @@ class DataRow extends Component {
     super(props);
     this.state = {
       uncheckItem: {
-        'total_teacher': true,
-        'non_teacher': true,
-        'total_class_rooms': true,
-        'use_class_rooms': true,
-        'avaliable_fund': true,
-        'expenditure': true,
-        'balance': true,
-        'student_enrolled': true,
-        'student_present': true,
-        'toilet_avaliable': true,
-        'toilet_functional': true,
-        'is_toilet_functional': true,
-        'is_electricity_avaliable': true,
-        'is_drinking_water_avaliable': true,
-        'is_boundary_wall': true,
+        total_teacher: true,
+        non_teacher: true,
+        total_class_rooms: true,
+        use_class_rooms: true,
+        avaliable_fund: true,
+        expenditure: true,
+        balance: true,
+        student_enrolled: true,
+        student_present: true,
+        toilet_avaliable: true,
+        toilet_functional: true,
+        is_toilet_functional: true,
+        is_electricity_avaliable: true,
+        is_drinking_water_avaliable: true,
+        is_boundary_wall: true,
       }
-      , checked: true
     };
   }
 
   toggleCheckbox = () => {
     const { itemName } = this.props
-    // this.setState({ uncheckItem.is_boundary_wall: !this.state.uncheckItem[`${itemName}`] })
+    console.log("itemName : ", itemName)
+    let uncheckItem = Object.assign({}, this.state.uncheckItem)
+    uncheckItem[`${itemName}`]=!uncheckItem[`${itemName}`]
+    this.setState({ uncheckItem: uncheckItem })
+    console.log("this.uncheckItem",uncheckItem)
+    console.log("this.state.uncheckItem",this.state.uncheckItem)
   }
 
   render() {
@@ -79,7 +83,3 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataRow)
-// ,() => this.props.onSubmit(this.state.ischecked)
-// () => {
-// }
-// // this.setState({ ...uncheckItem[`${itemName}`]: !this.state.uncheckItem[`${itemName}`] })

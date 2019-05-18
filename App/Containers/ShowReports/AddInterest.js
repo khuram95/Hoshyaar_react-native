@@ -13,7 +13,7 @@ class AddInterest extends Component {
     super(props);
     this.state = {
       district: '', tehsil: '', school: '',
-      button_enable: true, tehsil_enable: false, school_enable: false, isModalVisible: false,
+      button_enable: true, tehsil_enable: false, school_enable: false, isModalVisible: true,
     };
 
     this.props.getDistrict()
@@ -24,13 +24,13 @@ class AddInterest extends Component {
   static navigationOptions = {
     header: null,
   }
+
   updateDistrict = (district) => {
     this.setState({ district: district })
     this.setState({ tehsil_enable: true })
     this.props.getTehsil({ district })
       .then(() => {
         this.setState({ tehsil_enable: true })
-        console.log('ok')
       })
   }
   updateTehsil = (tehsil) => {
@@ -39,7 +39,6 @@ class AddInterest extends Component {
     this.props.allSchoolsData({ tehsil })
       .then(() => {
         this.setState({ school_enable: true })
-        console.log('tehsil was going')
       })
   }
 
@@ -59,10 +58,7 @@ class AddInterest extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <TouchableOpacity onPress={this.toggleModal}>
-          <Text>Add Interest</Text>
-        </TouchableOpacity>
+      <View>
         <Modal isVisible={this.state.isModalVisible}>
           <View style={styles.modalContent}>
 

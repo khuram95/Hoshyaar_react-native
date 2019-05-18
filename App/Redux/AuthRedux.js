@@ -20,6 +20,10 @@ const { Types, Creators } = createActions({
   signupSuccess: null,
   signupFailure: ['error'],
 
+  oneSignalRequest: ['payload','resolve', 'reject'],
+  oneSignalSuccess: null,
+  oneSignalFailure: ['error'],
+
   verifyPhoneNumberRequest: ['payload','resolve', 'reject'],
   verifyPhoneNumberSuccess: null,
   verifyPhoneNumberFailure: ['error'],
@@ -83,6 +87,15 @@ export const signupSuccess = (state, action) =>
 export const signupFailure = (state, { error }) =>
   state.merge({ requesting: false, error })
 
+  export const oneSignalRequest = (state, action) =>{
+    console.log("One Signal Requesting")
+  return state.merge({ requesting: true, error: null })}
+
+export const oneSignalSuccess = (state, action) =>
+  state.merge({ requesting: false, error: null })
+
+export const oneSignalFailure = (state, { error }) =>
+  state.merge({ requesting: false, error })
 
 export const verifyPhoneNumberRequest = (state, action) =>
   state.merge({ requesting: true, error: null })
@@ -109,6 +122,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SIGNUP_REQUEST]: signupRequest,
   [Types.SIGNUP_SUCCESS]: signupSuccess,
   [Types.SIGNUP_FAILURE]: signupFailure,
+  [Types.ONE_SIGNAL_REQUEST]: oneSignalRequest,
+  [Types.ONE_SIGNAL_SUCCESS]: oneSignalSuccess,
+  [Types.ONE_SIGNAL_FAILURE]: oneSignalFailure,
   [Types.VERIFY_PHONE_NUMBER_REQUEST]: verifyPhoneNumberRequest,
   [Types.VERIFY_PHONE_NUMBER_SUCCESS]: verifyPhoneNumberSuccess,
   [Types.VERIFY_PHONE_NUMBER_FAILURE]: verifyPhoneNumberFailure,

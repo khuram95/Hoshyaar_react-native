@@ -138,12 +138,12 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-image-crop-picker')
     classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.1, 0.99.99]'
     compile project(':react-native-onesignal')
     compile project(':react-native-sound')
     compile project(':react-native-audio')
     compile project(':react-native-vector-icons')
-    compile project(':react-native-image-picker')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules

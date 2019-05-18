@@ -9,6 +9,7 @@ import {
     TouchableHighlight,
     Platform,
     PermissionsAndroid,
+    TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
@@ -18,10 +19,12 @@ import { Item as FormItem, Button, Input } from 'native-base'
 import Sound from 'react-native-sound';
 import { AudioRecorder, AudioUtils } from 'react-native-audio';
 import Images from '../../Themes/Images'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class AudioExample extends Component {
 
     state = {
+        uri: null,
         currentTime: 0.0,
         recording: false,
         paused: false,
@@ -207,6 +210,9 @@ class AudioExample extends Component {
     _finishRecording(didSucceed, filePath, fileSize) {
         this.setState({ finished: didSucceed });
         console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
+        this.setState({
+            uri: filePath,
+        })
         this.props.saveReportAudioRequest(filePath);
     }
 
@@ -214,22 +220,19 @@ class AudioExample extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.progressText}>{this.state.currentTime}s</Text>
 
-                <Button onPress={this._record}>
-                    <Text>
-                        {this.state.recording ? 'Stop Record' : 'Start Record'} {'    '}
-                    </Text>
-                </Button>
+                <Text style={styles.progressText}>{this.state.currentTime} s</Text>
 
+                <TouchableOpacity onPress={this._record}>
+                    <Icon name="microphone" size={40} color="#841584" />
+                </TouchableOpacity>
 
-                <Button onPress={this._play}>
+                <TouchableOpacity onPress={this._play}>
                     {this.state.playing
-                        ? <Image source={Images.stopIcon} style={{ width: 45, height: 45 }} />
-                        : <Image source={Images.playIcon} style={{ width: 45, height: 45 }} />
+                        ? <Icon name="stop-circle" size={40} color="#841584" />
+                        : <Icon name="play-circle" size={40} color="#841584" />
                     }
-                </Button>
-
+                </TouchableOpacity>
 
             </View>
         );
@@ -238,9 +241,9 @@ class AudioExample extends Component {
 
 var styles = StyleSheet.create({
     container: {
-        // flex: 1,
+        flex: 0.6,
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'space-around',
         // backgroundColor: "#2b608a",
     },
     controls: {
@@ -249,7 +252,8 @@ var styles = StyleSheet.create({
         flex: 1,
     },
     progressText: {
-        color: "#fff"
+        // color: "#fff"
+        fontSize: 28,
     },
     disabledButtonText: {
         color: '#eee'
@@ -262,7 +266,6 @@ var styles = StyleSheet.create({
         fontSize: 20,
         color: "#B81F00"
     }
-
 });
 
 const mapDispatchToProps = (dispatch) => ({

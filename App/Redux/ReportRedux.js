@@ -40,9 +40,9 @@ const { Types, Creators } = createActions({
   saveReportImageLocal: ['images'],
   saveSingleReport: ['singleReport'],
   saveCommentedReport: ['commentedReport'],
-
   // add action here
   saveReportAudio: ['audio'],
+  saveReportVideoLocal: ['video'],
 })
 
 export const ReportTypes = Types
@@ -54,12 +54,13 @@ export const INITIAL_STATE = Immutable({
   allReports: [],
   myReports: [],
   text: '',
-  images: {},
+  images: [],
   singleReport: {},
   commentedReport: {},
   interestedReports:{},
   // form: { error: {}},
-  audio: {}
+  audio: {},
+  video: {}
 })
 
 /* ------------- Reducers ------------- */
@@ -115,7 +116,7 @@ export const saveInterestedReportsLocal = (state, { interestedReports }) =>
 export const saveReportText = (state, { text }) => state.setIn(['report', 'text'], { text })
 
 export const saveReportImageLocal = (state, { images }) => {
-  console.log('save images', images)
+  // console.log('This is STORE, saved images are: ', images)
   return state.setIn(['report', 'images'], { images })
 }
 
@@ -129,6 +130,10 @@ export const saveCommentedReport = (state, { commentedReport }) =>
 export const saveReportAudio = (state, { audio }) => {
   console.log('save audio', audio)
   return state.setIn(['report', 'audio'], { audio })
+}
+export const saveReportVideoLocal = (state, { video }) => {
+  console.log('save video', video)
+  return  state.setIn(['report','video'],{video})
 }
 
 /* ------------- Hookup Reducers To Types ------------- */
@@ -169,4 +174,5 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   // add reducer hook up here
   [Types.SAVE_REPORT_AUDIO]: saveReportAudio,
+  [Types.SAVE_REPORT_VIDEO_LOCAL]: saveReportVideoLocal,
 })

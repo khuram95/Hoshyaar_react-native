@@ -1,10 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Slider, CameraRoll, Dimensions, Image } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Slider,
+  CameraRoll,
+  Dimensions,
+  Image,
+  Keyboard,
+  
+} from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import { get } from 'lodash'
 import { createStructuredSelector } from 'reselect'
+import ImagePicker from 'react-native-image-crop-picker';
+
 
 const flashModeOrder = {
   off: 'on',
@@ -24,6 +37,8 @@ const wbOrder = {
 
 class CameraScreen extends React.Component {
   state = {
+    image: [],
+    storedImages: get(this.props, 'reportImages.images'),
     uri: null,
     flash: 'off',
     zoom: 0,
@@ -36,10 +51,16 @@ class CameraScreen extends React.Component {
       mute: false,
       maxDuration: 10,
       quality: RNCamera.Constants.VideoQuality['288p'],
+      maxFileSize: 1 * 1024 * 512,
+      videoBitrate: 1 * 1024 * 512,
     },
     isRecording: false,
     position: null,
   };
+
+  componentDidMount = () => {
+    Keyboard.dismiss();
+  }
 
   toggleFacing() {
     this.setState({
@@ -85,25 +106,18 @@ class CameraScreen extends React.Component {
 
   takePicture = async function () {
     if (this.camera) {
-      const options = { quality: 0.3, pauseAfterCapture: false, metadata: true, exif: true, orientation: "portrait", fixOrientation: true };
-      this.watchID = navigator.geolocation.watchPosition((position) => {
-        // Create the object to update this.state.mapRegion through the onRegionChange function
-        let region = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        }
-        // options.location = region;
-        this.setState({ position: region });
-      }, (error) => console.log(error));
+      const options = {
+        quality: 0.3,
+        pauseAfterCapture: false,
+        exif: true,
+        orientation: "portrait",
+        fixOrientation: true,
+        skipProcessing: true
+      };
       const data = await this.camera.takePictureAsync(options);
-      // console.warn('takePicture ', data);
       this.setState({
         uri: data,
       });
-      // this.props.saveReportImage(this.state.uri.uri);
-
-      // CameraRoll.saveToCameraRoll(data.uri, "photo");
-      // this.camera.resumePreview();
     }
 
     this.renderImage();
@@ -122,8 +136,14 @@ class CameraScreen extends React.Component {
         <Text
           style={styles.save}
           onPress={() => this.saveButtonHandler()}
-        >save
+        >Continue
         </Text>
+
+        {/* <Text
+          style={styles.more}
+          onPress={() => this.cancelButtonHandler()}
+        >Take More 
+        </Text> */}
 
         <Text
           style={styles.cancel}
@@ -137,7 +157,21 @@ class CameraScreen extends React.Component {
 
   saveButtonHandler() {
     CameraRoll.saveToCameraRoll(this.state.uri.uri, "photo");
-    this.props.saveReportImage(this.state.uri);
+
+    one = []
+    one = get(this.props, 'reportImages.images')
+    arr = []
+    if (one) {
+      for (let i = 0; one[i]; i++) {
+        // console.log('Ahan- '+i+': ', one[i])
+        arr.push(one[i])
+      }
+    }
+    arr.push(this.state.uri.uri)
+
+    this.props.saveReportImage(arr);
+    console.log('Kuch aya?: ', arr)
+
     const { navigation } = this.props
     navigation.navigate("Report");
   }
@@ -156,8 +190,13 @@ class CameraScreen extends React.Component {
           this.setState({ isRecording: true });
           const data = await promise;
           this.setState({ isRecording: false });
-          // console.warn('takeVideo', data.uri);
+          // console.warn('DATA URI: ', data.uri);
           CameraRoll.saveToCameraRoll(data.uri, "video");
+          this.props.saveReportVideo(data.uri);
+          console.warn('SAVED VIDEO: ', data);
+          
+          const { navigation } = this.props
+          navigation.navigate("Report");
         }
       } catch (e) {
         console.error(e);
@@ -311,12 +350,15 @@ class CameraScreen extends React.Component {
 
   }
 }
-
+const mapStateToProps = createStructuredSelector({
+  reportImages: (state) => get(state, 'report.report.images'),
+})
 const mapDispatchToProps = (dispatch) => ({
-  saveReportImage: (images) => dispatch(Actions.saveReportImageLocal(images))
+  saveReportImage: (images) => dispatch(Actions.saveReportImageLocal(images)),
+  saveReportVideo: (video) => dispatch(Actions.saveReportVideoLocal(video))
 })
 
-export default connect(null, mapDispatchToProps)(CameraScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(CameraScreen)
 
 const styles = StyleSheet.create({
   container: {
@@ -360,6 +402,16 @@ const styles = StyleSheet.create({
   cancel: {
     position: 'absolute',
     left: 20,
+    top: 20,
+    backgroundColor: 'transparent',
+    color: '#FFF',
+    fontWeight: '600',
+    fontSize: 17,
+  },
+  more: {
+    position: 'absolute',
+    left: 10,
+    right: 10,
     top: 20,
     backgroundColor: 'transparent',
     color: '#FFF',

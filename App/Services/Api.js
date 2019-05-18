@@ -1,5 +1,6 @@
 // a library to wrap and simplify api calls
 import apisauce from 'apisauce'
+import {Platform} from 'react-native'
 
 // our "constructor"
 const create = () => {
@@ -11,7 +12,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://68aa5bf8.ngrok.io',
+    baseURL: 'http://41c0c147.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -20,7 +21,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://68aa5bf8.ngrok.io/api/v1',
+    baseURL: 'http://41c0c147.ngrok.io/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -72,23 +73,58 @@ const create = () => {
 
 
   const createReport = (payload, headers) => {
-    const { reportContent, school_id, user_id, image, audio } = payload
-    console.log('Report Content is : ', payload)
+    const { reportContent, school_id, user_id, image, video, audio } = payload
+    // console.log('Report Content is : ', payload)
     const data = new FormData();
+    // const images = image.uri.split(',')
+    // console.log('Images separeted comma: ', image[0])
     if (image) {
-      data.append('image', {
-        uri: image.uri,
-        type: 'image/jpeg',
-        name: 'image.jpg'
+      let images = image.map((img) => {
+        return {
+          uri: img,
+          type: 'image/jpeg',
+          name: 'image.jpg'
+        }
+      });
+      console.log('IMAGES: ', images);
+      data.append('image', images)
+    }
+    // if (audio) {
+    //   data.append('voice_message', audio)
+    //   // data.append('voice_message', {
+    //   //   path: audio
+    //   //   // type: 'audio/aac',
+    //   //   // name: 'audio.aac'
+    //   // })
+      
+    // }
+    if (audio && audio !== '') {
+      let uriParts = audio.split('.');
+      let fileType = uriParts[uriParts.length - 1];
+      data.append('voice_message', {
+        uri: Platform.OS === 'ios' ? audio : `file://${audio}`,
+        name: `recording.${fileType}`,
+        type: `audio/x-${fileType}`,
       });
     }
-    if (audio) {
-      data.append('audio', {
-        uri: audio,
-        type: 'audio/aac',
-        name: 'audio.aac'
+    // if (audio && audio !== '') {
+    //   let uriParts =audio.split('.');
+    //   let fileType = uriParts[uriParts.length - 1];
+    //   data.append('voice_message', {
+    //     uri: Platform.OS === 'ios' ? audio : `file://${audio}`,
+    //     name: `recording.${fileType}`,
+    //     type: `audio/x-${file1Type}`,
+    //   });
+    // }
+
+    if (video) {
+      data.append('video', {
+        uri: video,
+        type: 'video/mp4',
+        name: 'video.mp4'
       })
     }
+
     data.append('school_id', school_id)
     data.append('user_id', user_id)
     data.append('report_text', reportContent)

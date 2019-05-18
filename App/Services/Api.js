@@ -1,5 +1,6 @@
 // a library to wrap and simplify api calls
 import apisauce from 'apisauce'
+import {Platform} from 'react-native'
 
 // our "constructor"
 const create = () => {
@@ -11,7 +12,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://68aa5bf8.ngrok.io',
+    baseURL: 'http://41c0c147.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -20,7 +21,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://68aa5bf8.ngrok.io/api/v1',
+    baseURL: 'http://41c0c147.ngrok.io/api/v1',
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
@@ -76,14 +77,35 @@ const create = () => {
       console.log('IMAGES: ', images);
       data.append('image', images)
     }
-    if (audio) {
-      data.append('voice_message', audio)
-      // data.append('voice_message', {
-      //   path: audio
-      //   // type: 'audio/aac',
-      //   // name: 'audio.aac'
-      // })
+
+    // if (audio) {
+    //   data.append('voice_message', audio)
+    //   // data.append('voice_message', {
+    //   //   path: audio
+    //   //   // type: 'audio/aac',
+    //   //   // name: 'audio.aac'
+    //   // })
+      
+    // }
+    if (audio && audio !== '') {
+      let uriParts = audio.split('.');
+      let fileType = uriParts[uriParts.length - 1];
+      data.append('voice_message', {
+        uri: Platform.OS === 'ios' ? audio : `file://${audio}`,
+        name: `recording.${fileType}`,
+        type: `audio/x-${fileType}`,
+      });
     }
+    // if (audio && audio !== '') {
+    //   let uriParts =audio.split('.');
+    //   let fileType = uriParts[uriParts.length - 1];
+    //   data.append('voice_message', {
+    //     uri: Platform.OS === 'ios' ? audio : `file://${audio}`,
+    //     name: `recording.${fileType}`,
+    //     type: `audio/x-${file1Type}`,
+    //   });
+    // }
+
     if (video) {
       data.append('video', {
         uri: video,
@@ -91,6 +113,7 @@ const create = () => {
         name: 'video.mp4'
       })
     }
+
     data.append('school_id', school_id)
     data.append('user_id', user_id)
     data.append('report_text', reportContent)

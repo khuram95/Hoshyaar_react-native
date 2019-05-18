@@ -78,7 +78,7 @@ class CreateReport extends Component {
 			includeExif: true,
 		}).then((video) => {
 			console.log(video);
-			this.props.saveReportVideo(video.uri);
+			this.props.saveReportVideo(video.path);
 		});
 	}
 

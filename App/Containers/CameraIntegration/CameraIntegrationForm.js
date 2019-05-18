@@ -9,6 +9,7 @@ import {
   Dimensions,
   Image,
   Keyboard,
+  
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { connect } from 'react-redux'
@@ -50,6 +51,8 @@ class CameraScreen extends React.Component {
       mute: false,
       maxDuration: 10,
       quality: RNCamera.Constants.VideoQuality['288p'],
+      maxFileSize: 1 * 1024 * 512,
+      videoBitrate: 1 * 1024 * 512,
     },
     isRecording: false,
     position: null,
@@ -103,25 +106,18 @@ class CameraScreen extends React.Component {
 
   takePicture = async function () {
     if (this.camera) {
-      const options = { quality:0.3, pauseAfterCapture: false, metadata: true, exif: true, orientation: "portrait", fixOrientation: true };
-      // this.watchID = navigator.geolocation.watchPosition((position) => {
-      //   // Create the object to update this.state.mapRegion through the onRegionChange function
-      //   let region = {
-      //     latitude: position.coords.latitude,
-      //     longitude: position.coords.longitude,
-      //   }
-      //   // options.location = region;
-      //   this.setState({ position: region });
-      // }, (error) => console.log(error));
+      const options = {
+        quality: 0.3,
+        pauseAfterCapture: false,
+        exif: true,
+        orientation: "portrait",
+        fixOrientation: true,
+        skipProcessing: true
+      };
       const data = await this.camera.takePictureAsync(options);
-      // console.warn('takePicture ', data);
       this.setState({
         uri: data,
       });
-      // this.props.saveReportImage(this.state.uri.uri);
-
-      // CameraRoll.saveToCameraRoll(data.uri, "photo");
-      // this.camera.resumePreview();
     }
 
     this.renderImage();
@@ -197,7 +193,10 @@ class CameraScreen extends React.Component {
           // console.warn('DATA URI: ', data.uri);
           CameraRoll.saveToCameraRoll(data.uri, "video");
           this.props.saveReportVideo(data.uri);
-          // console.warn('SAVED VIDEO: ', data.uri);
+          console.warn('SAVED VIDEO: ', data);
+          
+          const { navigation } = this.props
+          navigation.navigate("Report");
         }
       } catch (e) {
         console.error(e);

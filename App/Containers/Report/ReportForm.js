@@ -33,6 +33,7 @@ class CreateReport extends Component {
 			image: get(this.props, 'reportImages.images'),
 			uri: get(this.props, 'reportImages.images.uri'),
 			visible: false,
+			isButtonEnable: true,
 		};
 	}
 
@@ -135,6 +136,17 @@ class CreateReport extends Component {
 		}
 	}
 
+	enableButton(content) {
+		if (content.length >=50) {
+			this.setState({
+				isButtonEnable: false
+			})
+		} else {
+			this.setState({
+				isButtonEnable: true
+			})
+		}
+	}
 	render() {
 		return (
 			<View style={styles.container}>
@@ -142,7 +154,7 @@ class CreateReport extends Component {
 				{/* <Text style={{ textAlign: "center" }}>Create Report</Text> */}
 
 				{/* {<Text>{this.state.school.school_name}</Text>} */}
-				{<Text style={styles.title}> {'this.state.school.school_name'} </Text>}
+				{<Text style={styles.title}> {this.state.school.school_name} </Text>}
 
 				<View style={styles.reportBase}>
 					<TextInput
@@ -151,9 +163,12 @@ class CreateReport extends Component {
 						multiline={true}
 						numberOfLines={6}
 						editable={true}
-						maxLength={255}
+						maxLength={1000}
 						value={get(this.props, 'reportText.text.reportcontent')}
-						onChangeText={(reportcontent) => this.props.saveReportTextRequest({ reportcontent })}
+						onChangeText={(reportcontent) => {
+							this.props.saveReportTextRequest({ reportcontent })
+							this.enableButton(reportcontent)
+						}}
 					/>
 
 					<View style={styles.icons}>
@@ -195,8 +210,11 @@ class CreateReport extends Component {
 
 				{/* <Text>{'\n'}</Text> */}
 
-				<Button style={styles.shareButton}
-					onPress={this.showcontent}>
+				<Button
+					style={styles.shareButton}
+					onPress={this.showcontent}
+					disabled={this.state.isButtonEnable}
+				>
 					<Text style={styles.shareButtonText}>
 						SHARE REPORT
 					</Text>

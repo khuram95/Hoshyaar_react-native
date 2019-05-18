@@ -79,6 +79,7 @@ const create = () => {
     // const images = image.uri.split(',')
     // console.log('Images separeted comma: ', image[0])
     if (image) {
+      // let img = 
       let images = image.map((img) => {
         return {
           uri: img,
@@ -86,8 +87,8 @@ const create = () => {
           name: 'image.jpg'
         }
       });
-      console.log('IMAGES: ', images);
-      data.append('image', images)
+      // console.log('IMAGES: ', images);
+      data.append('image', images[0])
     }
     // if (audio) {
     //   data.append('voice_message', audio)

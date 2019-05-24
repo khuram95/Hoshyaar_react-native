@@ -34,7 +34,11 @@ class DashBoardScreen extends Component {
     ]
     return (
       <View style={{ flex: 1 }}>
-        <DrawLayout title="Home" image='Notification' />
+        <DrawLayout title="Home" 
+        image='Notification'
+          navigateTo='Notification'
+          componentNavigation={this.props.navigation}
+         />
         <View style={{ flex: 0.5, backgroundColor: '' }}>
           <ViewPagerAndroid
             style={styles.viewPager}

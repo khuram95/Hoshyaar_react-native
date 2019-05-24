@@ -58,6 +58,9 @@ export default StackNavigator({
   Comment:{
     screen: require('../Containers/Comment/CommentList').default
   },
+  Notification:{
+    screen: require('../Containers//DashBoard/Notification').default
+  },
  
 
   

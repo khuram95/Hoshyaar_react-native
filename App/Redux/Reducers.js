@@ -10,5 +10,7 @@ export default combineReducers({
   report: require('./ReportRedux').reducer,
   school: require('./SchoolRedux').reducer,
   schooldetail:require('./SchoolDetailRedux').reducer,
+  notification:require('./NotificationRedux').reducer,
+
   // ADD_REDUX_REDUCER
 })

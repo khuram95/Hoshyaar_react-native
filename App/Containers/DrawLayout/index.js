@@ -11,7 +11,7 @@ class DrawLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isModalVisible: false,
+      // isModalVisible: false,
     }
   }
   static navigationOptions = {
@@ -24,7 +24,7 @@ class DrawLayout extends Component {
   navigationHandler = () => {
     console.log("this.props : ", this.props)
     const { componentNavigation } = this.props
-    this.setState({ isModalVisible: !this.state.isModalVisible });
+    // this.setState({ isModalVisible: !this.state.isModalVisible });
     componentNavigation.navigate(this.props.navigateTo)
   }
 

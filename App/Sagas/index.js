@@ -14,6 +14,7 @@ import AuthSagas from './AuthSagas'
 import ReportSagas from './ReportSagas'
 import SchoolSagas from './SchoolSagas'
 import SchoolDetailSagas from './SchoolDetailSagas'
+import Notification from './NotificationSagas'
 
 // IMPORT_SAGAS
 
@@ -23,6 +24,7 @@ const Sagas = {
   ...ReportSagas,
   ...SchoolSagas,
   ...SchoolDetailSagas,
+  ...Notification,
   // SPREAD_SAGAS
 }
 
@@ -34,7 +36,7 @@ const api = DebugConfig.useFixtures ? FixtureAPI : API.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
-export default function * root () {
+export default function* root() {
   yield all([
     // some sagas only receive an action
     takeLatest(ActionTypes.STARTUP, Sagas.startup),
@@ -55,6 +57,7 @@ export default function * root () {
     takeLatest(ActionTypes.ADD_MY_INTEREST_REQUEST, Sagas.makeAddMyInterestRequest, api),
     takeLatest(ActionTypes.INTERESTED_REPORTS_REQUEST, Sagas.makeInterestedReportsRequest, api),
     takeLatest(ActionTypes.ONE_SIGNAL_FAILURE, Sagas.makeOneSignalRequest, api),
+    takeLatest(ActionTypes.NOTIFICATION_REQUEST, Sagas.makeNotificationRequest, api),
 
 
 

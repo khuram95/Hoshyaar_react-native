@@ -24,7 +24,6 @@ import ImagePicker from 'react-native-image-crop-picker';
 import PhotoGrid from 'react-native-thumbnail-grid'
 import DrawLayout from '../DrawLayout'
 import AudioRecorder from '../AudioRecorder'
-import Loader from '../Loader'
 
 class CreateReport extends Component {
 	constructor(props) {
@@ -34,18 +33,19 @@ class CreateReport extends Component {
 			image: get(this.props, 'reportImages.images'),
 			uri: get(this.props, 'reportImages.images.uri'),
 			visible: false,
+			isButtonEnable: true,
 		};
 	}
 
 	showcontent = () => {
 		this.props.createReport({
 			reportContent: get(this.props, 'reportText.text.reportcontent'),
-			// school_id: this.state.school.emis,
-			// user_id: this.props.currentUser.id,
+			school_id: this.state.school.emis,
+			user_id: this.props.currentUser.id,
 
 			// image: this.state.uri,
-			school_id: 123456,
-			user_id: 70,
+			// school_id: 123456,
+			// user_id: 70,
 			image: get(this.props, 'reportImages.images'),
 			video: get(this.props, 'reportVideo.video'),
 			audio: get(this.props, 'reportAudio.audio'),
@@ -53,8 +53,8 @@ class CreateReport extends Component {
 			.then(() => {
 				alert("Report Shared")
 				this.props.saveReportTextRequest('')
-				// const { navigation } = this.props
-				// navigation.navigate("DashBoard")
+				const { navigation } = this.props
+				navigation.navigate("DashBoard")
 			})
 	}
 
@@ -136,6 +136,17 @@ class CreateReport extends Component {
 		}
 	}
 
+	enableButton(content) {
+		if (content.length >=50) {
+			this.setState({
+				isButtonEnable: false
+			})
+		} else {
+			this.setState({
+				isButtonEnable: true
+			})
+		}
+	}
 	render() {
 		return (
 			<View style={styles.container}>
@@ -143,7 +154,7 @@ class CreateReport extends Component {
 				{/* <Text style={{ textAlign: "center" }}>Create Report</Text> */}
 
 				{/* {<Text>{this.state.school.school_name}</Text>} */}
-				{<Text style={styles.title}> {'this.state.school.school_name'} </Text>}
+				{<Text style={styles.title}> {this.state.school.school_name} </Text>}
 
 				<View style={styles.reportBase}>
 					<TextInput
@@ -152,9 +163,12 @@ class CreateReport extends Component {
 						multiline={true}
 						numberOfLines={6}
 						editable={true}
-						maxLength={255}
+						maxLength={1000}
 						value={get(this.props, 'reportText.text.reportcontent')}
-						onChangeText={(reportcontent) => this.props.saveReportTextRequest({ reportcontent })}
+						onChangeText={(reportcontent) => {
+							this.props.saveReportTextRequest({ reportcontent })
+							this.enableButton(reportcontent)
+						}}
 					/>
 
 					<View style={styles.icons}>
@@ -196,8 +210,11 @@ class CreateReport extends Component {
 
 				{/* <Text>{'\n'}</Text> */}
 
-				<Button style={styles.shareButton}
-					onPress={this.showcontent}>
+				<Button
+					style={styles.shareButton}
+					onPress={this.showcontent}
+					disabled={this.state.isButtonEnable}
+				>
 					<Text style={styles.shareButtonText}>
 						SHARE REPORT
 					</Text>
@@ -222,7 +239,6 @@ const mapDispatchToProps = (dispatch) => ({
 	saveReportVideo: (video) => dispatch(Actions.saveReportVideoLocal(video)),
 	createReport: (payload) => new Promise((resolve, reject) =>
 		dispatch(Actions.createReportRequest(payload, resolve, reject)))
-
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateReport)

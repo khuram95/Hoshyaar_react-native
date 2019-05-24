@@ -64,5 +64,5 @@ export default StackNavigator({
 },
   {
     headerMode: 'float',
-    initialRouteName: 'Report'
+    initialRouteName: 'Splash'
 })

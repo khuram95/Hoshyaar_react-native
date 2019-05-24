@@ -24,7 +24,6 @@ import ImagePicker from 'react-native-image-crop-picker';
 import PhotoGrid from 'react-native-thumbnail-grid'
 import DrawLayout from '../DrawLayout'
 import AudioRecorder from '../AudioRecorder'
-import Loader from '../Loader'
 
 class CreateReport extends Component {
   constructor(props) {

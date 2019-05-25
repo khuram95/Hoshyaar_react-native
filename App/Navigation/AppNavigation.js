@@ -59,13 +59,17 @@ export default StackNavigator({
     screen: require('../Containers/Comment/CommentList').default
   },
   Notification:{
-    screen: require('../Containers//DashBoard/Notification').default
+    screen: require('../Containers/DashBoard/Notification').default
   },
+  AdHocQuery:{
+    screen: require('../Containers/AdHocQuery/').default
+  },
+ 
  
 
   
 },
   {
     headerMode: 'float',
-    initialRouteName: 'Splash'
+    initialRouteName: 'AdHocQuery'
 })

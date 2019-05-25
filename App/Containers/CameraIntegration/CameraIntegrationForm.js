@@ -51,7 +51,7 @@ class CameraScreen extends React.Component {
       mute: false,
       maxDuration: 10,
       quality: RNCamera.Constants.VideoQuality['288p'],
-      maxFileSize: 1 * 1024 * 512,
+      // maxFile  Size: 1 * 1024 * 512,
       videoBitrate: 1 * 1024 * 512,
     },
     isRecording: false,

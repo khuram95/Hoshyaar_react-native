@@ -11,6 +11,8 @@ export default combineReducers({
   school: require('./SchoolRedux').reducer,
   schooldetail:require('./SchoolDetailRedux').reducer,
   notification:require('./NotificationRedux').reducer,
+  adhocquery:require('./AdHocQueryRedux').reducer,
+
 
   // ADD_REDUX_REDUCER
 })

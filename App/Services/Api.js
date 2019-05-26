@@ -1,6 +1,6 @@
 // a library to wrap and simplify api calls
 import apisauce from 'apisauce'
-import {Platform} from 'react-native'
+import { Platform } from 'react-native'
 
 // our "constructor"
 const create = () => {
@@ -12,8 +12,8 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    // baseURL: 'https://hoshyaar.herokuapp.com',
-    baseURL: 'http://b6b6557f.ngrok.io',
+    baseURL: 'https://hoshyaar.herokuapp.com',
+    // baseURL: 'http://5dd28d93.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -22,8 +22,8 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://b6b6557f.ngrok.io/api/v1',
-    // baseURL: 'https://hoshyaar.herokuapp.com/api/v1',
+    // baseURL: 'http://5dd28d93.ngrok.io/api/v1',
+    baseURL: 'https://hoshyaar.herokuapp.com/api/v1',
 
     // here are some default headers
     headers: {
@@ -51,7 +51,7 @@ const create = () => {
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', { q: username })
   const login = (payload, headers) => {
-    const { phone_number, password,deviceId } = payload
+    const { phone_number, password, deviceId } = payload
     console.log("Mobile No and password during login ", phone_number, password)
     const data = new FormData();
     data.append('phone_number', phone_number)
@@ -65,7 +65,7 @@ const create = () => {
     authApi.delete('auth/sign_out', {}, { headers })
 
   const addMyInterest = (payload, headers) => {
-    const {school_id, user_id} = payload
+    const { school_id, user_id } = payload
     console.log('addMyInterest : ', payload)
     const data = new FormData();
     data.append('school_id', school_id)
@@ -100,7 +100,7 @@ const create = () => {
     //   //   // type: 'audio/aac',
     //   //   // name: 'audio.aac'
     //   // })
-      
+
     // }
     if (audio && audio !== '') {
       let uriParts = audio.split('.');
@@ -176,6 +176,13 @@ const create = () => {
     const { tehsil } = payload
     return api.get('/schools', { tehsil: tehsil }, { headers })
   }
+
+  const comparison = (payload, headers) => {
+    const { comparison_on } = payload
+    console.log("comparison_on api call:", comparison_on)
+    return api.get('/ad_hoc_queries', { compare_by: comparison_on }, { headers })
+  }
+
   const oneSignal = (payload, headers) => {
     const { userId } = payload
     console.log("one signal payload api ", payload)
@@ -271,6 +278,7 @@ const create = () => {
     interestedReports,
     oneSignal,
     notification,
+    comparison,
   }
 }
 

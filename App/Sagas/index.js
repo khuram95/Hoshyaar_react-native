@@ -15,6 +15,8 @@ import ReportSagas from './ReportSagas'
 import SchoolSagas from './SchoolSagas'
 import SchoolDetailSagas from './SchoolDetailSagas'
 import Notification from './NotificationSagas'
+import AdHocQuery from './AdHocQuerySagas'
+
 
 // IMPORT_SAGAS
 
@@ -25,6 +27,7 @@ const Sagas = {
   ...SchoolSagas,
   ...SchoolDetailSagas,
   ...Notification,
+  ...AdHocQuery,
   // SPREAD_SAGAS
 }
 
@@ -58,6 +61,8 @@ export default function* root() {
     takeLatest(ActionTypes.INTERESTED_REPORTS_REQUEST, Sagas.makeInterestedReportsRequest, api),
     takeLatest(ActionTypes.ONE_SIGNAL_FAILURE, Sagas.makeOneSignalRequest, api),
     takeLatest(ActionTypes.NOTIFICATION_REQUEST, Sagas.makeNotificationRequest, api),
+    takeLatest(ActionTypes.COMPARISON_REQUEST, Sagas.makeComparisonRequest, api),
+
 
 
 

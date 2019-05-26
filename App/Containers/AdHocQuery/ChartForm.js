@@ -42,8 +42,6 @@ class ChartForm extends Component {
     this.setState({ value: value })
     console.log("this.setstate : ", this.state.value)
     this.props.getDistrict()
-      .then((response) =>
-      )
   }
   updateDistrict = (district) => {
     this.setState({ district: district })
@@ -105,7 +103,14 @@ class ChartForm extends Component {
     }
   }
   submitAdHocParams = () => {
+    this.props.ComparisonOn({
+      comparisonBetween: this.state.compArr,
+      comparisonOn: this.state.compItems,
+      fromDate: this.state.fromdate,
+      toDate: this.state.todate
+    }).then(() => {
 
+    })
 
   }
 
@@ -288,7 +293,7 @@ class ChartForm extends Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  // comparison: (state) => get(state, 'adhocquery.comparison'),
+  comparison: (state) => get(state, 'adhocquery.comparison'),
   allSchools: (state) => get(state, 'school.allSchoolsData'),
   allDistricts: (state) => get(state, 'school.districts'),
   allTehsils: (state) => get(state, 'school.tehsils'),

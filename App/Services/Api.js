@@ -178,9 +178,15 @@ const create = () => {
   }
 
   const comparison = (payload, headers) => {
-    const { comparison_on } = payload
-    console.log("comparison_on api call:", comparison_on)
-    return api.get('/ad_hoc_queries', { compare_by: comparison_on }, { headers })
+    console.log("Payload is : ",payload)
+    const { comparisonBetween,comparisonOn,fromDate,toDate } = payload
+    const data = new FormData();
+    data.append('comparisonBetween', comparisonBetween)
+    data.append('comparisonOn', comparisonOn)
+    data.append('fromDate', fromDate)
+    data.append('toDate', toDate)
+    console.log("data : ", data)
+    return api.get('/ad_hoc_queries', {  }, { headers })
   }
 
   const oneSignal = (payload, headers) => {

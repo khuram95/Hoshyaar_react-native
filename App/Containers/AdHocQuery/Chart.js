@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
-import { Item } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import { get } from 'lodash'

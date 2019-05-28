@@ -64,6 +64,10 @@ export default StackNavigator({
   AdHocQuery:{
     screen: require('../Containers/AdHocQuery/').default
   },
+  CreateChart:{
+    screen: require('../Containers/AdHocQuery/Chart').default
+  },
+ 
  
  
 
@@ -71,5 +75,5 @@ export default StackNavigator({
 },
   {
     headerMode: 'float',
-    initialRouteName: 'AdHocQuery'
+    initialRouteName: 'Splash'
 })

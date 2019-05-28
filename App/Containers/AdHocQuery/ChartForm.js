@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Picker, StyleSheet, CheckBox, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, Picker, StyleSheet, CheckBox, TouchableOpacity, FlatList, ToastAndroid } from 'react-native'
 import { Item as FormItem, Button } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
@@ -8,8 +8,6 @@ import { createStructuredSelector } from 'reselect'
 import RadioForm from 'react-native-simple-radio-button';
 import Icon from "react-native-vector-icons/Entypo";
 import DatePicker from 'react-native-datepicker'
-
-
 
 class ChartForm extends Component {
   constructor(props) {
@@ -30,17 +28,14 @@ class ChartForm extends Component {
       is_electricity_avaliable: false,
       fromdate: "2019-01-01",
       todate: "2019-05-01",
-
-
     }
   }
-
   static navigationOptions = {
     header: null,
   }
   toggleRadioButton = (value) => {
     this.setState({ value: value })
-    console.log("this.setstate : ", this.state.value)
+    this.state.compArr = []
     this.props.getDistrict()
   }
   updateDistrict = (district) => {
@@ -71,14 +66,16 @@ class ChartForm extends Component {
     //     item === this.state.school
     // })
 
-    // if (!isfind) {
-    (this.state.district && !this.state.tehsil && !this.state.school) &&
-      this.setState({ compArr: [...this.state.compArr, this.state.district] });
-    (this.state.district && this.state.tehsil && !this.state.school) &&
-      this.setState({ compArr: [...this.state.compArr, this.state.tehsil] });
-    (this.state.district && this.state.tehsil && this.state.school) &&
-      this.setState({ compArr: [...this.state.compArr, this.state.school] });
-    // }
+    if (this.state.compArr.length < 2) {
+      (this.state.district && !this.state.tehsil && !this.state.school) &&
+        this.setState({ compArr: [...this.state.compArr, this.state.district] });
+      (this.state.district && this.state.tehsil && !this.state.school) &&
+        this.setState({ compArr: [...this.state.compArr, this.state.tehsil] });
+      (this.state.district && this.state.tehsil && this.state.school) &&
+        this.setState({ compArr: [...this.state.compArr, this.state.school] });
+    } else {
+      ToastAndroid.showWithGravity('You can Select only two Districts,Tehsil or School ', ToastAndroid.LONG, ToastAndroid.CENTER)
+    }
   }
   toggleRemoveItem = (item) => {
     var array = [...this.state.compArr];
@@ -89,11 +86,9 @@ class ChartForm extends Component {
     }
   }
   toggleCheckbox = (item) => {
-    console.log("item is : ", item)
     this.setState({ [item]: !this.state[item] })
     var array = [...this.state.compItems];
     var index = array.indexOf(item)
-    console.log("index is :", index)
     if (!this.state[item] && index == -1) {
       this.setState({ compItems: [...this.state.compItems, item] });
     }
@@ -103,13 +98,18 @@ class ChartForm extends Component {
     }
   }
   submitAdHocParams = () => {
+    const { navigation } = this.props
+      navigation.navigate("CreateChart")
+    console.log("this.state.value : ",this.state.value)
     this.props.ComparisonOn({
       comparisonBetween: this.state.compArr,
       comparisonOn: this.state.compItems,
       fromDate: this.state.fromdate,
-      toDate: this.state.todate
+      toDate: this.state.todate,
+      comparisonName:this.state.value
     }).then(() => {
-
+      const { navigation } = this.props
+      navigation.navigate("CreateChart")
     })
 
   }
@@ -134,6 +134,8 @@ class ChartForm extends Component {
     ]
     return (
       <View>
+        {/* <Loader isShow={this.props.requesting == undefined ? false : this.props.requesting} /> */}
+
         <RadioForm
           radio_props={radio_props}
           initial={0}
@@ -198,8 +200,9 @@ class ChartForm extends Component {
         </Button>
         <View style={styles.outercontainer}>
           {this.state.compArr.map((data) =>
-            <View
+            <TouchableOpacity
               style={styles.datacontainer}
+              onPress={() => this.toggleRemoveItem(data)}
             >
               {!data.school_name ?
                 <Text style={styles.text}>
@@ -209,9 +212,8 @@ class ChartForm extends Component {
                   {data.school_name}
                 </Text>}
               <Icon name="cross" size={20} style={{ bottom: 10, left: 5 }}
-                onPress={() => this.toggleRemoveItem(data)}
               />
-            </View>
+            </TouchableOpacity>
           )}
         </View>
         <Text style={styles.text}>Comparison On</Text>
@@ -231,7 +233,7 @@ class ChartForm extends Component {
             )}
             numColumns={2}
           />
-          <Text>From</Text>
+          <Text>FromDate</Text>
           <DatePicker
             style={{ width: 200 }}
             date={this.state.fromdate}
@@ -242,20 +244,15 @@ class ChartForm extends Component {
             maxDate="2019-05-01"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            // customStyles={{
-            //   dateIcon: {
-            //     position: 'absolute',
-            //     left: 0,
-            //     top: 4,
-            //     marginLeft: 0
-            //   },
-            //   dateInput: {
-            //     marginLeft: 36
-            //   }
-            // }}
+            customStyles={{
+              dateIcon: {
+                width: 0,
+                height: 0,
+              },
+            }}
             onDateChange={(date) => { this.setState({ fromdate: date }) }}
           />
-          <Text>To</Text>
+          <Text>ToDate</Text>
           <DatePicker
             style={{ width: 200 }}
             date={this.state.todate}
@@ -266,17 +263,12 @@ class ChartForm extends Component {
             maxDate="2019-05-01"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            // customStyles={{
-            //   dateIcon: {
-            //     position: 'absolute',
-            //     left: 0,
-            //     top: 4,
-            //     marginLeft: 0
-            //   },
-            //   dateInput: {
-            //     marginLeft: 36
-            //   }
-            // }}
+            customStyles={{
+              dateIcon: {
+                width: 0,
+                height: 0,
+              },
+            }}
             onDateChange={(date) => { this.setState({ todate: date }) }}
 
           />
@@ -285,35 +277,28 @@ class ChartForm extends Component {
               <Text style={styles.textStyle}>Create Graph</Text>
             </Button>
           </View>
-
         </View>
       </View >
     )
   }
 }
-
 const mapStateToProps = createStructuredSelector({
   comparison: (state) => get(state, 'adhocquery.comparison'),
   allSchools: (state) => get(state, 'school.allSchoolsData'),
   allDistricts: (state) => get(state, 'school.districts'),
   allTehsils: (state) => get(state, 'school.tehsils'),
   requesting: (state) => get(state, 'school.requesting'),
-
 })
-
 const mapDispatchToProps = (dispatch) => ({
   ComparisonOn: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.ComparisonRequest(payload, resolve, reject))),
-
   getDistrict: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.getDistrictsRequest(payload, resolve, reject))),
   getTehsil: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.getTehsilsRequest(payload, resolve, reject))),
   allSchoolsData: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.allSchoolsDataRequest(payload, resolve, reject))),
-
 })
-
 export default connect(mapStateToProps, mapDispatchToProps)(ChartForm)
 const styles = StyleSheet.create({
   text: {

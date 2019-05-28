@@ -29,7 +29,7 @@ class AdHocQuery extends Component {
     return (
       <View>
       <DrawLayout title="Comparison Data"/>
-    <ChartForm/>
+    <ChartForm navigation={this.props.navigation}/>
     </View>
     )
   }

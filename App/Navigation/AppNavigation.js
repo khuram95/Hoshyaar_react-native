@@ -5,6 +5,11 @@ import { StackNavigator } from 'react-navigation'
 import { Images, Colors } from '../Themes'
 import styles from './Styles/NavigationStyles'
 import SignupForm from '../Containers/SignupScreen/SignupForm';
+import DashBoard from '../Containers/DashBoard'
+import ShowReports from '../Containers/ShowReports'
+import Report from '../Containers/ManualGoogleMap'
+import { DrawerNavigator } from 'react-navigation'
+
 
 export default StackNavigator({
   Splash: {
@@ -61,11 +66,12 @@ export default StackNavigator({
   Notification:{
     screen: require('../Containers//DashBoard/Notification').default
   },
- 
-
+  DrawerNavigator:{
+    screen: require('./DrawerNavigation').default
+  },
   
 },
   {
     headerMode: 'float',
-    initialRouteName: 'Splash'
+    initialRouteName: 'DrawerNavigator'
 })

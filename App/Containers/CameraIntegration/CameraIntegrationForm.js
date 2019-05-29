@@ -170,7 +170,7 @@ class CameraScreen extends React.Component {
     arr.push(this.state.uri.uri)
 
     this.props.saveReportImage(arr);
-    console.log('Kuch aya?: ', arr)
+    // console.log('Kuch aya?: ', arr)
 
     const { navigation } = this.props
     navigation.navigate("Report");

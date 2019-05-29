@@ -10,6 +10,7 @@ import {
   TextInput,
   ToastAndroid,
   StyleSheet,
+  Alert,
 } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { connect } from 'react-redux'
@@ -24,6 +25,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import PhotoGrid from 'react-native-thumbnail-grid'
 import DrawLayout from '../DrawLayout'
 import AudioRecorder from '../AudioRecorder'
+import ImageView from 'react-native-image-view';
 
 class CreateReport extends Component {
   constructor(props) {
@@ -34,7 +36,9 @@ class CreateReport extends Component {
       uri: get(this.props, 'reportImages.images.uri'),
       visible: false,
       isButtonEnable: true,
+      isImageViewVisible: false,
     };
+    this.renderFooter = this.renderFooter.bind(this);
   }
 
   showcontent = () => {
@@ -105,7 +109,7 @@ class CreateReport extends Component {
       }
 
       this.props.saveReportImage(arr);
-      console.log('Kuch aya?: ', arr)
+      // console.log('Kuch aya?: ', arr)
     });
   }
 
@@ -147,7 +151,72 @@ class CreateReport extends Component {
       })
     }
   }
+
+  showImage(uri) {
+    this.setState({
+      isImageViewVisible: !this.state.isImageViewVisible,
+      imageIndex: !this.state.imageIndex
+    })
+  }
+
+  renderFooter({ title }) {
+    return (
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>{title}</Text>
+        <TouchableOpacity style={styles.footerButton}>
+          <Text style={styles.footerText}>♥</Text>
+          <Text style={[styles.footerText, { marginLeft: 7 }]}></Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
   render() {
+    const { isImageViewVisible, imageIndex } = this.state;
+
+    allImages = []
+    allImages[0] = get(this.props, 'reportImages.images')
+    strData = JSON.stringify(allImages);
+
+    res = strData.split(',')
+
+    Data = []
+    uri1 = []
+    for (i = 0; i < res.length; i++) {
+      img = res[i]
+      if (res.length == 1) {
+        img = img.slice(0, 0).concat(img.slice(0 + 3, img.length))
+        img = img.slice(0, img.length - 3)
+      } else if (res.length == 2) {
+        if (i == 0) {
+          img = img.slice(0, 0).concat(img.slice(0 + 3, img.length))
+          img = img.slice(0, img.length - 1)
+        } else if (i == 1) {
+          img = img.slice(0, 0).concat(img.slice(0 + 1, img.length))
+          img = img.slice(0, img.length - 3)
+        }
+      } else {
+        if (i == 0) {
+          img = img.slice(0, 0).concat(img.slice(0 + 3, img.length))
+          img = img.slice(0, img.length - 1)
+        } else if (i == res.length-1) {
+          img = img.slice(0, 0).concat(img.slice(0 + 1, img.length))
+          img = img.slice(0, img.length - 3)
+        } else {
+          img = img.slice(0, 0).concat(img.slice(0 + 1, img.length))
+          img = img.slice(0, img.length - 1)
+        }
+      }
+
+      Data.push({
+        source: {
+          uri: img,
+        },
+        title: 'Paris',
+        // width: 806,
+        // height: 720,
+      });
+    }
+
     return (
       <View style={styles.container}>
         <Loader isShow={this.props.requesting == undefined ? false : this.props.requesting} />
@@ -156,7 +225,7 @@ class CreateReport extends Component {
         {/* <Text style={{ textAlign: "center" }}>Create Report</Text> */}
 
         {/* {<Text>{this.state.school.school_name}</Text>} */}
-        {<Text style={styles.title}> {this.state.school.school_name} </Text>}
+        {<Text style={styles.title}> {'this.state.school.school_name'} </Text>}
 
         <View style={styles.reportBase}>
           <TextInput
@@ -206,8 +275,24 @@ class CreateReport extends Component {
           source={{ uri: this.state.uri ? this.state.uri : 'https://facebook.github.io/react-native/docs/assets/favicon.png' }}
         /> */}
 
+        <ImageView
+          glideAlways
+          images={Data}
+          imageIndex={0}
+          animationType="fade"
+          isVisible={isImageViewVisible}
+          // renderFooter={this.renderFooter}
+          onClose={() => this.setState({ isImageViewVisible: false })}
+        />
+
         <View style={styles.photoGrid}>
-          <PhotoGrid height={'100%'} source={get(this.props, 'reportImages.images')} onPressImage={uri => this.showImage(uri)} />
+          <PhotoGrid
+            height={'50%'}
+            // ratio={2}
+            source={get(this.props, 'reportImages.images')}
+            onPressImage={(uri) => {
+              this.showImage(uri)
+            }} />
         </View>
 
         {/* <Text>{'\n'}</Text> */}
@@ -281,5 +366,8 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     textAlign: "center"
   },
-
+  contain: {
+    flex: 1,
+    height: 150,
+  },
 });

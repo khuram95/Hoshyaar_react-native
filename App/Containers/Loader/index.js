@@ -15,7 +15,7 @@ import { resolve } from 'url';
 import { rejects } from 'assert';
 
 export default Loader = (isShow) => {
-	{console.log('helo loader: ', isShow.isShow)}
+	// {console.log('helo loader: ', isShow.isShow)}
 	return (
 		<Modal transparent visible={isShow.isShow}>
 			<View style={styles.loaderModal}>

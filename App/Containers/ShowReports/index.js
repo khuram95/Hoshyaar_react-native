@@ -22,9 +22,9 @@ class ShowReports extends Component {
     return (
       <Container>
         <DrawLayout title="Reports" 
-          // image='add'
-          // navigateTo='AddInterest'
-          // componentNavigation={this.props.navigation}
+           leftimage='menu'
+           rightimage='' 
+           componentNavigation={this.props.navigation}
            />
 
         <Tabs>

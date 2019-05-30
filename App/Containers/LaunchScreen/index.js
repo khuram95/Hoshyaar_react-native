@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { ScrollView, Image, View } from 'react-native'
+import { View } from 'react-native'
 
-import { Button, Text, Container, Content, Radio, Right, ListItem, Form, Item, Input, Label, Icon } from 'native-base'
+import { Button, Text, Container, Content, Radio, Right, ListItem } from 'native-base'
 import { Colors, Images } from '../../Themes'
 import styles from './styles'
 
@@ -11,7 +11,7 @@ const Separator = (
 
 export default class LaunchScreen extends Component {
 
-  render () {
+  render() {
     return (
       <Container style={styles.container}>
         <Content padder style={{ backgroundColor: "#fff", padding: 20 }}>
@@ -71,18 +71,18 @@ export default class LaunchScreen extends Component {
           <ListItem>
             <Text>Option 1</Text>
             <Right>
-              <Radio selected={true}/>
+              <Radio selected={true} />
             </Right>
           </ListItem>
           <ListItem>
             <Text>Option 2</Text>
-            <Radio selected={false}/>
+            <Radio selected={false} />
           </ListItem>
           {Separator}
 
           <Button primary
             style={{ width: 280, height: 46 }}
-            onPress={() => {this.goToLoginScreen}}
+            onPress={() => { this.goToLoginScreen }}
           >
             <Text style={{ width: '100%' }}> GO TO LOG IN </Text>
           </Button>

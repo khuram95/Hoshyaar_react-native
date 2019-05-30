@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Picker, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Picker, StyleSheet } from 'react-native'
 import { Item as FormItem, Text, Button } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'

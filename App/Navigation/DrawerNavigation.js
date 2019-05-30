@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, ScrollView, DrawerLayoutAndroid, TouchableHighlight, ToolbarAndroid, FlatList, Image, Thumbnail, Icon, ViewPagerAndroid, TouchableOpacity } from 'react-native'
-import { Item as FormItem, Text, Button, Input, Header, Body, Title, Left, Right, Content } from 'native-base'
+import { View, StyleSheet, ScrollView, Image } from 'react-native'
+import { Item as FormItem, Header, Body } from 'native-base'
 import { Images, Colors } from '../Themes'
 import DashBoard from '../Containers/DashBoard'
 import ShowReports from '../Containers/ShowReports'
@@ -45,7 +45,7 @@ const CreateReportNavigation = new StackNavigator({
 			// header: <MainHeader navigation={navigation} returnKey={'Notifications'} title="Notifications" />,
 			// drawerIcon: () => <NotificationItem />
 			drawerIcon: () =>
-			  <Image source={Images.editreports} style={{ width: 20, height: 20 }} />
+				<Image source={Images.editreports} style={{ width: 20, height: 20 }} />
 		})
 	},
 }
@@ -57,8 +57,8 @@ const CustomDrawer = (props) => (
 	<ScrollView>
 		<Header style={styles.drawerImage}>
 			<Body>
-				<Image source={Images.pakistan}
-					style={{ height: 200, }} />
+				<Image source={Images.Pakistan}
+					style={{}} />
 			</Body>
 		</Header>
 		<SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
@@ -71,15 +71,6 @@ export default Drawer = DrawerNavigator({
 	DashBoard: { screen: DashboardNavigation },
 	ShowReports: { screen: ShowReportsNavigation },
 	CreateReport: { screen: CreateReportNavigation },
-	// DashBoard: {
-	// 	screen: DashBoard
-	// },
-	// ShowReports: {
-	// 	screen: ShowReports
-	// },
-	// CreateReport: {
-	// 	screen: Report
-	// },
 	VerifySchoolData: {
 		screen: CreateReport,
 		navigationOptions: {
@@ -125,8 +116,8 @@ export default Drawer = DrawerNavigator({
 
 styles = StyleSheet.create({
 	drawerImage: {
-		height: 150,
-		width: 150,
+		height: 200,
+		width: 300,
 		// borderRadius: 75,
 	},
 	container: {

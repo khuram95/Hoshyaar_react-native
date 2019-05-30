@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView } from 'react-native'
-import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { connect } from 'react-redux'
-import Actions from '../../Redux/Actions'
 import { createStructuredSelector } from 'reselect'
-import { get } from 'lodash'
 import ReportFormat from './ReportFormat'
 import DrawLayout from '../DrawLayout'
 

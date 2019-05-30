@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
 import { Image } from 'react-native'
 import { Container } from 'native-base'
-import { get, isEmpty } from 'lodash'
-import { NavigationActions } from 'react-navigation';
 import { Images, Colors } from '../../Themes/'
-import Actions from '../../Redux/Actions'
 import styles from './styles'
 
 

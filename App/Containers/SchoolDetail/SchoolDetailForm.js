@@ -26,14 +26,12 @@ class SchoolDetailForm extends Component {
       interestChecked: false,
     }
     complete_school_data = this.props.navigation.getParam('id')
-    console.log("complete_school_data.emis : ", complete_school_data.emis)
     this.props.SchoolDetailData({ school_id: complete_school_data.emis })
       .then(() => {
         this.setState({ schooldetail: this.props.SchoolDetail })
         size = this.state.schooldetail.length
         this.setState({ singleschool: this.state.schooldetail[size - 1] })
         this.setState({ all_school: complete_school_data })
-        console.log("School Data ", this.state.singleschool)
       })
   }
   dateChange = (date) => {

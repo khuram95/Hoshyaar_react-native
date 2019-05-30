@@ -1,19 +1,64 @@
 import React, { Component } from 'react'
-import { View, StyleSheet,ScrollView, DrawerLayoutAndroid, TouchableHighlight, ToolbarAndroid, FlatList, Image, Thumbnail, Icon, ViewPagerAndroid, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, ScrollView, DrawerLayoutAndroid, TouchableHighlight, ToolbarAndroid, FlatList, Image, Thumbnail, Icon, ViewPagerAndroid, TouchableOpacity } from 'react-native'
 import { Item as FormItem, Text, Button, Input, Header, Body, Title, Left, Right, Content } from 'native-base'
 import { Images, Colors } from '../Themes'
 import DashBoard from '../Containers/DashBoard'
 import ShowReports from '../Containers/ShowReports'
-import Report from '../Containers/ManualGoogleMap'
-import { DrawerNavigator, DrawerItems, SafeAreaView } from 'react-navigation'
+import CreateReport from '../Containers/ManualGoogleMap'
+import { DrawerNavigator, DrawerItems, SafeAreaView, StackNavigator } from 'react-navigation'
+
+
+const DashboardNavigation = new StackNavigator({
+	DashBoard: {
+		screen: DashBoard,
+		navigationOptions: ({ navigation }) => ({
+			drawerIcon: () => (
+				<Image source={Images.reports} style={{ width: 20, height: 20 }} />
+			),
+			gesturesEnabled: false,
+			// header: <MainHeader navigation={navigation} returnKey={'DashBoard'} title="Dashboard" />
+		})
+	}
+})
+
+const ShowReportsNavigation = new StackNavigator({
+	ShowReports: {
+		screen: ShowReports,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false,
+			// header: <MainHeader navigation={navigation} returnKey={'Food Gallery'} title="Food Gallery" />,
+			drawerIcon: () =>
+				<Image source={Images.reports} style={{ width: 20, height: 20 }} />
+		})
+	},
+},
+	{
+		// initialRouteName: 'Food Gallery',
+	}
+)
+
+const CreateReportNavigation = new StackNavigator({
+	CreateReport: {
+		screen: CreateReport,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false,
+			// header: <MainHeader navigation={navigation} returnKey={'Notifications'} title="Notifications" />,
+			// drawerIcon: () => <NotificationItem />
+			drawerIcon: () =>
+			  <Image source={Images.editreports} style={{ width: 20, height: 20 }} />
+		})
+	},
+}
+)
+
 
 
 const CustomDrawer = (props) => (
 	<ScrollView>
 		<Header style={styles.drawerImage}>
 			<Body>
-			<Image source={Images.pakistan} 
-				style={{ height: 200, }} />
+				<Image source={Images.pakistan}
+					style={{ height: 200, }} />
 			</Body>
 		</Header>
 		<SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
@@ -23,23 +68,45 @@ const CustomDrawer = (props) => (
 )
 
 export default Drawer = DrawerNavigator({
-	DashBoard: {
-		screen: DashBoard
-	},
-	ShowReports: {
-		screen: ShowReports
-	},
-	CreateReport: {
-		screen: Report
-	},
+	DashBoard: { screen: DashboardNavigation },
+	ShowReports: { screen: ShowReportsNavigation },
+	CreateReport: { screen: CreateReportNavigation },
+	// DashBoard: {
+	// 	screen: DashBoard
+	// },
+	// ShowReports: {
+	// 	screen: ShowReports
+	// },
+	// CreateReport: {
+	// 	screen: Report
+	// },
 	VerifySchoolData: {
-		screen: DashBoard
+		screen: CreateReport,
+		navigationOptions: {
+			drawerIcon: () =>
+				<Image source={Images.verifiedschool} style={{ width: 20, height: 20 }} />
+		}
+	},
+	AdHocQuery: {
+		screen: DashBoard,
+		navigationOptions: {
+			drawerIcon: () =>
+				<Image source={Images.adhoc} style={{ width: 20, height: 20 }} />
+		}
 	},
 	ChangePassword: {
-		screen: DashBoard
+		screen: DashBoard,
+		navigationOptions: {
+			drawerIcon: () =>
+				<Image source={Images.key} style={{ width: 20, height: 20 }} />
+		}
 	},
 	Logout: {
-		screen: DashBoard
+		screen: DashBoard,
+		navigationOptions: {
+			drawerIcon: () =>
+				<Image source={Images.signout} style={{ width: 20, height: 20 }} />
+		}
 	},
 }, {
 		initialRouteName: "DashBoard",
@@ -49,6 +116,10 @@ export default Drawer = DrawerNavigator({
 		DrawerToggleRoute: "DrawerToggle",
 		// drawerWidth:200,
 		// drawerPosition: "right"
+		headerMode: 'none',
+		navigationOptions: {
+			headerVisible: false,
+		}
 
 	});
 
@@ -59,7 +130,7 @@ styles = StyleSheet.create({
 		// borderRadius: 75,
 	},
 	container: {
-    flex: 1,
-  },
+		flex: 1,
+	},
 
 })

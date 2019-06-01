@@ -12,6 +12,8 @@ function* makeComparisonRequest(api, action) {
   const response = yield call(api.comparison, payload)
   console.log('Comparison: ', response)
   console.log('Comparison data: ', payload)
+  console.log('Comparison Responce before ok: ', response)
+
   if (response.ok) {
     console.log('Comparison Responce: ', response.data)
     yield put(Actions.ComparisonSuccess())

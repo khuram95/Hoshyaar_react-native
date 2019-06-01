@@ -1,30 +1,19 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import {
-  View, Image, ImageBackground, KeyboardAvoidingView, Linking,
-  ScrollView, TouchableOpacity
-} from 'react-native'
+import { View, ImageBackground, TouchableOpacity } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { get, isEmpty } from 'lodash'
-import Hr from 'react-native-hr-plus'
-import { Images, Colors } from '../../Themes'
 import Actions from '../../Redux/Actions'
 import styles from './styles'
-import { resolve } from 'url';
-import { rejects } from 'assert';
 
 
 
 class SignupForm extends React.Component {
   static propTypes = {
   }
-
   static navigationOptions = {
     header: null,
   }
-
   constructor(props) {
     super(props)
     this.state = {
@@ -104,7 +93,7 @@ class SignupForm extends React.Component {
           navigation.navigate("VerifyPhoneNumber")
         })
         .catch(() => {
-          
+
         }
         )
     }

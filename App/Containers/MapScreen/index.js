@@ -1,19 +1,9 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import {
-  View, Image, ImageBackground, KeyboardAvoidingView, Linking,
-  ScrollView
-} from 'react-native'
-// import { Button, Text, Form, Item, Input } from 'native-base'
-import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { get, isEmpty } from 'lodash'
-import Hr from 'react-native-hr-plus'
-import { Images, Colors } from '../../Themes/'
 import Actions from '../../Redux/Actions'
 import MapScreenForm from './MapScreenForm'
-import styles from './styles'
 import Geocoder from 'react-native-geocoding';
 import { PermissionsAndroid } from 'react-native';
 
@@ -81,7 +71,6 @@ class MapScreen extends Component {
           var addressComponent = json.results[0].address_components[0];
           console.log("addressComponent :", json.results);
           json.results.map((address) => {
-            console.log("address.address_components.length", address.address_components.length)
             if (address.address_components.length == 4) {
               this.updateTehsil(address.address_components[0].long_name.split(' ')[1])
               console.log('[0]', address.address_components[0].long_name.split(' ')[1])
@@ -96,19 +85,14 @@ class MapScreen extends Component {
 
     }, (error) => console.log(error));
   }
-
-
-
   render() {
     const allSchoolDetails = get(this.props, 'allSchools')
-    // console.log('Mera Data: ', get(this.props, 'allSchools'))
     return (
-      <MapScreenForm navigation={ this.props.navigation} schoolsData={get(this.props, 'allSchools')} />
+      <MapScreenForm navigation={this.props.navigation} schoolsData={get(this.props, 'allSchools')} />
     )
 
   }
 }
-
 const mapStateToProps = createStructuredSelector({
   allSchools: (state) => get(state, 'school.allSchoolsData'),
 })

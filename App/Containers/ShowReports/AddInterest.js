@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Text, TouchableOpacity, View, StyleSheet, Picker } from "react-native";
-import { Button } from 'native-base'
 import Modal from "react-native-modal";
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'

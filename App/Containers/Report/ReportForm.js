@@ -1,12 +1,7 @@
 import React, { Component } from 'react'
 import {
   View,
-  Image,
   TouchableOpacity,
-  ImageBackground,
-  KeyboardAvoidingView,
-  Linking,
-  ScrollView,
   TextInput,
   ToastAndroid,
   StyleSheet,
@@ -16,7 +11,6 @@ import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import { get } from 'lodash'
 import { createStructuredSelector } from 'reselect'
-import Images from '../../Themes/Images'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
 // import ImagePicker from 'react-native-image-picker';
@@ -151,13 +145,8 @@ class CreateReport extends Component {
     return (
       <View style={styles.container}>
         <Loader isShow={this.props.requesting == undefined ? false : this.props.requesting} />
-
         <DrawLayout title="Create Report" />
-        {/* <Text style={{ textAlign: "center" }}>Create Report</Text> */}
-
-        {/* {<Text>{this.state.school.school_name}</Text>} */}
         {<Text style={styles.title}> {this.state.school.school_name} </Text>}
-
         <View style={styles.reportBase}>
           <TextInput
             keyboardType="email-address"

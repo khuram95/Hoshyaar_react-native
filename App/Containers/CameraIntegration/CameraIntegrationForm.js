@@ -51,7 +51,7 @@ class CameraScreen extends React.Component {
       mute: false,
       maxDuration: 10,
       quality: RNCamera.Constants.VideoQuality['288p'],
-      maxFileSize: 1 * 1024 * 512,
+      // maxFile  Size: 1 * 1024 * 512,
       videoBitrate: 1 * 1024 * 512,
     },
     isRecording: false,
@@ -107,7 +107,7 @@ class CameraScreen extends React.Component {
   takePicture = async function () {
     if (this.camera) {
       const options = {
-        quality: 0.3,
+        quality: 0,
         pauseAfterCapture: false,
         exif: true,
         orientation: "portrait",
@@ -170,7 +170,7 @@ class CameraScreen extends React.Component {
     arr.push(this.state.uri.uri)
 
     this.props.saveReportImage(arr);
-    console.log('Kuch aya?: ', arr)
+    // console.log('Kuch aya?: ', arr)
 
     const { navigation } = this.props
     navigation.navigate("Report");

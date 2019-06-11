@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import {
   StyleSheet,
-  TouchableHighlight,
   View,
   Text,
-  ScrollView,
 } from 'react-native';
 import Moment from 'react-moment';
 import 'moment-timezone';

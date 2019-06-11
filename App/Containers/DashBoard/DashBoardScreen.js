@@ -1,22 +1,16 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, FlatList, Image, Thumbnail, Icon, ViewPagerAndroid, TouchableOpacity } from 'react-native'
 import { Item as FormItem, Text, Button, Input, Header, Body, Title, Left, Right } from 'native-base'
-import style from './style'
-import { Images, Colors } from '../../Themes/'
 import TrendingReport from './TrendingReport'
 import DisplayImage from './DisplayImage'
 import DrawLayout from '../DrawLayout'
 import { get } from 'lodash'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
-import Actions from '../../Redux/Actions'
-
-
 
 class DashBoardScreen extends Component {
   constructor(props) {
     super(props);
-
   }
   CreateReport = () => {
     const { navigation } = this.props
@@ -35,7 +29,8 @@ class DashBoardScreen extends Component {
     return (
       <View style={{ flex: 1 }}>
         <DrawLayout title="Home" 
-        image='Notification'
+        leftimage='menu'
+        rightimage='Notification'
           navigateTo='Notification'
           componentNavigation={this.props.navigation}
          />
@@ -66,11 +61,9 @@ class DashBoardScreen extends Component {
 const mapStateToProps = createStructuredSelector({
 	currentUser: (state) => get(state, 'auth.currentUser'),
 })
-
 const mapDispatchToProps = (dispatch) => ({
 
 })
-
 export default connect(mapStateToProps, mapDispatchToProps)(DashBoardScreen)
 
 const styles = StyleSheet.create({

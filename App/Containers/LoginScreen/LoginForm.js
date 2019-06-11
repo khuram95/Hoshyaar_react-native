@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import {
-  View, ImageBackground, Modal, TouchableOpacity, ActivityIndicator, ToastAndroid
+  View, ImageBackground, TouchableOpacity, ToastAndroid
 } from 'react-native'
-// import { Button, Text, Form, Item, Input } from 'native-base'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { get, isEmpty } from 'lodash'
-import Hr from 'react-native-hr-plus'
-import { Images, Colors } from '../../Themes'
 import Actions from '../../Redux/Actions'
 import styles from './styles'
 import Loader from '../Loader'
@@ -40,9 +36,6 @@ class LoginForm extends React.Component {
 
   componentDidMount = () => {
     OneSignal.init("289a3983-3872-4647-aa6f-1740c1d57c82");
-    console.log("OneSignal Working")
-    console.log("this.props.currentuser", this.props.currentUser)
-    // OneSignal.addEventListener('ids', (payload) => this.props.onesignal({ payload }));
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);
     OneSignal.addEventListener('ids', (payload) => this.setState({ deviceId: payload.userId }));
@@ -65,8 +58,6 @@ class LoginForm extends React.Component {
     console.log('Device info: ', device);
     console.log("this.props.deviceInformation :", device)
     console.log("this.props :", this.props)
-
-    // this.props.onesignal({ payload: device })
   }
 
   isValidatesMobileNo = () => {
@@ -98,15 +89,12 @@ class LoginForm extends React.Component {
       const { phone_number, password, deviceId } = this.state
       this.props.login({ phone_number, password, deviceId })
         .then(() => {
-          console.log("I am going to logging")
-          console.log('hello log: ', this.props.loging)
           const { navigation } = this.props
           navigation.navigate("DashBoard")
         })
         .catch(error => ToastAndroid.showWithGravity('Backend server is down', ToastAndroid.LONG, ToastAndroid.CENTER)
         )
     }
-    console.log("I am after going to logging")
   }
 
   signUp = () => {

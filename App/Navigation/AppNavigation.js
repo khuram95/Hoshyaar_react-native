@@ -1,10 +1,6 @@
-import React from 'react'
-import { Text, TouchableOpacity, Image } from 'react-native'
-import { Button, Header, Left, Body, Right } from 'native-base'
+
 import { StackNavigator } from 'react-navigation'
-import { Images, Colors } from '../Themes'
-import styles from './Styles/NavigationStyles'
-import SignupForm from '../Containers/SignupScreen/SignupForm';
+import DrawerNavigator from './DrawerNavigation'
 
 export default StackNavigator({
   Splash: {
@@ -13,9 +9,9 @@ export default StackNavigator({
   Login: {
     screen: require('../Containers/LoginScreen/').default
   },
-  DashBoard: {
-    screen: require('../Containers/DashBoard/').default
-  },
+  // DashBoard: {
+  //   screen: require('../Containers/DashBoard/').default
+  // },
   Camera: {
     screen: require('../Containers/CameraIntegration/').default
   },
@@ -25,13 +21,13 @@ export default StackNavigator({
   ManualGoogleMap: {
     screen: require('../Containers/ManualGoogleMap/').default
   },
-  ManualSchoolSelect: { 
+  ManualSchoolSelect: {
     screen: require('../Containers/ManualSchoolSelect/').default
   },
-  VideoRecording: { 
+  VideoRecording: {
     screen: require('../Containers/VideoRecording/').default
   },
-  SchoolDetail: { 
+  SchoolDetail: {
     screen: require('../Containers/SchoolDetail/').default
   },
   MapScreen: {
@@ -49,23 +45,26 @@ export default StackNavigator({
   VerifyPhoneNumber: {
     screen: require('../Containers/SignupScreen/VerifyPhoneNumber').default
   },
-  AddInterest:{
+  AddInterest: {
     screen: require('../Containers/ShowReports/AddInterest').default
   },
-  ReportDetail:{
+  ReportDetail: {
     screen: require('../Containers/ShowReports/ReportDetail').default
   },
-  Comment:{
+  Comment: {
     screen: require('../Containers/Comment/CommentList').default
   },
-  Notification:{
+  Notification: {
     screen: require('../Containers//DashBoard/Notification').default
   },
- 
-
-  
+  DashBoard: {
+    screen: DrawerNavigator,
+    navigationOptions: {
+      header: null
+    }
+  },
 },
   {
     headerMode: 'float',
-    initialRouteName: 'Report'
-})
+    initialRouteName: 'Splash'
+  })

@@ -98,18 +98,21 @@ class ChartForm extends Component {
     }
   }
   submitAdHocParams = () => {
-    const { navigation } = this.props
-      navigation.navigate("CreateChart")
-    console.log("this.state.value : ",this.state.value)
     this.props.ComparisonOn({
       comparisonBetween: this.state.compArr,
       comparisonOn: this.state.compItems,
       fromDate: this.state.fromdate,
       toDate: this.state.todate,
-      comparisonName:this.state.value
+      comparisonName: this.state.value
     }).then(() => {
       const { navigation } = this.props
-      navigation.navigate("CreateChart")
+      navigation.navigate("CreateChart", {
+        comparisonBetween: this.state.compArr,
+        comparisonOn: this.state.compItems,
+        fromDate: this.state.fromdate,
+        toDate: this.state.todate,
+        comparisonName: this.state.value
+      })
     })
 
   }
@@ -134,7 +137,7 @@ class ChartForm extends Component {
     ]
     return (
       <View>
-        {/* <Loader isShow={this.props.requesting == undefined ? false : this.props.requesting} /> */}
+        <Loader isShow={this.props.requestingad == undefined ? false : this.props.requestingad} />
 
         <RadioForm
           radio_props={radio_props}
@@ -288,6 +291,8 @@ const mapStateToProps = createStructuredSelector({
   allDistricts: (state) => get(state, 'school.districts'),
   allTehsils: (state) => get(state, 'school.tehsils'),
   requesting: (state) => get(state, 'school.requesting'),
+  requestingad: (state) => get(state, 'adhocquery.requesting'),
+
 })
 const mapDispatchToProps = (dispatch) => ({
   ComparisonOn: (payload) => new Promise((resolve, reject) =>

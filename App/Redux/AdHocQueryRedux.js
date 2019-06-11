@@ -36,7 +36,6 @@ export const ComparisonFailure = (state, { error }) =>
   state.merge({ requesting: false, error })
 
 export const saveComparisonLocal = (state, { comparison }) =>{
-  console.log(" save comparison is : ",comparison)
   return state.merge({ comparison })}
 
 // add new reducer here

@@ -13,16 +13,16 @@ const create = () => {
 
   const authApi = apisauce.create({
     // baseURL: 'https://hoshyaar.herokuapp.com',
-    baseURL: 'http://1383a2e8.ngrok.io',
+    baseURL: 'http://32631a8b.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
-    timeout: 10000
+    timeout: 30000
   })
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://1383a2e8.ngrok.io/api/v1',
+    baseURL: 'http://32631a8b.ngrok.io/api/v1',
     // baseURL: 'https://hoshyaar.herokuapp.com/api/v1',
 
     // here are some default headers
@@ -30,7 +30,7 @@ const create = () => {
       'Cache-Control': 'no-cache'
     },
     // 10 second timeout...
-    timeout: 10000
+    timeout: 30000
   })
 
   // ------
@@ -178,16 +178,22 @@ const create = () => {
   }
 
   const comparison = (payload, headers) => {
-    console.log("Payload is : ",payload)
-    const { comparisonBetween,comparisonOn,fromDate,toDate,comparisonName } = payload
-    const data = new FormData();
-    data.append('comparisonName', comparisonName)
-    data.append('comparisonBetween', comparisonBetween)
-    data.append('comparisonOn', comparisonOn)
-    data.append('fromDate', fromDate)
-    data.append('toDate', toDate)
-    console.log("data : ", data)
-    return api.get('/ad_hoc_queries', data, { headers })
+    console.log("Payload is : ", payload)
+    const { comparisonBetween, comparisonOn, fromDate, toDate, comparisonName } = payload
+    // const data = new FormData();
+    // data.append('comparisonName', comparisonName)
+    // data.append('comparisonBetween', ...comparisonBetween)
+    // data.append('comparisonOn', ...comparisonOn)
+    // data.append('fromDate', fromDate)
+    // data.append('toDate', toDate)
+    // console.log("data : ", data)
+    return api.post('/ad_hoc_queries',
+      {
+        comparisonBetween: comparisonBetween, comparisonOn: comparisonOn, fromDate: fromDate,
+        toDate: toDate, comparisonName: comparisonName
+      },
+      { headers }
+    )
   }
 
   const oneSignal = (payload, headers) => {

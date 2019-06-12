@@ -45,8 +45,20 @@ class CreateReport extends Component {
       isVideoVisible: false,
       thumbnail: null,
       modalVisible: false,
+      coords: null,
     };
     this.renderFooter = this.renderFooter.bind(this);
+  }
+
+  componentDidMount = () => {
+    this.watchID = navigator.geolocation.getCurrentPosition((position) => {
+      // Create the object to update this.state.mapRegion through the onRegionChange function
+      let region = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      }
+      this.setState({ coords: region });
+    }, (error) => console.log(error));
   }
 
   showcontent = () => {
@@ -61,6 +73,7 @@ class CreateReport extends Component {
       image: get(this.props, 'reportImages.images'),
       video: get(this.props, 'reportVideo.video'),
       audio: get(this.props, 'reportAudio.audio'),
+      location: this.state.coords,
     })
       .then(() => {
         alert("Report Shared")
@@ -294,10 +307,6 @@ class CreateReport extends Component {
           </View>
         </View>
 
-        {/* <Image
-          style={{ width: 200, height: 200 }}
-          source={{ uri: this.state.uri ? this.state.uri : 'https://facebook.github.io/react-native/docs/assets/favicon.png' }}
-        /> */}
 
         <ImageView
           glideAlways
@@ -308,25 +317,6 @@ class CreateReport extends Component {
           // renderFooter={this.renderFooter}
           onClose={() => this.setState({ isImageViewVisible: false })}
         />
-
-
-
-        {/* <View style={styles.photoList}>
-          {Data ?
-            <FlatList
-              data={get(this.props, 'reportImages.images')}
-              renderItem={(image) =>//{console.log('renderItems: ',image)}
-                <Image
-                  // style={{ width: 200, height: 200 }}
-                  source={{ uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png' }}
-                />
-              }
-              horizontal
-              pagingEnabled
-              ref={(sl) => this.scrollList = sl}
-            />
-            : null}
-        </View> */}
 
         <View style={styles.media}>
           <View style={styles.photoGrid}>
@@ -354,9 +344,6 @@ class CreateReport extends Component {
                 </TouchableOpacity>
               </View>
               : null}
-
-            {/* {this.state.isVideoVisible ? <Video url={this.state.videoUri} /> : null} */}
-            {/* <Video url={this.state.videoUri} /> */}
           </View>
         </View>
 
@@ -365,13 +352,15 @@ class CreateReport extends Component {
           transparent={false}
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            // Alert.alert('Modal has been closed.');
             this.setModalVisible(!this.state.modalVisible);
           }}>
           <View>
-            <Video
-              // rotateToFullScreen
-              url={this.state.videoUri} />
+            <Video url={this.state.videoUri} />
+            <Button
+              style={styles.shareButton}
+              onPress={() => { this.setModalVisible(!this.state.modalVisible); }}>
+              <Text style={styles.shareButtonText}> Close Video </Text>
+            </Button>
           </View>
         </Modal>
 
@@ -416,7 +405,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   reportBase: {
-    // backgroundColor: "yellow",
   },
   icons: {
     flexDirection: 'row',
@@ -427,12 +415,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   photoGrid: {
-    // backgroundColor: "#841584",
     flex: 2,
   },
   video: {
     flex: 1,
-    // backgroundColor: "black",
     height: '50%',
   },
   thumbnail: {
@@ -454,51 +440,3 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
 });
-
-
-// const styles = StyleSheet.create({
-//   title: {
-//     alignSelf: 'center',
-//   },
-//   container: {
-//     flex: 1, justifyContent: "center", backgroundColor: "#fff", alignItems: "stretch", flexDirection: 'column'
-//   },
-//   reportBase: {
-//     flex: 1,
-//     flexDirection: 'column',
-//   },
-//   icons: {
-//     // flex:1,
-//     flexDirection: 'row',
-//     justifyContent: 'space-evenly'
-//   },
-//   photoGrid: {
-//     flex: 2,
-//     width: '100%',
-//     justifyContent: 'flex-start',
-//     alignSelf: 'auto'
-//   },
-//   shareButton: {
-//     // flex:1,
-//     alignSelf: 'center',
-//     width: '99%',
-//     position: 'relative'
-//   },
-//   shareButtonText: {
-//     width: '100%',
-//     fontWeight: "800",
-//     textAlign: "center"
-//   },
-//   contain: {
-//     flex: 1,
-//     height: 150,
-//   },
-//   video: {
-//     // flex: 0.1,
-//     // position: 'relative',
-//     // justifyContent: 'flex-start',
-//     // alignSelf: 'auto',
-//     width: '50%',
-//     height: '25%',
-//   },
-// });

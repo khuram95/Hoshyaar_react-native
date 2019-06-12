@@ -43,7 +43,7 @@ class CreateReport extends Component {
       isButtonEnable: true,
       isImageViewVisible: false,
       isVideoVisible: false,
-      thumbnail: null,
+      thumbnail: get(this.props, 'reportVideo.video')? get(this.props, 'reportVideo.video'):null,
       modalVisible: false,
       coords: null,
     };
@@ -52,7 +52,6 @@ class CreateReport extends Component {
 
   componentDidMount = () => {
     this.watchID = navigator.geolocation.getCurrentPosition((position) => {
-      // Create the object to update this.state.mapRegion through the onRegionChange function
       let region = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
@@ -213,9 +212,8 @@ class CreateReport extends Component {
   render() {
     const { isImageViewVisible, imageIndex } = this.state;
 
-    // videoUri = []
-    // videoUri = get(this.props, 'reportVideo.video')
-    // videoUri ? this.setState({ isVideoVisible: !this.state.isVideoVisible }) : null
+    // recordedVideo = get(this.props, 'reportVideo.video')
+    // recordedVideo? this.setState({thumbnail: recordedVideo}):null
 
     allImages = []
     allImages[0] = get(this.props, 'reportImages.images')
@@ -307,7 +305,7 @@ class CreateReport extends Component {
           </View>
         </View>
 
-
+        {/* THIS IS IMAGE VIEWER SLIDER */}
         <ImageView
           glideAlways
           images={Data}
@@ -318,6 +316,7 @@ class CreateReport extends Component {
           onClose={() => this.setState({ isImageViewVisible: false })}
         />
 
+        {/* THIS IS PHOTO GRID */}
         <View style={styles.media}>
           <View style={styles.photoGrid}>
             <PhotoGrid
@@ -329,7 +328,7 @@ class CreateReport extends Component {
               }} />
           </View>
 
-
+          {/* THIS IS VIDEO THUMBNAIL */}
           <View style={styles.video}>
             {this.state.thumbnail ?
               <View style={styles.thumbnail}>
@@ -347,6 +346,7 @@ class CreateReport extends Component {
           </View>
         </View>
 
+        {/* THIS IS VIDEO PLAYER MODAL */}
         <Modal
           animationType="slide"
           transparent={false}
@@ -364,11 +364,11 @@ class CreateReport extends Component {
           </View>
         </Modal>
 
+        {/* THIS IS REPORT CREATE BUTTON */}
         <Button
           style={styles.shareButton}
           onPress={this.showcontent}
-          disabled={this.state.isButtonEnable}
-        >
+          disabled={this.state.isButtonEnable}>
           <Text style={styles.shareButtonText}> SHARE REPORT </Text>
         </Button>
       </View>

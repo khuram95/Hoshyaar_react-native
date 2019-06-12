@@ -12,6 +12,7 @@ import {
   StyleSheet,
   Alert,
   Modal,
+  Image,
   FlatList,
 } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'

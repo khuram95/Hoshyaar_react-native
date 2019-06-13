@@ -15,6 +15,7 @@ import lockIcons from "react-native-vector-icons/FontAwesome";
 import { createStructuredSelector } from 'reselect'
 import { get } from 'lodash'
 import Sound from 'react-native-sound';
+import Video from 'react-native-af-video-player'
 import {
   View,
   Image,
@@ -26,7 +27,6 @@ import {
 import {
   Text,
   Button,
-
 } from 'native-base'
 
 class ReportFormat extends Component {
@@ -40,22 +40,26 @@ class ReportFormat extends Component {
       report: this.props.report,
       user_id: get(this.props, 'currentUser.id'),
       playingAudio: false,
+      videoModalVisible: false,
+
     };
     // console.log("current user : ", get(this.props, 'currentUser'))
-
     this.scrollList = {}
     this.scrollPosition = 0
   }
+
   renderViewMore(onPress) {
     return (
       <Text onPress={onPress}>View more</Text>
     )
   }
+
   renderViewLess(onPress) {
     return (
       <Text onPress={onPress}>View less</Text>
     )
   }
+
   scrollTo = (forward, count) => {
     this.scrollPosition = forward ?
       Math.min(this.scrollPosition + 175, (count - 2) * 175)
@@ -89,6 +93,7 @@ class ReportFormat extends Component {
     })
     // console.log('report cdm', this.state.report)
   }
+
   reportReaction = (isagree) => {
     this.props.reportReactions({
       user_id: this.props.currentUser.id,
@@ -102,15 +107,18 @@ class ReportFormat extends Component {
         // alert('Reaction Submit');
       })
   }
+
   onSubmitComment = () => {
     this.setState({ report: this.props.getCommentedReport })
   }
+
   toggleComment = () => {
     const { navigation, report } = this.props
     const { onSubmitComment } = this
     this.props.commentedReport(report)
     navigation.navigate("Comment", { onSubmitComment, report })
   }
+
   isAgreeHandler = () => {
     var backend = ''
     if (!this.state.isAgree) {
@@ -129,6 +137,7 @@ class ReportFormat extends Component {
     }
     this.reportReaction(backend)
   }
+
   isDisagreeHandler = () => {
     var backend = ''
     if (!this.state.isDisagree) {
@@ -145,7 +154,6 @@ class ReportFormat extends Component {
       });
     }
     this.reportReaction(backend)
-
   }
 
   _play = async (uri) => {
@@ -170,6 +178,10 @@ class ReportFormat extends Component {
       }
     });
     this.setState({ playingAudio: !this.state.playingAudio });
+  }
+
+  setModalVisible(visible) {
+    this.setState({ videoModalVisible: visible });
   }
 
   render() {
@@ -227,13 +239,51 @@ class ReportFormat extends Component {
             </ViewMoreText>
           </View>
 
-
+          {/* MEDIA DISPLAY - START */}
           <View style={{ flex: 1, flexDirection: "row", marginBottom: '5%' }}>
             {
               report.voice_message.voice_message.url ?
                 <TouchableOpacity onPress={() => { this._play(report.voice_message.voice_message.url) }}>
                   <Icon name="play" color="blue" size={30} />
                 </TouchableOpacity>
+                : null
+            }
+            {
+              report.video ?
+                <React.Fragment>
+                  <View style={styles.video}>
+                    {this.state.thumbnail ?
+                      <View style={styles.thumbnail}>
+                        <TouchableOpacity style={styles.thumbnail} onPress={() => { this.setVideoModalVisible(true); }}>
+                          <Image
+                            style={{ width: '100%', height: '100%' }}
+                            source={{ isStatic: true, uri: this.state.thumbnail }} />
+
+                          <View style={styles.playIcon}>
+                            <Icon name="play-circle-o" size={40} color="white" />
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                      : null}
+                  </View>
+
+                  <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.videoModalVisible}
+                    onRequestClose={() => {
+                      this.setVideoModalVisible(!this.state.videoModalVisible);
+                    }}>
+                    <View>
+                      <Video url={this.state.videoUri} />
+                      <Button
+                        style={styles.shareButton}
+                        onPress={() => { this.setVideoModalVisible(!this.state.videoModalVisible); }}>
+                        <Text style={styles.shareButtonText}> Close Video </Text>
+                      </Button>
+                    </View>
+                  </Modal>
+                </React.Fragment>
                 : null
             }
             <FlatList

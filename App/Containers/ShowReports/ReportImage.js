@@ -51,7 +51,7 @@ class ReportImage extends Component {
 
         {/* THIS IS IMAGE VIEWER SLIDER */}
         <ImageView
-          glideAlways
+          // glideAlways
           images={this.state.data}
           imageIndex={0}
           animationType="fade"

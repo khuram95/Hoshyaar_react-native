@@ -16,6 +16,7 @@ import { createStructuredSelector } from 'reselect'
 import { get } from 'lodash'
 import Sound from 'react-native-sound';
 import Video from 'react-native-af-video-player'
+import RNThumbnail from 'react-native-thumbnail';
 import {
   View,
   Image,
@@ -41,11 +42,18 @@ class ReportFormat extends Component {
       user_id: get(this.props, 'currentUser.id'),
       playingAudio: false,
       videoModalVisible: false,
-
+      thumbnail: null,
     };
     // console.log("current user : ", get(this.props, 'currentUser'))
     this.scrollList = {}
     this.scrollPosition = 0
+
+    RNThumbnail.get('file:///data/user/0/com.boilerplate/cache/react-native-image-crop-picker/36c0356d-6c89-4a9d-a33b-864560e23ced.mp4').then((result) => {
+      console.log('this is thumbnail: ', result.path); // thumbnail path
+      this.setState({
+        thumbnail: result.path,
+      }) 
+    })
   }
 
   renderViewMore(onPress) {
@@ -180,7 +188,7 @@ class ReportFormat extends Component {
     this.setState({ playingAudio: !this.state.playingAudio });
   }
 
-  setModalVisible(visible) {
+  setVideoModalVisible(visible) {
     this.setState({ videoModalVisible: visible });
   }
 
@@ -248,44 +256,40 @@ class ReportFormat extends Component {
                 </TouchableOpacity>
                 : null
             }
-            {
-              report.video ?
-                <React.Fragment>
-                  <View style={styles.video}>
-                    {this.state.thumbnail ?
-                      <View style={styles.thumbnail}>
-                        <TouchableOpacity style={styles.thumbnail} onPress={() => { this.setVideoModalVisible(true); }}>
-                          <Image
-                            style={{ width: '100%', height: '100%' }}
-                            source={{ isStatic: true, uri: this.state.thumbnail }} />
 
-                          <View style={styles.playIcon}>
-                            <Icon name="play-circle-o" size={40} color="white" />
-                          </View>
-                        </TouchableOpacity>
-                      </View>
-                      : null}
-                  </View>
+            <View style={styles.video}>
+              {this.state.thumbnail ?
+                <View style={styles.thumbnail}>
+                  <TouchableOpacity style={styles.thumbnail} onPress={() => { this.setVideoModalVisible(true); }}>
+                    <Image
+                      style={{ width: '100%', height: '100%' }}
+                      source={{ isStatic: true, uri: this.state.thumbnail }} />
 
-                  <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.videoModalVisible}
-                    onRequestClose={() => {
-                      this.setVideoModalVisible(!this.state.videoModalVisible);
-                    }}>
-                    <View>
-                      <Video url={this.state.videoUri} />
-                      <Button
-                        style={styles.shareButton}
-                        onPress={() => { this.setVideoModalVisible(!this.state.videoModalVisible); }}>
-                        <Text style={styles.shareButtonText}> Close Video </Text>
-                      </Button>
+                    <View style={styles.playIcon}>
+                      <Icon name="play" size={40} color="white" />
                     </View>
-                  </Modal>
-                </React.Fragment>
-                : null
-            }
+                  </TouchableOpacity>
+                </View>
+                : null}
+            </View>
+
+            <Modal
+              animationType="slide"
+              transparent={false}
+              visible={this.state.videoModalVisible}
+              onRequestClose={() => {
+                this.setVideoModalVisible(!this.state.videoModalVisible);
+              }}>
+              <View>
+                <Video url={'file:///data/user/0/com.boilerplate/cache/react-native-image-crop-picker/36c0356d-6c89-4a9d-a33b-864560e23ced.mp4'} />
+                <Button
+                  style={styles.shareButton}
+                  onPress={() => { this.setVideoModalVisible(!this.state.videoModalVisible); }}>
+                  <Text style={styles.shareButtonText}> Close Video </Text>
+                </Button>
+              </View>
+            </Modal>
+
             <FlatList
               data={report.photos && report.photos}
               renderItem={(image) =>

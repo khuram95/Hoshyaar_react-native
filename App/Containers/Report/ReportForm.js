@@ -43,7 +43,7 @@ class CreateReport extends Component {
       isButtonEnable: true,
       isImageViewVisible: false,
       isVideoVisible: false,
-      thumbnail: get(this.props, 'reportVideo.video')? get(this.props, 'reportVideo.video'):null,
+      thumbnail: get(this.props, 'reportVideo.video') ? get(this.props, 'reportVideo.video') : null,
       modalVisible: false,
       coords: null,
     };
@@ -78,13 +78,15 @@ class CreateReport extends Component {
         alert("Report Shared")
         this.props.saveReportTextRequest('')
         const { navigation } = this.props
-        navigation.navigate("DashBoard")
+        navigation.popToRoute()
+        // navigation.navigate("DashBoard")
       })
   }
 
   OpenCamera = () => {
     const { navigation } = this.props
-    navigation.navigate("Camera")
+    navigation.push("Camera")
+    // navigation.navigate("Camera")
   }
 
 

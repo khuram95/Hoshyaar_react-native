@@ -173,7 +173,8 @@ class CameraScreen extends React.Component {
     // console.log('Kuch aya?: ', arr)
 
     const { navigation } = this.props
-    navigation.navigate("Report");
+    // navigation.navigate("Report");
+    navigation.pop()
   }
 
   cancelButtonHandler() {
@@ -196,7 +197,8 @@ class CameraScreen extends React.Component {
           console.warn('SAVED VIDEO: ', data);
           
           const { navigation } = this.props
-          navigation.navigate("Report");
+          navigation.pop()
+          // navigation.navigate("Report");
         }
       } catch (e) {
         console.error(e);

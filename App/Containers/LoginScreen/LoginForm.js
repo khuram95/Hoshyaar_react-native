@@ -90,7 +90,10 @@ class LoginForm extends React.Component {
       this.props.login({ phone_number, password, deviceId })
         .then(() => {
           const { navigation } = this.props
-          navigation.navigate("DashBoard")
+          // navigation.resetTo({ 
+          //   component: SomeComponent
+          // })
+          navigation.replace("DashBoard")
         })
         .catch(error => ToastAndroid.showWithGravity('Backend server is down', ToastAndroid.LONG, ToastAndroid.CENTER)
         )

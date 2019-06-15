@@ -48,12 +48,13 @@ class ReportFormat extends Component {
     this.scrollList = {}
     this.scrollPosition = 0
 
-    RNThumbnail.get('file:///data/user/0/com.boilerplate/cache/react-native-image-crop-picker/36c0356d-6c89-4a9d-a33b-864560e23ced.mp4').then((result) => {
-      console.log('this is thumbnail: ', result.path); // thumbnail path
-      this.setState({
-        thumbnail: result.path,
-      }) 
-    })
+    this.state.report.video.video.url &&
+      RNThumbnail.get('http://1fb80457.ngrok.io' + this.state.report.video.video.url).then((result) => {
+        console.log('this is thumbnail: ', result.path); // thumbnail path
+        this.setState({
+          thumbnail: result.path,
+        })
+      })
   }
 
   renderViewMore(onPress) {
@@ -169,7 +170,7 @@ class ReportFormat extends Component {
       this.setState({ playingAudio: !this.state.playingAudio });
       return;
     }
-    let audio = 'https://hoshyaar.herokuapp.com' + uri
+    let audio = 'http://1fb80457.ngrok.io' + uri
     console.log("AUDIO MESSAGE URI : ", audio)
     // 'https://www.soundjay.com/button/button-1.mp3'
     var sound = new Sound(audio, '', (error) => {

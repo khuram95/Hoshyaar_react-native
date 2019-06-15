@@ -1,17 +1,11 @@
 
-import { StackNavigator } from 'react-navigation'
+import { StackNavigator, createSwitchNavigator} from 'react-navigation'
 import DrawerNavigator from './DrawerNavigation'
 
-export default StackNavigator({
-  Splash: {
-    screen: require('../Containers/SplashScreen/').default
-  },
-  Login: {
-    screen: require('../Containers/LoginScreen/').default
-  },
-  // DashBoard: {
-  //   screen: require('../Containers/DashBoard/').default
-  // },
+
+
+
+const AppStack = StackNavigator({
   Camera: {
     screen: require('../Containers/CameraIntegration/').default
   },
@@ -39,12 +33,6 @@ export default StackNavigator({
   MyReports: {
     screen: require('../Containers/ShowReports/MyReports').default
   },
-  SignupScreen: {
-    screen: require('../Containers/SignupScreen/').default
-  },
-  VerifyPhoneNumber: {
-    screen: require('../Containers/SignupScreen/VerifyPhoneNumber').default
-  },
   AddInterest: {
     screen: require('../Containers/ShowReports/AddInterest').default
   },
@@ -63,8 +51,28 @@ export default StackNavigator({
       header: null
     }
   },
-},
+});
+const AuthStack = StackNavigator({
+  Splash: {
+    screen: require('../Containers/SplashScreen/').default
+  },
+  Login: {
+    screen: require('../Containers/LoginScreen/').default
+  },
+  SignupScreen: {
+    screen: require('../Containers/SignupScreen/').default
+  },
+  VerifyPhoneNumber: {
+    screen: require('../Containers/SignupScreen/VerifyPhoneNumber').default
+  }
+});
+
+export default StackNavigator(
   {
-    headerMode: 'float',
-    initialRouteName: 'Splash'
-  })
+    App: AppStack,
+    Auth: AuthStack,
+  },
+  {
+    initialRouteName: 'Auth',
+  }
+);

@@ -104,16 +104,19 @@ class ChartForm extends Component {
       fromDate: this.state.fromdate,
       toDate: this.state.todate,
       comparisonName: this.state.value
-    }).then(() => {
-      const { navigation } = this.props
-      navigation.navigate("CreateChart", {
-        comparisonBetween: this.state.compArr,
-        comparisonOn: this.state.compItems,
-        fromDate: this.state.fromdate,
-        toDate: this.state.todate,
-        comparisonName: this.state.value
-      })
     })
+      .then(() => {
+        const { navigation } = this.props
+        navigation.navigate("CreateChart"
+          , {
+            comparisonBetween: this.state.compArr,
+            comparisonOn: this.state.compItems,
+            fromDate: this.state.fromdate,
+            toDate: this.state.todate,
+            comparisonName: this.state.value
+          }
+        )
+      })
 
   }
 

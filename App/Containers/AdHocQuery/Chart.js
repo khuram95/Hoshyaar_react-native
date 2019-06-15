@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import { get } from 'lodash'
@@ -39,6 +39,7 @@ class Chart extends Component {
           comparisonOn.map((co) => {
             temparray.push(temp[`${co}`])
           })
+          temparray.push(temp.total_schools)
         }
       })
       chartArray.push(temparray)
@@ -52,52 +53,39 @@ class Chart extends Component {
       chartArray1.push(temp)
     })
     console.log("Chart Array1 : ", chartArray1)
+    const randomColor = () => ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7)
 
-    const barData2 = []
+
+    const barData = []
     chartArray1.map((data1) => {
-      barData2.push({
-        data: data1
+      barData.push({
+        data: data1,
+        label: "sajjad",
+        svg: { fill: randomColor() },
       })
     })
-    console.log("barData2 : ", barData2)
-
-
-
-
-
-
-    const data1 = [14, -1, 100, -95, -94, -24, -8, 85, -91, 35, -53, 53, -78, 66, 96, 33, -26, -32, 73, 8]
-      .map((value) => ({ value }))
-    console.log("data1 : ", data1)
-    const data2 = [24, 28, 93, 77, -42, -62, 52, -87, 21, 53, -78, -62, -72, -6, 89, -70, -94, 10, 86, 84]
-      .map((value) => ({ value }))
-    console.log("data2 : ", data2)
-
-
-    const barData = [
-      {
-        data: data1,
-      },
-      {
-        data: data2,
-      },
-    ]
     console.log("barData : ", barData)
 
     return (
-      <View>
+      <View style={styles.container}>
         <Text>Pakistan</Text>
         <BarChart
+          style={{ flex: 1 }}
           style={{ height: 200 }}
-          data={barData2}
+          data={barData}
+          animate={true}
+          animationDuration={400}
+          showGrid={true}
+          gridMin={0}
+          spacing={0.2}
           yAccessor={({ item }) => item.value}
           svg={{
-            fill: 'green',
+            fill: 'blue',
           }}
-          contentInset={{ top: 30, bottom: 30 }}
+          contentInset={{ top: 0, left: 0, right: 0, bottom: 0 }}
           {...this.props}
         >
-          <Grid />
+          <Grid direction={Grid.Direction.HORIZONTAL} />
         </BarChart>
       </View>
     )
@@ -113,3 +101,9 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chart)
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row', height: 200, paddingVertical: 16
+  },
+
+})

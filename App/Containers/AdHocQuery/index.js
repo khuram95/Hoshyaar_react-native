@@ -28,9 +28,9 @@ class AdHocQuery extends Component {
   render() {
     return (
       <View>
-      <DrawLayout title="Comparison Data"/>
-    <ChartForm navigation={this.props.navigation}/>
-    </View>
+        <DrawLayout title="Comparison Data" />
+        <ChartForm navigation={this.props.navigation} />
+      </View>
     )
   }
 }

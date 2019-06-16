@@ -67,10 +67,9 @@ class Chart extends Component {
     console.log("barData : ", barData)
 
     return (
-      <View style={styles.container}>
+      <View >
         <Text>Pakistan</Text>
         <BarChart
-          style={{ flex: 1 }}
           style={{ height: 200 }}
           data={barData}
           animate={true}

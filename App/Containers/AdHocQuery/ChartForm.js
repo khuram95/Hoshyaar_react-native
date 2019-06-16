@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Picker, StyleSheet, CheckBox, TouchableOpacity, FlatList, ToastAndroid } from 'react-native'
+import { View, Text, Picker, StyleSheet,ScrollView, CheckBox, TouchableOpacity, FlatList, ToastAndroid } from 'react-native'
 import { Item as FormItem, Button } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
@@ -8,6 +8,7 @@ import { createStructuredSelector } from 'reselect'
 import RadioForm from 'react-native-simple-radio-button';
 import Icon from "react-native-vector-icons/Entypo";
 import DatePicker from 'react-native-datepicker'
+import Divider from 'react-native-divider';
 
 class ChartForm extends Component {
   constructor(props) {
@@ -132,83 +133,96 @@ class ChartForm extends Component {
       { key: { text: 'Total Teacher', CheckboxValue: 'total_teacher', } },
       { key: { text: 'Student Enrolled', CheckboxValue: 'student_enrolled', } },
       { key: { text: 'Education Budget', CheckboxValue: 'avaliable_fund', } },
-      { key: { text: 'No of Schools', CheckboxValue: 'no_of_Schools', } },
+      // { key: { text: 'No of Schools', CheckboxValue: 'no_of_Schools', } },
       { key: { text: 'Toilet Facility', CheckboxValue: 'toilet_avaliable', } },
       { key: { text: 'Drinking Water', CheckboxValue: 'is_drinking_water_avaliable', } },
       { key: { text: 'Boundary Wall', CheckboxValue: 'is_boundary_wall', } },
       { key: { text: 'Electricity Facility', CheckboxValue: 'is_electricity_avaliable', } },
     ]
     return (
-      <View>
-        <Loader isShow={this.props.requestingad == undefined ? false : this.props.requestingad} />
+      // <View style={styles.mainContainer}>
 
-        <RadioForm
-          radio_props={radio_props}
-          initial={0}
-          formHorizontal={true}
-          labelHorizontal={true}
-          labelStyle={{ fontSize: 18, }}
-          buttonSize={14}
-          onPress={(value) => this.toggleRadioButton(value)}
-        />
+      // </View>
 
-        {(this.state.value == 'district' || this.state.value == 'tehsil' || this.state.value == 'school') &&
-          <View>
-            <Text>Select District</Text>
-            <View style={styles.container}>
-              <Picker selectedValue={this.state.district}
-                onValueChange={(itemValue, itemIndex) => this.updateDistrict(itemValue)}>
-                {get(this.props, 'allDistricts').map((district) =>
-                  <Picker.Item label={district} value={district} />)}
-              </Picker>
+      <View style={styles.mainContainer}>
+        {/* <Loader isShow={this.props.requestingad == undefined ? false : this.props.requestingad} /> */}
+
+        <View style={styles.radioButtons}>
+          <RadioForm
+            radio_props={radio_props}
+            initial={0}
+            formHorizontal={true}
+            labelHorizontal={true}
+            labelStyle={{ fontSize: 18 }}
+            buttonSize={14}
+            onPress={(value) => this.toggleRadioButton(value)}
+          />
+        </View>
+
+        {/* Drop Down Menus */}
+        <View style={{ flex: 0, justifyContent: 'space-between' }}>
+          {(this.state.value == 'district' || this.state.value == 'tehsil' || this.state.value == 'school') &&
+            <View>
+              <Text>Select District</Text>
+              <View style={styles.container}>
+                <Picker selectedValue={this.state.district}
+                  onValueChange={(itemValue, itemIndex) => this.updateDistrict(itemValue)}>
+                  {get(this.props, 'allDistricts').map((district) =>
+                    <Picker.Item label={district} value={district} />)}
+                </Picker>
+              </View>
             </View>
-          </View>
-        }
-        {(this.state.value == 'tehsil' || this.state.value == 'school') &&
-          <View>
-            <Text>Select Tehsil</Text>
-            {get(this.props, 'allTehsils') &&
-              <View style={styles.container}>
-                <Picker selectedValue={this.state.tehsil}
-                  enabled={this.state.tehsil_enable}
-                  onValueChange={(itemValue, itemIndex) => this.updateTehsil(itemValue)}>
-                  {get(this.props, 'allTehsils').map((tehsil) =>
-                    <Picker.Item label={tehsil} value={tehsil} />)
-                  }
-                </Picker>
-              </View>
-            }
-          </View>
-        }
-        {(this.state.value == 'school') &&
-          <View>
-            <Text>Select School</Text>
-            {get(this.props, 'allSchools') &&
-              <View style={styles.container}>
-                <Picker selectedValue={this.state.school}
-                  enabled={this.state.school_enable}
-                  onValueChange={(itemValue, itemIndex) => this.updateSchool(itemValue)}>
-                  {get(this.props, 'allSchools').map((school) =>
-                    <Picker.Item label={school.school_name} value={school} />)}
-                </Picker>
-              </View>
-            }
-          </View>
-        }
+          }
+          {(this.state.value == 'tehsil' || this.state.value == 'school') &&
+            <View>
+              <Text>Select Tehsil</Text>
+              {get(this.props, 'allTehsils') &&
+                <View style={styles.container}>
+                  <Picker selectedValue={this.state.tehsil}
+                    enabled={this.state.tehsil_enable}
+                    onValueChange={(itemValue, itemIndex) => this.updateTehsil(itemValue)}>
+                    {get(this.props, 'allTehsils').map((tehsil) =>
+                      <Picker.Item label={tehsil} value={tehsil} />)
+                    }
+                  </Picker>
+                </View>
+              }
+            </View>
+          }
+          {(this.state.value == 'school') &&
+            <View>
+              <Text>Select School</Text>
+              {get(this.props, 'allSchools') &&
+                <View style={styles.container}>
+                  <Picker selectedValue={this.state.school}
+                    enabled={this.state.school_enable}
+                    onValueChange={(itemValue, itemIndex) => this.updateSchool(itemValue)}>
+                    {get(this.props, 'allSchools').map((school) =>
+                      <Picker.Item label={school.school_name} value={school} />)}
+                  </Picker>
+                </View>
+              }
+            </View>
+          }
+        </View>
+
         <Text>{'\n'}</Text>
         <Button
           style={styles.shareButton}
           onPress={this.addValue}>
 
           <Text style={styles.shareButtonText}>
-            Done
+            Select
         </Text>
         </Button>
+
+
+
         <View style={styles.outercontainer}>
           {this.state.compArr.map((data) =>
             <TouchableOpacity
               style={styles.datacontainer}
-              onPress={() => this.toggleRemoveItem(data)}
+            // onPress={() => this.toggleRemoveItem(data)}
             >
               {!data.school_name ?
                 <Text style={styles.text}>
@@ -217,12 +231,22 @@ class ChartForm extends Component {
                 <Text style={styles.text}>
                   {data.school_name}
                 </Text>}
-              <Icon name="cross" size={20} style={{ bottom: 10, left: 5 }}
-              />
+              <TouchableOpacity
+                style={styles.crossIcon}
+                onPress={() => this.toggleRemoveItem(data)}
+              >
+                <Icon name="cross" size={20} style={{ bottom: 0, left: 5 }} />
+              </TouchableOpacity>
             </TouchableOpacity>
           )}
         </View>
-        <Text style={styles.text}>Comparison On</Text>
+
+
+        <Divider borderColor="black" color="black" orientation="center">
+          Comparison On
+        </Divider>
+
+
         <View>
           <FlatList
             data={comparisonItems}
@@ -239,46 +263,59 @@ class ChartForm extends Component {
             )}
             numColumns={2}
           />
-          <Text>FromDate</Text>
-          <DatePicker
-            style={{ width: 200 }}
-            date={this.state.fromdate}
-            mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            minDate="2019-01-01"
-            maxDate="2019-05-01"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                width: 0,
-                height: 0,
-              },
-            }}
-            onDateChange={(date) => { this.setState({ fromdate: date }) }}
-          />
-          <Text>ToDate</Text>
-          <DatePicker
-            style={{ width: 200 }}
-            date={this.state.todate}
-            mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            minDate="2019-01-01"
-            maxDate="2019-05-01"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                width: 0,
-                height: 0,
-              },
-            }}
-            onDateChange={(date) => { this.setState({ todate: date }) }}
 
-          />
-          <View style={styles.bottomView} >
+          <Divider borderColor="black" color="black" orientation="center">
+            Select Dates
+        </Divider>
+
+          <View style={styles.dates}>
+            <View>
+              <Text>From</Text>
+              <DatePicker
+                style={{ width: 150 }}
+                date={this.state.fromdate}
+                mode="date"
+                placeholder="select date"
+                format="YYYY-MM-DD"
+                minDate="2019-01-01"
+                maxDate="2019-05-01"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                customStyles={{
+                  dateIcon: {
+                    width: 0,
+                    height: 0,
+                  },
+                }}
+                onDateChange={(date) => { this.setState({ fromdate: date }) }}
+              />
+            </View>
+
+            <View>
+              <Text>To</Text>
+              <DatePicker
+                style={{ width: 150 }}
+                date={this.state.todate}
+                mode="date"
+                placeholder="select date"
+                format="YYYY-MM-DD"
+                minDate="2019-01-01"
+                maxDate="2019-05-01"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                customStyles={{
+                  dateIcon: {
+                    width: 0,
+                    height: 0,
+                  },
+                }}
+                onDateChange={(date) => { this.setState({ todate: date }) }}
+              />
+            </View>
+          </View>
+
+
+          <View style={styles.graphButton} >
             <Button onPress={this.submitAdHocParams}>
               <Text style={styles.textStyle}>Create Graph</Text>
             </Button>
@@ -309,6 +346,19 @@ const mapDispatchToProps = (dispatch) => ({
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ChartForm)
 const styles = StyleSheet.create({
+  mainContainer: {
+    // flex: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    backgroundColor: 'yellow',
+  },
+  radioButtons: {
+    alignSelf: 'center'
+  },
+
+
+
+
   text: {
     textAlignVertical: "center",
     textAlign: "center",
@@ -318,10 +368,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   datacontainer: {
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: 'center',
+    paddingHorizontal: '2%',
     height: 30,
-    margin: 4,
+    margin: '1%',
     borderWidth: 2,
     borderColor: '#FF5722',
     borderRadius: 20,
@@ -329,9 +380,23 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row'
   },
+  crossIcon: {
+    // backgroundColor: 'blue',
+    borderColor: 'black'
+  },
+  Heading: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  dates: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
   outercontainer: {
-    flex: 1,
-    alignSelf: "auto",
+    // flex: 1,
+    // alignSelf: "auto",
     flexDirection: "row",
     flexWrap: 'wrap'
   },
@@ -360,10 +425,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: 'center',
   },
-  bottomView: {
+  graphButton: {
     alignSelf: 'center',
-    width: '80%',
-    position: 'relative'
+    width: '99%',
+    alignSelf: 'flex-end',
+    // position: 'relative'
   },
   textStyle: {
     width: '100%',

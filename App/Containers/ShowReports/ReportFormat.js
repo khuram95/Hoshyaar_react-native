@@ -48,13 +48,13 @@ class ReportFormat extends Component {
     this.scrollList = {}
     this.scrollPosition = 0
 
-    this.state.report.video.video.url &&
-      RNThumbnail.get('http://1fb80457.ngrok.io' + this.state.report.video.video.url).then((result) => {
-        console.log('this is thumbnail: ', result.path); // thumbnail path
-        this.setState({
-          thumbnail: result.path,
-        })
-      })
+    // this.state.report.video.video.url &&
+    //   RNThumbnail.get('http://c9762b56.ngrok.io' + this.state.report.video.video.url).then((result) => {
+    //     console.log('this is thumbnail: ', result.path); // thumbnail path
+    //     this.setState({
+    //       thumbnail: result.path,
+    //     })
+    //   })
   }
 
   renderViewMore(onPress) {
@@ -170,7 +170,7 @@ class ReportFormat extends Component {
       this.setState({ playingAudio: !this.state.playingAudio });
       return;
     }
-    let audio = 'http://1fb80457.ngrok.io' + uri
+    let audio = 'http://c9762b56.ngrok.io' + uri
     console.log("AUDIO MESSAGE URI : ", audio)
     // 'https://www.soundjay.com/button/button-1.mp3'
     var sound = new Sound(audio, '', (error) => {
@@ -225,7 +225,6 @@ class ReportFormat extends Component {
           </View>
 
           <View>
-
             {report.authencity <= 50 ?
               <View style={{ flexDirection: 'row', justifyContent: 'flex-start', }}>
                 <Progress.Bar progress={report.authencity / 100} width={200} color="red" height={15} />
@@ -259,12 +258,12 @@ class ReportFormat extends Component {
             }
 
             <View style={styles.video}>
-              {this.state.thumbnail ?
+              {report.video.video.url ?
                 <View style={styles.thumbnail}>
                   <TouchableOpacity style={styles.thumbnail} onPress={() => { this.setVideoModalVisible(true); }}>
                     <Image
-                      style={{ width: '100%', height: '100%' }}
-                      source={{ isStatic: true, uri: this.state.thumbnail }} />
+                      style={{ width: '100%', height: '100%', backgroundColor: 'red' }}
+                      source={{ isStatic: true, uri: this.state.thumbnail ? this.state.thumbnail : 'https://www.growthbusiness.co.uk/wp-content/uploads/sites/13/2017/10/Screen-Shot-2017-10-26-at-16.36.01.png' }} />
 
                     <View style={styles.playIcon}>
                       <Icon name="play" size={40} color="white" />
@@ -282,7 +281,8 @@ class ReportFormat extends Component {
                 this.setVideoModalVisible(!this.state.videoModalVisible);
               }}>
               <View>
-                <Video url={'file:///data/user/0/com.boilerplate/cache/react-native-image-crop-picker/36c0356d-6c89-4a9d-a33b-864560e23ced.mp4'} />
+                {/* <Video url={'file:///data/user/0/com.boilerplate/cache/react-native-image-crop-picker/36c0356d-6c89-4a9d-a33b-864560e23ced.mp4'} /> */}
+                <Video url={'http://c9762b56.ngrok.io' + report.video.video.url} />
                 <Button
                   style={styles.shareButton}
                   onPress={() => { this.setVideoModalVisible(!this.state.videoModalVisible); }}>
@@ -429,6 +429,15 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(ReportFormat)
 
 const styles = StyleSheet.create({
+  video:{
+    width:80,
+    height: 10
+  },
+  thumbnail: {
+    // flex: 1,
+    // width: 20,
+    // justifyContent: 'center',
+  },
   topMargin: {
     backgroundColor: "white",
     zIndex: -1

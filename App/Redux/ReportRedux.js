@@ -43,6 +43,7 @@ const { Types, Creators } = createActions({
   // add action here
   saveReportAudio: ['audio'],
   saveReportVideoLocal: ['video'],
+  saveReportButtonLocal: ['button'],
 })
 
 export const ReportTypes = Types
@@ -60,7 +61,8 @@ export const INITIAL_STATE = Immutable({
   interestedReports:{},
   // form: { error: {}},
   audio: {},
-  video: {}
+  video: {},
+  button: null,
 })
 
 /* ------------- Reducers ------------- */
@@ -128,13 +130,15 @@ export const saveCommentedReport = (state, { commentedReport }) =>
 
 // add new reducer here
 export const saveReportAudio = (state, { audio }) => {
-  console.log('save audio', audio)
+  // console.log('save audio', audio)
   return state.setIn(['report', 'audio'], { audio })
 }
 export const saveReportVideoLocal = (state, { video }) => {
-  console.log('save video', video)
+  // console.log('save video', video)
   return  state.setIn(['report','video'],{video})
 }
+
+export const saveReportButtonLocal = (state, { button }) => state.setIn(['report', 'button'], { button })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -175,4 +179,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   // add reducer hook up here
   [Types.SAVE_REPORT_AUDIO]: saveReportAudio,
   [Types.SAVE_REPORT_VIDEO_LOCAL]: saveReportVideoLocal,
+  [Types.SAVE_REPORT_BUTTON_LOCAL]: saveReportButtonLocal,
 })

@@ -40,7 +40,7 @@ class CreateReport extends Component {
       uri: get(this.props, 'reportImages.images.uri'),
       videoUri: get(this.props, 'reportVideo.video'),
       visible: false,
-      isButtonEnable: true,
+      isButtonEnable: get(this.props, 'reportButton.button'),
       isImageViewVisible: false,
       isVideoVisible: false,
       thumbnail: get(this.props, 'reportVideo.video') ? get(this.props, 'reportVideo.video') : null,
@@ -193,6 +193,7 @@ class CreateReport extends Component {
         isButtonEnable: true
       })
     }
+    this.props.saveReportButton(this.state.isButtonEnable);
   }
 
   showImage(uri) {
@@ -313,7 +314,7 @@ class CreateReport extends Component {
               onPressIn={this.handlePressIn.bind(this)}
               onPressOut={this.handlePressOut.bind(this)}
             >
-              {this.state.isRecorderVisible ? <Icon2 name="cancel" size={40} color="#841584" /> : <Icon name="microphone" size={40} color="#841584" />}
+              {this.state.isRecorderVisible ? <Icon name="chevron-right" size={40} color="#841584" /> : <Icon name="microphone" size={40} color="#841584" />}
             </TouchableOpacity>
           </View>
         </View>
@@ -396,6 +397,7 @@ const mapStateToProps = createStructuredSelector({
   reportVideo: (state) => get(state, 'report.report.video'),
   currentUser: (state) => get(state, 'auth.currentUser'),
   reportAudio: (state) => get(state, 'report.report.audio'),
+  reportButton: (state) => get(state, 'report.report.button'),
   requesting: (state) => get(state, 'report.requesting'),
 
 })
@@ -404,6 +406,7 @@ const mapDispatchToProps = (dispatch) => ({
   saveReportTextRequest: (text) => dispatch(Actions.saveReportText(text)),
   saveReportImage: (images) => dispatch(Actions.saveReportImageLocal(images)),
   saveReportVideo: (video) => dispatch(Actions.saveReportVideoLocal(video)),
+  saveReportButton: (button) => dispatch(Actions.saveReportButtonLocal(button)),
   createReport: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.createReportRequest(payload, resolve, reject)))
 })

@@ -7,7 +7,7 @@ import DrawLayout from '../DrawLayout'
 class ManualGoogleMap extends Component {
   constructor(props) {
     super(props)
-    console.log("This.props ::::: you : ",this.props)
+    // console.log("This.props ::::: you : ",this.props)
 
   }
   static navigationOptions = {

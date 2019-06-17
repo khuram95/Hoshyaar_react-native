@@ -9,7 +9,7 @@ class DrawLayout extends Component {
     super(props);
     this.state = {
     }
-    console.log("this.props is youshimistu :", this.props)
+    // console.log("this.props is youshimistu :", this.props)
 
   }
   static navigationOptions = {

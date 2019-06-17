@@ -168,10 +168,10 @@ class AudioExample extends Component {
             setTimeout(() => {
                 sound.play((success) => {
                     if (success) {
-                        this
-                        console.log('successfully finished playing');
+                        // // this
+                        // console.log('successfully finished playing');
                     } else {
-                        console.log('playback failed due to audio decoding errors');
+                        // console.log('playback failed due to audio decoding errors');
                     }
                 });
             }, 100);
@@ -209,7 +209,7 @@ class AudioExample extends Component {
 
     _finishRecording(didSucceed, filePath, fileSize) {
         this.setState({ finished: didSucceed });
-        console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
+        // console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
         this.setState({
             uri: filePath,
         })

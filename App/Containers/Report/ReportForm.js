@@ -57,7 +57,6 @@ class CreateReport extends Component {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       })
-      console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHH: ', this.state.latitude, this.state.longitude)
     }, (error) => console.log(error));
   }
 
@@ -104,19 +103,24 @@ class CreateReport extends Component {
   selectVideoHandler() {
     ImagePicker.openPicker({
       mediaType: "video",
+      compressImageQuality: 0.01,
+      compressVideoPreset: 'MediumQuality',
       includeExif: true,
     }).then((video) => {
-      console.log('saving video: ', video);
-      this.props.saveReportVideo(video.path);
-      this.setState({ videoUri: video.path })
+      // console.log('saving video: ', video);
+      if ((video.size / 1000000) < 2.0) {
+        this.props.saveReportVideo(video.path);
+        this.setState({ videoUri: video.path })
 
-      RNThumbnail.get(this.state.videoUri).then((result) => {
-        console.log('this is thumbnail: ', result.path); // thumbnail path
-        this.setState({
-          thumbnail: result.path,
+        RNThumbnail.get(this.state.videoUri).then((result) => {
+          // console.log('this is thumbnail: ', result.path); // thumbnail path
+          this.setState({
+            thumbnail: result.path,
+          })
         })
-      })
-
+      }
+      else
+        ToastAndroid.showWithGravity('Video size is greater than 2 MB!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
     });
   }
 
@@ -125,7 +129,9 @@ class CreateReport extends Component {
       multiple: true,
       mediaType: "photo",
       includeExif: true,
-      compressImageQuality: 0.1,
+      // compressImageMaxWidth: 400,
+      // compressImageMaxHeight: 400,
+      compressImageQuality: 0.05,
       maxFiles: 3,
     }).then(images => {
       one = []
@@ -138,12 +144,15 @@ class CreateReport extends Component {
       }
       if (images) {
         for (let i = 0; images[i]; i++) {
-          arr.push(images[i].path)
+          if ((images[i].size / 1000000) < 2.0)
+            arr.push(images[i].path)
+          else
+            ToastAndroid.showWithGravity('Image size is greater than 2 MB!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
         }
       }
 
       this.props.saveReportImage(arr);
-      // console.log('Kuch aya?: ', arr)
+      // console.log('SIZE OF IMAGE: ', images[0].size)
     });
   }
 

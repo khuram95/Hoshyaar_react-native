@@ -30,7 +30,7 @@ class ManualSchoolSelect extends Component {
     this.props.getTehsil({ district })
       .then(() => {
         this.setState({ tehsil_enable: true })
-        console.log('ok')
+        // console.log('ok')
       })
   }
   updateTehsil = (tehsil) => {
@@ -39,7 +39,7 @@ class ManualSchoolSelect extends Component {
     this.props.allSchoolsData({ tehsil })
       .then(() => {
         this.setState({ school_enable: true })
-        console.log('tehsil was going')
+        // console.log('tehsil was going')
       })
   }
 

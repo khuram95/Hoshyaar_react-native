@@ -102,7 +102,7 @@ class ReportFormat extends Component {
     })
       .then(() => {
         this.setState({ report: this.props.getSingleReport })
-        console.log("report reaction then : ", this.state.report)
+        // console.log("report reaction then : ", this.state.report)
       })
   }
 
@@ -158,14 +158,14 @@ class ReportFormat extends Component {
     let audio = 'http://c9762b56.ngrok.io' + uri
     var sound = new Sound(audio, '', (error) => {
       if (error) {
-        console.log('failed to load the sound', error);
+        // console.log('failed to load the sound', error);
       } else {
         sound.play((success) => {
           if (success) {
             this.setState({ playingAudio: !this.state.playingAudio });
-            console.log('successfully finished playing');
+            // console.log('successfully finished playing');
           } else {
-            console.log('playback failed due to audio decoding errors');
+            // console.log('playback failed due to audio decoding errors');
           }
         });
       }
@@ -177,7 +177,7 @@ class ReportFormat extends Component {
     let audio = 'http://c9762b56.ngrok.io' + uri
     var sound = new Sound(audio, '', (error) => {
       if (error) {
-        console.log('failed to load the sound', error);
+        // console.log('failed to load the sound', error);
       } else {
         sound.pause()
       }

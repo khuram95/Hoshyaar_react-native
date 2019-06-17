@@ -47,14 +47,6 @@ class ReportFormat extends Component {
     // console.log("current user : ", get(this.props, 'currentUser'))
     this.scrollList = {}
     this.scrollPosition = 0
-
-    // this.state.report.video.video.url &&
-    //   RNThumbnail.get('http://c9762b56.ngrok.io' + this.state.report.video.video.url).then((result) => {
-    //     console.log('this is thumbnail: ', result.path); // thumbnail path
-    //     this.setState({
-    //       thumbnail: result.path,
-    //     })
-    //   })
   }
 
   renderViewMore(onPress) {
@@ -100,7 +92,6 @@ class ReportFormat extends Component {
         }
       }
     })
-    // console.log('report cdm', this.state.report)
   }
 
   reportReaction = (isagree) => {
@@ -112,8 +103,6 @@ class ReportFormat extends Component {
       .then(() => {
         this.setState({ report: this.props.getSingleReport })
         console.log("report reaction then : ", this.state.report)
-        // this.props.onSubmitComment()
-        // alert('Reaction Submit');
       })
   }
 
@@ -166,13 +155,7 @@ class ReportFormat extends Component {
   }
 
   _play = async (uri) => {
-    // if (this.state.playingAudio) {
-    //   this.setState({ playingAudio: !this.state.playingAudio });
-    //   return;
-    // }
     let audio = 'http://c9762b56.ngrok.io' + uri
-    // console.log("AUDIO MESSAGE URI : ", audio)
-    // 'https://www.soundjay.com/button/button-1.mp3'
     var sound = new Sound(audio, '', (error) => {
       if (error) {
         console.log('failed to load the sound', error);
@@ -191,13 +174,7 @@ class ReportFormat extends Component {
   }
 
   _pause = async (uri) => {
-    // if (this.state.playingAudio) {
-    //   this.setState({ playingAudio: !this.state.playingAudio });
-    //   return;
-    // }
     let audio = 'http://c9762b56.ngrok.io' + uri
-    // console.log("AUDIO MESSAGE URI : ", audio)
-    // 'https://www.soundjay.com/button/button-1.mp3'
     var sound = new Sound(audio, '', (error) => {
       if (error) {
         console.log('failed to load the sound', error);
@@ -276,7 +253,6 @@ class ReportFormat extends Component {
                     style={{ justifyContent: 'center' }}
                     onPress={() => { this.state.playingAudio ? this._pause(report.voice_message.voice_message.url) : this._play(report.voice_message.voice_message.url) }}>
                     {this.state.playingAudio ? <Iconss name="stop-circle" color="blue" size={75} /> : <Iconss name="play-circle" color="blue" size={75} />}
-                    {/* <Text>Voice Message</Text> */}
                   </TouchableOpacity>
                   : null
               }
@@ -305,7 +281,6 @@ class ReportFormat extends Component {
                   this.setVideoModalVisible(!this.state.videoModalVisible);
                 }}>
                 <View>
-                  {/* <Video url={'file:///data/user/0/com.boilerplate/cache/react-native-image-crop-picker/36c0356d-6c89-4a9d-a33b-864560e23ced.mp4'} /> */}
                   <Video url={'http://c9762b56.ngrok.io' + report.video.video.url} />
                   <Button
                     style={styles.shareButton}
@@ -464,9 +439,6 @@ const styles = StyleSheet.create({
     height: 75,
   },
   thumbnail: {
-    // flex: 1,
-    // width: 20,
-    // justifyContent: 'center',
   },
   topMargin: {
     backgroundColor: "white",

@@ -76,7 +76,7 @@ const create = () => {
 
 
   const createReport = (payload, headers) => {
-    const { reportContent, school_id, user_id, image, video, audio, location } = payload
+    const { reportContent, school_id, user_id, image, video, audio, latitude, longitude } = payload
     // console.log('Report Content is : ', payload)
     const data = new FormData();
     // const images = image.uri.split(',')
@@ -128,7 +128,8 @@ const create = () => {
         name: 'video.mp4'
       })
     }
-    // data.append('location', location)
+    data.append('latitude', latitude)
+    data.append('longitude', longitude)
     data.append('school_id', school_id)
     data.append('user_id', user_id)
     data.append('report_text', reportContent)

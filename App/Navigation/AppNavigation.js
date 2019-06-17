@@ -141,5 +141,5 @@ export default AppStack = StackNavigator({
   },
 },
   {
-    initialRouteName: 'ShowReports',
+    initialRouteName: 'Splash',
   });

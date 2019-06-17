@@ -45,18 +45,19 @@ class CreateReport extends Component {
       isVideoVisible: false,
       thumbnail: get(this.props, 'reportVideo.video') ? get(this.props, 'reportVideo.video') : null,
       modalVisible: false,
-      coords: null,
+      latitude: null,
+      longitude: null,
     };
     this.renderFooter = this.renderFooter.bind(this);
   }
 
   componentDidMount = () => {
     this.watchID = navigator.geolocation.getCurrentPosition((position) => {
-      let region = {
+      this.setState({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
-      }
-      this.setState({ coords: region });
+      })
+      console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHH: ', this.state.latitude, this.state.longitude)
     }, (error) => console.log(error));
   }
 
@@ -72,7 +73,8 @@ class CreateReport extends Component {
       image: get(this.props, 'reportImages.images'),
       video: get(this.props, 'reportVideo.video'),
       audio: get(this.props, 'reportAudio.audio'),
-      location: this.state.coords,
+      latitude: this.state.latitude,
+      longitude: this.state.longitude,
     })
       .then(() => {
         alert("Report Shared")

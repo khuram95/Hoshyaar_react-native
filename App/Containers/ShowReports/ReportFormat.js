@@ -11,7 +11,7 @@ import Actions from '../../Redux/Actions'
 import { connect } from 'react-redux'
 import Icon from "react-native-vector-icons/AntDesign";
 import Icons from "react-native-vector-icons/EvilIcons";
-import lockIcons from "react-native-vector-icons/FontAwesome";
+import Iconss from 'react-native-vector-icons/FontAwesome'
 import { createStructuredSelector } from 'reselect'
 import { get } from 'lodash'
 import Sound from 'react-native-sound';
@@ -166,12 +166,12 @@ class ReportFormat extends Component {
   }
 
   _play = async (uri) => {
-    if (this.state.playingAudio) {
-      this.setState({ playingAudio: !this.state.playingAudio });
-      return;
-    }
+    // if (this.state.playingAudio) {
+    //   this.setState({ playingAudio: !this.state.playingAudio });
+    //   return;
+    // }
     let audio = 'http://c9762b56.ngrok.io' + uri
-    console.log("AUDIO MESSAGE URI : ", audio)
+    // console.log("AUDIO MESSAGE URI : ", audio)
     // 'https://www.soundjay.com/button/button-1.mp3'
     var sound = new Sound(audio, '', (error) => {
       if (error) {
@@ -179,11 +179,30 @@ class ReportFormat extends Component {
       } else {
         sound.play((success) => {
           if (success) {
+            this.setState({ playingAudio: !this.state.playingAudio });
             console.log('successfully finished playing');
           } else {
             console.log('playback failed due to audio decoding errors');
           }
         });
+      }
+    });
+    this.setState({ playingAudio: !this.state.playingAudio });
+  }
+
+  _pause = async (uri) => {
+    // if (this.state.playingAudio) {
+    //   this.setState({ playingAudio: !this.state.playingAudio });
+    //   return;
+    // }
+    let audio = 'http://c9762b56.ngrok.io' + uri
+    // console.log("AUDIO MESSAGE URI : ", audio)
+    // 'https://www.soundjay.com/button/button-1.mp3'
+    var sound = new Sound(audio, '', (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+      } else {
+        sound.pause()
       }
     });
     this.setState({ playingAudio: !this.state.playingAudio });
@@ -248,21 +267,27 @@ class ReportFormat extends Component {
           </View>
 
           {/* MEDIA DISPLAY - START */}
-          <View style={{ flex: 1, flexDirection: "row", marginBottom: '5%' }}>
-            {
-              report.voice_message.voice_message.url ?
-                <TouchableOpacity onPress={() => { this._play(report.voice_message.voice_message.url) }}>
-                  <Icon name="play" color="blue" size={30} />
-                </TouchableOpacity>
-                : null
-            }
+          <View style={{ flex: 1, flexDirection: "row", marginBottom: '5%', justifyContent: 'flex-start', }}>
+
+            <View style={{ justifyContent: 'center', alignContent: 'center', alignItems: 'center', marginRight: 3 }}>
+              {
+                report.voice_message.voice_message.url ?
+                  <TouchableOpacity
+                    style={{ justifyContent: 'center' }}
+                    onPress={() => { this.state.playingAudio ? this._pause(report.voice_message.voice_message.url) : this._play(report.voice_message.voice_message.url) }}>
+                    {this.state.playingAudio ? <Iconss name="stop-circle" color="blue" size={75} /> : <Iconss name="play-circle" color="blue" size={75} />}
+                    {/* <Text>Voice Message</Text> */}
+                  </TouchableOpacity>
+                  : null
+              }
+            </View>
 
             <View style={styles.video}>
               {report.video.video.url ?
                 <View style={styles.thumbnail}>
                   <TouchableOpacity style={styles.thumbnail} onPress={() => { this.setVideoModalVisible(true); }}>
                     <Image
-                      style={{ width: '100%', height: '100%', backgroundColor: 'red' }}
+                      style={{ width: 75, height: 75, backgroundColor: 'red' }}
                       source={{ isStatic: true, uri: this.state.thumbnail ? this.state.thumbnail : 'https://www.growthbusiness.co.uk/wp-content/uploads/sites/13/2017/10/Screen-Shot-2017-10-26-at-16.36.01.png' }} />
 
                     <View style={styles.playIcon}>
@@ -271,35 +296,40 @@ class ReportFormat extends Component {
                   </TouchableOpacity>
                 </View>
                 : null}
+
+              <Modal
+                animationType="slide"
+                transparent={false}
+                visible={this.state.videoModalVisible}
+                onRequestClose={() => {
+                  this.setVideoModalVisible(!this.state.videoModalVisible);
+                }}>
+                <View>
+                  {/* <Video url={'file:///data/user/0/com.boilerplate/cache/react-native-image-crop-picker/36c0356d-6c89-4a9d-a33b-864560e23ced.mp4'} /> */}
+                  <Video url={'http://c9762b56.ngrok.io' + report.video.video.url} />
+                  <Button
+                    style={styles.shareButton}
+                    onPress={() => { this.setVideoModalVisible(!this.state.videoModalVisible); }}>
+                    <Text style={styles.shareButtonText}> Close Video </Text>
+                  </Button>
+                </View>
+              </Modal>
             </View>
 
-            <Modal
-              animationType="slide"
-              transparent={false}
-              visible={this.state.videoModalVisible}
-              onRequestClose={() => {
-                this.setVideoModalVisible(!this.state.videoModalVisible);
-              }}>
-              <View>
-                {/* <Video url={'file:///data/user/0/com.boilerplate/cache/react-native-image-crop-picker/36c0356d-6c89-4a9d-a33b-864560e23ced.mp4'} /> */}
-                <Video url={'http://c9762b56.ngrok.io' + report.video.video.url} />
-                <Button
-                  style={styles.shareButton}
-                  onPress={() => { this.setVideoModalVisible(!this.state.videoModalVisible); }}>
-                  <Text style={styles.shareButtonText}> Close Video </Text>
-                </Button>
-              </View>
-            </Modal>
 
-            <FlatList
-              data={report.photos && report.photos}
-              renderItem={(image) =>
-                <ReportImage data={image} />
-              }
-              horizontal
-              pagingEnabled
-              ref={(sl) => this.scrollList = sl}
-            />
+            <View>
+              {report.photos[0].image.url &&
+                <FlatList
+                  data={report.photos && report.photos}
+                  renderItem={(image) =>
+                    <ReportImage data={image} />
+                  }
+                  horizontal
+                  pagingEnabled
+                  ref={(sl) => this.scrollList = sl}
+                />}
+            </View>
+
           </View>
 
           <View style={styles.reportFooter}>
@@ -429,9 +459,9 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(ReportFormat)
 
 const styles = StyleSheet.create({
-  video:{
-    width:80,
-    height: 10
+  video: {
+    width: 80,
+    height: 75,
   },
   thumbnail: {
     // flex: 1,

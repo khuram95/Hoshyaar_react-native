@@ -246,17 +246,19 @@ class ReportFormat extends Component {
           {/* MEDIA DISPLAY - START */}
           <View style={{ flex: 1, flexDirection: "row", marginBottom: '5%', justifyContent: 'flex-start', }}>
 
-            <View style={{ justifyContent: 'center', alignContent: 'center', alignItems: 'center', marginRight: 3 }}>
-              {
-                report.voice_message.voice_message.url ?
+
+            {
+              report.voice_message.voice_message.url ?
+                <View style={{ justifyContent: 'center', alignContent: 'center', alignItems: 'center', marginRight: 3 }}>
                   <TouchableOpacity
                     style={{ justifyContent: 'center' }}
                     onPress={() => { this.state.playingAudio ? this._pause(report.voice_message.voice_message.url) : this._play(report.voice_message.voice_message.url) }}>
                     {this.state.playingAudio ? <Iconss name="stop-circle" color="blue" size={75} /> : <Iconss name="play-circle" color="blue" size={75} />}
                   </TouchableOpacity>
-                  : null
-              }
-            </View>
+                </View>
+                : null
+            }
+
 
             <View style={styles.video}>
               {report.video.video.url ?

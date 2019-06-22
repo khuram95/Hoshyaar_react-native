@@ -30,7 +30,7 @@ class LoginForm extends React.Component {
       passwordError: '',
       error: '',
       latitude: null,
-      logitude: null,
+      longitude: null,
     }
   }
 
@@ -92,8 +92,8 @@ class LoginForm extends React.Component {
 
   login = () => {
     if (this.validatesInput()) {
-      const { phone_number, password, deviceId, latitude, logitude } = this.state
-      this.props.login({ phone_number, password, deviceId, latitude, logitude })
+      const { phone_number, password, deviceId, latitude, longitude } = this.state
+      this.props.login({ phone_number, password, deviceId, latitude, longitude })
         .then(() => {
           const { navigation } = this.props
           // navigation.resetTo({ 

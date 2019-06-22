@@ -29,12 +29,18 @@ class LoginForm extends React.Component {
       phone_numberError: '',
       passwordError: '',
       error: '',
+      latitude: null,
+      logitude: null,
     }
-
-
   }
 
   componentDidMount = () => {
+    this.watchID = navigator.geolocation.getCurrentPosition((position) => {
+      (position.coords.latitude && position.coords.longitude) && this.setState({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      })
+    }, (error) => console.log(error));
     OneSignal.init("289a3983-3872-4647-aa6f-1740c1d57c82");
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);
@@ -86,8 +92,8 @@ class LoginForm extends React.Component {
 
   login = () => {
     if (this.validatesInput()) {
-      const { phone_number, password, deviceId } = this.state
-      this.props.login({ phone_number, password, deviceId })
+      const { phone_number, password, deviceId, latitude, logitude } = this.state
+      this.props.login({ phone_number, password, deviceId, latitude, logitude })
         .then(() => {
           const { navigation } = this.props
           // navigation.resetTo({ 

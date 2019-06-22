@@ -78,18 +78,40 @@ class CreateReport extends Component {
       .then(() => {
         alert("Report Shared")
         this.props.saveReportTextRequest('')
+        this.props.saveReportImage('')
+        this.props.saveReportVideo('')
+        this.props.saveReportButton('')
         const { navigation } = this.props
-        navigation.popToRoute()
+        navigation.popToTop()
         // navigation.navigate("DashBoard")
       })
+
+    // this.props.saveReportTextRequest('')
+    // this.props.saveReportImage('')
+    // this.props.saveReportVideo('')
+    // this.props.saveReportButton('')
   }
 
   OpenCamera = () => {
     const { navigation } = this.props
-    navigation.push("Camera")
+    // navigation.push("Camera")
+    navigation.push({
+      screen: "Camera",
+      // sceneConfig: navigation.SceneConfigs.FloatFromBottom,
+      title: 'hey',
+      callback: this.recordedVideoThumnail,
+    })
     // navigation.navigate("Camera")
   }
 
+  recordedVideoThumnail = (uri) => {
+    RNThumbnail.get(uri).then((result) => {
+      // console.log('this is thumbnail: ', result.path); // thumbnail path
+      this.setState({
+        thumbnail: result.path,
+      })
+    })
+  }
 
   AudioRecorder = () => {
     // const { navigation } = this.props

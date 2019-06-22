@@ -1,6 +1,6 @@
 // a library to wrap and simplify api calls
 import apisauce from 'apisauce'
-import {Platform} from 'react-native'
+import { Platform } from 'react-native'
 
 // our "constructor"
 const create = () => {
@@ -12,8 +12,8 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    // baseURL: 'http://c9762b56.ngrok.io',
-    baseURL: 'https://hoshyaar.herokuapp.com',
+    baseURL: 'http://2b7c80cd.ngrok.io',
+    // baseURL: 'https://hoshyaar.herokuapp.com',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -22,8 +22,8 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    // baseURL: 'http://c9762b56.ngrok.io/api/v1',
-    baseURL: 'https://hoshyaar.herokuapp.com/api/v1',
+    baseURL: 'http://2b7c80cd.ngrok.io/api/v1',
+    // baseURL: 'https://hoshyaar.herokuapp.com/api/v1',
 
     // here are some default headers
     headers: {
@@ -51,12 +51,14 @@ const create = () => {
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', { q: username })
   const login = (payload, headers) => {
-    const { phone_number, password,deviceId } = payload
+    const { phone_number, password, deviceId, latitude, longitude } = payload
     console.log("Mobile No and password during login ", phone_number, password)
     const data = new FormData();
     data.append('phone_number', phone_number)
     data.append('password', password)
     data.append('device_id', deviceId)
+    data.append('latitude', latitude)
+    data.append('longitude', longitude)
     console.log("data is : ", data)
     return authApi.post('auth/sign_in', data, { headers })
   }
@@ -65,7 +67,7 @@ const create = () => {
     authApi.delete('auth/sign_out', {}, { headers })
 
   const addMyInterest = (payload, headers) => {
-    const {school_id, user_id} = payload
+    const { school_id, user_id } = payload
     console.log('addMyInterest : ', payload)
     const data = new FormData();
     data.append('school_id', school_id)
@@ -81,27 +83,31 @@ const create = () => {
     const data = new FormData();
     // const images = image.uri.split(',')
     // console.log('Images separeted comma: ', image[0])
+    // if (image) {
+    //   // let img = 
+    //   let images = image.map((img) => {
+    //     return {
+    //       uri: img,
+    //       type: 'image/jpeg',
+    //       name: 'image.jpg'
+    //     }
+    //   });
+    //   // console.log('IMAGES: ', images);
+    //   data.append('image', images[0])
+    // }
+
     if (image) {
-      // let img = 
-      let images = image.map((img) => {
-        return {
+      let images = image.map((img, index) => {
+        data.append('image' + index, {
           uri: img,
           type: 'image/jpeg',
           name: 'image.jpg'
-        }
+        })
       });
-      // console.log('IMAGES: ', images);
-      data.append('image', images[0])
+      data.append('image_count', image.length)
     }
-    // if (audio) {
-    //   data.append('voice_message', audio)
-    //   // data.append('voice_message', {
-    //   //   path: audio
-    //   //   // type: 'audio/aac',
-    //   //   // name: 'audio.aac'
-    //   // })
-      
-    // }
+
+
     if (audio && audio !== '') {
       let uriParts = audio.split('.');
       let fileType = uriParts[uriParts.length - 1];
@@ -111,15 +117,7 @@ const create = () => {
         type: `audio/x-${fileType}`,
       });
     }
-    // if (audio && audio !== '') {
-    //   let uriParts =audio.split('.');
-    //   let fileType = uriParts[uriParts.length - 1];
-    //   data.append('voice_message', {
-    //     uri: Platform.OS === 'ios' ? audio : `file://${audio}`,
-    //     name: `recording.${fileType}`,
-    //     type: `audio/x-${file1Type}`,
-    //   });
-    // }
+
 
     if (video) {
       data.append('video', {

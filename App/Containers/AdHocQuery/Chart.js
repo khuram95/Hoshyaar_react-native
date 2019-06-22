@@ -54,6 +54,7 @@ class Chart extends Component {
     let chartArray = []
     let temparray = []
     let temp = ''
+
     chartdata.map((cdata) => {
       comparisonBetween.map((cb) => {
         if (cb == Object.keys(cdata)) {
@@ -68,14 +69,44 @@ class Chart extends Component {
       temparray = []
     })
 
+    var school1 = JSON.parse(JSON.stringify(chartArray[0]));
+    var school2 = JSON.parse(JSON.stringify(chartArray[1]));
+    var total_schools1 = school1[ school1.length-1]
+    var total_schools2 = school2[ school2.length-1]
+    for (var i = 0; i < school1.length-1; i++) {
+      var maxSchool1=0;
+      if(total_schools1 >= school1[i]){
+        school1[i]= (school1[i]/total_schools1)*100
+      }
+      else if(total_schools1 < school1[i]){
+        max = Math.max(school2[i],school1[i])
+        maxSchool1=(school1[i]/max)*100;
+      }
+      if(total_schools2 >= school2[i]){
+        school2[i]= (school2[i]/total_schools2)*100
+      }
+      else if(total_schools2 < school2[i]){
+        max = Math.max(school2[i],school1[i])
+        school1[i] = maxSchool1
+        school2[i]=(school2[i]/max.toFixed(2))*100
+      }
+    }
+    max = Math.max(total_schools1,total_schools2)
+    school1[ school1.length-1] = (total_schools1/max)*100
+    school2[ school2.length-1] = (total_schools2/max)*100
+
+    var dataPercentage = []
+    dataPercentage.push(school1)
+    dataPercentage.push(school2)
+
 
     let chartArray1 = []
-    chartArray.map((data) => {
+    dataPercentage.map((data) => {
       let temp = data.map((value) => ({ value }))
       chartArray1.push(temp)
     })
     const randomColor = () => ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7)
-    console.log('chartArray : ', chartArray)
+    console.log('dataPercentage : ', dataPercentage)
     console.log('chartArray1 : ', chartArray1)
 
     const barData = []
@@ -88,9 +119,9 @@ class Chart extends Component {
     })
     console.log("barData : ", barData)
 
-    ///////////////////////////////////
+    ////////////// table data/////////////////////
     tableData = this.transpose(chartArray);
-    tableTitle = comparisonOn
+    var tableTitle = JSON.parse(JSON.stringify(comparisonOn));
     tableTitle.push("no_of_Schools")
     for (var x in tableTitle) {
       for (var y in items) {
@@ -98,10 +129,10 @@ class Chart extends Component {
           tableTitle[x] = items[y]
       }
     }
-    tableHead = comparisonBetween
-
-    // tableHead.unshift(" ")
+    var tableHead = JSON.parse(JSON.stringify(comparisonBetween));
+    tableHead.unshift(" ")
     //////////////////////////////////
+
     // xdata = tableTitle
     const xdata = ['Total Teacher',
       'Student Enrolled',
@@ -123,6 +154,7 @@ class Chart extends Component {
 
     const data = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80]
 
+    var dataIndex = 0
     return (
       <View style={styles.container} >
         <Table>
@@ -159,7 +191,13 @@ class Chart extends Component {
               showGrid={true}
               gridMin={0}
               spacing={0.2}
-              yAccessor={({ item }) => item.value}
+              yAccessor={({ item }) => item.value
+                // {
+                //   console.log("item :", item[dataIndex])
+                //   dataIndex = dataIndex + 1;
+                //   item[dataIndex - 1]
+                // }
+              }
               svg={{
                 fill: 'blue',
               }}

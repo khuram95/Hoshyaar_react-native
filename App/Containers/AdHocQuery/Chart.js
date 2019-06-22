@@ -4,25 +4,47 @@ import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
 import { get } from 'lodash'
 import { createStructuredSelector } from 'reselect'
-import { BarChart, Grid } from 'react-native-svg-charts'
+import { BarChart, Grid, XAxis, YAxis } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import * as scale from 'd3-scale'
+
 
 class Chart extends Component {
   constructor(props) {
     super(props)
     this.state = {
     }
-    // console.log("this.props is : ", this.props)
   }
   static navigationOptions = {
     header: null,
   }
 
-
   componentDidMount = () => {
 
   }
+
+  transpose(a) {
+    return Object.keys(a[0]).map(function (c) {
+      return a.map(function (r) { return r[c]; });
+    });
+  }
+
   render() {
+    var items = {
+      'total_teacher': 'Total Teacher',
+      'student_enrolled': 'Student Enrolled',
+      'avaliable_fund': 'Education Budget',
+      'no_of_Schools': 'No of Schools',
+      'toilet_avaliable': 'Toilet Facility',
+      'is_drinking_water_avaliable': 'Drinking Water',
+      'is_boundary_wall': 'Boundary Wall',
+      'is_electricity_avaliable': 'Electricity Facility',
+    }
+
+    const axesSvg = { fontSize: 10, fill: 'grey' };
+    const verticalContentInset = { top: 10, bottom: 10 }
+    const xAxisHeight = 30
 
     const { comparisonBetween, comparisonOn, fromDate, toDate, comparisonName } = this.props.navigation.state.params
     const chartdata = this.props.chartdata
@@ -52,40 +74,110 @@ class Chart extends Component {
       let temp = data.map((value) => ({ value }))
       chartArray1.push(temp)
     })
-    console.log("Chart Array1 : ", chartArray1)
     const randomColor = () => ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7)
-
+    console.log('chartArray : ', chartArray)
+    console.log('chartArray1 : ', chartArray1)
 
     const barData = []
     chartArray1.map((data1) => {
       barData.push({
         data: data1,
-        label: "sajjad",
+
         svg: { fill: randomColor() },
       })
     })
     console.log("barData : ", barData)
 
+    ///////////////////////////////////
+    tableData = this.transpose(chartArray);
+    tableTitle = comparisonOn
+    tableTitle.push("no_of_Schools")
+    for (var x in tableTitle) {
+      for (var y in items) {
+        if (tableTitle[x] == y)
+          tableTitle[x] = items[y]
+      }
+    }
+    tableHead = comparisonBetween
+
+    // tableHead.unshift(" ")
+    //////////////////////////////////
+    // xdata = tableTitle
+    const xdata = ['Total Teacher',
+      'Student Enrolled',
+      'Education Budget',
+      'No of Schools',
+      'Toilet Facility',
+      'Drinking Water',
+      'Boundary Wall',
+      'Electricity Facility'].map((value) => ({ value }))
+    // const xdata = [14, -1, 100, -95, -94, -24, -8, 85, -91, 35, -53, 53, -78, 66, 96, 33, -26, -32, 73, 8]
+    //   .map((value) => ({ value }))
+    console.log("xdata : ", xdata)
+    const xbarData = [
+      {
+        data: xdata,
+      },
+    ]
+    console.log("xbarData : ", xbarData)
+
+    const data = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80]
+
     return (
-      <View >
-        <Text>Pakistan</Text>
-        <BarChart
-          style={{ height: 200 }}
-          data={barData}
-          animate={true}
-          animationDuration={400}
-          showGrid={true}
-          gridMin={0}
-          spacing={0.2}
-          yAccessor={({ item }) => item.value}
-          svg={{
-            fill: 'blue',
-          }}
-          contentInset={{ top: 0, left: 0, right: 0, bottom: 0 }}
-          {...this.props}
-        >
-          <Grid direction={Grid.Direction.HORIZONTAL} />
-        </BarChart>
+      <View style={styles.container} >
+        <Table>
+          <Row data={tableHead} flexArr={[1, 1, 1]} style={styles.head} textStyle={styles.text} />
+          <TableWrapper style={styles.wrapper}>
+            <Col data={tableTitle} style={styles.title} textStyle={styles.text} />
+            <Rows data={tableData} flexArr={[1, 1, 1]} style={styles.row} textStyle={styles.text} />
+          </TableWrapper>
+        </Table>
+        <Text>{fromDate} to {toDate}</Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text>{comparisonBetween[0]}</Text>
+          <View style={{ width: 20, height: 20, backgroundColor: barData[0].svg.fill }} /></View>
+        <View style={{ flexDirection: "row" }}>
+          <Text>{comparisonBetween[1]}</Text>
+          <View style={{ width: 20, height: 20, backgroundColor: barData[1].svg.fill }} /></View>
+
+        <View style={{ height: 200, padding: 20, flexDirection: 'row' }}>
+          {console.log("data ", data)}
+          {console.log("baardata ", barData)}
+
+          <YAxis
+            data={data}
+            style={{ marginBottom: xAxisHeight }}
+            contentInset={verticalContentInset}
+            svg={axesSvg}
+          />
+          <View style={{ flex: 1, marginLeft: 10 }}>
+            <BarChart
+              style={{ height: 200 }}
+              data={barData}
+              animate={true}
+              animationDuration={400}
+              showGrid={true}
+              gridMin={0}
+              spacing={0.2}
+              yAccessor={({ item }) => item.value}
+              svg={{
+                fill: 'blue',
+              }}
+              contentInset={{ top: 0, left: 0, right: 0, bottom: 0 }}
+              {...this.props}
+            >
+              <Grid direction={Grid.Direction.HORIZONTAL} />
+            </BarChart>
+
+            <XAxis
+              style={{ marginTop: 10 }}
+              data={barData}
+              scale={scale.scaleBand}
+              formatLabel={(value, index) => index}
+              labelStyle={{ color: 'black' }}
+            />
+          </View>
+        </View>
       </View>
     )
   }
@@ -101,8 +193,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chart)
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row', height: 200, paddingVertical: 16
-  },
+  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+  head: { height: 40, backgroundColor: '#f1f8ff' },
+  wrapper: { flexDirection: 'row' },
+  title: { flex: 1, backgroundColor: '#f6f8fa' },
+  row: { height: 28 },
+  text: { textAlign: 'center' }
 
 })

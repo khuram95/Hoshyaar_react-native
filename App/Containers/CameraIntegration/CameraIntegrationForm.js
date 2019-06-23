@@ -50,7 +50,7 @@ class CameraScreen extends React.Component {
     recordOptions: {
       mute: false,
       maxDuration: 10,
-      quality: RNCamera.Constants.VideoQuality['288p'],
+      quality: RNCamera.Constants.VideoQuality['480p'],
       // maxFile  Size: 1 * 1024 * 512,
       videoBitrate: 1 * 1024 * 512,
     },
@@ -194,9 +194,10 @@ class CameraScreen extends React.Component {
           // console.warn('DATA URI: ', data.uri);
           CameraRoll.saveToCameraRoll(data.uri, "video");
           this.props.saveReportVideo(data.uri);
-          console.warn('SAVED VIDEO: ', data);
-          
+          // console.warn('SAVED VIDEO: ', data);
           const { navigation } = this.props
+          // console.log('PARAM: ', navigation)
+          navigation.state.params.doSomething()
           navigation.pop()
           // navigation.navigate("Report");
         }

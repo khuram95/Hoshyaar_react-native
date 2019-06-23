@@ -12,17 +12,17 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://2b7c80cd.ngrok.io',
+    baseURL: 'http://bb7de9d3.ngrok.io',
     // baseURL: 'https://hoshyaar.herokuapp.com',
     headers: {
       'Cache-Control': 'no-cache',
     },
-    timeout: 10000
+    timeout: 15000
   })
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://2b7c80cd.ngrok.io/api/v1',
+    baseURL: 'http://bb7de9d3.ngrok.io/api/v1',
     // baseURL: 'https://hoshyaar.herokuapp.com/api/v1',
 
     // here are some default headers

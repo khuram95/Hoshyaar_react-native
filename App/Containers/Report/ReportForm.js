@@ -43,10 +43,11 @@ class CreateReport extends Component {
       isButtonEnable: get(this.props, 'reportButton.button'),
       isImageViewVisible: false,
       isVideoVisible: false,
-      thumbnail: get(this.props, 'reportVideo.video') ? get(this.props, 'reportVideo.video') : null,
+      thumbnail: null,
       modalVisible: false,
       latitude: null,
       longitude: null,
+      newVideo: false,
     };
     this.renderFooter = this.renderFooter.bind(this);
   }
@@ -85,32 +86,15 @@ class CreateReport extends Component {
         navigation.popToTop()
         // navigation.navigate("DashBoard")
       })
-
-    // this.props.saveReportTextRequest('')
-    // this.props.saveReportImage('')
-    // this.props.saveReportVideo('')
-    // this.props.saveReportButton('')
   }
 
   OpenCamera = () => {
+    this.setState({ newVideo: false })
     const { navigation } = this.props
-    // navigation.push("Camera")
-    navigation.push({
-      screen: "Camera",
-      // sceneConfig: navigation.SceneConfigs.FloatFromBottom,
-      title: 'hey',
-      callback: this.recordedVideoThumnail,
-    })
+    this.props.navigation.navigate('Camera', {
+      doSomething: this.setVideoThumbnail,
+    });
     // navigation.navigate("Camera")
-  }
-
-  recordedVideoThumnail = (uri) => {
-    RNThumbnail.get(uri).then((result) => {
-      // console.log('this is thumbnail: ', result.path); // thumbnail path
-      this.setState({
-        thumbnail: result.path,
-      })
-    })
   }
 
   AudioRecorder = () => {
@@ -245,11 +229,32 @@ class CreateReport extends Component {
     this.setState({ modalVisible: visible });
   }
 
-  render() {
-    const { isImageViewVisible, imageIndex } = this.state;
+  setVideoThumbnail = () => {
+    RNThumbnail.get(get(this.props, 'reportVideo.video'))
+      .then((result) => {
+        this.setState({
+          thumbnail: result.path,
+          // newVideo: true
+        })
+      })
+  }
 
-    // recordedVideo = get(this.props, 'reportVideo.video')
+  render() {
+    // console.log('RENDER ')
+    const { isImageViewVisible, imageIndex } = this.state;
+    // this.setState({videoUri: get(this.props, 'reportVideo.video')})
+    // thumbn = []
+    recordedVideo = get(this.props, 'reportVideo.video')
     // recordedVideo? this.setState({thumbnail: recordedVideo}):null
+    // recordedVideo && !this.state.newVideo ?
+    //   RNThumbnail.get(get(this.props, 'reportVideo.video'))
+    //     .then((result) => {
+    //       this.setState({
+    //         thumbnail: result.path,
+    //         newVideo: true
+    //       })
+    //     })
+    //   : null
 
     allImages = []
     allImages[0] = get(this.props, 'reportImages.images')
@@ -299,7 +304,7 @@ class CreateReport extends Component {
       <View style={styles.container}>
         <Loader isShow={this.props.requesting == undefined ? false : this.props.requesting} />
         <DrawLayout title="Create Report" />
-        {<Text style={styles.title}> {this.state.school.school_name} </Text>}
+        {<Text style={styles.title}> {'this.state.school.school_name'} </Text>}
         <View style={styles.reportBase}>
           <TextInput
             keyboardType="email-address"
@@ -391,7 +396,7 @@ class CreateReport extends Component {
             this.setModalVisible(!this.state.modalVisible);
           }}>
           <View>
-            <Video url={this.state.videoUri} />
+            <Video url={recordedVideo} />
             <Button
               style={styles.shareButton}
               onPress={() => { this.setModalVisible(!this.state.modalVisible); }}>

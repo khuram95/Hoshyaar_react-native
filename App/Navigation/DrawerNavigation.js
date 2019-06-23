@@ -5,6 +5,7 @@ import { Images, Colors } from '../Themes'
 import DashBoard from '../Containers/DashBoard'
 import ShowReports from '../Containers/ShowReports'
 import CreateReport from '../Containers/ManualGoogleMap'
+import AdHocQuery from '../Containers/AdHocQuery'
 import { DrawerNavigator, DrawerItems, SafeAreaView, StackNavigator } from 'react-navigation'
 
 
@@ -50,6 +51,19 @@ const CreateReportNavigation = new StackNavigator({
 	},
 }
 )
+const AdHocQueryNavigation = new StackNavigator({
+	CreateReport: {
+		screen: AdHocQuery,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false,
+			// header: <MainHeader navigation={navigation} returnKey={'Notifications'} title="Notifications" />,
+			// drawerIcon: () => <NotificationItem />
+			drawerIcon: () =>
+				<Image source={Images.adhoc} style={{ width: 20, height: 20 }} />
+		})
+	},
+}
+)
 
 
 
@@ -71,18 +85,13 @@ export default Drawer = DrawerNavigator({
 	DashBoard: { screen: DashboardNavigation },
 	ShowReports: { screen: ShowReportsNavigation },
 	CreateReport: { screen: CreateReportNavigation },
+	AdHocQuery: { screen: AdHocQueryNavigation },
+
 	VerifySchoolData: {
 		screen: CreateReport,
 		navigationOptions: {
 			drawerIcon: () =>
 				<Image source={Images.verifiedschool} style={{ width: 20, height: 20 }} />
-		}
-	},
-	AdHocQuery: {
-		screen: DashBoard,
-		navigationOptions: {
-			drawerIcon: () =>
-				<Image source={Images.adhoc} style={{ width: 20, height: 20 }} />
 		}
 	},
 	ChangePassword: {

@@ -1,6 +1,6 @@
 import Moment from 'react-moment';
 import 'moment-timezone';
-import { Images, Colors } from '../../Themes/'
+import { Images } from '../../Themes/'
 import React, { Component } from 'react'
 import * as Progress from 'react-native-progress';
 import ReportImage from './ReportImage'

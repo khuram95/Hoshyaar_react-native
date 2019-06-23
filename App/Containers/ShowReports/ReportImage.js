@@ -69,7 +69,7 @@ class ReportImage extends Component {
         {/* </View> */}
         {/* <View style={styles.ModalContent}>
               <Image
-                source={{ uri: `http://eea80ed5.ngrok.io${this.props.data.item.image.url}` }}
+                source={{ uri: `http://b6b6557f.ngrok.io${this.props.data.item.image.url}` }}
                 style={{ height: 300, width: 300 }}
               />
             </View>

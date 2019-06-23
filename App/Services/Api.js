@@ -30,7 +30,7 @@ const create = () => {
       'Cache-Control': 'no-cache'
     },
     // 10 second timeout...
-    timeout: 10000
+    timeout: 30000
   })
 
   // ------
@@ -106,8 +106,6 @@ const create = () => {
       });
       data.append('image_count', image.length)
     }
-
-
     if (audio && audio !== '') {
       let uriParts = audio.split('.');
       let fileType = uriParts[uriParts.length - 1];
@@ -175,6 +173,26 @@ const create = () => {
     const { tehsil } = payload
     return api.get('/schools', { tehsil: tehsil }, { headers })
   }
+
+  const comparison = (payload, headers) => {
+    console.log("Payload is : ", payload)
+    const { comparisonBetween, comparisonOn, fromDate, toDate, comparisonName } = payload
+    // const data = new FormData();
+    // data.append('comparisonName', comparisonName)
+    // data.append('comparisonBetween', ...comparisonBetween)
+    // data.append('comparisonOn', ...comparisonOn)
+    // data.append('fromDate', fromDate)
+    // data.append('toDate', toDate)
+    // console.log("data : ", data)
+    return api.post('/ad_hoc_queries',
+      {
+        comparisonBetween: comparisonBetween, comparisonOn: comparisonOn, fromDate: fromDate,
+        toDate: toDate, comparisonName: comparisonName
+      },
+      { headers }
+    )
+  }
+
   const oneSignal = (payload, headers) => {
     const { userId } = payload
     console.log("one signal payload api ", payload)
@@ -270,6 +288,7 @@ const create = () => {
     interestedReports,
     oneSignal,
     notification,
+    comparison,
   }
 }
 

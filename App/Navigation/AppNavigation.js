@@ -130,8 +130,14 @@ export default AppStack = StackNavigator({
   Comment: {
     screen: require('../Containers/Comment/CommentList').default
   },
-  Notification: {
-    screen: require('../Containers//DashBoard/Notification').default
+  Notification:{
+    screen: require('../Containers/DashBoard/Notification').default
+  },
+  AdHocQuery:{
+    screen: require('../Containers/AdHocQuery/').default
+  },
+  CreateChart:{
+    screen: require('../Containers/AdHocQuery/Chart').default
   },
   DashBoard: {
     screen: DrawerNavigator,

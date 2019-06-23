@@ -1,6 +1,6 @@
 // a library to wrap and simplify api calls
 import apisauce from 'apisauce'
-import {Platform} from 'react-native'
+import { Platform } from 'react-native'
 
 // our "constructor"
 const create = () => {
@@ -12,25 +12,25 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'https://hoshyaar.herokuapp.com',
-    // baseURL: 'http://eea80ed5.ngrok.io',
+    // baseURL: 'https://hoshyaar.herokuapp.com',
+    baseURL: 'http://bb7de9d3.ngrok.io',
     headers: {
       'Cache-Control': 'no-cache',
     },
-    timeout: 10000
+    timeout: 30000
   })
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    // baseURL: 'http://eea80ed5.ngrok.io/api/v1',
-    baseURL: 'https://hoshyaar.herokuapp.com/api/v1',
+    baseURL: 'http://bb7de9d3.ngrok.io/api/v1',
+    // baseURL: 'https://hoshyaar.herokuapp.com/api/v1',
 
     // here are some default headers
     headers: {
       'Cache-Control': 'no-cache'
     },
     // 10 second timeout...
-    timeout: 10000
+    timeout: 30000
   })
 
   // ------
@@ -51,7 +51,7 @@ const create = () => {
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', { q: username })
   const login = (payload, headers) => {
-    const { phone_number, password,deviceId } = payload
+    const { phone_number, password, deviceId } = payload
     console.log("Mobile No and password during login ", phone_number, password)
     const data = new FormData();
     data.append('phone_number', phone_number)
@@ -65,7 +65,7 @@ const create = () => {
     authApi.delete('auth/sign_out', {}, { headers })
 
   const addMyInterest = (payload, headers) => {
-    const {school_id, user_id} = payload
+    const { school_id, user_id } = payload
     console.log('addMyInterest : ', payload)
     const data = new FormData();
     data.append('school_id', school_id)
@@ -100,7 +100,7 @@ const create = () => {
     //   //   // type: 'audio/aac',
     //   //   // name: 'audio.aac'
     //   // })
-      
+
     // }
     if (audio && audio !== '') {
       let uriParts = audio.split('.');
@@ -176,6 +176,26 @@ const create = () => {
     const { tehsil } = payload
     return api.get('/schools', { tehsil: tehsil }, { headers })
   }
+
+  const comparison = (payload, headers) => {
+    console.log("Payload is : ", payload)
+    const { comparisonBetween, comparisonOn, fromDate, toDate, comparisonName } = payload
+    // const data = new FormData();
+    // data.append('comparisonName', comparisonName)
+    // data.append('comparisonBetween', ...comparisonBetween)
+    // data.append('comparisonOn', ...comparisonOn)
+    // data.append('fromDate', fromDate)
+    // data.append('toDate', toDate)
+    // console.log("data : ", data)
+    return api.post('/ad_hoc_queries',
+      {
+        comparisonBetween: comparisonBetween, comparisonOn: comparisonOn, fromDate: fromDate,
+        toDate: toDate, comparisonName: comparisonName
+      },
+      { headers }
+    )
+  }
+
   const oneSignal = (payload, headers) => {
     const { userId } = payload
     console.log("one signal payload api ", payload)
@@ -271,6 +291,7 @@ const create = () => {
     interestedReports,
     oneSignal,
     notification,
+    comparison,
   }
 }
 

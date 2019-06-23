@@ -104,14 +104,14 @@ class ManualSchoolSelect extends Component {
         </View> */}
         
         <Button 
-            style={styles.shareButton} 
-            onPress={this.gotoSchoolDetail}
-            disabled={this.state.button_enable}>
+        //     style={styles.shareButton} 
+        //     onPress={this.gotoSchoolDetail}
+        //     disabled={this.state.button_enable}>
 
-         <Text style={styles.shareButtonText}>
-            Done
-        </Text>
-        </Button>
+        //  <Text style={styles.shareButtonText}>
+        //     Done
+        // </Text>
+        ></Button>
 
       </View>
     )

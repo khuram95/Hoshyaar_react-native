@@ -107,7 +107,7 @@ class CameraScreen extends React.Component {
   takePicture = async function () {
     if (this.camera) {
       const options = {
-        quality: 0.01,
+        quality: 0.001,
         pauseAfterCapture: false,
         exif: true,
         orientation: "portrait",

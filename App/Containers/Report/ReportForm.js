@@ -82,6 +82,7 @@ class CreateReport extends Component {
         this.props.saveReportImage('')
         this.props.saveReportVideo('')
         this.props.saveReportButton('')
+        this.props.saveReportAudioRequest('');
         const { navigation } = this.props
         navigation.popToTop()
         // navigation.navigate("DashBoard")
@@ -304,7 +305,7 @@ class CreateReport extends Component {
       <View style={styles.container}>
         <Loader isShow={this.props.requesting == undefined ? false : this.props.requesting} />
         <DrawLayout title="Create Report" />
-        {<Text style={styles.title}> {'this.state.school.school_name'} </Text>}
+        {<Text style={styles.title}> {this.state.school.school_name} </Text>}
         <View style={styles.reportBase}>
           <TextInput
             keyboardType="email-address"
@@ -433,6 +434,7 @@ const mapDispatchToProps = (dispatch) => ({
   saveReportTextRequest: (text) => dispatch(Actions.saveReportText(text)),
   saveReportImage: (images) => dispatch(Actions.saveReportImageLocal(images)),
   saveReportVideo: (video) => dispatch(Actions.saveReportVideoLocal(video)),
+  saveReportAudioRequest: (audio) => dispatch(Actions.saveReportAudio(audio)),
   saveReportButton: (button) => dispatch(Actions.saveReportButtonLocal(button)),
   createReport: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.createReportRequest(payload, resolve, reject)))

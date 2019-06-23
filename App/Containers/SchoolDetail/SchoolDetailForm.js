@@ -47,7 +47,7 @@ class SchoolDetailForm extends Component {
     const { navigation } = this.props
     this.props.saveSchool(this.state.all_school)
     if (this.state.interestChecked) {
-      console.log("school_id :", this.state.all_school.emis)
+      // console.log("school_id :", this.state.all_school.emis)
       this.props.AddMyInterest({
         school_id: this.state.all_school.emis,
         user_id: this.props.currentUser.id,

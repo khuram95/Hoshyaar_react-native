@@ -77,7 +77,7 @@ class SignupForm extends React.Component {
 
   signin = () => {
     const { navigation } = this.props
-    navigation.navigate("Login")
+    navigation.pop();
   }
 
 

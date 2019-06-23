@@ -50,7 +50,7 @@ class CameraScreen extends React.Component {
     recordOptions: {
       mute: false,
       maxDuration: 10,
-      quality: RNCamera.Constants.VideoQuality['288p'],
+      quality: RNCamera.Constants.VideoQuality['480p'],
       // maxFile  Size: 1 * 1024 * 512,
       videoBitrate: 1 * 1024 * 512,
     },
@@ -107,7 +107,7 @@ class CameraScreen extends React.Component {
   takePicture = async function () {
     if (this.camera) {
       const options = {
-        quality: 0,
+        quality: 0.01,
         pauseAfterCapture: false,
         exif: true,
         orientation: "portrait",
@@ -173,7 +173,8 @@ class CameraScreen extends React.Component {
     // console.log('Kuch aya?: ', arr)
 
     const { navigation } = this.props
-    navigation.navigate("Report");
+    // navigation.navigate("Report");
+    navigation.pop()
   }
 
   cancelButtonHandler() {
@@ -193,10 +194,12 @@ class CameraScreen extends React.Component {
           // console.warn('DATA URI: ', data.uri);
           CameraRoll.saveToCameraRoll(data.uri, "video");
           this.props.saveReportVideo(data.uri);
-          console.warn('SAVED VIDEO: ', data);
-          
+          // console.warn('SAVED VIDEO: ', data);
           const { navigation } = this.props
-          navigation.navigate("Report");
+          // console.log('PARAM: ', navigation)
+          navigation.state.params.doSomething()
+          navigation.pop()
+          // navigation.navigate("Report");
         }
       } catch (e) {
         console.error(e);

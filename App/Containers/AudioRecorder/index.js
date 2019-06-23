@@ -144,38 +144,28 @@ class AudioExample extends Component {
         if (this.state.recording) {
             await this._stop();
         }
-
         if (this.state.playing) {
             this._poose();
             this.setState({ playing: !this.state.playing });
             return;
         }
-
-        // if (this.state.audioPaused) {
-        //     sound.play();
-        //     this.setState({ playing: true, audioPaused: false });
-        // }
-
         // These timeouts are a hacky workaround for some issues with react-native-sound.
         // See https://github.com/zmxv/react-native-sound/issues/89.
-        setTimeout(() => {
-            var sound = new Sound(this.state.audioPath, '', (error) => {
-                if (error) {
-                    console.log('failed to load the sound', error);
-                }
-            });
-            this.setState({ playing: !this.state.playing });
-            setTimeout(() => {
+
+        var sound = new Sound(this.state.audioPath, '', (error) => {
+            if (error) {
+                console.log('failed to load the sound', error);
+            } else {
+                this.setState({ playing: !this.state.playing });
                 sound.play((success) => {
                     if (success) {
-                        this
-                        console.log('successfully finished playing');
+                        this.setState({ playing: !this.state.playing });
                     } else {
-                        console.log('playback failed due to audio decoding errors');
+
                     }
                 });
-            }, 100);
-        }, 100);
+            }
+        });
     }
 
     _poose = async () => {
@@ -209,7 +199,7 @@ class AudioExample extends Component {
 
     _finishRecording(didSucceed, filePath, fileSize) {
         this.setState({ finished: didSucceed });
-        console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
+        // console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
         this.setState({
             uri: filePath,
         })
@@ -220,20 +210,33 @@ class AudioExample extends Component {
 
         return (
             <View style={styles.container}>
+                {
+                    this.state.stoppedRecording ?
+                        <React.Fragment>
+                            <TouchableOpacity onPress={() => { this.setState({ stoppedRecording: !this.state.stoppedRecording, currentTime: 0.0 }) }}>
+                                <Icon name="refresh" size={40} color="#841584" />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={this._play}>
+                                {this.state.playing
+                                    ? <Icon name="stop-circle" size={40} color="#841584" />
+                                    : <Icon name="play-circle" size={40} color="#841584" />
+                                }
+                            </TouchableOpacity>
+                        </React.Fragment>
+                        :
+                        <React.Fragment>
+                            <Text style={styles.progressText}>{this.state.currentTime} s</Text>
+                            <TouchableOpacity onPress={this._record}>
+                                {
+                                    this.state.recording ?
+                                        <Icon name="microphone-slash" size={40} color="#841584" />
+                                        :
+                                        <Icon name="microphone" size={40} color="#841584" />
+                                }
 
-                <Text style={styles.progressText}>{this.state.currentTime} s</Text>
-
-                <TouchableOpacity onPress={this._record}>
-                    <Icon name="microphone" size={40} color="#841584" />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={this._play}>
-                    {this.state.playing
-                        ? <Icon name="stop-circle" size={40} color="#841584" />
-                        : <Icon name="play-circle" size={40} color="#841584" />
-                    }
-                </TouchableOpacity>
-
+                            </TouchableOpacity>
+                        </React.Fragment>
+                }
             </View>
         );
     }

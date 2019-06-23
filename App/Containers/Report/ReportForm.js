@@ -12,6 +12,7 @@ import {
   StyleSheet,
   Alert,
   Modal,
+  Image,
   FlatList,
 } from 'react-native'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
@@ -39,13 +40,25 @@ class CreateReport extends Component {
       uri: get(this.props, 'reportImages.images.uri'),
       videoUri: get(this.props, 'reportVideo.video'),
       visible: false,
-      isButtonEnable: true,
+      isButtonEnable: get(this.props, 'reportButton.button'),
       isImageViewVisible: false,
       isVideoVisible: false,
       thumbnail: null,
       modalVisible: false,
+      latitude: null,
+      longitude: null,
+      newVideo: false,
     };
     this.renderFooter = this.renderFooter.bind(this);
+  }
+
+  componentDidMount = () => {
+    this.watchID = navigator.geolocation.getCurrentPosition((position) => {
+      this.setState({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      })
+    }, (error) => console.log(error));
   }
 
   showcontent = () => {
@@ -60,20 +73,29 @@ class CreateReport extends Component {
       image: get(this.props, 'reportImages.images'),
       video: get(this.props, 'reportVideo.video'),
       audio: get(this.props, 'reportAudio.audio'),
+      latitude: this.state.latitude,
+      longitude: this.state.longitude,
     })
       .then(() => {
         alert("Report Shared")
         this.props.saveReportTextRequest('')
+        this.props.saveReportImage('')
+        this.props.saveReportVideo('')
+        this.props.saveReportButton('')
         const { navigation } = this.props
-        navigation.navigate("DashBoard")
+        navigation.popToTop()
+        // navigation.navigate("DashBoard")
       })
   }
 
   OpenCamera = () => {
+    this.setState({ newVideo: false })
     const { navigation } = this.props
-    navigation.navigate("Camera")
+    this.props.navigation.navigate('Camera', {
+      doSomething: this.setVideoThumbnail,
+    });
+    // navigation.navigate("Camera")
   }
-
 
   AudioRecorder = () => {
     // const { navigation } = this.props
@@ -87,19 +109,24 @@ class CreateReport extends Component {
   selectVideoHandler() {
     ImagePicker.openPicker({
       mediaType: "video",
+      compressImageQuality: 0.01,
+      compressVideoPreset: 'MediumQuality',
       includeExif: true,
     }).then((video) => {
-      console.log('saving video: ', video);
-      this.props.saveReportVideo(video.path);
-      this.setState({ videoUri: video.path })
+      // console.log('saving video: ', video);
+      if ((video.size / 1000000) < 2.0) {
+        this.props.saveReportVideo(video.path);
+        this.setState({ videoUri: video.path })
 
-      RNThumbnail.get(this.state.videoUri).then((result) => {
-        console.log('this is thumbnail: ', result.path); // thumbnail path
-        this.setState({
-          thumbnail: result.path,
+        RNThumbnail.get(this.state.videoUri).then((result) => {
+          // console.log('this is thumbnail: ', result.path); // thumbnail path
+          this.setState({
+            thumbnail: result.path,
+          })
         })
-      })
-
+      }
+      else
+        ToastAndroid.showWithGravity('Video size is greater than 2 MB!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
     });
   }
 
@@ -108,7 +135,9 @@ class CreateReport extends Component {
       multiple: true,
       mediaType: "photo",
       includeExif: true,
-      compressImageQuality: 0.1,
+      // compressImageMaxWidth: 400,
+      // compressImageMaxHeight: 400,
+      compressImageQuality: 0.05,
       maxFiles: 3,
     }).then(images => {
       one = []
@@ -121,12 +150,15 @@ class CreateReport extends Component {
       }
       if (images) {
         for (let i = 0; images[i]; i++) {
-          arr.push(images[i].path)
+          if ((images[i].size / 1000000) < 2.0)
+            arr.push(images[i].path)
+          else
+            ToastAndroid.showWithGravity('Image size is greater than 2 MB!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
         }
       }
 
       this.props.saveReportImage(arr);
-      // console.log('Kuch aya?: ', arr)
+      // console.log('SIZE OF IMAGE: ', images[0].size)
     });
   }
 
@@ -167,6 +199,7 @@ class CreateReport extends Component {
         isButtonEnable: true
       })
     }
+    this.props.saveReportButton(this.state.isButtonEnable);
   }
 
   showImage(uri) {
@@ -196,12 +229,32 @@ class CreateReport extends Component {
     this.setState({ modalVisible: visible });
   }
 
-  render() {
-    const { isImageViewVisible, imageIndex } = this.state;
+  setVideoThumbnail = () => {
+    RNThumbnail.get(get(this.props, 'reportVideo.video'))
+      .then((result) => {
+        this.setState({
+          thumbnail: result.path,
+          // newVideo: true
+        })
+      })
+  }
 
-    // videoUri = []
-    // videoUri = get(this.props, 'reportVideo.video')
-    // videoUri ? this.setState({ isVideoVisible: !this.state.isVideoVisible }) : null
+  render() {
+    // console.log('RENDER ')
+    const { isImageViewVisible, imageIndex } = this.state;
+    // this.setState({videoUri: get(this.props, 'reportVideo.video')})
+    // thumbn = []
+    recordedVideo = get(this.props, 'reportVideo.video')
+    // recordedVideo? this.setState({thumbnail: recordedVideo}):null
+    // recordedVideo && !this.state.newVideo ?
+    //   RNThumbnail.get(get(this.props, 'reportVideo.video'))
+    //     .then((result) => {
+    //       this.setState({
+    //         thumbnail: result.path,
+    //         newVideo: true
+    //       })
+    //     })
+    //   : null
 
     allImages = []
     allImages[0] = get(this.props, 'reportImages.images')
@@ -251,7 +304,7 @@ class CreateReport extends Component {
       <View style={styles.container}>
         <Loader isShow={this.props.requesting == undefined ? false : this.props.requesting} />
         <DrawLayout title="Create Report" />
-        {<Text style={styles.title}> {this.state.school.school_name} </Text>}
+        {<Text style={styles.title}> {'this.state.school.school_name'} </Text>}
         <View style={styles.reportBase}>
           <TextInput
             keyboardType="email-address"
@@ -288,16 +341,12 @@ class CreateReport extends Component {
               onPressIn={this.handlePressIn.bind(this)}
               onPressOut={this.handlePressOut.bind(this)}
             >
-              {this.state.isRecorderVisible ? <Icon2 name="cancel" size={40} color="#841584" /> : <Icon name="microphone" size={40} color="#841584" />}
+              {this.state.isRecorderVisible ? <Icon name="chevron-right" size={40} color="#841584" /> : <Icon name="microphone" size={40} color="#841584" />}
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* <Image
-          style={{ width: 200, height: 200 }}
-          source={{ uri: this.state.uri ? this.state.uri : 'https://facebook.github.io/react-native/docs/assets/favicon.png' }}
-        /> */}
-
+        {/* THIS IS IMAGE VIEWER SLIDER */}
         <ImageView
           glideAlways
           images={Data}
@@ -308,25 +357,7 @@ class CreateReport extends Component {
           onClose={() => this.setState({ isImageViewVisible: false })}
         />
 
-
-
-        {/* <View style={styles.photoList}>
-          {Data ?
-            <FlatList
-              data={get(this.props, 'reportImages.images')}
-              renderItem={(image) =>//{console.log('renderItems: ',image)}
-                <Image
-                  // style={{ width: 200, height: 200 }}
-                  source={{ uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png' }}
-                />
-              }
-              horizontal
-              pagingEnabled
-              ref={(sl) => this.scrollList = sl}
-            />
-            : null}
-        </View> */}
-
+        {/* THIS IS PHOTO GRID */}
         <View style={styles.media}>
           <View style={styles.photoGrid}>
             <PhotoGrid
@@ -338,7 +369,7 @@ class CreateReport extends Component {
               }} />
           </View>
 
-
+          {/* THIS IS VIDEO THUMBNAIL */}
           <View style={styles.video}>
             {this.state.thumbnail ?
               <View style={styles.thumbnail}>
@@ -353,32 +384,32 @@ class CreateReport extends Component {
                 </TouchableOpacity>
               </View>
               : null}
-
-            {/* {this.state.isVideoVisible ? <Video url={this.state.videoUri} /> : null} */}
-            {/* <Video url={this.state.videoUri} /> */}
           </View>
         </View>
 
+        {/* THIS IS VIDEO PLAYER MODAL */}
         <Modal
           animationType="slide"
           transparent={false}
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            // Alert.alert('Modal has been closed.');
             this.setModalVisible(!this.state.modalVisible);
           }}>
           <View>
-            <Video
-              // rotateToFullScreen
-              url={this.state.videoUri} />
+            <Video url={recordedVideo} />
+            <Button
+              style={styles.shareButton}
+              onPress={() => { this.setModalVisible(!this.state.modalVisible); }}>
+              <Text style={styles.shareButtonText}> Close Video </Text>
+            </Button>
           </View>
         </Modal>
 
+        {/* THIS IS REPORT CREATE BUTTON */}
         <Button
           style={styles.shareButton}
           onPress={this.showcontent}
-          disabled={this.state.isButtonEnable}
-        >
+          disabled={this.state.isButtonEnable}>
           <Text style={styles.shareButtonText}> SHARE REPORT </Text>
         </Button>
       </View>
@@ -393,6 +424,7 @@ const mapStateToProps = createStructuredSelector({
   reportVideo: (state) => get(state, 'report.report.video'),
   currentUser: (state) => get(state, 'auth.currentUser'),
   reportAudio: (state) => get(state, 'report.report.audio'),
+  reportButton: (state) => get(state, 'report.report.button'),
   requesting: (state) => get(state, 'report.requesting'),
 
 })
@@ -401,6 +433,7 @@ const mapDispatchToProps = (dispatch) => ({
   saveReportTextRequest: (text) => dispatch(Actions.saveReportText(text)),
   saveReportImage: (images) => dispatch(Actions.saveReportImageLocal(images)),
   saveReportVideo: (video) => dispatch(Actions.saveReportVideoLocal(video)),
+  saveReportButton: (button) => dispatch(Actions.saveReportButtonLocal(button)),
   createReport: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.createReportRequest(payload, resolve, reject)))
 })
@@ -415,7 +448,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   reportBase: {
-    // backgroundColor: "yellow",
   },
   icons: {
     flexDirection: 'row',
@@ -426,12 +458,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   photoGrid: {
-    // backgroundColor: "#841584",
     flex: 2,
   },
   video: {
     flex: 1,
-    // backgroundColor: "black",
     height: '50%',
   },
   thumbnail: {
@@ -453,51 +483,3 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
 });
-
-
-// const styles = StyleSheet.create({
-//   title: {
-//     alignSelf: 'center',
-//   },
-//   container: {
-//     flex: 1, justifyContent: "center", backgroundColor: "#fff", alignItems: "stretch", flexDirection: 'column'
-//   },
-//   reportBase: {
-//     flex: 1,
-//     flexDirection: 'column',
-//   },
-//   icons: {
-//     // flex:1,
-//     flexDirection: 'row',
-//     justifyContent: 'space-evenly'
-//   },
-//   photoGrid: {
-//     flex: 2,
-//     width: '100%',
-//     justifyContent: 'flex-start',
-//     alignSelf: 'auto'
-//   },
-//   shareButton: {
-//     // flex:1,
-//     alignSelf: 'center',
-//     width: '99%',
-//     position: 'relative'
-//   },
-//   shareButtonText: {
-//     width: '100%',
-//     fontWeight: "800",
-//     textAlign: "center"
-//   },
-//   contain: {
-//     flex: 1,
-//     height: 150,
-//   },
-//   video: {
-//     // flex: 0.1,
-//     // position: 'relative',
-//     // justifyContent: 'flex-start',
-//     // alignSelf: 'auto',
-//     width: '50%',
-//     height: '25%',
-//   },
-// });

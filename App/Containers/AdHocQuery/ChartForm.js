@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Picker, StyleSheet,ScrollView, CheckBox, TouchableOpacity, FlatList, ToastAndroid } from 'react-native'
+import { View, Text, Picker, StyleSheet, ScrollView, CheckBox, TouchableOpacity, FlatList, ToastAndroid, Dimensions } from 'react-native'
 import { Item as FormItem, Button } from 'native-base'
 import { connect } from 'react-redux'
 import Actions from '../../Redux/Actions'
@@ -99,26 +99,30 @@ class ChartForm extends Component {
     }
   }
   submitAdHocParams = () => {
-    this.props.ComparisonOn({
-      comparisonBetween: this.state.compArr,
-      comparisonOn: this.state.compItems,
-      fromDate: this.state.fromdate,
-      toDate: this.state.todate,
-      comparisonName: this.state.value
-    })
-      .then(() => {
-        const { navigation } = this.props
-        navigation.navigate("CreateChart"
-          , {
-            comparisonBetween: this.state.compArr,
-            comparisonOn: this.state.compItems,
-            fromDate: this.state.fromdate,
-            toDate: this.state.todate,
-            comparisonName: this.state.value
-          }
-        )
+    if (this.state.compArr && this.state.compItems && this.state.fromdate && this.state.todate && this.state.value) {
+      this.props.ComparisonOn({
+        comparisonBetween: this.state.compArr,
+        comparisonOn: this.state.compItems,
+        fromDate: this.state.fromdate,
+        toDate: this.state.todate,
+        comparisonName: this.state.value
       })
-
+        .then(() => {
+          const { navigation } = this.props
+          navigation.navigate("CreateChart"
+            , {
+              comparisonBetween: this.state.compArr,
+              comparisonOn: this.state.compItems,
+              fromDate: this.state.fromdate,
+              toDate: this.state.todate,
+              comparisonName: this.state.value
+            }
+          )
+        })
+    }
+    else {
+      ToastAndroid.showWithGravity('Please select the required fields ', ToastAndroid.LONG, ToastAndroid.CENTER)
+    }
   }
 
   render() {
@@ -140,131 +144,132 @@ class ChartForm extends Component {
       { key: { text: 'Electricity Facility', CheckboxValue: 'is_electricity_avaliable', } },
     ]
     return (
-      // <View style={styles.mainContainer}>
-
-      // </View>
-
       <View style={styles.mainContainer}>
         {/* <Loader isShow={this.props.requestingad == undefined ? false : this.props.requestingad} /> */}
+        {/* <Loader isShow={this.props.requesting == undefined ? false : this.props.requesting} /> */}
+        <View style={{ height: '50%' }}>
+          <Text>{'\n'}</Text>
+          <View style={styles.radioButtons}>
+            <RadioForm
+              radio_props={radio_props}
+              initial={0}
+              formHorizontal={true}
+              labelHorizontal={true}
+              labelStyle={{ fontSize: 18 }}
+              buttonSize={14}
+              onPress={(value) => this.toggleRadioButton(value)}
+            />
+          </View>
 
-        <View style={styles.radioButtons}>
-          <RadioForm
-            radio_props={radio_props}
-            initial={0}
-            formHorizontal={true}
-            labelHorizontal={true}
-            labelStyle={{ fontSize: 18 }}
-            buttonSize={14}
-            onPress={(value) => this.toggleRadioButton(value)}
-          />
-        </View>
-
-        {/* Drop Down Menus */}
-        <View style={{ flex: 0, justifyContent: 'space-between' }}>
-          {(this.state.value == 'district' || this.state.value == 'tehsil' || this.state.value == 'school') &&
-            <View>
-              <Text>Select District</Text>
-              <View style={styles.container}>
-                <Picker selectedValue={this.state.district}
-                  onValueChange={(itemValue, itemIndex) => this.updateDistrict(itemValue)}>
-                  {get(this.props, 'allDistricts').map((district) =>
-                    <Picker.Item label={district} value={district} />)}
-                </Picker>
+          {/* Drop Down Menus */}
+          <View style={styles.dropdownContainer}>
+            {(this.state.value == 'district' || this.state.value == 'tehsil' || this.state.value == 'school') &&
+              <View>
+                <Text style={styles.lableName}>Select District</Text>
+                <View style={styles.container}>
+                  <Picker selectedValue={this.state.district}
+                    onValueChange={(itemValue, itemIndex) => this.updateDistrict(itemValue)}>
+                    {get(this.props, 'allDistricts').map((district) =>
+                      <Picker.Item label={district} value={district} />)}
+                  </Picker>
+                </View>
               </View>
-            </View>
-          }
-          {(this.state.value == 'tehsil' || this.state.value == 'school') &&
-            <View>
-              <Text>Select Tehsil</Text>
-              {get(this.props, 'allTehsils') &&
-                <View style={styles.container}>
-                  <Picker selectedValue={this.state.tehsil}
-                    enabled={this.state.tehsil_enable}
-                    onValueChange={(itemValue, itemIndex) => this.updateTehsil(itemValue)}>
-                    {get(this.props, 'allTehsils').map((tehsil) =>
-                      <Picker.Item label={tehsil} value={tehsil} />)
-                    }
-                  </Picker>
-                </View>
-              }
-            </View>
-          }
-          {(this.state.value == 'school') &&
-            <View>
-              <Text>Select School</Text>
-              {get(this.props, 'allSchools') &&
-                <View style={styles.container}>
-                  <Picker selectedValue={this.state.school}
-                    enabled={this.state.school_enable}
-                    onValueChange={(itemValue, itemIndex) => this.updateSchool(itemValue)}>
-                    {get(this.props, 'allSchools').map((school) =>
-                      <Picker.Item label={school.school_name} value={school} />)}
-                  </Picker>
-                </View>
-              }
-            </View>
-          }
-        </View>
-
-        <Text>{'\n'}</Text>
-        <Button
-          style={styles.shareButton}
-          onPress={this.addValue}>
-
-          <Text style={styles.shareButtonText}>
-            Select
-        </Text>
-        </Button>
+            }
+            {(this.state.value == 'tehsil' || this.state.value == 'school') &&
+              <View>
+                <Text style={styles.lableName}>Select Tehsil</Text>
+                {get(this.props, 'allTehsils') &&
+                  <View style={styles.container}>
+                    <Picker selectedValue={this.state.tehsil}
+                      enabled={this.state.tehsil_enable}
+                      onValueChange={(itemValue, itemIndex) => this.updateTehsil(itemValue)}>
+                      {get(this.props, 'allTehsils').map((tehsil) =>
+                        <Picker.Item label={tehsil} value={tehsil} />)
+                      }
+                    </Picker>
+                  </View>
+                }
+              </View>
+            }
+            {(this.state.value == 'school') &&
+              <View>
+                <Text style={styles.lableName}>Select School</Text>
+                {get(this.props, 'allSchools') &&
+                  <View style={styles.container}>
+                    <Picker selectedValue={this.state.school}
+                      enabled={this.state.school_enable}
+                      onValueChange={(itemValue, itemIndex) => this.updateSchool(itemValue)}>
+                      {get(this.props, 'allSchools').map((school) =>
+                        <Picker.Item label={school.school_name} value={school} />)}
+                    </Picker>
+                  </View>
+                }
+              </View>
+            }
+          </View>
+          <Button
+            style={styles.shareButton}
+            onPress={this.addValue}>
+            <Text style={styles.shareButtonText}>
+              Select
+          </Text>
+          </Button>
 
 
 
-        <View style={styles.outercontainer}>
-          {this.state.compArr.map((data) =>
-            <TouchableOpacity
-              style={styles.datacontainer}
-            // onPress={() => this.toggleRemoveItem(data)}
-            >
-              {!data.school_name ?
-                <Text style={styles.text}>
-                  {data}
-                </Text> :
-                <Text style={styles.text}>
-                  {data.school_name}
-                </Text>}
+          <View style={styles.outercontainer}>
+            {this.state.compArr.map((data) =>
               <TouchableOpacity
-                style={styles.crossIcon}
-                onPress={() => this.toggleRemoveItem(data)}
+                style={styles.datacontainer}
+              // onPress={() => this.toggleRemoveItem(data)}
               >
-                <Icon name="cross" size={20} style={{ bottom: 0, left: 5 }} />
+                {!data.school_name
+                  ? <View style={{ height: 28, textAlign: 'center' }}>
+                    <Text numberOfLines={1}
+                      style={styles.text}>
+                      {data}
+                    </Text>
+                  </View>
+                  : <View style={{ height: 28, textAlign: 'center' }}>
+                    <Text numberOfLines={1}
+                      style={styles.text}>
+                      {data.school_name}
+                    </Text>
+                  </View>}
+                <TouchableOpacity
+                  style={styles.crossIcon}
+                  onPress={() => this.toggleRemoveItem(data)}
+                >
+                  <Icon name="cross" size={30} style={{ bottom: 3, left: 5, color: 'red' }} />
+                </TouchableOpacity>
               </TouchableOpacity>
-            </TouchableOpacity>
-          )}
+            )}
+          </View>
         </View>
-
-
-        <Divider borderColor="black" color="black" orientation="center">
-          Comparison On
+        <View style={{ height: '50%', bottom: 10, position: 'absolute' }}>
+          <Divider borderColor="black" color="black" orientation="center">
+            Comparison On
         </Divider>
-
-
-        <View>
-          <FlatList
-            data={comparisonItems}
-            renderItem={({ item }) => (
-              <View style={styles.ButtonandCheckbox}>
-                <Button transparent style={{}}>
-                  <Text>{item.key.text}</Text>
-                  <CheckBox
+          <View style={{ height: '50%' }}>
+            <FlatList
+              data={comparisonItems}
+              renderItem={({ item }) => (
+                <View style={styles.ButtonandCheckbox}>
+                  <View style={{ width: 150 }}>
+                    <Text>{item.key.text}</Text>
+                  </View>
+                  <CheckBox style={{}}
                     value={this.state[item.key.CheckboxValue]}
                     onValueChange={() => this.toggleCheckbox(item.key.CheckboxValue)}
                   />
-                </Button>
-              </View>
-            )}
-            numColumns={2}
-          />
-
-          <Divider borderColor="black" color="black" orientation="center">
+                </View>
+              )}
+              numColumns={2}
+              style={styles.flatliast}
+            />
+          </View>
+          {/* Date Comment Because only one month data on Backend */}
+          {/* <Divider borderColor="black" color="black" orientation="center">
             Select Dates
         </Divider>
 
@@ -312,16 +317,14 @@ class ChartForm extends Component {
                 onDateChange={(date) => { this.setState({ todate: date }) }}
               />
             </View>
-          </View>
-
-
+          </View> */}
           <View style={styles.graphButton} >
             <Button onPress={this.submitAdHocParams}>
               <Text style={styles.textStyle}>Create Graph</Text>
             </Button>
           </View>
         </View>
-      </View >
+      </View>
     )
   }
 }
@@ -347,41 +350,47 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(ChartForm)
 const styles = StyleSheet.create({
   mainContainer: {
-    // flex: 1,
-    justifyContent: 'space-between',
-    flexDirection: 'column',
-    backgroundColor: 'yellow',
+    height: '100%',
   },
   radioButtons: {
     alignSelf: 'center'
   },
 
-
+  lableName: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: 'blue'
+  },
+  dropdownContainer: {
+    flex: 0,
+    paddingHorizontal: 10,
+    justifyContent: 'space-between'
+  },
 
 
   text: {
-    textAlignVertical: "center",
-    textAlign: "center",
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '400',
+    maxWidth: 200
   },
   container: {
     borderRadius: 10,
     borderWidth: 1,
   },
   datacontainer: {
-    // justifyContent: "center",
     alignItems: 'center',
     paddingHorizontal: '2%',
     height: 30,
     margin: '1%',
     borderWidth: 2,
-    borderColor: '#FF5722',
+    borderColor: '#FFF',
     borderRadius: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "gray",
     display: 'flex',
     flexDirection: 'row'
   },
   crossIcon: {
-    // backgroundColor: 'blue',
     borderColor: 'black'
   },
   Heading: {
@@ -395,8 +404,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   outercontainer: {
-    // flex: 1,
-    // alignSelf: "auto",
     flexDirection: "row",
     flexWrap: 'wrap'
   },
@@ -412,12 +419,13 @@ const styles = StyleSheet.create({
   shareButton: {
     alignSelf: 'center',
     width: '50%',
-    position: 'relative'
+    top: 5,
   },
   shareButtonText: {
     width: '100%',
     fontWeight: "800",
-    textAlign: "center"
+    textAlign: "center",
+    color: '#fff'
   },
   ButtonandCheckbox: {
     flex: 1,
@@ -428,12 +436,15 @@ const styles = StyleSheet.create({
   graphButton: {
     alignSelf: 'center',
     width: '99%',
-    alignSelf: 'flex-end',
-    // position: 'relative'
+
   },
   textStyle: {
     width: '100%',
     fontWeight: "800",
-    textAlign: "center"
+    textAlign: "center",
+        color: 'white',
   },
+  flatliast: {
+    height: 100,
+  }
 })

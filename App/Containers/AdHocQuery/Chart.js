@@ -36,20 +36,18 @@ class Chart extends Component {
       'student_enrolled': 'Student Enrolled',
       'avaliable_fund': 'Education Budget',
       'no_of_Schools': 'No of Schools',
-      'toilet_avaliable': 'Toilet Facility',
+      'is_toilet_functional': 'Toilet Facility',
       'is_drinking_water_avaliable': 'Drinking Water',
       'is_boundary_wall': 'Boundary Wall',
       'is_electricity_avaliable': 'Electricity Facility',
     }
 
-    const axesSvg = { fontSize: 10, fill: 'grey' };
+    const axesSvg = { fontSize: 12, fill: 'grey' };
     const verticalContentInset = { top: 10, bottom: 10 }
-    const xAxisHeight = 30
+    const xAxisHeight = 10
 
     const { comparisonBetween, comparisonOn, fromDate, toDate, comparisonName } = this.props.navigation.state.params
     const chartdata = this.props.chartdata
-    console.log("comparisonBetween, comparisonOn, fromDate, toDate, comparisonName : ", comparisonBetween, comparisonOn, fromDate, toDate, comparisonName)
-    console.log("chartdata : ", chartdata)
 
     let chartArray = []
     let temparray = []
@@ -71,29 +69,29 @@ class Chart extends Component {
 
     var school1 = JSON.parse(JSON.stringify(chartArray[0]));
     var school2 = JSON.parse(JSON.stringify(chartArray[1]));
-    var total_schools1 = school1[ school1.length-1]
-    var total_schools2 = school2[ school2.length-1]
-    for (var i = 0; i < school1.length-1; i++) {
-      var maxSchool1=0;
-      if(total_schools1 >= school1[i]){
-        school1[i]= (school1[i]/total_schools1)*100
+    var total_schools1 = school1[school1.length - 1]
+    var total_schools2 = school2[school2.length - 1]
+    for (var i = 0; i < school1.length - 1; i++) {
+      var maxSchool1 = 0;
+      if (total_schools1 >= school1[i]) {
+        school1[i] = (school1[i] / total_schools1) * 100
       }
-      else if(total_schools1 < school1[i]){
-        max = Math.max(school2[i],school1[i])
-        maxSchool1=(school1[i]/max)*100;
+      else if (total_schools1 < school1[i]) {
+        max = Math.max(school2[i], school1[i])
+        maxSchool1 = (school1[i] / max) * 100;
       }
-      if(total_schools2 >= school2[i]){
-        school2[i]= (school2[i]/total_schools2)*100
+      if (total_schools2 >= school2[i]) {
+        school2[i] = (school2[i] / total_schools2) * 100
       }
-      else if(total_schools2 < school2[i]){
-        max = Math.max(school2[i],school1[i])
+      else if (total_schools2 < school2[i]) {
+        max = Math.max(school2[i], school1[i])
         school1[i] = maxSchool1
-        school2[i]=(school2[i]/max.toFixed(2))*100
+        school2[i] = (school2[i] / max.toFixed(2)) * 100
       }
     }
-    max = Math.max(total_schools1,total_schools2)
-    school1[ school1.length-1] = (total_schools1/max)*100
-    school2[ school2.length-1] = (total_schools2/max)*100
+    max = Math.max(total_schools1, total_schools2)
+    school1[school1.length - 1] = (total_schools1 / max) * 100
+    school2[school2.length - 1] = (total_schools2 / max) * 100
 
     var dataPercentage = []
     dataPercentage.push(school1)
@@ -106,8 +104,6 @@ class Chart extends Component {
       chartArray1.push(temp)
     })
     const randomColor = () => ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7)
-    console.log('dataPercentage : ', dataPercentage)
-    console.log('chartArray1 : ', chartArray1)
 
     const barData = []
     chartArray1.map((data1) => {
@@ -133,7 +129,6 @@ class Chart extends Component {
     tableHead.unshift(" ")
     //////////////////////////////////
 
-    // xdata = tableTitle
     const xdata = ['Total Teacher',
       'Student Enrolled',
       'Education Budget',
@@ -141,9 +136,8 @@ class Chart extends Component {
       'Toilet Facility',
       'Drinking Water',
       'Boundary Wall',
-      'Electricity Facility'].map((value) => ({ value }))
-    // const xdata = [14, -1, 100, -95, -94, -24, -8, 85, -91, 35, -53, 53, -78, 66, 96, 33, -26, -32, 73, 8]
-    //   .map((value) => ({ value }))
+      'Electricity Facility']
+
     console.log("xdata : ", xdata)
     const xbarData = [
       {
@@ -152,34 +146,38 @@ class Chart extends Component {
     ]
     console.log("xbarData : ", xbarData)
 
-    const data = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80]
-
-    var dataIndex = 0
+    const data = [0, 10, 20, 30, 40, 50, 60, 80, 90, 100]
+    const contentInset = { top: 6, bottom: 6 }
     return (
       <View style={styles.container} >
         <Table>
           <Row data={tableHead} flexArr={[1, 1, 1]} style={styles.head} textStyle={styles.text} />
           <TableWrapper style={styles.wrapper}>
             <Col data={tableTitle} style={styles.title} textStyle={styles.text} />
-            <Rows data={tableData} flexArr={[1, 1, 1]} style={styles.row} textStyle={styles.text} />
+            <Rows data={tableData} flexArr={[1, 1]} style={styles.row} textStyle={styles.text} />
           </TableWrapper>
         </Table>
-        <Text>{fromDate} to {toDate}</Text>
-        <View style={{ flexDirection: "row" }}>
-          <Text>{comparisonBetween[0]}</Text>
-          <View style={{ width: 20, height: 20, backgroundColor: barData[0].svg.fill }} /></View>
-        <View style={{ flexDirection: "row" }}>
-          <Text>{comparisonBetween[1]}</Text>
-          <View style={{ width: 20, height: 20, backgroundColor: barData[1].svg.fill }} /></View>
+        {/* <Text>{fromDate} to {toDate}</Text> */}
+        <Text>{'\n'}</Text>
+        <Text>{'\n'}</Text>
 
-        <View style={{ height: 200, padding: 20, flexDirection: 'row' }}>
-          {console.log("data ", data)}
-          {console.log("baardata ", barData)}
+        <View style={{ flexDirection: "row", justifyContent: 'space-around', }}>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={{ right: 5 }} >{comparisonBetween[0]}</Text>
+            <View style={{ width: 20, height: 20, backgroundColor: barData[0].svg.fill }} /></View>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={{ right: 5 }}>{comparisonBetween[1]}</Text>
+            <View style={{ width: 20, height: 20, backgroundColor: barData[1].svg.fill }} /></View>
+        </View>
+        <Text>{'\n'}</Text>
+
+        <View style={{ height: 200, flexDirection: 'row' }}>
 
           <YAxis
             data={data}
-            style={{ marginBottom: xAxisHeight }}
-            contentInset={verticalContentInset}
+            numberOfTicks={10}
+            formatLabel={value => `${value}%`}
+            contentInset={contentInset}
             svg={axesSvg}
           />
           <View style={{ flex: 1, marginLeft: 10 }}>
@@ -192,27 +190,32 @@ class Chart extends Component {
               gridMin={0}
               spacing={0.2}
               yAccessor={({ item }) => item.value
-                // {
-                //   console.log("item :", item[dataIndex])
-                //   dataIndex = dataIndex + 1;
-                //   item[dataIndex - 1]
-                // }
               }
               svg={{
                 fill: 'blue',
               }}
-              contentInset={{ top: 0, left: 0, right: 0, bottom: 0 }}
+              contentInset={{ top: 0, left: 0, right: 0, bottom: -30 }}
               {...this.props}
             >
               <Grid direction={Grid.Direction.HORIZONTAL} />
             </BarChart>
 
             <XAxis
-              style={{ marginTop: 10 }}
-              data={barData}
+              svg={{
+                fill: 'black',
+                fontSize: 10,
+                fontWeight: 'bold',
+                rotation: -70,
+                originY: 50,
+                y: 35,
+              }}
+              style={{ marginHorizontal: -15, height: 100 }}
+              data={tableTitle}
+              xAccessor={({ index }) => index}
               scale={scale.scaleBand}
-              formatLabel={(value, index) => index}
-              labelStyle={{ color: 'black' }}
+              contentInset={{ left: 10, right: 25 }}
+              // spacing={0.2}
+              formatLabel={(_, index) => tableTitle[index]}
             />
           </View>
         </View>

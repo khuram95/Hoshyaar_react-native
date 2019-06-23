@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
-import { Item as FormItem, Text, Button, Input } from 'native-base'
 import MapView, { Marker, PROVIDER_GOOGLE, Callout } from 'react-native-maps'
 import styles from './styles'
 

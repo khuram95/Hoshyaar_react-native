@@ -4,6 +4,11 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.horcrux.svg.SvgPackage;
+import me.hauvo.thumbnail.RNThumbnailPackage;
+import com.brentvatne.react.ReactVideoPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.github.yamill.orientation.OrientationPackage;
+import com.corbt.keepawake.KCKeepAwakePackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.zmxv.RNSound.RNSoundPackage;
@@ -34,6 +39,11 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new SvgPackage(),
+            new RNThumbnailPackage(),
+            new ReactVideoPackage(),
+            new LinearGradientPackage(),
+            new OrientationPackage(),
+            new KCKeepAwakePackage(),
             new PickerPackage(),
           new ReactNativeOneSignalPackage(),
           new RNSoundPackage(),

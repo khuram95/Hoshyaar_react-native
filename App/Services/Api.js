@@ -12,8 +12,8 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    // baseURL: 'http://01c810db.ngrok.io',
-    baseURL: 'https://hoshyaar.herokuapp.com',
+    baseURL: 'http://2b5e406a.ngrok.io',
+    // baseURL: 'https://hoshyaar.herokuapp.com',
     headers: {
       'Cache-Control': 'no-cache',
     },
@@ -22,8 +22,8 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    // baseURL: 'http://01c810db.ngrok.io/api/v1',
-    baseURL: 'https://hoshyaar.herokuapp.com/api/v1',
+    baseURL: 'http://2b5e406a.ngrok.io/api/v1',
+    // baseURL: 'https://hoshyaar.herokuapp.com/api/v1',
 
     // here are some default headers
     headers: {
@@ -69,6 +69,16 @@ const create = () => {
   const addMyInterest = (payload, headers) => {
     const { school_id, user_id } = payload
     console.log('addMyInterest : ', payload)
+    const data = new FormData();
+    data.append('school_id', school_id)
+    data.append('user_id', user_id)
+    console.log("data : ", data)
+    return api.post('/my_interests', data, { headers })
+  }
+
+  const markVerified = (payload, headers) => {
+    const { school_id, user_id } = payload
+    // console.log('addMyInterest : ', payload)
     const data = new FormData();
     data.append('school_id', school_id)
     data.append('user_id', user_id)
@@ -289,6 +299,7 @@ const create = () => {
     oneSignal,
     notification,
     comparison,
+    markVerified,
   }
 }
 

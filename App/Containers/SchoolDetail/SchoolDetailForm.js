@@ -12,6 +12,7 @@ import DataRow from './DataRow'
 import { Images, Colors } from '../../Themes/'
 import DrawLayout from '../DrawLayout'
 import Icon from "react-native-vector-icons/AntDesign";
+// import console = require('console');
 
 
 class SchoolDetailForm extends Component {
@@ -34,6 +35,7 @@ class SchoolDetailForm extends Component {
         this.setState({ all_school: complete_school_data })
       })
   }
+
   dateChange = (date) => {
     this.setState({ date: date })
     size = this.state.schooldetail.length
@@ -43,6 +45,17 @@ class SchoolDetailForm extends Component {
       }
     }
   }
+
+  verifySchool = () => {
+    this.props.markVerified({
+      school_id: this.state.all_school.emis,
+      user_id: this.props.currentUser.id,
+    })
+      .then(() => {
+        alert("School marked as verified")
+      })
+  }
+
   CreateReport = () => {
     const { navigation } = this.props
     this.props.saveSchool(this.state.all_school)
@@ -60,13 +73,16 @@ class SchoolDetailForm extends Component {
   }
 
   render() {
+    console.log('SINGLE SCHOOL', this.state.singleschool)
     return (
-      <View style={{
-        display: 'flex',
-        flex: 1,
-      }}
-      >
-        <DrawLayout title="Government Data" image='' />
+      <View style={{ display: 'flex', flex: 1, }}>
+
+        <DrawLayout title="Government Data"
+          leftimage='menu'
+          componentNavigation={this.props.navigation}
+        />
+        
+        {/* <DrawLayout title="Government Data" image='' /> */}
         <Text>{'\n'}</Text>
         <Text style={styles.titleText}>
           {this.state.all_school.school_name}
@@ -248,23 +264,16 @@ class SchoolDetailForm extends Component {
         </ScrollView>
 
         <View style={{
-          flexDirection:"row",
+          flexDirection: "row",
           width: '100%',
           justifyContent: 'space-around',
           bottom: 1,
         }}>
 
-          <Button style={{
-            alignSelf: 'center',
-            width: '40%'
-          }}>
-            <Text style={{
-              width: '100%',
-              fontWeight: "800",
-              textAlign: "center"
-            }}>
+          <Button style={{ alignSelf: 'center', width: '40%' }} onPress={this.verifySchool}>
+            <Text style={{ width: '100%', fontWeight: "800", textAlign: "center" }}>
               Verify Data
-                  </Text>
+            </Text>
           </Button>
           <Text>{'\n'}</Text>
 
@@ -303,8 +312,9 @@ const mapDispatchToProps = (dispatch) => ({
   SchoolDetailData: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.SchoolDetailDataRequest(payload, resolve, reject))),
   AddMyInterest: (payload) => new Promise((resolve, reject) =>
-    dispatch(Actions.addMyInterestRequest(payload, resolve, reject)))
-
+    dispatch(Actions.addMyInterestRequest(payload, resolve, reject))),
+  markVerified: (payload) => new Promise((resolve, reject) =>
+    dispatch(Actions.markVerifiedRequest(payload, resolve, reject)))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SchoolDetailForm)

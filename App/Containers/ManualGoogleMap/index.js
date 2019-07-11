@@ -27,10 +27,15 @@ class ManualGoogleMap extends Component {
     return (
       <View>
         <DrawLayout title="Select School"
-          leftimage=''
+          leftimage='menu'
           rightimage=''
           componentNavigation={this.props.navigation}
         />
+        {/* <DrawLayout title="Select School"
+          leftimage='menu'
+          rightimage=''
+          componentNavigation={this.props.navigation}
+        /> */}
         <Text>{'\n\n\n\n\n\n\n'}</Text>
         <Button style={{ alignSelf: 'center', width: '80%' }} onPress={this.mapsSelect}>
           <Text style={{ width: '100%', fontWeight: "800", textAlign: "left" }}>

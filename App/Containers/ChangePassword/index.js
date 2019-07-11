@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import LoginForm from './LoginForm'
+import { View, ScrollView, TouchableOpacity, Image, StyleSheet, CheckBox } from 'react-native'
 
 
-class LoginScreen extends Component {
+class ChangePassword extends Component {
   static propTypes = {
   }
 
@@ -16,22 +16,16 @@ class LoginScreen extends Component {
     super(props)
   }
 
-  login = () => {
-
-  }
   componentDidMount() {
   }
 
   render() {
     const { navigation } = this.props
-    // this.props.navigation.replace('Login')
-    // navigation
-    // navigation.pop()
-    // navigation.resetStackRoot("Login")
-    // navigation.push({ name: 'Login', reset: true })
 
     return (
-      <LoginForm navigation={this.props.navigation} />
+      <View>
+
+      </View>
     )
   }
 }
@@ -42,4 +36,4 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword)

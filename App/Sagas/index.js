@@ -62,7 +62,7 @@ export default function* root() {
     takeLatest(ActionTypes.ONE_SIGNAL_FAILURE, Sagas.makeOneSignalRequest, api),
     takeLatest(ActionTypes.NOTIFICATION_REQUEST, Sagas.makeNotificationRequest, api),
     takeLatest(ActionTypes.COMPARISON_REQUEST, Sagas.makeComparisonRequest, api),
-
+    takeLatest(ActionTypes.MARK_VERIFIED_REQUEST, Sagas.makeMarkVerifiedRequest, api),
 
 
 

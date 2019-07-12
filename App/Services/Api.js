@@ -52,20 +52,17 @@ const create = () => {
   const getUser = (username) => api.get('search/users', { q: username })
   const login = (payload, headers) => {
     const { phone_number, password, deviceId, latitude, longitude } = payload
-    console.log("Mobile No and password during login ", phone_number, password)
     const data = new FormData();
     data.append('phone_number', phone_number)
     data.append('password', password)
     data.append('device_id', deviceId)
     data.append('latitude', latitude)
     data.append('longitude', longitude)
-    console.log("data is : ", data)
     return authApi.post('auth/sign_in', data, { headers })
   }
 
   const changePassword = (payload, headers) => {
     const { user_id, old_password, new_password } = payload
-    console.log('change Password : ', payload)
     const data = new FormData();
     data.append('user_id', user_id)
     data.append('old_password', old_password)
@@ -78,44 +75,25 @@ const create = () => {
 
   const addMyInterest = (payload, headers) => {
     const { school_id, user_id } = payload
-    console.log('addMyInterest : ', payload)
     const data = new FormData();
     data.append('school_id', school_id)
     data.append('user_id', user_id)
-    console.log("data : ", data)
     return api.post('/my_interests', data, { headers })
   }
 
   const markVerified = (payload, headers) => {
-    const { school_id, user_id } = payload
-    // console.log('addMyInterest : ', payload)
+    const { school_details_id, user_id } = payload
     const data = new FormData();
-    data.append('school_id', school_id)
+    data.append('school_detail_id', school_details_id)
     data.append('user_id', user_id)
-    console.log("data : ", data)
-    return api.post('/my_interests', data, { headers })
+    return api.post('/verify_schools', data, { headers })
   }
 
 
   const createReport = (payload, headers) => {
     const { reportContent, school_id, user_id, image, video, audio, latitude, longitude } = payload
-    // console.log('Report Content is : ', payload)
     const data = new FormData();
-    // const images = image.uri.split(',')
-    // console.log('Images separeted comma: ', image[0])
-    // if (image) {
-    //   // let img = 
-    //   let images = image.map((img) => {
-    //     return {
-    //       uri: img,
-    //       type: 'image/jpeg',
-    //       name: 'image.jpg'
-    //     }
-    //   });
-    //   // console.log('IMAGES: ', images);
-    //   data.append('image', images[0])
-    // }
-
+    
     if (image) {
       let images = image.map((img, index) => {
         data.append('image' + index, {
@@ -149,29 +127,24 @@ const create = () => {
     data.append('school_id', school_id)
     data.append('user_id', user_id)
     data.append('report_text', reportContent)
-    console.log("data : ", data)
     return api.post('/reports', data, { headers })
   }
 
   const comments = (payload, headers) => {
     const { user_id, report_id, text } = payload
-    console.log('Comments : ', payload)
     const data = new FormData();
     data.append('user_id', user_id)
     data.append('report_id', report_id)
     data.append('text', text)
-    console.log("data : ", data)
     return api.post('/comments', data, { headers })
   }
 
   const reportReactions = (payload, headers) => {
     const { user_id, report_id, is_agree } = payload
-    console.log('reportReactions : ', payload)
     const data = new FormData();
     data.append('user_id', user_id)
     data.append('report_id', report_id)
     data.append('is_agree', is_agree)
-    console.log("data : ", data)
     return api.post('/report_reactions', data, { headers })
   }
 
@@ -179,12 +152,10 @@ const create = () => {
 
   const signup = (payload, headers) => {
     const { mobile_no, username, password } = payload
-    console.log('sigup content is : ', payload)
     const data = new FormData();
     data.append('phone_number', mobile_no)
     data.append('user_name', username)
     data.append('password', password)
-    console.log("data : ", data)
     return authApi.post('/auth', data, { headers })
   }
 
@@ -195,15 +166,8 @@ const create = () => {
   }
 
   const comparison = (payload, headers) => {
-    console.log("Payload is : ", payload)
     const { comparisonBetween, comparisonOn, fromDate, toDate, comparisonName } = payload
-    // const data = new FormData();
-    // data.append('comparisonName', comparisonName)
-    // data.append('comparisonBetween', ...comparisonBetween)
-    // data.append('comparisonOn', ...comparisonOn)
-    // data.append('fromDate', fromDate)
-    // data.append('toDate', toDate)
-    // console.log("data : ", data)
+    
     return api.post('/ad_hoc_queries',
       {
         comparisonBetween: comparisonBetween, comparisonOn: comparisonOn, fromDate: fromDate,
@@ -215,7 +179,6 @@ const create = () => {
 
   const oneSignal = (payload, headers) => {
     const { userId } = payload
-    console.log("one signal payload api ", payload)
     return api.put('/', { userId: userId }, { headers })
   }
 
@@ -225,13 +188,11 @@ const create = () => {
 
   const myReports = (payload, headers) => {
     const { user_id } = payload
-    console.log("my reports User_id is : ", user_id)
     return api.get('/reports/user_reports', { user_id: user_id }, { headers })
   }
 
   const interestedReports = (payload, headers) => {
     const { user_id } = payload
-    console.log("Interested reports User_id is : ", user_id)
     return api.get('/my_interests', { user_id: user_id }, { headers })
   }
 
@@ -261,7 +222,6 @@ const create = () => {
 
   const notification = (payload, headers) => {
     const { user_id } = payload
-    console.log("Notification ::::::::::: ", payload)
     return api.get('/notifications', { user_id: user_id }, { headers })
   }
 

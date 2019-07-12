@@ -20,7 +20,6 @@ class TrendingReport extends Component {
     this.props.fetchAllReports()
       .then(() => {
         this.setState({ all_reports: this.props.allReports })
-        // console.log("all_reports : " ,this.state.all_reports)
       })
   }
   render() {

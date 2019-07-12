@@ -11,7 +11,6 @@ import styles from './styles'
 import Loader from '../Loader'
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
 import Icon from "react-native-vector-icons/AntDesign";
-// import console = require('console');
 
 class ChangePassword extends React.Component {
   static propTypes = {
@@ -23,9 +22,6 @@ class ChangePassword extends React.Component {
     </TouchableOpacity>,
   })
 
-  // static navigationOptions = {
-  //   header: null,
-  // }
 
   constructor(props) {
     super(props)
@@ -55,7 +51,6 @@ class ChangePassword extends React.Component {
   }
 
   changePass = () => {
-    console.log('Changing Pass: ')
     if (this.validatesInput()) {
       this.props.changePassword({
         user_id: this.props.currentUser.id,
@@ -63,12 +58,7 @@ class ChangePassword extends React.Component {
         new_password: this.state.newPass
       })
         .then(() => {
-          console.log('Changing Pass: DONE')
           const { navigation } = this.props
-          // navigation.resetTo({ 
-          //   component: SomeComponent
-          // })
-          // navigation.replace("DashBoard")
           navigation.popToTop()
         })
         .catch(error => ToastAndroid.showWithGravity('Backend server is down', ToastAndroid.LONG, ToastAndroid.CENTER)

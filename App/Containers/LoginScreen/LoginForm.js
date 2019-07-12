@@ -24,7 +24,7 @@ class LoginForm extends React.Component {
     super(props)
     this.state = {
       phone_number: '+923218896477',
-      password: 'abc123',
+      password: '12345',
       deviceId: '',
       phone_numberError: '',
       passwordError: '',
@@ -46,24 +46,15 @@ class LoginForm extends React.Component {
     OneSignal.addEventListener('opened', this.onOpened);
     OneSignal.addEventListener('ids', (payload) => this.setState({ deviceId: payload.userId }));
     OneSignal.configure()
-    console.log("this.props cdm :", this.props)
 
   }
   onReceived(notification) {
-    console.log("Notification received: ", notification);
   }
 
   onOpened(openResult) {
-    console.log('Message: ', openResult.notification.payload.body);
-    console.log('Data: ', openResult.notification.payload.additionalData);
-    console.log('isActive: ', openResult.notification.isAppInFocus);
-    console.log('openResult: ', openResult);
   }
 
   onIds(device) {
-    console.log('Device info: ', device);
-    console.log("this.props.deviceInformation :", device)
-    console.log("this.props :", this.props)
   }
 
   isValidatesMobileNo = () => {

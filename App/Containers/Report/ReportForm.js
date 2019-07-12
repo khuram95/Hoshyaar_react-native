@@ -95,15 +95,10 @@ class CreateReport extends Component {
     this.props.navigation.navigate('Camera', {
       doSomething: this.setVideoThumbnail,
     });
-    // navigation.navigate("Camera")
   }
 
   AudioRecorder = () => {
-    // const { navigation } = this.props
-    // navigation.navigate("MediaPicker")
     ToastAndroid.showWithGravity('Long Press To Record!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
-    // console.log('image in Report is : ', this.state.image);
-    // console.log('Props is : ', this.props);
   }
 
 
@@ -114,13 +109,11 @@ class CreateReport extends Component {
       compressVideoPreset: 'MediumQuality',
       includeExif: true,
     }).then((video) => {
-      // console.log('saving video: ', video);
       if ((video.size / 1000000) < 2.0) {
         this.props.saveReportVideo(video.path);
         this.setState({ videoUri: video.path })
 
         RNThumbnail.get(this.state.videoUri).then((result) => {
-          // console.log('this is thumbnail: ', result.path); // thumbnail path
           this.setState({
             thumbnail: result.path,
           })
@@ -136,8 +129,6 @@ class CreateReport extends Component {
       multiple: true,
       mediaType: "photo",
       includeExif: true,
-      // compressImageMaxWidth: 400,
-      // compressImageMaxHeight: 400,
       compressImageQuality: 0.05,
       maxFiles: 3,
     }).then(images => {
@@ -159,14 +150,10 @@ class CreateReport extends Component {
       }
 
       this.props.saveReportImage(arr);
-      // console.log('SIZE OF IMAGE: ', images[0].size)
     });
   }
 
   handlePressIn() {
-    // setTimeout(() => {
-    // 	ToastAndroid.showWithGravity('Press In', ToastAndroid.SHORT, ToastAndroid.CENTER);
-    // }, 100)
 
     this.setState({
       isRecorderVisible: !this.state.isRecorderVisible
@@ -174,14 +161,10 @@ class CreateReport extends Component {
   }
 
   handlePressOut() {
-    // setTimeout(() => {
-    // 	ToastAndroid.showWithGravity('Press Out', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-    // }, 100)
   }
 
   renderRecorder() {
     if (this.state.isRecorderVisible) {
-      // console.log('Lo g kya save hua wa tha? ', get(this.props, 'reportAudio.audio'));
       return (
         <AudioRecorder />
       );
@@ -241,21 +224,8 @@ class CreateReport extends Component {
   }
 
   render() {
-    // console.log('RENDER ')
     const { isImageViewVisible, imageIndex } = this.state;
-    // this.setState({videoUri: get(this.props, 'reportVideo.video')})
-    // thumbn = []
     recordedVideo = get(this.props, 'reportVideo.video')
-    // recordedVideo? this.setState({thumbnail: recordedVideo}):null
-    // recordedVideo && !this.state.newVideo ?
-    //   RNThumbnail.get(get(this.props, 'reportVideo.video'))
-    //     .then((result) => {
-    //       this.setState({
-    //         thumbnail: result.path,
-    //         newVideo: true
-    //       })
-    //     })
-    //   : null
 
     allImages = []
     allImages[0] = get(this.props, 'reportImages.images')
@@ -296,8 +266,6 @@ class CreateReport extends Component {
           uri: img,
         },
         title: 'Paris',
-        // width: 806,
-        // height: 720,
       });
     }
 

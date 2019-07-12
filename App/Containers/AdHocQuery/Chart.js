@@ -114,7 +114,6 @@ class Chart extends Component {
         svg: { fill: randomColor() },
       })
     })
-    console.log("barData : ", barData)
 
     ////////////// table data/////////////////////
     tableData = this.transpose(chartArray);
@@ -139,13 +138,11 @@ class Chart extends Component {
       'Boundary Wall',
       'Electricity Facility']
 
-    console.log("xdata : ", xdata)
     const xbarData = [
       {
         data: xdata,
       },
     ]
-    console.log("xbarData : ", xbarData)
 
     const data = [0, 10, 20, 30, 40, 50, 60, 80, 90, 100]
     const contentInset = { top: 6, bottom: 6 }

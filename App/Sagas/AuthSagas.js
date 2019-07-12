@@ -115,8 +115,8 @@ function* makeChangePasswordRequest(api, action) {
   // console.log("One Signal Sagas")
   const { payload, resolve, reject } = action
   const response = yield call(api.changePassword, payload)
+  // console.log("Change Pass OK  : ", response)
   if (response.ok) {
-    // console.log("One Signal Responce  Sagas : ", response)
     yield put(Actions.changePasswordSuccess())
     return resolve()
   } else {

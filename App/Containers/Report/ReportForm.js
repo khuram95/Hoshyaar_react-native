@@ -22,7 +22,6 @@ import { get } from 'lodash'
 import { createStructuredSelector } from 'reselect'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
-// import ImagePicker from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 import PhotoGrid from 'react-native-thumbnail-grid'
 import DrawLayout from '../DrawLayout'
@@ -67,9 +66,6 @@ class CreateReport extends Component {
       school_id: this.state.school.emis,
       user_id: this.props.currentUser.id,
 
-      // image: this.state.uri,
-      // school_id: 123456,
-      // user_id: 70,
       image: get(this.props, 'reportImages.images'),
       video: get(this.props, 'reportVideo.video'),
       audio: get(this.props, 'reportAudio.audio'),
@@ -85,7 +81,6 @@ class CreateReport extends Component {
         this.props.saveReportAudioRequest('');
         const { navigation } = this.props
         navigation.popToTop()
-        // navigation.navigate("DashBoard")
       })
   }
 
@@ -218,7 +213,7 @@ class CreateReport extends Component {
       .then((result) => {
         this.setState({
           thumbnail: result.path,
-          // newVideo: true
+          
         })
       })
   }

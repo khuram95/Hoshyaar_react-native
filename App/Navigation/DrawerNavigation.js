@@ -110,12 +110,12 @@ const LogoutNavigation = new StackNavigator({
 			drawerIcon: () =>
 				<Image source={Images.adhoc} style={{ width: 20, height: 20 }} />
 		}),
-		action: NavigationActions.reset({
-			index: 0,
-			actions: [
-				NavigationActions.navigate({ routeName: 'Login' }),
-			]
-		})
+		// action: NavigationActions.reset({
+		// 	index: 0,
+		// 	actions: [
+		// 		NavigationActions.navigate({ routeName: 'Login' }),
+		// 	]
+		// })
 	},
 })
 

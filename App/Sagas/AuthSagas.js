@@ -111,7 +111,20 @@ function* makeVerifyPhoneNumberRequest(api, action) {
   }
 }
 
-
+function* makeChangePasswordRequest(api, action) {
+  // console.log("One Signal Sagas")
+  const { payload, resolve, reject } = action
+  const response = yield call(api.changePassword, payload)
+  if (response.ok) {
+    // console.log("One Signal Responce  Sagas : ", response)
+    yield put(Actions.changePasswordSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.changePasswordFailure(error))
+    return reject(error)
+  }
+}
 
 
 
@@ -122,6 +135,7 @@ export default {
   makeSignoutRequest,
   makeSignupRequest,
   makeVerifyPhoneNumberRequest,
-  makeOneSignalRequest
+  makeOneSignalRequest,
+  makeChangePasswordRequest,
   // EXPORT_SAGA_ACTION
 }

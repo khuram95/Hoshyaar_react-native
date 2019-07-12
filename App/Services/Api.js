@@ -12,7 +12,7 @@ const create = () => {
   //
 
   const authApi = apisauce.create({
-    baseURL: 'http://2b5e406a.ngrok.io',
+    baseURL: 'http://bfd0baf8.ngrok.io',
     // baseURL: 'https://hoshyaar.herokuapp.com',
     headers: {
       'Cache-Control': 'no-cache',
@@ -22,7 +22,7 @@ const create = () => {
 
   const api = apisauce.create({
     // base URL is read from the "constructor"
-    baseURL: 'http://2b5e406a.ngrok.io/api/v1',
+    baseURL: 'http://bfd0baf8.ngrok.io/api/v1',
     // baseURL: 'https://hoshyaar.herokuapp.com/api/v1',
 
     // here are some default headers
@@ -61,6 +61,16 @@ const create = () => {
     data.append('longitude', longitude)
     console.log("data is : ", data)
     return authApi.post('auth/sign_in', data, { headers })
+  }
+
+  const changePassword = (payload, headers) => {
+    const { user_id, old_password, new_password } = payload
+    console.log('change Password : ', payload)
+    const data = new FormData();
+    data.append('user_id', user_id)
+    data.append('old_password', old_password)
+    data.append('new_password', new_password)
+    return api.put(`/users/${user_id}`, data, { headers })
   }
 
   const signout = (headers) =>
@@ -300,6 +310,7 @@ const create = () => {
     notification,
     comparison,
     markVerified,
+    changePassword,
   }
 }
 

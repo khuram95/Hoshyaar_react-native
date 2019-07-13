@@ -11,7 +11,7 @@ function* makeLoginRequest(api, action) {
   const { phone_number, password, resolve, reject } = action
   const response = yield call(api.login, phone_number, password)
   console.log("login response : ", response)
-  if (response.ok) {
+  if (response.ok && response.data.data) {
     console.log(" okkkkkkk login response : ")
     const headers = get(response, 'headers')
     const user = get(response, 'data.data')
@@ -28,6 +28,8 @@ function* makeLoginRequest(api, action) {
     return resolve()
   } else {
     const error = parseError(response)
+    yield put(Actions.addErrorLocal(response.data.errors[0]))
+    console.log("ERRORRRR: ", response.data.errors[0])
     yield put(Actions.loginFailure(error))
     return reject(error)
   }

@@ -23,8 +23,8 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      phone_number: '+923218896477',
-      password: '12345',
+      phone_number: '',
+      password: '',
       deviceId: '',
       phone_numberError: '',
       passwordError: '',

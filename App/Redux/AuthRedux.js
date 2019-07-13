@@ -60,7 +60,6 @@ export const changePassword = (state, { password }) =>
 
 export const loginRequest = (state, action) => {
   state.merge({ loggingIn: true, error: null })
-  console.log('reqtiong: ', state);
   return state.merge({ loggingIn: true, error: null })
 }
 
@@ -69,7 +68,6 @@ export const saveUser = (state, { currentUser }) =>
 
 export const loginSuccess = (state, action) => {
   state.merge({ loggingIn: false, error: null })
-  console.log('reqtiong end: ', state);
   return state.merge({ loggingIn: false, error: null })
 }
 
@@ -93,7 +91,6 @@ export const signupFailure = (state, { error }) =>
   state.merge({ requesting: false, error })
 
 export const oneSignalRequest = (state, action) => {
-  console.log("One Signal Requesting")
   return state.merge({ requesting: true, error: null })
 }
 
@@ -128,7 +125,6 @@ export const changePasswordFailure = (state, { error }) =>
 
 
 export const addErrorLocal = (state, { error }) => {
-  console.log("REDUX ERROR: ", error)
   return state.merge({ errorLogin: error })
 }
 

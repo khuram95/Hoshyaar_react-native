@@ -119,25 +119,6 @@ const LogoutNavigation = new StackNavigator({
 	},
 })
 
-// const LogoutNavigation = () => {
-// 	console.log("LOGOUT WOW AMAZING", this.props)
-// 	// const { navigation } = this.props
-// 	// this.props
-// 	// () => (navigate.replace("Login"))
-// 	// navigation.push("Report")
-// 	// navigationOptions: ({ navigation }) => ({
-// 	// 	gesturesEnabled: false,
-// 	// 	drawerIcon: () =>
-// 	// 		<Image source={Images.adhoc} style={{ width: 20, height: 20 }} />
-// 	// })
-
-// 	this.props.navigation.dispatch(NavigationActions.reset({
-// 		index: 0,
-// 		actions: [NavigationActions.navigate({ routeName: 'Menu' })]
-// 	}));
-
-// 	// return navigation.replace("Login")
-// }
 
 
 

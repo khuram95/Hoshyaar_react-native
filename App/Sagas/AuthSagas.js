@@ -10,9 +10,7 @@ import Actions from '../Redux/Actions'
 function* makeLoginRequest(api, action) {
   const { phone_number, password, resolve, reject } = action
   const response = yield call(api.login, phone_number, password)
-  console.log("login response : ", response)
-  if (response.ok) {
-    console.log(" okkkkkkk login response : ")
+  if (response.ok && response.data.data) {
     const headers = get(response, 'headers')
     const user = get(response, 'data.data')
     const currentUser = {
@@ -24,10 +22,10 @@ function* makeLoginRequest(api, action) {
     yield put(Actions.saveUser(currentUser))
     // yield saveUserToLocalStorage(currentUser)
     yield put(Actions.loginSuccess())
-    console.log(" success login response : ")
     return resolve()
   } else {
     const error = parseError(response)
+    yield put(Actions.addErrorLocal(response.data.errors[0]))
     yield put(Actions.loginFailure(error))
     return reject(error)
   }
@@ -46,13 +44,10 @@ export function* makeSignoutRequest(api, action) {
 }
 
 function* makeSignupRequest(api, action) {
-  console.log("Signup Sagas")
   const { payload, resolve, reject } = action
   const response = yield call(api.signup, payload)
-  console.log("response dup :",response)
   if (response.ok) {
     const user = get(response, 'data')
-    console.log("Signup Responce  Sagas : ", response)
     const headers = get(response, 'headers')
     const currentUser = {
       accessToken: headers['access-token'],
@@ -72,11 +67,9 @@ function* makeSignupRequest(api, action) {
 }
 
 function* makeOneSignalRequest(api, action) {
-  console.log("One Signal Sagas")
   const { payload, resolve, reject } = action
   const response = yield call(api.oneSignal, payload)
   if (response.ok) {
-    console.log("One Signal Responce  Sagas : ", response)
     yield put(Actions.oneSignalSuccess())
     return resolve()
   } else {
@@ -87,12 +80,10 @@ function* makeOneSignalRequest(api, action) {
 }
 
 function* makeVerifyPhoneNumberRequest(api, action) {
-  console.log("VerifyPhoneNumberRequest Sagas")
   const { payload, resolve, reject } = action
   const response = yield call(api.verifyOtp, payload)
   if (response.ok) {
     const user = get(response, 'data')
-    console.log("makeVerifyPhoneNumberRequest Responce  Sagas : ", response)
     const headers = get(response, 'headers')
     const currentUser = {
       accessToken: headers['access-token'],
@@ -101,7 +92,6 @@ function* makeVerifyPhoneNumberRequest(api, action) {
       ...user,
     }
     yield put(Actions.saveUser(currentUser))
-    // yield saveUserToLocalStorage(currentUser)
     yield put(Actions.verifyPhoneNumberSuccess())
     return resolve()
   } else {
@@ -112,10 +102,8 @@ function* makeVerifyPhoneNumberRequest(api, action) {
 }
 
 function* makeChangePasswordRequest(api, action) {
-  // console.log("One Signal Sagas")
   const { payload, resolve, reject } = action
   const response = yield call(api.changePassword, payload)
-  // console.log("Change Pass OK  : ", response)
   if (response.ok) {
     yield put(Actions.changePasswordSuccess())
     return resolve()

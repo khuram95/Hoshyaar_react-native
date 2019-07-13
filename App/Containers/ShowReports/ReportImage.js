@@ -11,7 +11,7 @@ class ReportImage extends Component {
       ModalVisible: false,
       loading: false,
       isImageViewVisible: false,
-      img: 'http://2b5e406a.ngrok.io' + this.props.data.item.image.url,
+      img: 'http://b9b2d1d1.ngrok.io' + this.props.data.item.image.url,
       // img: 'https://hoshyaar.herokuapp.com' + this.props.data.item.image.url,
       data: []
     }

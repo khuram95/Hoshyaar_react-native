@@ -61,7 +61,7 @@ class ChangePassword extends React.Component {
           const { navigation } = this.props
           navigation.popToTop()
         })
-        .catch(error => ToastAndroid.showWithGravity('Backend server is down', ToastAndroid.LONG, ToastAndroid.CENTER)
+        .catch(error => ToastAndroid.showWithGravity(''+error, ToastAndroid.LONG, ToastAndroid.CENTER)
         )
     }
   }

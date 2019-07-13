@@ -13,6 +13,8 @@ const { Types, Creators } = createActions({
   loginSuccess: null,
   loginFailure: ['error'],
 
+  addErrorLocal: ['error'],
+
   signoutRequest: ['resolve', 'reject'],
   signoutSuccess: null,
 
@@ -45,6 +47,7 @@ export const INITIAL_STATE = Immutable({
   // // for login
   form: { error: {}, phone_number: 'host@safe.com', password: 'password' },
   currentUser: {},
+  errorLogin: '',
 })
 
 /* ------------- Reducers ------------- */
@@ -57,7 +60,6 @@ export const changePassword = (state, { password }) =>
 
 export const loginRequest = (state, action) => {
   state.merge({ loggingIn: true, error: null })
-  console.log('reqtiong: ', state);
   return state.merge({ loggingIn: true, error: null })
 }
 
@@ -66,7 +68,6 @@ export const saveUser = (state, { currentUser }) =>
 
 export const loginSuccess = (state, action) => {
   state.merge({ loggingIn: false, error: null })
-  console.log('reqtiong end: ', state);
   return state.merge({ loggingIn: false, error: null })
 }
 
@@ -90,7 +91,6 @@ export const signupFailure = (state, { error }) =>
   state.merge({ requesting: false, error })
 
 export const oneSignalRequest = (state, action) => {
-  console.log("One Signal Requesting")
   return state.merge({ requesting: true, error: null })
 }
 
@@ -122,6 +122,12 @@ export const changePasswordSuccess = (state, action) => {
 
 export const changePasswordFailure = (state, { error }) =>
   state.merge({ requesting: false, error })
+
+
+export const addErrorLocal = (state, { error }) => {
+  return state.merge({ errorLogin: error })
+}
+
 // add new reducer here
 
 /* ------------- Hookup Reducers To Types ------------- */
@@ -147,5 +153,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CHANGE_PASSWORD_REQUEST]: changePasswordRequest,
   [Types.CHANGE_PASSWORD_SUCCESS]: changePasswordSuccess,
   [Types.CHANGE_PASSWORD_FAILURE]: changePasswordFailure,
+  [Types.ADD_ERROR_LOCAL]: addErrorLocal,
   // add reducer hook up here
 })

@@ -23,8 +23,8 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      phone_number: '+923218896477',
-      password: '12345',
+      phone_number: '',
+      password: '',
       deviceId: '',
       phone_numberError: '',
       passwordError: '',
@@ -92,9 +92,10 @@ class LoginForm extends React.Component {
           // })
           navigation.replace("DashBoard")
         })
-        .catch(error => ToastAndroid.showWithGravity('Backend server is down', ToastAndroid.LONG, ToastAndroid.CENTER)
+        .catch(error => ToastAndroid.showWithGravity(this.props.errorLocal, ToastAndroid.LONG, ToastAndroid.CENTER)
         )
     }
+    console.log("PROPS: ", this.props)
   }
 
   signUp = () => {
@@ -159,6 +160,7 @@ const mapStateToProps = createStructuredSelector({
   loginSuccess: (state) => get(state, 'auth.loginSuccess'),
   currentUser: (state) => get(state, 'auth.currentUser'),
   loging: (state) => get(state, 'auth.loggingIn'),
+  errorLocal: (state) => get(state, 'auth.errorLogin'),
 })
 
 const mapDispatchToProps = (dispatch) => ({

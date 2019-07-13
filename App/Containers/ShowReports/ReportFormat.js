@@ -153,7 +153,7 @@ class ReportFormat extends Component {
   }
 
   _play = async (uri) => {
-    let audio = 'http://2b5e406a.ngrok.io' + uri
+    let audio = 'http://b9b2d1d1.ngrok.io' + uri
     var sound = new Sound(audio, '', (error) => {
       if (error) {
       } else {
@@ -169,7 +169,7 @@ class ReportFormat extends Component {
   }
 
   _pause = async (uri) => {
-    let audio = 'http://2b5e406a.ngrok.io' + uri
+    let audio = 'http://b9b2d1d1.ngrok.io' + uri
     var sound = new Sound(audio, '', (error) => {
       if (error) {
       } else {
@@ -274,7 +274,7 @@ class ReportFormat extends Component {
                   this.setVideoModalVisible(!this.state.videoModalVisible);
                 }}>
                 <View>
-                  <Video url={'http://2b5e406a.ngrok.io' + report.video.video.url} />
+                  <Video url={'http://b9b2d1d1.ngrok.io' + report.video.video.url} />
                   <Button
                     style={styles.shareButton}
                     onPress={() => { this.setVideoModalVisible(!this.state.videoModalVisible); }}>

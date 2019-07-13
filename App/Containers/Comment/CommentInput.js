@@ -20,7 +20,6 @@ export default class CommentInput extends Component {
   onSubmitEditing = ({ nativeEvent: { text } }) => this.setState({ text }, this.submit);
 
   submit = () => {
-    // console.log("I am press")
     const { text } = this.state;
     if (text) {
       this.setState({ text: undefined }, () => this.props.onSubmit(text));
@@ -61,7 +60,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFF',
     flexDirection: 'row',
-    // borderTopWidth: 1,
     borderColor: '#EEE',
     alignItems: 'center',
     paddingLeft: 15,

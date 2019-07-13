@@ -16,8 +16,7 @@ class AddInterest extends Component {
     };
 
     this.props.getDistrict()
-      .then((response) =>
-        console.log("hahhasdah", get(this.props))
+      .then((response) => { }
       )
   }
   static navigationOptions = {
@@ -158,8 +157,6 @@ const styles = StyleSheet.create({
   modalContent: {
     backgroundColor: 'white',
     padding: 22,
-    // justifyContent: 'center',
-    // alignItems: 'center',
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
   },

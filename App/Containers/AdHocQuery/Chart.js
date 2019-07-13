@@ -8,6 +8,7 @@ import { BarChart, Grid, XAxis, YAxis } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import * as scale from 'd3-scale'
+import DrawLayout from '../DrawLayout'
 
 
 class Chart extends Component {
@@ -113,7 +114,6 @@ class Chart extends Component {
         svg: { fill: randomColor() },
       })
     })
-    console.log("barData : ", barData)
 
     ////////////// table data/////////////////////
     tableData = this.transpose(chartArray);
@@ -138,85 +138,90 @@ class Chart extends Component {
       'Boundary Wall',
       'Electricity Facility']
 
-    console.log("xdata : ", xdata)
     const xbarData = [
       {
         data: xdata,
       },
     ]
-    console.log("xbarData : ", xbarData)
 
     const data = [0, 10, 20, 30, 40, 50, 60, 80, 90, 100]
     const contentInset = { top: 6, bottom: 6 }
     return (
-      <View style={styles.container} >
-        <Table>
-          <Row data={tableHead} flexArr={[1, 1, 1]} style={styles.head} textStyle={styles.text} />
-          <TableWrapper style={styles.wrapper}>
-            <Col data={tableTitle} style={styles.title} textStyle={styles.text} />
-            <Rows data={tableData} flexArr={[1, 1]} style={styles.row} textStyle={styles.text} />
-          </TableWrapper>
-        </Table>
-        {/* <Text>{fromDate} to {toDate}</Text> */}
-        <Text>{'\n'}</Text>
-        <Text>{'\n'}</Text>
+      <View style={{ flex: 1 }}>
+        <DrawLayout title="Data Visualization"
+          leftimage='menu'
+          componentNavigation={this.props.navigation}
+        />
 
-        <View style={{ flexDirection: "row", justifyContent: 'space-around', }}>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={{ right: 5 }} >{comparisonBetween[0]}</Text>
-            <View style={{ width: 20, height: 20, backgroundColor: barData[0].svg.fill }} /></View>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={{ right: 5 }}>{comparisonBetween[1]}</Text>
-            <View style={{ width: 20, height: 20, backgroundColor: barData[1].svg.fill }} /></View>
-        </View>
-        <Text>{'\n'}</Text>
+        <View style={styles.container} >
+          <Table>
+            <Row data={tableHead} flexArr={[1, 1, 1]} style={styles.head} textStyle={styles.text} />
+            <TableWrapper style={styles.wrapper}>
+              <Col data={tableTitle} style={styles.title} textStyle={styles.text} />
+              <Rows data={tableData} flexArr={[1, 1]} style={styles.row} textStyle={styles.text} />
+            </TableWrapper>
+          </Table>
+          {/* <Text>{fromDate} to {toDate}</Text> */}
+          <Text>{'\n'}</Text>
+          <Text>{'\n'}</Text>
 
-        <View style={{ height: 200, flexDirection: 'row' }}>
+          <View style={{ flexDirection: "row", justifyContent: 'space-around', }}>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ right: 5 }} >{comparisonBetween[0]}</Text>
+              <View style={{ width: 20, height: 20, backgroundColor: barData[0].svg.fill }} /></View>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ right: 5 }}>{comparisonBetween[1]}</Text>
+              <View style={{ width: 20, height: 20, backgroundColor: barData[1].svg.fill }} /></View>
+          </View>
+          <Text>{'\n'}</Text>
 
-          <YAxis
-            data={data}
-            numberOfTicks={10}
-            formatLabel={value => `${value}%`}
-            contentInset={contentInset}
-            svg={axesSvg}
-          />
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            <BarChart
-              style={{ height: 200 }}
-              data={barData}
-              animate={true}
-              animationDuration={400}
-              showGrid={true}
-              gridMin={0}
-              spacing={0.2}
-              yAccessor={({ item }) => item.value
-              }
-              svg={{
-                fill: 'blue',
-              }}
-              contentInset={{ top: 0, left: 0, right: 0, bottom: -30 }}
-              {...this.props}
-            >
-              <Grid direction={Grid.Direction.HORIZONTAL} />
-            </BarChart>
+          <View style={{ height: 200, flexDirection: 'row' }}>
 
-            <XAxis
-              svg={{
-                fill: 'black',
-                fontSize: 10,
-                fontWeight: 'bold',
-                rotation: -70,
-                originY: 50,
-                y: 35,
-              }}
-              style={{ marginHorizontal: -15, height: 100 }}
-              data={tableTitle}
-              xAccessor={({ index }) => index}
-              scale={scale.scaleBand}
-              contentInset={{ left: 10, right: 25 }}
-              // spacing={0.2}
-              formatLabel={(_, index) => tableTitle[index]}
+            <YAxis
+              data={data}
+              numberOfTicks={10}
+              formatLabel={value => `${value}%`}
+              contentInset={contentInset}
+              svg={axesSvg}
             />
+            <View style={{ flex: 1, marginLeft: 10 }}>
+              <BarChart
+                style={{ height: 200 }}
+                data={barData}
+                animate={true}
+                animationDuration={400}
+                showGrid={true}
+                gridMin={0}
+                spacing={0.2}
+                yAccessor={({ item }) => item.value
+                }
+                svg={{
+                  fill: 'blue',
+                }}
+                contentInset={{ top: 0, left: 0, right: 0, bottom: -30 }}
+                {...this.props}
+              >
+                <Grid direction={Grid.Direction.HORIZONTAL} />
+              </BarChart>
+
+              <XAxis
+                svg={{
+                  fill: 'black',
+                  fontSize: 10,
+                  fontWeight: 'bold',
+                  rotation: -70,
+                  originY: 50,
+                  y: 35,
+                }}
+                style={{ marginHorizontal: -15, height: 100 }}
+                data={tableTitle}
+                xAccessor={({ index }) => index}
+                scale={scale.scaleBand}
+                contentInset={{ left: 10, right: 25 }}
+                // spacing={0.2}
+                formatLabel={(_, index) => tableTitle[index]}
+              />
+            </View>
           </View>
         </View>
       </View>

@@ -11,11 +11,10 @@ class ReportImage extends Component {
       ModalVisible: false,
       loading: false,
       isImageViewVisible: false,
-      img: 'http://bb7de9d3.ngrok.io' + this.props.data.item.image.url,
+      img: 'http://2b5e406a.ngrok.io' + this.props.data.item.image.url,
       // img: 'https://hoshyaar.herokuapp.com' + this.props.data.item.image.url,
       data: []
     }
-    // console.log("THAT IMAGE I WANT: ", this.state.img)
     this.state.data.push({
       source: {
         uri: this.state.img,
@@ -23,25 +22,13 @@ class ReportImage extends Component {
       title: 'Paris',
     });
   }
-  // toggleImageModal = () => {
-  //   { console.log(this.props.data.item.image.url) }
-  //   this.setState({ ModalVisible: !this.state.ModalVisible });
-  // }
 
   render() {
-    // Data = []
-    // Data.push({
-    //   source: {
-    //     uri: this.state.img,
-    //   },
-    //   title: 'Paris',
-    // });
     return (
       <View>
         <TouchableOpacity onPress={() => { this.setState({ isImageViewVisible: !this.state.isImageViewVisible }) }}>
 
           <Image
-            // source={{ uri: `http://eea80ed5.ngrok.io${this.props.data.item.image.url}` }}
             source={{ uri: this.state.img }}
             style={{ height: 75, width: 75 }}
             onLoadStart={() => this.setState({ loading: true })}
@@ -57,23 +44,8 @@ class ReportImage extends Component {
           imageIndex={0}
           animationType="fade"
           isVisible={this.state.isImageViewVisible}
-          // renderFooter={this.renderFooter}
           onClose={() => this.setState({ isImageViewVisible: false })}
         />
-        {/* <Modal
-            isVisible={this.state.ModalVisible}> */}
-        {/* <View style={styles.container}> */}
-        {/* <TouchableOpacity onPress={this.toggleImageModal}>
-              <Icon name="closecircle" color="white" size={40} />
-            </TouchableOpacity> */}
-        {/* </View> */}
-        {/* <View style={styles.ModalContent}>
-              <Image
-                source={{ uri: `http://b6b6557f.ngrok.io${this.props.data.item.image.url}` }}
-                style={{ height: 300, width: 300 }}
-              />
-            </View>
-          </Modal> */}
       </View>
     );
   }

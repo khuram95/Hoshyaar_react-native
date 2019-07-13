@@ -12,6 +12,9 @@ const { Types, Creators } = createActions({
   saveSchoolLocal: ['school'],
   saveSchoolDetailCheckedListLocal: ['SchoolDetailCheckedList'],
 
+  markVerifiedRequest: ['payload', 'resolve', 'reject'],
+  markVerifiedSuccess: null,
+  markVerifiedFailure: ['error'],
   // add action here
 })
 
@@ -23,7 +26,8 @@ export default Creators
 export const INITIAL_STATE = Immutable({
   SchoolDetailData: [],
   school: [],
-  SchoolDetailCheckedList: {}
+  SchoolDetailCheckedList: {},
+  markVerified: []
   // form: { error: {}},
 })
 
@@ -49,6 +53,16 @@ export const saveSchoolLocal = (state, { school }) => {
   console.log("selected school : ", school)
   return state.setIn(['schooldetail', 'school'], { school })
 }
+
+export const markVerifiedRequest = (state, action) => {
+  return state.merge({ requesting: true, error: null })
+}
+
+export const markVerifiedSuccess = (state, action) =>
+  state.merge({ requesting: false, error: null })
+
+export const markVerifiedFailure = (state, { error }) =>
+  state.merge({ requesting: false, error })
 // add new reducer here
 
 /* ------------- Hookup Reducers To Types ------------- */
@@ -60,6 +74,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SAVE_SCHOOL_DETAIL_DATA_LOCAL]: saveSchoolDetailDataLocal,
   [Types.SAVE_SCHOOL_LOCAL]: saveSchoolLocal,
   [Types.SAVE_SCHOOL_DETAIL_CHECKED_LIST_LOCAL]: saveSchoolDetailCheckedListLocal,
-
+  [Types.MARK_VERIFIED_REQUEST]: markVerifiedRequest,
+  [Types.MARK_VERIFIED_SUCCESS]: markVerifiedSuccess,
+  [Types.MARK_VERIFIED_FAILURE]: markVerifiedFailure,
   // add reducer hook up here
 })

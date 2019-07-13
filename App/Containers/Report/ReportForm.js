@@ -22,7 +22,6 @@ import { get } from 'lodash'
 import { createStructuredSelector } from 'reselect'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
-// import ImagePicker from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 import PhotoGrid from 'react-native-thumbnail-grid'
 import DrawLayout from '../DrawLayout'
@@ -67,9 +66,6 @@ class CreateReport extends Component {
       school_id: this.state.school.emis,
       user_id: this.props.currentUser.id,
 
-      // image: this.state.uri,
-      // school_id: 123456,
-      // user_id: 70,
       image: get(this.props, 'reportImages.images'),
       video: get(this.props, 'reportVideo.video'),
       audio: get(this.props, 'reportAudio.audio'),
@@ -85,7 +81,6 @@ class CreateReport extends Component {
         this.props.saveReportAudioRequest('');
         const { navigation } = this.props
         navigation.popToTop()
-        // navigation.navigate("DashBoard")
       })
   }
 
@@ -95,15 +90,10 @@ class CreateReport extends Component {
     this.props.navigation.navigate('Camera', {
       doSomething: this.setVideoThumbnail,
     });
-    // navigation.navigate("Camera")
   }
 
   AudioRecorder = () => {
-    // const { navigation } = this.props
-    // navigation.navigate("MediaPicker")
     ToastAndroid.showWithGravity('Long Press To Record!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
-    // console.log('image in Report is : ', this.state.image);
-    // console.log('Props is : ', this.props);
   }
 
 
@@ -114,13 +104,11 @@ class CreateReport extends Component {
       compressVideoPreset: 'MediumQuality',
       includeExif: true,
     }).then((video) => {
-      // console.log('saving video: ', video);
       if ((video.size / 1000000) < 2.0) {
         this.props.saveReportVideo(video.path);
         this.setState({ videoUri: video.path })
 
         RNThumbnail.get(this.state.videoUri).then((result) => {
-          // console.log('this is thumbnail: ', result.path); // thumbnail path
           this.setState({
             thumbnail: result.path,
           })
@@ -136,8 +124,6 @@ class CreateReport extends Component {
       multiple: true,
       mediaType: "photo",
       includeExif: true,
-      // compressImageMaxWidth: 400,
-      // compressImageMaxHeight: 400,
       compressImageQuality: 0.05,
       maxFiles: 3,
     }).then(images => {
@@ -159,14 +145,10 @@ class CreateReport extends Component {
       }
 
       this.props.saveReportImage(arr);
-      // console.log('SIZE OF IMAGE: ', images[0].size)
     });
   }
 
   handlePressIn() {
-    // setTimeout(() => {
-    // 	ToastAndroid.showWithGravity('Press In', ToastAndroid.SHORT, ToastAndroid.CENTER);
-    // }, 100)
 
     this.setState({
       isRecorderVisible: !this.state.isRecorderVisible
@@ -174,14 +156,10 @@ class CreateReport extends Component {
   }
 
   handlePressOut() {
-    // setTimeout(() => {
-    // 	ToastAndroid.showWithGravity('Press Out', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-    // }, 100)
   }
 
   renderRecorder() {
     if (this.state.isRecorderVisible) {
-      // console.log('Lo g kya save hua wa tha? ', get(this.props, 'reportAudio.audio'));
       return (
         <AudioRecorder />
       );
@@ -235,27 +213,14 @@ class CreateReport extends Component {
       .then((result) => {
         this.setState({
           thumbnail: result.path,
-          // newVideo: true
+          
         })
       })
   }
 
   render() {
-    // console.log('RENDER ')
     const { isImageViewVisible, imageIndex } = this.state;
-    // this.setState({videoUri: get(this.props, 'reportVideo.video')})
-    // thumbn = []
     recordedVideo = get(this.props, 'reportVideo.video')
-    // recordedVideo? this.setState({thumbnail: recordedVideo}):null
-    // recordedVideo && !this.state.newVideo ?
-    //   RNThumbnail.get(get(this.props, 'reportVideo.video'))
-    //     .then((result) => {
-    //       this.setState({
-    //         thumbnail: result.path,
-    //         newVideo: true
-    //       })
-    //     })
-    //   : null
 
     allImages = []
     allImages[0] = get(this.props, 'reportImages.images')
@@ -296,8 +261,6 @@ class CreateReport extends Component {
           uri: img,
         },
         title: 'Paris',
-        // width: 806,
-        // height: 720,
       });
     }
 

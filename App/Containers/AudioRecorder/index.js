@@ -94,7 +94,6 @@ class AudioExample extends Component {
 
     _pause = async () => {
         if (!this.state.recording) {
-            console.warn('Can\'t pause, not recording!');
             return;
         }
 
@@ -108,7 +107,6 @@ class AudioExample extends Component {
 
     _resume = async () => {
         if (!this.state.paused) {
-            console.warn('Can\'t resume, not paused!');
             return;
         }
 
@@ -122,7 +120,6 @@ class AudioExample extends Component {
 
     _stop = async () => {
         if (!this.state.recording) {
-            console.warn('Can\'t stop, not recording!');
             return;
         }
 
@@ -174,13 +171,11 @@ class AudioExample extends Component {
 
     _record = async () => {
         if (this.state.recording) {
-            console.warn('Already recording!');
             this._stop();
             return;
         }
 
         if (!this.state.hasPermission) {
-            console.warn('Can\'t record, no permission granted!');
             return;
         }
 
@@ -199,7 +194,6 @@ class AudioExample extends Component {
 
     _finishRecording(didSucceed, filePath, fileSize) {
         this.setState({ finished: didSucceed });
-        // console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
         this.setState({
             uri: filePath,
         })

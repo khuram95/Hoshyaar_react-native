@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { View, ImageBackground } from 'react-native'
-// import { Button, Text, Form, Item, Input } from 'native-base'
 import { Item as FormItem, Text, Button, Input } from 'native-base'
 import { get, isEmpty } from 'lodash'
 import Actions from '../../Redux/Actions'
@@ -19,7 +18,6 @@ class VerifyPhoneNumber extends Component {
     };
   }
   VerifyPhoneNumber = () => {
-    console.log("this.state.otp ", this.state.otp)
     if (this.state.otp.length == 7) {
       this.props.VerifyPhoneNumber({ otp: this.state.otp, phone_number: this.props.currentUser.phone_number })
         .then(() => {

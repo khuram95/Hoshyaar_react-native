@@ -34,6 +34,7 @@ class SchoolDetailForm extends Component {
         this.setState({ all_school: complete_school_data })
       })
   }
+
   dateChange = (date) => {
     this.setState({ date: date })
     size = this.state.schooldetail.length
@@ -43,11 +44,21 @@ class SchoolDetailForm extends Component {
       }
     }
   }
+
+  verifySchool = () => {
+    this.props.markVerified({
+      school_details_id: this.state.singleschool.id,
+      user_id: this.props.currentUser.id,
+    })
+      .then(() => {
+        alert("School marked as verified")
+      })
+  }
+
   CreateReport = () => {
     const { navigation } = this.props
     this.props.saveSchool(this.state.all_school)
     if (this.state.interestChecked) {
-      // console.log("school_id :", this.state.all_school.emis)
       this.props.AddMyInterest({
         school_id: this.state.all_school.emis,
         user_id: this.props.currentUser.id,
@@ -61,12 +72,13 @@ class SchoolDetailForm extends Component {
 
   render() {
     return (
-      <View style={{
-        display: 'flex',
-        flex: 1,
-      }}
-      >
-        <DrawLayout title="Government Data" image='' />
+      <View style={{ display: 'flex', flex: 1, }}>
+
+        <DrawLayout title="Government Data"
+          leftimage='menu'
+          componentNavigation={this.props.navigation}
+        />
+        
         <Text>{'\n'}</Text>
         <Text style={styles.titleText}>
           {this.state.all_school.school_name}
@@ -88,33 +100,6 @@ class SchoolDetailForm extends Component {
         <Text>{'\n'}</Text>
 
 
-        {/* <View style={{ flex: 1, flexDirection: "row" }}>
-          <Text>Select Month</Text>
-          <DatePicker
-            style={{ width: 200 }}
-            date={this.state.date}
-            mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            minDate="2019-04-01"
-            maxDate="2019-04-30"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            // customStyles={{
-            //   dateIcon: {
-            //     position: 'absolute',
-            //     left: 0,
-            //     top: 4,
-            //     marginLeft: 0
-            //   },
-            //   dateInput: {
-            //     marginLeft: 36
-            //   }
-            // }}
-            onDateChange={(date) => { this.dateChange(date) }}
-
-          />
-        </View>*/}
         <ScrollView>
           <Collapse>
             <CollapseHeader>
@@ -248,23 +233,16 @@ class SchoolDetailForm extends Component {
         </ScrollView>
 
         <View style={{
-          flexDirection:"row",
+          flexDirection: "row",
           width: '100%',
           justifyContent: 'space-around',
           bottom: 1,
         }}>
 
-          <Button style={{
-            alignSelf: 'center',
-            width: '40%'
-          }}>
-            <Text style={{
-              width: '100%',
-              fontWeight: "800",
-              textAlign: "center"
-            }}>
+          <Button style={{ alignSelf: 'center', width: '40%' }} onPress={this.verifySchool}>
+            <Text style={{ width: '100%', fontWeight: "800", textAlign: "center" }}>
               Verify Data
-                  </Text>
+            </Text>
           </Button>
           <Text>{'\n'}</Text>
 
@@ -303,8 +281,9 @@ const mapDispatchToProps = (dispatch) => ({
   SchoolDetailData: (payload) => new Promise((resolve, reject) =>
     dispatch(Actions.SchoolDetailDataRequest(payload, resolve, reject))),
   AddMyInterest: (payload) => new Promise((resolve, reject) =>
-    dispatch(Actions.addMyInterestRequest(payload, resolve, reject)))
-
+    dispatch(Actions.addMyInterestRequest(payload, resolve, reject))),
+  markVerified: (payload) => new Promise((resolve, reject) =>
+    dispatch(Actions.markVerifiedRequest(payload, resolve, reject)))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SchoolDetailForm)

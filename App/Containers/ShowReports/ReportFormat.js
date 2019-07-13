@@ -44,7 +44,6 @@ class ReportFormat extends Component {
       videoModalVisible: false,
       thumbnail: null,
     };
-    // console.log("current user : ", get(this.props, 'currentUser'))
     this.scrollList = {}
     this.scrollPosition = 0
   }
@@ -102,7 +101,6 @@ class ReportFormat extends Component {
     })
       .then(() => {
         this.setState({ report: this.props.getSingleReport })
-        // console.log("report reaction then : ", this.state.report)
       })
   }
 
@@ -155,17 +153,14 @@ class ReportFormat extends Component {
   }
 
   _play = async (uri) => {
-    let audio = 'http://bb7de9d3.ngrok.io' + uri
+    let audio = 'http://2b5e406a.ngrok.io' + uri
     var sound = new Sound(audio, '', (error) => {
       if (error) {
-        // console.log('failed to load the sound', error);
       } else {
         sound.play((success) => {
           if (success) {
             this.setState({ playingAudio: !this.state.playingAudio });
-            // console.log('successfully finished playing');
           } else {
-            // console.log('playback failed due to audio decoding errors');
           }
         });
       }
@@ -174,10 +169,9 @@ class ReportFormat extends Component {
   }
 
   _pause = async (uri) => {
-    let audio = 'http://bb7de9d3.ngrok.io' + uri
+    let audio = 'http://2b5e406a.ngrok.io' + uri
     var sound = new Sound(audio, '', (error) => {
       if (error) {
-        // console.log('failed to load the sound', error);
       } else {
         sound.pause()
       }
@@ -191,11 +185,9 @@ class ReportFormat extends Component {
 
   render() {
     const { report } = this.state;
-    { console.log('state ++', report) }
     return (
       <View>
         <View style={styles.report}
-        //onPress={() => this.props.gotoReportDetail && this.props.gotoReportDetail(report)}
         >
           <View style={{ flex: 1, justifyContent: "flex-start" }}>
 
@@ -217,7 +209,6 @@ class ReportFormat extends Component {
 
             <Text style={styles.belowText}>
               {report.school && report.school.tehsil + ' '} {report.school && report.school.district}</Text>
-            {/* <Text style={styles.belowText}>{report.user && report.user.user_name}</Text> */}
           </View>
 
           <View>
@@ -283,7 +274,7 @@ class ReportFormat extends Component {
                   this.setVideoModalVisible(!this.state.videoModalVisible);
                 }}>
                 <View>
-                  <Video url={'http://bb7de9d3.ngrok.io' + report.video.video.url} />
+                  <Video url={'http://2b5e406a.ngrok.io' + report.video.video.url} />
                   <Button
                     style={styles.shareButton}
                     onPress={() => { this.setVideoModalVisible(!this.state.videoModalVisible); }}>
@@ -481,7 +472,6 @@ const styles = StyleSheet.create({
   reportFooter: {
     flexDirection: "row",
     justifyContent: "space-between",
-    // alignItems: 'flex-start'
     padding: 0
   },
   badgeCount: {

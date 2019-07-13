@@ -17,8 +17,7 @@ class ManualSchoolSelect extends Component {
     };
 
     this.props.getDistrict()
-      .then((response) =>
-        console.log("hahhasdah", get(this.props))
+      .then((response) => { }
       )
   }
   static navigationOptions = {
@@ -30,7 +29,6 @@ class ManualSchoolSelect extends Component {
     this.props.getTehsil({ district })
       .then(() => {
         this.setState({ tehsil_enable: true })
-        // console.log('ok')
       })
   }
   updateTehsil = (tehsil) => {
@@ -39,7 +37,6 @@ class ManualSchoolSelect extends Component {
     this.props.allSchoolsData({ tehsil })
       .then(() => {
         this.setState({ school_enable: true })
-        // console.log('tehsil was going')
       })
   }
 
@@ -93,22 +90,13 @@ class ManualSchoolSelect extends Component {
             </Picker>
           </View>
         }
-        {/* <View style={styles.containerOk}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={this.gotoSchoolDetail}
-            disabled={this.state.button_enable}
-          >
-            <Text> Ok </Text>
-          </TouchableOpacity>
-        </View> */}
-        
-        <Button 
-            style={styles.shareButton} 
-            onPress={this.gotoSchoolDetail}
-            disabled={this.state.button_enable}>
 
-         <Text style={styles.shareButtonText}>Done
+        <Button
+          style={styles.shareButton}
+          onPress={this.gotoSchoolDetail}
+          disabled={this.state.button_enable}>
+
+          <Text style={styles.shareButtonText}>Done
         </Text>
         </Button>
 
@@ -157,10 +145,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '99%',
     position: 'relative'
-},
-shareButtonText: {
+  },
+  shareButtonText: {
     width: '100%',
     fontWeight: "800",
     textAlign: "center"
-},
+  },
 })

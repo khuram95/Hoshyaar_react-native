@@ -9,8 +9,8 @@ class LoginScreen extends Component {
   }
 
   static navigationOptions = {
-      header: null,
-    }
+    header: null,
+  }
 
   constructor(props) {
     super(props)
@@ -19,12 +19,19 @@ class LoginScreen extends Component {
   login = () => {
 
   }
-  componentDidMount(){
+  componentDidMount() {
   }
 
-  render () {
+  render() {
+    const { navigation } = this.props
+    // this.props.navigation.replace('Login')
+    // navigation
+    // navigation.pop()
+    // navigation.resetStackRoot("Login")
+    // navigation.push({ name: 'Login', reset: true })
+
     return (
-      <LoginForm navigation={ this.props.navigation} />
+      <LoginForm navigation={this.props.navigation} />
     )
   }
 }

@@ -14,13 +14,11 @@ class AllReports extends Component {
     super(props);
     this.state = {
       all_reports: [],
-      // refreshing: true,
 
     };
     this.props.fetchAllReports()
       .then(() => {
         this.setState({ all_reports: this.props.allReports })
-        // console.log("all_reports : ", this.state.all_reports)
       })
   }
 
@@ -29,22 +27,10 @@ class AllReports extends Component {
     navigation.navigate("ReportDetail", report = { report })
   }
 
-  // onRefresh = () => this.fetchReports();
-
-  // fetchReports = () => {
-  //   this.setState({ refreshing: true });
-  // };
-
-  // getFiveReports = () => {
-  //   this._scrollView.scrollTo({ y: 0 });
-  //   this.props.fetchAllReports()
-  //     .then(() => {
-  //       this.setState({ refreshing: false });
 
 
-  //     })
-  //     .catch(error => console.log(error))
-  // };
+
+
 
   componentDidMount = () => {
     Keyboard.dismiss()
@@ -61,11 +47,6 @@ class AllReports extends Component {
     return (
       <ScrollView
         decelerationRate={0.5}
-        // ref={(scrollView) => { this._scrollView = scrollView; }}
-        // refreshControl={
-        //   <RefreshControl
-        //     refreshing={this.state.refreshing}
-        //     onRefresh={this.onRefresh} />}
         style={{ backgroundColor: 'white', flex: 1, padding: '1%' }}>
         <Loader isShow={this.props.requesting == undefined ? false : this.props.requesting} />
         {this.state.all_reports && this.state.all_reports.map((report) =>

@@ -19,7 +19,6 @@ class MapScreenForm extends Component {
         },
         title: "GHSS COMPRESHENSIVE GHORAY SHAH",
         description: "SHALIMAR	SECONDARY-WING	H.Sec.",
-        // image: Images[0],
       },
       {
         coordinate: {
@@ -28,7 +27,6 @@ class MapScreenForm extends Component {
         },
         title: "GGHSS SHEIKH SARDAR MUHAMMAD GARHI SHAHU",
         description: "SHALIMAR	SECONDARY-WING	H.Sec.",
-        // image: Images[1],
       },
       {
         coordinate: {
@@ -37,7 +35,6 @@ class MapScreenForm extends Component {
         },
         title: "GGHSS SAMANABAD",
         description: "CITY	SECONDARY-WING	H.Sec.",
-        // image: Images[2],
       },
       {
         coordinate: {
@@ -46,7 +43,6 @@ class MapScreenForm extends Component {
         },
         title: "GGHSS BARKI",
         description: "CANTT	SECONDARY-WING	H.Sec.",
-        // image: Images[3],
       },
     ],
     region: {
@@ -95,23 +91,20 @@ class MapScreenForm extends Component {
           provider={PROVIDER_GOOGLE} // remove if not using Google Maps
           style={styles.map}
           region={this.state.mapRegion}
-          // onRegionChange={this.onRegionChange.bind(this)}
-          showsUserLocation={true}
+          I showsUserLocation={true}
           showsMyLocationButton={true}
           showsBuildings={false}
         >
 
           {this.props.schoolsData.map((School, index) => {
-            // console.log('yess --', School.school_name);
             return (
               <MapView.Marker
                 key={index}
-                // coordinate={marker.coordinate}
                 coordinate={{
                   latitude: School.latitude,
                   longitude: School.longitude
                 }}
-                
+
                 title={School.school_name}
                 description={School.district}
               >

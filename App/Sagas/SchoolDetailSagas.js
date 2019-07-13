@@ -21,9 +21,23 @@ function * makeSchoolDetailDataRequest (api, action) {
   }
 }
 
+function * makeMarkVerifiedRequest (api, action) {
+  const { payload, resolve, reject } = action
+  const response = yield call(api.markVerified, payload)
+  if (response.ok) {
+    console.log("Mark Verified! " , response.data)
+    yield put(Actions.markVerifiedSuccess())
+    return resolve()
+  } else {
+    const error = parseError(response)
+    yield put(Actions.markVerifiedFailure(error))
+    return reject(error)
+  }
+}
 // ADD_SAGA_ACTION
 
 export default {
     makeSchoolDetailDataRequest,
+    makeMarkVerifiedRequest,
   // EXPORT_SAGA_ACTION
 }

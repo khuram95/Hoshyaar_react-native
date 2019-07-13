@@ -30,16 +30,11 @@ export default class App extends React.Component {
 
         ImagePicker.launchImageLibrary(options, (response) => {
             if (response.didCancel) {
-                // console.log('User cancelled photo picker');
             } else if (response.error) {
-                // console.log('ImagePicker Error: ', response.error);
             } else if (response.customButton) {
-                // console.log('User tapped custom button: ', response.customButton);
             } else {
                 let source = { uri: response.uri };
 
-                // You can also display the image using data:
-                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
                 this.setState({
                     avatarSource: source,
@@ -57,15 +52,11 @@ export default class App extends React.Component {
         };
 
         ImagePicker.showImagePicker(options, (response) => {
-            // console.log('Response = ', response);
-
+s
             if (response.didCancel) {
-                // console.log('User cancelled video picker');
-            } else if (response.error) {
-                // console.log('ImagePicker Error: ', response.error);
-            } else if (response.customButton) {
-                // console.log('User tapped custom button: ', response.customButton);
-            } else {
+s            } else if (response.error) {
+s            } else if (response.customButton) {
+s            } else {
                 this.setState({
                     videoSource: response.uri,
                 });

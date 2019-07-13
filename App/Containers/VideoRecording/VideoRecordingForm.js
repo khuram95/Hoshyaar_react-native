@@ -19,7 +19,6 @@ class BadInstagramCloneApp extends Component {
           permissionDialogTitle={'Permission to use camera'}
           permissionDialogMessage={'We need your permission to use your camera phone'}
           onGoogleVisionBarcodesDetected={({ barcodes }) => {
-            // console.log(barcodes);
           }}
         />
         <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
@@ -37,7 +36,6 @@ class BadInstagramCloneApp extends Component {
       const data = await this.camera.takePictureAsync(options);
       this.camera.resumePreview();
       CameraRoll.saveToCameraRoll(data.uri, "photo")
-      // console.log(data);
     }
   };
 }

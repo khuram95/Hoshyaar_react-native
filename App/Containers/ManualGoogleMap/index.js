@@ -7,8 +7,6 @@ import DrawLayout from '../DrawLayout'
 class ManualGoogleMap extends Component {
   constructor(props) {
     super(props)
-    // console.log("This.props ::::: you : ",this.props)
-
   }
   static navigationOptions = {
     header: null,
@@ -27,7 +25,7 @@ class ManualGoogleMap extends Component {
     return (
       <View>
         <DrawLayout title="Select School"
-          leftimage=''
+          leftimage='menu'
           rightimage=''
           componentNavigation={this.props.navigation}
         />

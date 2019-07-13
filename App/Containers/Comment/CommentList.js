@@ -42,7 +42,6 @@ class CommentList extends Component {
   })
 
   static rightHeaderAction() {
-    console.log('hello abc')
   }
 
   submitComment = (comment) => {
@@ -59,7 +58,6 @@ class CommentList extends Component {
 
   render() {
     const { singleReport } = this.state
-    console.log("this.props newwwwwwwwwwwww: ", this.props.getCommentedReport)
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -74,7 +72,6 @@ class CommentList extends Component {
 
 }
 const mapStateToProps = createStructuredSelector({
-  // singleReport: (state) => get(state, 'report.singleReport'),
   currentUser: (state) => get(state, 'auth.currentUser'),
   getCommentedReport: (state) => get(state, 'report.commentedReport'),
 

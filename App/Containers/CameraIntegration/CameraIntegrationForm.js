@@ -51,7 +51,6 @@ class CameraScreen extends React.Component {
       mute: false,
       maxDuration: 10,
       quality: RNCamera.Constants.VideoQuality['480p'],
-      // maxFile  Size: 1 * 1024 * 512,
       videoBitrate: 1 * 1024 * 512,
     },
     isRecording: false,
@@ -124,7 +123,6 @@ class CameraScreen extends React.Component {
   };
 
   renderImage() {
-    // console.log('kya waqai: ', this.state.uri.uri)
     return (
       <View style={styles.preview}>
 
@@ -138,12 +136,6 @@ class CameraScreen extends React.Component {
           onPress={() => this.saveButtonHandler()}
         >Continue
         </Text>
-
-        {/* <Text
-          style={styles.more}
-          onPress={() => this.cancelButtonHandler()}
-        >Take More 
-        </Text> */}
 
         <Text
           style={styles.cancel}
@@ -163,17 +155,14 @@ class CameraScreen extends React.Component {
     arr = []
     if (one) {
       for (let i = 0; one[i]; i++) {
-        // console.log('Ahan- '+i+': ', one[i])
         arr.push(one[i])
       }
     }
     arr.push(this.state.uri.uri)
 
     this.props.saveReportImage(arr);
-    // console.log('Kuch aya?: ', arr)
 
     const { navigation } = this.props
-    // navigation.navigate("Report");
     navigation.pop()
   }
 
@@ -182,7 +171,6 @@ class CameraScreen extends React.Component {
   }
 
   takeVideo = async function () {
-    // console.log("started camera recodring");
     if (this.camera) {
       try {
         const promise = this.camera.recordAsync(this.state.recordOptions);
@@ -191,15 +179,11 @@ class CameraScreen extends React.Component {
           this.setState({ isRecording: true });
           const data = await promise;
           this.setState({ isRecording: false });
-          // console.warn('DATA URI: ', data.uri);
           CameraRoll.saveToCameraRoll(data.uri, "video");
           this.props.saveReportVideo(data.uri);
-          // console.warn('SAVED VIDEO: ', data);
           const { navigation } = this.props
-          // console.log('PARAM: ', navigation)
           navigation.state.params.doSomething()
           navigation.pop()
-          // navigation.navigate("Report");
         }
       } catch (e) {
         console.error(e);
@@ -216,7 +200,6 @@ class CameraScreen extends React.Component {
           this.setState({ isRecording: true });
           const data = await promise;
           this.setState({ isRecording: false });
-          // console.warn('stopVideo', data.uri);
           CameraRoll.saveToCameraRoll(data.uri, "video")
         }
       } catch (e) {
@@ -344,7 +327,6 @@ class CameraScreen extends React.Component {
   }
 
   render() {
-    // return <View style={styles.container}>{this.renderCamera()}</View>;
     return (
       <View style={styles.container}>
         {this.state.uri ? this.renderImage() : this.renderCamera()}
@@ -366,7 +348,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(CameraScreen)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingTop: 10,
     backgroundColor: '#000',
   },
   flipButton: {
@@ -397,10 +378,6 @@ const styles = StyleSheet.create({
   },
   preview: {
     flex: 1,
-    // justifyContent: 'flex-end',
-    // alignItems: 'center',
-    // height: Dimensions.get('window').height,
-    // width: Dimensions.get('window').width
   },
   cancel: {
     position: 'absolute',

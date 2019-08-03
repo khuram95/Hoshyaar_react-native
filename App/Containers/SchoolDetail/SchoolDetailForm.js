@@ -12,7 +12,6 @@ import DataRow from './DataRow'
 import { Images, Colors } from '../../Themes/'
 import DrawLayout from '../DrawLayout'
 import Icon from "react-native-vector-icons/AntDesign";
-// import console = require('console');
 
 
 class SchoolDetailForm extends Component {
@@ -48,7 +47,7 @@ class SchoolDetailForm extends Component {
 
   verifySchool = () => {
     this.props.markVerified({
-      school_id: this.state.all_school.emis,
+      school_details_id: this.state.singleschool.id,
       user_id: this.props.currentUser.id,
     })
       .then(() => {
@@ -60,7 +59,6 @@ class SchoolDetailForm extends Component {
     const { navigation } = this.props
     this.props.saveSchool(this.state.all_school)
     if (this.state.interestChecked) {
-      // console.log("school_id :", this.state.all_school.emis)
       this.props.AddMyInterest({
         school_id: this.state.all_school.emis,
         user_id: this.props.currentUser.id,
@@ -73,7 +71,6 @@ class SchoolDetailForm extends Component {
   }
 
   render() {
-    console.log('SINGLE SCHOOL', this.state.singleschool)
     return (
       <View style={{ display: 'flex', flex: 1, }}>
 
@@ -82,7 +79,6 @@ class SchoolDetailForm extends Component {
           componentNavigation={this.props.navigation}
         />
         
-        {/* <DrawLayout title="Government Data" image='' /> */}
         <Text>{'\n'}</Text>
         <Text style={styles.titleText}>
           {this.state.all_school.school_name}
@@ -104,33 +100,6 @@ class SchoolDetailForm extends Component {
         <Text>{'\n'}</Text>
 
 
-        {/* <View style={{ flex: 1, flexDirection: "row" }}>
-          <Text>Select Month</Text>
-          <DatePicker
-            style={{ width: 200 }}
-            date={this.state.date}
-            mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            minDate="2019-04-01"
-            maxDate="2019-04-30"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            // customStyles={{
-            //   dateIcon: {
-            //     position: 'absolute',
-            //     left: 0,
-            //     top: 4,
-            //     marginLeft: 0
-            //   },
-            //   dateInput: {
-            //     marginLeft: 36
-            //   }
-            // }}
-            onDateChange={(date) => { this.dateChange(date) }}
-
-          />
-        </View>*/}
         <ScrollView>
           <Collapse>
             <CollapseHeader>

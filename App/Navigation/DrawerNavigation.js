@@ -8,7 +8,7 @@ import ShowReports from '../Containers/ShowReports'
 import CreateReport from '../Containers/ManualGoogleMap'
 import AdHocQuery from '../Containers/AdHocQuery'
 import ChangePassword from '../Containers/ChangePassword'
-import { DrawerNavigator, DrawerItems, SafeAreaView, StackNavigator } from 'react-navigation'
+import { DrawerNavigator, DrawerItems, SafeAreaView, StackNavigator, NavigationActions } from 'react-navigation'
 const DashboardNavigation = new StackNavigator({
 	DashBoard: {
 		screen: DashBoard,
@@ -71,14 +71,34 @@ const ChangePasswordNavigation = new StackNavigator({
 		screen: ChangePassword,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false,
-			// header: <MainHeader navigation={navigation} returnKey={'Notifications'} title="Notifications" />,
-			// drawerIcon: () => <NotificationItem />
 			drawerIcon: () =>
 				<Image source={Images.adhoc} style={{ width: 20, height: 20 }} />
 		})
 	},
 }
 )
+
+// const LogoutNavigation = new StackNavigator({
+// 	Logout: {
+// 		screen: Login,
+// 		navigationOptions: ({ navigation }) => ({
+// 			gesturesEnabled: false,
+// 			// header: <MainHeader navigation={navigation} returnKey={'Notifications'} title="Notifications" />,
+// 			// drawerIcon: () => <NotificationItem />
+// 			drawerIcon: () =>
+// 				<Image source={Images.adhoc} style={{ width: 20, height: 20 }} />
+// 		})
+// 	},
+// }
+// )
+// logout = () => {
+//     const actionToDispatch = NavigationActions.reset({
+//       index: 0,
+//       key: null,  
+//       actions: [NavigationActions.navigate({ routeName: 'loginStack' })]
+//     })
+//     this.props.navigation.dispatch(actionToDispatch)
+//   }
 
 const LogoutNavigation = new StackNavigator({
 	Logout: {
@@ -89,10 +109,16 @@ const LogoutNavigation = new StackNavigator({
 			// drawerIcon: () => <NotificationItem />
 			drawerIcon: () =>
 				<Image source={Images.adhoc} style={{ width: 20, height: 20 }} />
-		})
+		}),
+		// action: NavigationActions.reset({
+		// 	index: 0,
+		// 	actions: [
+		// 		NavigationActions.navigate({ routeName: 'Login' }),
+		// 	]
+		// })
 	},
-}
-)
+})
+
 
 
 
@@ -115,30 +141,9 @@ export default Drawer = DrawerNavigator({
 	ShowReports: { screen: ShowReportsNavigation },
 	CreateReport: { screen: CreateReportNavigation },
 	AdHocQuery: { screen: AdHocQueryNavigation },
-	VerifySchoolData: {screen: CreateReportNavigation},
-	ChangePassword: {screen: ChangePasswordNavigation},
-	Logout: {screen: LogoutNavigation},
-	// VerifySchoolData: {
-	// 	screen: CreateReport,
-	// 	navigationOptions: {
-	// 		drawerIcon: () =>
-	// 			<Image source={Images.verifiedschool} style={{ width: 20, height: 20 }} />
-	// 	}
-	// },
-	// ChangePassword: {
-	// 	screen: DashBoard,
-	// 	navigationOptions: {
-	// 		drawerIcon: () =>
-	// 			<Image source={Images.key} style={{ width: 20, height: 20 }} />
-	// 	}
-	// },
-	// Logout: {
-	// 	screen: Login, // this.props.navigation.replace('Login')
-	// 	navigationOptions: {
-	// 		drawerIcon: () =>
-	// 			<Image source={Images.signout} style={{ width: 20, height: 20 }} />
-	// 	}
-	// },
+	VerifySchoolData: { screen: CreateReportNavigation },
+	ChangePassword: { screen: ChangePasswordNavigation },
+	Logout: { screen: LogoutNavigation },
 }, {
 		initialRouteName: "DashBoard",
 		contentComponent: CustomDrawer,

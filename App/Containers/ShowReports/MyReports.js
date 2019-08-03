@@ -14,29 +14,26 @@ class MyReports extends Component {
       my_reports: [],
 
     };
-    console.log("this.props ",this.props)
     this.props.fetchMyReports({
       user_id: this.props.currentUser.id,
     })
       .then(() => {
         this.setState({ my_reports: this.props.myReports })
-        console.log("my_reports : ", this.state.my_reports)
       })
   }
 
   gotoReportDetail = (report) => {
-    console.log("reports : ", report)
     const { navigation } = this.props
     navigation.navigate("ReportDetail", report = { report })
   }
- 
+
   onSubmitComment = () => {
     this.props.fetchMyReports()
       .then(() => {
         this.setState({ my_reports: this.props.my_reports })
       })
   }
-  
+
   render() {
     return (
       <ScrollView style={{ backgroundColor: 'white', flex: 1, padding: '1%' }}>

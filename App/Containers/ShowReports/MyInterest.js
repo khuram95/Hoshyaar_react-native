@@ -14,18 +14,15 @@ class MyInterest extends Component {
       interestedReports: [],
 
     };
-    console.log("this.props ",this.props)
     this.props.fetchInterestedReports({
       user_id: this.props.currentUser.id,
     })
       .then(() => {
         this.setState({ interestedReports: this.props.interestedReports })
-        console.log("interestedReports : ", this.state.interestedReports)
       })
   }
 
   gotoReportDetail = (report) => {
-    console.log("reports : ", report)
     const { navigation } = this.props
     navigation.navigate("ReportDetail", report = { report })
   }

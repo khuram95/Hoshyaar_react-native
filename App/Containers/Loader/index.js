@@ -4,7 +4,6 @@ import {
 } from 'react-native'
 
 export default Loader = (isShow) => {
-	// { console.log('helo loader: ', isShow.isShow) }
 	return (
 		<Modal transparent visible={isShow.isShow}>
 			<View style={styles.loaderModal}>

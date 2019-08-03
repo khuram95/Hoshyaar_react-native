@@ -19,7 +19,6 @@ class MapScreen extends Component {
   constructor(props) {
     super(props)
     Geocoder.init('AIzaSyBiydvNpL7d40Nvj8KOo3qt9gYEVmvWArM'); // use a valid API key
-    // this.props.allSchoolsData()
     this.requestCameraPermission()
 
 
@@ -39,9 +38,7 @@ class MapScreen extends Component {
         },
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        // console.log('You can use the location');
       } else {
-        // console.log('location permission denied');
       }
     } catch (err) {
       console.warn(err);
@@ -51,7 +48,6 @@ class MapScreen extends Component {
     if (tehsil) {
       this.props.allSchoolsData({ tehsil })
         .then(() => {
-          // console.log('tehsil was going')
         })
     }
 
@@ -60,7 +56,6 @@ class MapScreen extends Component {
   componentDidMount = () => {
     let region = ''
     this.watchID = navigator.geolocation.getCurrentPosition((position) => {
-      // console.log("Position : ", position)
 
       region = {
         latitude: position.coords.latitude,
@@ -69,12 +64,9 @@ class MapScreen extends Component {
       Geocoder.from(position.coords.latitude, position.coords.longitude)
         .then(json => {
           var addressComponent = json.results[0].address_components[0];
-          // console.log("addressComponent :", json.results);
           json.results.map((address) => {
             if (address.address_components.length == 4) {
               this.updateTehsil(address.address_components[0].long_name.split(' ')[1])
-              // console.log('[0]', address.address_components[0].long_name.split(' ')[1])
-              // console.log('[1]', address.address_components[1].long_name)
               return
             }
 

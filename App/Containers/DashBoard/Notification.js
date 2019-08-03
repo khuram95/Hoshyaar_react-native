@@ -32,7 +32,6 @@ class Notification extends Component {
 
   render() {
     const notifications = this.props.notifications
-    console.log("this.state.notifications : ", notifications)
     return (
       <View style={styles.container}>
         <View style={styles.contentContainer}>

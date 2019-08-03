@@ -23,8 +23,8 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      phone_number: '+923218896477',
-      password: 'abc123',
+      phone_number: '',
+      password: '',
       deviceId: '',
       phone_numberError: '',
       passwordError: '',
@@ -46,24 +46,15 @@ class LoginForm extends React.Component {
     OneSignal.addEventListener('opened', this.onOpened);
     OneSignal.addEventListener('ids', (payload) => this.setState({ deviceId: payload.userId }));
     OneSignal.configure()
-    console.log("this.props cdm :", this.props)
 
   }
   onReceived(notification) {
-    console.log("Notification received: ", notification);
   }
 
   onOpened(openResult) {
-    console.log('Message: ', openResult.notification.payload.body);
-    console.log('Data: ', openResult.notification.payload.additionalData);
-    console.log('isActive: ', openResult.notification.isAppInFocus);
-    console.log('openResult: ', openResult);
   }
 
   onIds(device) {
-    console.log('Device info: ', device);
-    console.log("this.props.deviceInformation :", device)
-    console.log("this.props :", this.props)
   }
 
   isValidatesMobileNo = () => {
@@ -101,9 +92,10 @@ class LoginForm extends React.Component {
           // })
           navigation.replace("DashBoard")
         })
-        .catch(error => ToastAndroid.showWithGravity('Backend server is down', ToastAndroid.LONG, ToastAndroid.CENTER)
+        .catch(error => ToastAndroid.showWithGravity(this.props.errorLocal, ToastAndroid.LONG, ToastAndroid.CENTER)
         )
     }
+    console.log("PROPS: ", this.props)
   }
 
   signUp = () => {
@@ -168,6 +160,7 @@ const mapStateToProps = createStructuredSelector({
   loginSuccess: (state) => get(state, 'auth.loginSuccess'),
   currentUser: (state) => get(state, 'auth.currentUser'),
   loging: (state) => get(state, 'auth.loggingIn'),
+  errorLocal: (state) => get(state, 'auth.errorLogin'),
 })
 
 const mapDispatchToProps = (dispatch) => ({

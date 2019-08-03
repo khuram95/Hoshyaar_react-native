@@ -33,12 +33,9 @@ class DataRow extends Component {
 
   toggleCheckbox = () => {
     const { itemName } = this.props
-    // console.log("itemName : ", itemName)
     let uncheckItem = Object.assign({}, this.state.uncheckItem)
-    uncheckItem[`${itemName}`]=!uncheckItem[`${itemName}`]
+    uncheckItem[`${itemName}`] = !uncheckItem[`${itemName}`]
     this.setState({ uncheckItem: uncheckItem })
-    // console.log("this.uncheckItem",uncheckItem)
-    // console.log("this.state.uncheckItem",this.state.uncheckItem)
   }
 
   render() {
@@ -62,9 +59,6 @@ class DataRow extends Component {
         }}>
           <Text >{value}</Text>
         </View>
-        {
-          // console.log('this.state.uncheckItem[`${itemName}`]', this.state.uncheckItem[`${itemName}`], itemName)
-        }
         <CheckBox
           value={this.state.uncheckItem[`${itemName}`]}
           onValueChange={() => this.toggleCheckbox()}

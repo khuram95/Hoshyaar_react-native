@@ -7,8 +7,6 @@ import DrawLayout from '../DrawLayout'
 class ManualGoogleMap extends Component {
   constructor(props) {
     super(props)
-    // console.log("This.props ::::: you : ",this.props)
-
   }
   static navigationOptions = {
     header: null,
@@ -31,11 +29,6 @@ class ManualGoogleMap extends Component {
           rightimage=''
           componentNavigation={this.props.navigation}
         />
-        {/* <DrawLayout title="Select School"
-          leftimage='menu'
-          rightimage=''
-          componentNavigation={this.props.navigation}
-        /> */}
         <Text>{'\n\n\n\n\n\n\n'}</Text>
         <Button style={{ alignSelf: 'center', width: '80%' }} onPress={this.mapsSelect}>
           <Text style={{ width: '100%', fontWeight: "800", textAlign: "left" }}>

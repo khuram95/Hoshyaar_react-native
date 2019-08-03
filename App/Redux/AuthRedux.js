@@ -13,22 +13,26 @@ const { Types, Creators } = createActions({
   loginSuccess: null,
   loginFailure: ['error'],
 
+  addErrorLocal: ['error'],
+
   signoutRequest: ['resolve', 'reject'],
   signoutSuccess: null,
 
-  signupRequest: ['payload','resolve', 'reject'],
+  signupRequest: ['payload', 'resolve', 'reject'],
   signupSuccess: null,
   signupFailure: ['error'],
 
-  oneSignalRequest: ['payload','resolve', 'reject'],
+  oneSignalRequest: ['payload', 'resolve', 'reject'],
   oneSignalSuccess: null,
   oneSignalFailure: ['error'],
 
-  verifyPhoneNumberRequest: ['payload','resolve', 'reject'],
+  verifyPhoneNumberRequest: ['payload', 'resolve', 'reject'],
   verifyPhoneNumberSuccess: null,
   verifyPhoneNumberFailure: ['error'],
 
-
+  changePasswordRequest: ['payload', 'resolve', 'reject'],
+  changePasswordSuccess: null,
+  changePasswordFailure: ['error'],
   // add action here
 })
 
@@ -41,8 +45,9 @@ export const INITIAL_STATE = Immutable({
   // form: { error: {}},
 
   // // for login
-  form: { error: {}, phone_number: 'host@safe.com', password: 'password'},
+  form: { error: {}, phone_number: 'host@safe.com', password: 'password' },
   currentUser: {},
+  errorLogin: '',
 })
 
 /* ------------- Reducers ------------- */
@@ -53,18 +58,16 @@ export const changePhoneNumber = (state, { phone_number }) =>
 export const changePassword = (state, { password }) =>
   state.setIn(['form', 'password'], password)
 
-export const loginRequest = (state, action) =>{
+export const loginRequest = (state, action) => {
   state.merge({ loggingIn: true, error: null })
-  console.log('reqtiong: ', state);
-  return state.merge({ loggingIn: true, error: null }) 
+  return state.merge({ loggingIn: true, error: null })
 }
 
-export const saveUser = (state, { currentUser })=>
+export const saveUser = (state, { currentUser }) =>
   state.merge({ currentUser })
 
-export const loginSuccess = (state, action) =>{
+export const loginSuccess = (state, action) => {
   state.merge({ loggingIn: false, error: null })
-  console.log('reqtiong end: ', state);
   return state.merge({ loggingIn: false, error: null })
 }
 
@@ -78,7 +81,7 @@ export const signoutSuccess = (state, action) =>
 
 
 
-  export const signupRequest = (state, action) =>
+export const signupRequest = (state, action) =>
   state.merge({ requesting: true, error: null })
 
 export const signupSuccess = (state, action) =>
@@ -87,9 +90,9 @@ export const signupSuccess = (state, action) =>
 export const signupFailure = (state, { error }) =>
   state.merge({ requesting: false, error })
 
-  export const oneSignalRequest = (state, action) =>{
-    console.log("One Signal Requesting")
-  return state.merge({ requesting: true, error: null })}
+export const oneSignalRequest = (state, action) => {
+  return state.merge({ requesting: true, error: null })
+}
 
 export const oneSignalSuccess = (state, action) =>
   state.merge({ requesting: false, error: null })
@@ -105,6 +108,25 @@ export const verifyPhoneNumberSuccess = (state, action) =>
 
 export const verifyPhoneNumberFailure = (state, { error }) =>
   state.merge({ requesting: false, error })
+
+
+export const changePasswordRequest = (state, action) => {
+  state.merge({ requesting: false, error: null })
+  return state.merge({ requesting: false, error: null })
+}
+
+export const changePasswordSuccess = (state, action) => {
+  state.merge({ requesting: false, error: null })
+  return state.merge({ requesting: false, error: null })
+}
+
+export const changePasswordFailure = (state, { error }) =>
+  state.merge({ requesting: false, error })
+
+
+export const addErrorLocal = (state, { error }) => {
+  return state.merge({ errorLogin: error })
+}
 
 // add new reducer here
 
@@ -128,5 +150,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.VERIFY_PHONE_NUMBER_REQUEST]: verifyPhoneNumberRequest,
   [Types.VERIFY_PHONE_NUMBER_SUCCESS]: verifyPhoneNumberSuccess,
   [Types.VERIFY_PHONE_NUMBER_FAILURE]: verifyPhoneNumberFailure,
+  [Types.CHANGE_PASSWORD_REQUEST]: changePasswordRequest,
+  [Types.CHANGE_PASSWORD_SUCCESS]: changePasswordSuccess,
+  [Types.CHANGE_PASSWORD_FAILURE]: changePasswordFailure,
+  [Types.ADD_ERROR_LOCAL]: addErrorLocal,
   // add reducer hook up here
 })

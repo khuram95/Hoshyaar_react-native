@@ -59,7 +59,7 @@
     "@storybook/addon-storyshots": "^3.2.16",
     "@storybook/addons": "^3.2.16",
     "@storybook/channels": "^3.2.16",
-    "@storybook/react-native": "^3.2.16",
+    "@storybook/react-native": "^3.4.10",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-jest": "22.1.0",
